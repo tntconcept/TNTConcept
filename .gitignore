@@ -1,0 +1,14 @@
+# Directorio de salida de Maven.
+target/
+
+# Configuración del Eclipse.
+.metadata/
+.project
+.settings/
+.classpath
+
+# Ficheros de backup del vi
+*.swp
+
+# Ficheros temporales de gitk
+/.gitk*/
