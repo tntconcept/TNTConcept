@@ -1,0 +1,35 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("applicationContext-tntconcept-security.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $pk = ${desc-props.getProperty("package")} )
+
+
+##
+## XML FRAGMENT
+##
+com.autentia.tnt.manager.${pk}.${entity}Manager.*=ROLE_DenyByDefault
+com.autentia.tnt.manager.${pk}.${entity}Manager.getAllEntities=ROLE_Entity_List_${entity},AFTER_ACL_COLLECTION_READ
+com.autentia.tnt.manager.${pk}.${entity}Manager.insertEntity=ROLE_Entity_Create_${entity}
+com.autentia.tnt.manager.${pk}.${entity}Manager.getEntityById=ROLE_Entity_List_${entity},AFTER_ACL_READ
+com.autentia.tnt.manager.${pk}.${entity}Manager.updateEntity=ACL_WRITE
+com.autentia.tnt.manager.${pk}.${entity}Manager.deleteEntity=ACL_DELETE
+

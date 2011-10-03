@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.autentia.tnt</groupId>
+		<artifactId>tntconcept-parent</artifactId>
+		<version>0.21.17-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.autentia.tnt</groupId>
+	<artifactId>tntconcept-web-tomcat</artifactId>
+	<packaging>war</packaging>
+
+	<name>tntconcept-web-tomcat</name>
+	<description>
+		war with tntconcept web application configured for tomcat
+	</description>
+	
+	<build>
+		<finalName>tntconcept</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<file>
+									src/main/assemblies/installer.xml
+								</file>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+    
+	<dependencies>
+		<!-- =================== Internal dependencies =================== -->
+		<dependency>
+			<groupId>com.autentia.tnt</groupId>
+			<artifactId>tntconcept-web</artifactId>
+			<version>${version}</version>
+			<type>war</type>
+		</dependency>
+
+		<!-- =================== External dependencies =================== -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>1.2_04-p01</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>1.2_04-p01</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>	
+	</dependencies>
+
+</project>

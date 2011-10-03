@@ -1,0 +1,306 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.autentia.tnt</groupId>
+		<artifactId>tntconcept-parent</artifactId>
+		<version>0.21.17-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.autentia.tnt</groupId>
+	<artifactId>tntconcept-web</artifactId>
+	<packaging>war</packaging>
+
+	<name>tntconcept-web</name>
+	<description>Aplicación de TNT Concept. Genera un war para desplegar en el jboss.</description>
+
+	<!--	<repositories>-->
+	<!--		<repository>-->
+	<!--			<id>java-net</id>-->
+	<!--			<name>java-net</name>-->
+	<!--			<url>http://download.java.net/maven/2</url>-->
+	<!--		</repository>-->
+	<!--		<repository>-->
+	<!--			<id>java.net</id>-->
+	<!--			<url>http://download.java.net/maven/1</url>-->
+	<!--			<layout>legacy</layout>-->
+	<!--		</repository>-->
+	<!--		<repository>-->
+	<!--			<id>jboss</id>-->
+	<!--			<url>http://repository.jboss.com/maven2/</url>-->
+	<!--		</repository>-->
+	<!--	</repositories>-->
+
+	<build>
+		<finalName>tntconcept</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<file>
+									src/main/assemblies/installer.xml
+								</file>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--			<plugin>-->
+			<!--				<artifactId>maven-resources-plugin</artifactId>-->
+			<!--				<executions>-->
+			<!--					<execution>-->
+			<!--						<id>properties-resources</id>-->
+			<!--						<phase>process-resources</phase>-->
+			<!--						<goals>-->
+			<!--							<goal>resources</goal>-->
+			<!--						</goals>-->
+			<!--						<configuration>-->
+			<!--							<outputDirectory>-->
+			<!--								${project.build.outputDirectory}-->
+			<!--							</outputDirectory>-->
+			<!--							<encoding>ISO-8859-1</encoding>-->
+			<!--							<resources>-->
+			<!--								<directory>-->
+			<!--									src/main/resources-->
+			<!--								</directory>-->
+			<!--								<filtering>true</filtering>-->
+			<!--								<includes>-->
+			<!--									<include>**/**.properties</include>-->
+			<!--								</includes>-->
+			<!--							</resources>-->
+			<!--						</configuration>-->
+			<!--					</execution>-->
+			<!--				</executions>-->
+			<!--			</plugin>-->
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!--
+			===================== Internal dependencies =====================
+		-->
+		<dependency>
+			<groupId>com.autentia.tnt</groupId>
+			<artifactId>tntconcept-core</artifactId>
+			<version>${version}</version>
+		</dependency>
+
+		<!--
+			===================== External dependencies =====================
+		-->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.myfaces.tomahawk</groupId>
+			<artifactId>tomahawk</artifactId>
+			<version>1.1.6</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>1.2_04-p01</version>
+<!-- 			
+			<scope>provided</scope>
+ -->			
+		</dependency>
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>1.2_04-p01</version>
+<!-- 			
+			<scope>provided</scope>
+ -->			
+		</dependency>
+
+		<dependency>
+			<groupId>jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>1.3.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>bouncycastle</groupId>
+					<artifactId>bctsp-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>1.1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.3.03</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>2.0-final-20040126</version>
+		</dependency>
+
+		<!-- =================== Dependencias de Mondrian - JPivot =================== -->
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+
+		<!-- No están en repositorios públicos, hay que añadirlos manualmente a nuestro propio repositorio -->
+		<dependency>
+			<groupId>org.olap4j</groupId>
+			<artifactId>olap4j</artifactId>
+			<version>0.9.6</version>
+		</dependency>
+		<dependency>
+			<groupId>mondrian</groupId>
+			<artifactId>mondrian</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tonbeller.jpivot</groupId>
+			<artifactId>jpivot</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>java_cup</groupId>
+			<artifactId>javacup</artifactId>
+			<version>0.10k</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tonbeller.wcf</groupId>
+			<artifactId>wcf</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tonbeller.tbutils</groupId>
+			<artifactId>tbutils-wcf</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eigenbase.xom</groupId>
+			<artifactId>eigenbase-xom</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eigenbase.util.property</groupId>
+			<artifactId>eigenbase-properties</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eigenbase.resgen</groupId>
+			<artifactId>eigenbase-resgen</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- /=================== Dependencias de Mondrian - JPivot =================== -->
+
+<!--		<dependency>-->
+<!--			<groupId>commons-dbcp</groupId>-->
+<!--			<artifactId>commons-dbcp</artifactId>-->
+<!--			<version>1.2.2</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>commons-vfs</groupId>-->
+<!--			<artifactId>commons-vfs</artifactId>-->
+<!--			<version>1.0</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>commons-math</groupId>-->
+<!--			<artifactId>commons-math</artifactId>-->
+<!--			<version>1.2</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>commons-pool</groupId>-->
+<!--			<artifactId>commons-pool</artifactId>-->
+<!--			<version>1.4</version>-->
+<!--		</dependency>-->
+		
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jaxen-jdom</artifactId>
+			<version>1.0-FCS</version>
+		</dependency>
+		<dependency>
+			<groupId>saxpath</groupId>
+			<artifactId>saxpath</artifactId>
+			<version>1.0-FCS</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta-regexp</groupId>
+			<artifactId>jakarta-regexp</artifactId>
+			<version>1.4</version>
+		</dependency>
+	</dependencies>
+</project>

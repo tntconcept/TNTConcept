@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>insertAccount</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">insertAccount</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/tntconcept/pages/account/periodicalAccountEntrys.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>//div[@id='cmSubMenuID4']/*//td[@class='ThemeOfficeMenuItemText' and text()='Cuentas']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseUp</td>
+	<td>//div[@id='cmSubMenuID4']/*//td[@class='ThemeOfficeMenuItemText' and text()='Cuentas']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td>5000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@title='Nuevo']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>account:name</td>
+	<td>Caja BBVA</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>account:number</td>
+	<td>123456789</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>account:description</td>
+	<td>Cuenta de prueba</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>account:type</td>
+	<td>label=Cuenta corriente</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@title='Guardar']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Caja BBVA</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,269 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("searchPage.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $dollar = "$" )
+
+
+##
+## MACRO: field
+##
+#macro( field $field )
+  #set( $fld = $tools.capitalizeFirst( $field.name ) )
+
+  #if( $desc-props.getProperty("field.${field.name}.ignoreInSearch") )
+    <%-- Ignored field: $field.name --%>
+
+  #else
+    <%-- Field: $field.name --%>
+    <tr>
+      <td class="searchLabel">${dollar}{msg['${elw}.${field.name}']}:</td>
+      <td class="searchFieldCell">
+
+        #if( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+
+          ## One-to-one or many-to-one field: render drop down list
+
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectBooleanCheckbox id="${field.name}Valid" value="#{${elw}Bean.search${fld}Valid}" 
+                                      onclick="setEnabled('search:${field.name}',this.checked)"/>
+            <h:selectOneMenu id="${field.name}" value="#{${elw}Bean.search${fld}}" onclick="setEnabled('search:${field.name}',true)">
+              <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+              <f:converter converterId="autentia.EntityConverter"/>
+            </h:selectOneMenu>
+          </h:panelGroup>
+          <script>
+            setEnabled( 'search:${field.name}', ${${elw}Bean.search${fld}Valid} )
+          </script>
+
+        #elseif( $field.class.simpleName.startsWith("Set") )
+
+          ## One-to-many field: render multiple selection list
+
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectBooleanCheckbox id="${field.name}Valid" value="#{${elw}Bean.search${fld}Valid}" 
+                                      onclick="setEnabled('search:${field.name}',this.checked)"  
+                                      style="vertical-align: top;"/>
+
+            <h:selectManyListbox id="${field.name}" value="#{${elw}Bean.search${fld}}" onclick="setEnabled('search:${field.name}',true)"
+                                  size="4">
+              <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+              <f:converter converterId="autentia.EntityConverter"/>
+              #if( ${field.oneToMany.class1} )
+	              <f:attribute name="com.autentia.tntonverter.EntityConverter.valueClass" 
+	                           value="${field.oneToMany.class1}"/> 
+              #else
+	              <f:attribute name="com.autentia.tnt.converter.EntityConverter.valueClass" 
+	                           value="${field.manyToMany.class1}"/> 
+              #end
+            </h:selectManyListbox>
+
+          </h:panelGroup>
+          <script>
+            setEnabled( 'search:${field.name}', ${${elw}Bean.search${fld}Valid} )
+          </script>
+
+        #elseif( $field.type2.endsWith("Date") )
+
+          ## Date field: render calendar
+          
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="start${fld}" />
+            <h:selectBooleanCheckbox id="start${fld}Valid" value="#{${elw}Bean.searchStart${fld}Valid}" 
+                                      onclick="setEnabled('search:start${fld}',this.checked)"/>
+            <t:inputCalendar id="start${fld}" value="#{${elw}Bean.searchStart${fld}}"
+                             renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
+                             popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
+                             onchange="setEnabled('search:start${fld}',true);setChecked('search:start${fld}Valid',true);"
+                             />
+          </h:panelGroup>
+          -
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="end${fld}" />
+            <h:selectBooleanCheckbox id="end${fld}Valid" value="#{${elw}Bean.searchEnd${fld}Valid}" 
+                                      onclick="setEnabled('search:end${fld}',this.checked)"/>
+            <t:inputCalendar id="end${fld}" value="#{${elw}Bean.searchEnd${fld}}"
+                             renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
+                             popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
+                             onchange="setEnabled('search:end${fld}',true);setChecked('search:end${fld}Valid',true);"
+                             />
+          </h:panelGroup>
+          <script>
+            setEnabled( 'search:start${fld}', ${${elw}Bean.searchStart${fld}Valid} )
+            setEnabled( 'search:end${fld}', ${${elw}Bean.searchEnd${fld}Valid} )
+          </script>
+
+        #elseif( $field.type2.equals("java.lang.Boolean") || $field.type2.equals("boolean"))
+
+          ## Date field: render radio button
+
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectBooleanCheckbox id="${field.name}Valid" value="#{${elw}Bean.search${fld}Valid}" 
+                                      onclick="setEnabledByName('search:${field.name}',this.checked)"/>
+            
+            <h:outputLabel for="${field.name}" value="#{msg['msg.yesno']}"></h:outputLabel>
+            <h:selectBooleanCheckbox id="${field.name}" value="#{${elw}Bean.search${fld}}"/>            
+            
+            
+          </h:panelGroup>
+          <script>
+            setEnabledByName( 'search:${field.name}', ${${elw}Bean.search${fld}Valid} )
+          </script>
+
+        #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+
+          ## Enum field: drop down list
+
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectBooleanCheckbox id="${field.name}Valid" value="#{${elw}Bean.search${fld}Valid}" 
+                                      onclick="setEnabled('search:${field.name}',this.checked)"/>
+            <h:selectOneMenu id="${field.name}" value="#{${elw}Bean.search${fld}}" onclick="setEnabled('search:${field.name}',true)">
+              <f:converter converterId="autentia.EnumConverter"/>
+              <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+            </h:selectOneMenu>
+          </h:panelGroup>
+          <script>
+            setEnabled( 'search:${field.name}', ${${elw}Bean.search${fld}Valid} )
+          </script>
+
+        #elseif( $tools.isNumberClass( ${field.type2} ) && $desc-props.getProperty("field.${field.name}.useRangeSearch") )
+
+          ## Number or range field: render two input fields
+
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="start${fld}" />
+            <h:selectBooleanCheckbox id="start${fld}Valid" value="#{${elw}Bean.searchStart${fld}Valid}" 
+                                      onclick="setEnabled('search:start${fld}',this.checked)"/>
+            <h:inputText id="start${fld}" value="#{${elw}Bean.searchStart${fld}}" size="31"/>
+          </h:panelGroup>
+          -
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="end${fld}" />
+            <h:selectBooleanCheckbox id="end${fld}Valid" value="#{${elw}Bean.searchEnd${fld}Valid}" 
+                                      onclick="setEnabled('search:end${fld}',this.checked)"/>
+            <h:inputText id="end${fld}" value="#{${elw}Bean.searchEnd${fld}}" size="31"/>
+          </h:panelGroup>
+          <script>
+            setEnabled( 'search:start${fld}', ${${elw}Bean.searchStart${fld}Valid} )
+            setEnabled( 'search:end${fld}', ${${elw}Bean.searchEnd${fld}Valid} )
+          </script>
+
+        #else
+
+          ## Rest of fields: render an input box
+
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectBooleanCheckbox id="${field.name}Valid" value="#{${elw}Bean.search${fld}Valid}" 
+                                      onclick="setEnabled('search:${field.name}',this.checked)"/>
+            <h:inputText id="${field.name}" value="#{${elw}Bean.search${fld}}" size="70"/>
+          </h:panelGroup>
+          <script>
+            setEnabled( 'search:${field.name}', ${${elw}Bean.search${fld}Valid} )
+          </script>
+
+        #end
+
+      </td>
+    </tr>
+  #end
+#end
+
+##
+## JSP PAGE
+##
+<%-- 
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.  
+ *	Copyright (C) 2007 Autentia Real Bussiness Solution S.L.					   
+ *	
+ * 	This program is free software; you can redistribute it and/or
+ * 	modify it under the terms of the GNU General Public License
+ * 	as published by the Free Software Foundation; either version 2
+ * 	of the License, or (at your option) any later version.
+ *
+ * 	This program is distributed in the hope that it will be useful,
+ * 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * 	GNU General Public License for more details.
+ *
+ * 	You should have received a copy of the GNU General Public License
+ * 	along with this program; if not, write to the Free Software
+ * 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * 	Autentia Real Bussiness Solution S.L.
+ * 	Tlf: +34 91 675 33 06, +34 655 99 11 72
+ * 	Fax: +34 91 656 65 04
+ * 	info@autentia.com																
+ *
+ --%>
+<%@page language="java" contentType="text/html; charset=UTF-8"%>
+
+<%@include file="/inc/tlibs.jsp" %>
+
+<html>
+  <head>
+    <%@include file="/inc/uiCore.jsp" %>
+  </head>	
+  <body>
+    
+    <!-- search${entity}.jsp: generated by stajanov code generator -->
+    <f:loadBundle basename="com.autentia.tnt.resources.messages" var="msg" />
+    <i:location place="search${entity}" msg="${dollar}{msg}"/> 
+    
+    <f:view>
+      <%@include file="/inc/header.jsp" %>
+      <h:form id="search" enctype="multipart/form-data">
+        
+        <%-- Header --%>
+        <i:titleBar msg="${dollar}{msg}">
+          <h:commandLink action="#{${elw}Bean.list}">
+            <h:graphicImage title="#{msg.entityActions_run}"  value="/img/run.png" styleClass="titleImg" />
+          </h:commandLink>
+        </i:titleBar>
+        
+        <%-- Search form --%>
+        <table class="searchTable" cellpadding="0" cellspacing="0">
+
+          #field( $class.id )
+          #foreach( $field in $class.propertyArray )
+            #field( $field )
+          #end
+          #foreach( $field in $class.manyToOneArray )
+            #field( $field )
+          #end
+          #foreach( $field in $class.oneToOneArray )
+            #field( $field )
+          #end
+          #foreach( $field in $class.setArray )
+            #field( $field )
+          #end
+
+        </table>
+        
+      </h:form>
+    </f:view>
+    
+  </body>
+</html>  		

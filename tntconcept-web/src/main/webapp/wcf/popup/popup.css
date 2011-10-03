@@ -1,0 +1,42 @@
+/**
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.dropmenudiv{
+position:absolute;
+top: 0;
+border: 1px solid black;
+border-bottom-width: 0;
+font:normal 12px Verdana;
+line-height:18px;
+z-index:100;
+background-color: #FFFFF0;
+visibility: hidden;
+}
+
+.dropmenudiv a,
+.dropmenudiv strong {
+display: block;
+text-indent: 3px;
+border-bottom: 1px solid black;
+padding: 2px 4px;
+text-decoration: none;
+font-weight: bold;
+}
+
+.dropmenudiv a:hover{ /*Theme Change here*/
+background-color: #DEE3EF;
+}

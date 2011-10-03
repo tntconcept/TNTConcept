@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<assembly>
+  <id>installer-tomcat-${project.version}</id>
+  <formats>
+    <format>tar.gz</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  
+  <fileSets>
+    <fileSet>
+      <directory>target</directory>
+      <outputDirectory>/app</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../src/main/install</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>**</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/install</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>**</include>
+      </includes>
+    </fileSet> 
+    <fileSet>
+      <directory>/</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>../LICENSE.txt</include>
+        <include>../NOTICE.txt</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+  <files>
+    <file>
+	  <source>../doc/INSTALL.pdf</source>
+      <outputDirectory>/doc</outputDirectory>
+      <destName>INSTALL-${project.version}.pdf</destName>
+    </file>
+    <file>
+	  <source>../doc/INSTALL_en.pdf</source>
+      <outputDirectory>/doc</outputDirectory>
+      <destName>INSTALL_en-${project.version}.pdf</destName>
+    </file>
+  </files>
+  
+</assembly>

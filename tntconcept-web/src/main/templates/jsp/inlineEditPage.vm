@@ -1,0 +1,316 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+################################################################################
+## INITIALIZATION: global variables
+################################################################################
+$_stajanov.info("inlineEditPage.vm - begin")
+#set( $parent = $desc-props.getProperty( "parent" ) )
+#set( $parentlw = $tools.uncapitalizeFirst( $parent ) )
+#set( $pfld = $desc-props.getProperty( "fieldInParent" ) )
+#set( $pfldup = $tools.capitalizeFirst( $pfld ) )
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $dollar = "$" )
+
+
+################################################################################
+## MACRO: col_class
+################################################################################
+#macro( col_class $field )
+  #set( $fld = $tools.capitalizeFirst( $field.name ) )
+
+  #if( $desc-props.getProperty( "field.${field.name}.ignoreInInlineEdit" ) )
+    ##
+  #else
+    #set( $columnClasses = "$!{columnClasses},editList${entity}${fld}" )
+  #end
+#end
+
+
+################################################################################
+## MACRO: field
+################################################################################
+#macro( field $field )
+
+  #set( $att = "" )
+  #set( $att = $desc-props.getProperty("field.${field.name}.editAttribs") )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  
+  #if( $desc-props.getProperty( "field.${field.name}.required" ) )
+  	#set( $req = 'required="true" styleClass="requiredFieldClass"' )
+    #set( $att = "$att $req" )
+  #end
+
+  #if( $desc-props.getProperty("field.${field.name}.ignoreInInlineEdit") )
+    <%-- Ignored field: $field.name --%>
+  #else
+    
+    <h:column>
+
+      <f:facet name="header">
+      	#if( $desc-props.getProperty( "field.${field.name}.required" ) )
+      		<h:outputText value="*#{msg['${elw}.${field.name}']}" styleClass="editListHeader"/>
+      	#else
+	        <h:outputText value="#{msg['${elw}.${field.name}']}" styleClass="editListHeader"/>
+	    #end
+      </f:facet>
+
+      #if( $desc-props.getProperty("field.${field.name}.readonlyInInlineEdit") ) 
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:outputText id="${field.name}" value="#{item.${field.name}}" />
+        </h:panelGroup>
+
+      #elseif( $field.class.simpleName.startsWith("Set") )
+	    #if( $tools.getClassName( $field.oneToMany.class1 ) )
+	        <%@include file="inlineEdit${tools.getClassName( $field.oneToMany.class1 )}.jsp"%>
+	    #else
+	        <%@include file="inlineEdit${tools.getClassName( $field.manyToMany.class1 )}.jsp"%>
+	    #end
+
+      #elseif( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:selectOneMenu id="${field.name}" value="#{item.${field.name}}" $!{att}>
+            <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+            <f:converter converterId="autentia.EntityConverter"/>
+          </h:selectOneMenu>
+        </h:panelGroup>
+
+      #elseif( $field.type2.endsWith("Date") )
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <t:inputCalendar id="${field.name}" value="#{item.${field.name}}" $!{att}
+                           renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
+                           popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}" />
+        </h:panelGroup>
+
+      #elseif( $field.type2.equals("boolean") )
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:selectBooleanCheckbox id="${field.name}" value="#{item.${field.name}}" $!{att}/>
+        </h:panelGroup>
+
+      #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:selectOneMenu id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}>
+            <f:converter converterId="autentia.EnumConverter"/>
+            <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+          </h:selectOneMenu>
+        </h:panelGroup>
+
+      #elseif( $tools.isNumberClass( $field.type2 ) )
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:inputText id="${field.name}" value="#{item.${field.name}}" size="10" $!{att}/>
+        </h:panelGroup>
+
+      #elseif( $desc-props.getProperty( "field.${field.name}.isFile" ) )
+        #set( $mf = ${desc-props.getProperty("field.${field.name}.mimeField")} )
+        #set( $fld = $tools.capitalizeFirst(${field.name}) )
+        <i:fileLink type="${elw}" objectId="${dollar}{${elw}Bean.${class.id.name}}" file="${dollar}{${elw}Bean.${field.name}}" mime="${dollar}{${elw}Bean.${mf}}" /> 
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <t:inputFileUpload id="$field.name" size="58" value="#{item.upload${fld}}" storage="file" $!{att} />
+        </h:panelGroup>
+
+	  #elseif( $desc-props.getProperty( "field.${field.name}.isDocumentFile" ) )
+		<f:verbatim>
+			<h:outputText value="<a href=\"#\" onclick=\"openDocumentFile('#{item.documentPath}');return false;\"><img src='../../img/yellow-folder-open.png' style='border:0; vertical-align:middle;'>&nbsp;#{item.documentPath}</a>" escape="false"/>
+		</f:verbatim>
+	    <h:panelGroup>
+	      <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+	      <t:inputFileUpload id="uploadDocument" size="40" value="#{item.uploadDocument}" storage="file" rendered="#{item.documentPath==null}" $!{att} />
+	    </h:panelGroup>
+
+      #elseif( $desc-props.getProperty( "field.${field.name}.useTextarea" ) )
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:inputTextarea id="${field.name}" value="#{item.${field.name}}" $!{att}/>
+        </h:panelGroup>
+
+      #else
+        <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+          <h:inputText id="${field.name}" value="#{item.${field.name}}" $!{att}/>
+        </h:panelGroup>
+
+      #end
+
+    </h:column>
+
+  #end
+#end
+
+
+################################################################################
+## INITIALIZATION: column CSS styles 
+################################################################################
+#col_class( $class.id )
+#foreach( $field in $class.propertyArray )
+  #col_class( $field )
+#end
+#foreach( $field in $class.manyToOneArray )
+  #col_class( $field )
+#end
+#foreach( $field in $class.oneToOneArray )
+  #col_class( $field )
+#end
+
+
+################################################################################
+## JSP PAGE
+################################################################################
+<%-- 
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.  
+ *	Copyright (C) 2007 Autentia Real Bussiness Solution S.L.					   
+ *	
+ * 	This program is free software; you can redistribute it and/or
+ * 	modify it under the terms of the GNU General Public License
+ * 	as published by the Free Software Foundation; either version 2
+ * 	of the License, or (at your option) any later version.
+ *
+ * 	This program is distributed in the hope that it will be useful,
+ * 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * 	GNU General Public License for more details.
+ *
+ * 	You should have received a copy of the GNU General Public License
+ * 	along with this program; if not, write to the Free Software
+ * 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * 	Autentia Real Bussiness Solution S.L.
+ * 	Tlf: +34 91 675 33 06, +34 655 99 11 72
+ * 	Fax: +34 91 656 65 04
+ * 	info@autentia.com																
+ *
+ --%>
+<%@page language="java" contentType="text/html; charset=UTF-8"%>
+
+<%@include file="/inc/tlibs.jsp" %>
+
+<%@include file="/inc/uiCore.jsp" %>
+
+<%-- List of ${elw}s --%>
+<t:dataTable id="${pfld}" var="item" value="#{${parentlw}Bean.${pfld}}" preserveDataModel="false" 
+    cellpadding="0" cellspacing="0" styleClass="editListTable" 
+    headerClass="editListHeaderCell" footerClass="editListFooter" 
+    rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
+    columnClasses="listCmdCell${columnClasses}">
+
+  <%-- Commands --%>
+  <h:column>
+    <f:facet name="header">
+      <t:commandLink action="#{${parentlw}Bean.create${pfldup}}">
+        <h:graphicImage title="#{msg.entityActions_new}"  value="/img/new.gif" styleClass="cmdImg" />
+      </t:commandLink>
+    </f:facet>
+    <t:commandLink action="#{${parentlw}Bean.delete${pfldup}}">
+      <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="cmdImg" />
+    </t:commandLink>
+  </h:column>
+
+#field( $class.id )
+
+#foreach( $field in $class.propertyArray )
+  #field( $field )
+#end
+
+#foreach( $field in $class.manyToOneArray )
+  #field( $field )
+#end
+
+#foreach( $field in $class.oneToOneArray )
+  #field( $field )
+#end
+
+</t:dataTable>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##               <t:dataTable id="${field.name}" var="item" value="#{${elw}Bean.${field.name}}" preserveDataModel="false" 
+##                           cellpadding="0" cellspacing="0" styleClass="editListTable" 
+##                           headerClass="editListHeaderCell" footerClass="editListFooter" 
+##                           rows="12" rowClasses="editListRowO,editListRowE"
+##                           columnClasses="editListCmdCell,TODO:editListColumn:TODO">
+                
+##                <%-- Commands --%>
+##                <h:column>
+##                  <f:facet name="header">
+##                    <t:commandLink action="#{${elw}Bean.create${fld}}" immediate="true">
+##                      <h:graphicImage title="#{msg.entityActions_create}"  value="/img/new.gif" styleClass="cmdImg" />
+##                    </t:commandLink>
+##                  </f:facet>
+##                  <t:commandLink action="#{${elw}Bean.delete${fld}}" immediate="true">
+##                    <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="cmdImg" />
+##                  </t:commandLink>
+##                </h:column>
+                
+##                <%-- Ignored field: id --%>
+##                <h:inputHidden id="id" value="#{item.id}"/>
+
+##                <%-- Field: name --%>
+##                <h:column>
+##                  <f:facet name="header">
+##                    <h:outputText value="#{msg['projectRole.name']}" styleClass="editListHeader"/>
+##                  </f:facet>
+##                  <%-- String field --%>
+##                  <h:inputText id="name" value="#{item.name}" required="true"/>
+##                </h:column>
+                
+##                <%-- Field: costPerHour --%>
+##                <h:column>
+##                  <f:facet name="header">
+##                    <h:outputText value="#{msg['projectRole.costPerHour']}" styleClass="editListHeader"/>
+##                  </f:facet>
+##                  <h:panelGroup>
+##                    <h:message styleClass="error" showSummary="true" showDetail="false" for="costPerHour" />
+##                    <h:inputText id="costPerHour" value="#{item.costPerHour}" size="10" required="true"/>
+##                  </h:panelGroup>
+##                </h:column>
+
+##                <%-- Field: expectedHours --%>
+##                <h:column>
+##                  <f:facet name="header">
+##                    <h:outputText value="#{msg['projectRole.expectedHours']}" styleClass="editListHeader"/>
+##                  </f:facet>
+##                  <h:panelGroup>
+##                    <h:message styleClass="error" showSummary="true" showDetail="false" for="expectedHours" />
+##                    <h:inputText id="expectedHours" value="#{item.expectedHours}" size="10" required="true"/>
+##                  </h:panelGroup>
+##                </h:column>
+                
+##                <%-- Ignored field: project --%>
+
+##              </t:dataTable>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.Bill" table="Bill">
+    <id name="id" unsaved-value="null" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    <property name="creationDate" not-null="true" type="java.util.Date"/>
+    <property name="startBillDate" not-null="true" type="java.util.Date"/>
+    <property name="endBillDate" not-null="true" type="java.util.Date"/>
+    <property name="paymentMode">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.BillPaymentMode</param>
+      </type>
+    </property>
+    <property name="state" not-null="true">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.BillState</param>
+      </type>
+    </property>
+    <!-- <property name="amount" not-null="false" type="java.math.BigDecimal"/>-->
+    <property name="number" not-null="true" type="java.lang.String"/>
+    <property name="bookNumber" type="java.lang.String"/>
+    <property name="name" not-null="true" type="java.lang.String"/>
+    <property name="file" type="java.lang.String"/>
+    <property name="fileMime" type="java.lang.String"/>
+    <set name="entries" table="Bill_AccountEntry" >
+		<key column="billId"/>
+		<many-to-many column="accountEntryId" class="com.autentia.tnt.businessobject.AccountEntry" />
+	</set>
+	
+    <set name="creditTitles" table="CreditTitle_Bill" >
+		<key column="billId"/>
+		<many-to-many column="creditTitleId" class="com.autentia.tnt.businessobject.CreditTitle" />
+	</set>	
+	
+	<property name="observations" type="java.lang.String"/>
+	<many-to-one name="project" class="com.autentia.tnt.businessobject.Project"
+              column="projectId" not-null="true"  />
+              
+  	<many-to-one name="account" class="com.autentia.tnt.businessobject.Account"
+              column="accountId" />  
+    
+    <set name="breakDown" cascade="all-delete-orphan" inverse="true" order-by="place" >
+      <key column="billId" />
+      <one-to-many class="com.autentia.tnt.businessobject.BillBreakDown" />
+    </set>
+    
+    <set name="billPayment" cascade="all-delete-orphan" inverse="true"  order-by="expirationDate" >
+      <key column="billId" />
+      <one-to-many class="com.autentia.tnt.businessobject.BillPayment" />
+    </set>
+    
+    <property name="billType">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.BillType</param>
+      </type>
+    </property>
+    
+    <property name="orderNumber" not-null="true" type="java.lang.String"/>
+    <many-to-one name="contact" class="com.autentia.tnt.businessobject.Contact"
+              column="contactId"  />
+    
+    <property name="amount" type="java.math.BigDecimal" formula="(select truncate(sum((a.amount*a.units)+(((a.amount*a.units)*a.iva))/100.00),2) from BillBreakDown a, Bill b where b.id = a.billId and b.id = id)" ></property>
+    <property name="entriesNumber" type="java.lang.Integer" formula="(select count(*) from Bill_AccountEntry a where a.billId = id)" ></property>
+
+    <many-to-one name="provider" class="com.autentia.tnt.businessobject.Organization"
+              column="providerId" not-null="false"  />
+    <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+  </class>
+</hibernate-mapping>

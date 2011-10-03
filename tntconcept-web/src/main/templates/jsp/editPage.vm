@@ -1,0 +1,215 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("editPage.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $dollar = "$" )
+
+
+##
+## MACRO: field
+##
+
+#macro( field $field )
+  #if( $_util.isNull( $desc-props.getProperty("field.${field.name}.editAttribs") ) )
+    #set( $att = "" )
+  #else
+    #set( $att = $desc-props.getProperty("field.${field.name}.editAttribs") )
+  #end
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  
+  #if( $desc-props.getProperty( "field.${field.name}.required" ) )
+  	#set( $req = 'required="true" styleClass="requiredFieldClass"' )
+    #set( $att = "$att $req" )
+  #end
+
+  #if( $desc-props.getProperty("field.${field.name}.ignoreInEdit") )
+    <%-- Ignored field: $field.name --%>
+  
+  #else
+    <%-- Field: $field.name --%>
+    <tr>
+    	#if( $desc-props.getProperty( "field.${field.name}.required" ) )
+    		<td class="editLabelRW">*${dollar}{msg['${elw}.${field.name}']}:</td>
+    	#else
+    		<td class="editLabelRW">${dollar}{msg['${elw}.${field.name}']}:</td>
+    	#end
+      
+      <td class="editFieldCell">
+
+        #if( $field.class.simpleName.startsWith("Set") )
+          #if( !$_util.isNull($field.oneToMany.class1) && $tools.getClassName( $field.oneToMany.class1 ) )
+            <%@include file="inlineEdit${tools.getClassName( $field.oneToMany.class1 )}.jsp"%>
+          #else
+	            <h:selectManyListbox id="${field.name}" value="#{${elw}Bean.${field.name}}" size="4">
+	              <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+	              <f:converter converterId="autentia.EntityConverter"/>
+		              <f:attribute name="com.autentia.tntonverter.EntityConverter.valueClass" 
+		                           value="$field.manyToMany.class1"/> 
+	            </h:selectManyListbox>
+          #end
+
+        #elseif( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectOneMenu id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}>
+              <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+              <f:converter converterId="autentia.EntityConverter"/>
+            </h:selectOneMenu>
+          </h:panelGroup>
+
+        #elseif( $field.type2.endsWith("Date") )
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <t:inputCalendar id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}
+                             renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
+                             popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
+                             />
+          </h:panelGroup>
+
+        #elseif( $field.type2.equals("java.lang.Boolean") )
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectBooleanCheckbox id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}/>
+          </h:panelGroup>
+
+        #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:selectOneMenu id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}>
+              <f:converter converterId="autentia.EnumConverter"/>
+              <f:selectItems value="#{${elw}Bean.${field.name}s}" />
+            </h:selectOneMenu>
+          </h:panelGroup>
+
+        #elseif( !$_util.isNull($field.type2) && $tools.isNumberClass( $tools.primitiveToClass($field.type2) ) )
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            #if( $desc-props.getProperty( "field.${field.name}.isMoney" ) )
+            	#set( $scale = $desc-props.getProperty("field.${field.name}.scale") )
+            	#set( $maxSize = $desc-props.getProperty("field.${field.name}.maxSize") )
+            	<h:inputText id="${field.name}" value="#{${elw}Bean.${field.name}}" size="10" $!{att}>
+            		<f:validator validatorId="autentia.genericMoneyValidator"/>
+            		<f:attribute name="scale" value="$!{scale}"/>
+	            	<f:attribute name="maxSize" value="$!{maxSize}"/>
+            	</h:inputText>
+            #else
+    			<h:inputText id="${field.name}" value="#{${elw}Bean.${field.name}}" size="10" $!{att}/>
+    		#end
+          </h:panelGroup>
+
+        #elseif( $desc-props.getProperty( "field.${field.name}.isFile" ) )
+          #set( $mf = ${desc-props.getProperty("field.${field.name}.mimeField")} )
+          #set( $fld = $tools.capitalizeFirst(${field.name}) )
+	  #if( !$_util.isNull($mf) )
+	    <i:fileLink type="${elw}" objectId="${dollar}{${elw}Bean.${class.id.name}}" file="${dollar}{${elw}Bean.${field.name}}" mime="${dollar}{${elw}Bean.${mf}}" /> 
+	  #else
+	    <i:fileLink type="${elw}" objectId="${dollar}{${elw}Bean.${class.id.name}}" file="${dollar}{${elw}Bean.${field.name}}" /> 
+	  #end
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <t:inputFileUpload id="$field.name" size="58" value="#{${elw}Bean.upload${fld}}" storage="file" $!{att} />
+          </h:panelGroup>
+
+        #elseif( $desc-props.getProperty( "field.${field.name}.useTextarea" ) )
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            <h:inputTextarea id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}/>
+          </h:panelGroup>
+
+        #else
+          <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="${field.name}" />
+            #if( $desc-props.getProperty( "field.${field.name}.isIdentityCard" ) )
+            	<h:inputText id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}>
+            		<f:validator validatorId="autentia.genericIdentityCardValidator"/>
+            	</h:inputText>
+            #else
+    		<h:inputText id="${field.name}" value="#{${elw}Bean.${field.name}}" $!{att}/>
+    	    #end
+          </h:panelGroup>
+
+        #end
+      </td>
+    </tr>
+  #end
+#end
+
+
+##
+## JSP PAGE
+##
+
+##<%@page language="java" contentType="text/html; charset=UTF-8"%>
+##
+##<%@include file="/inc/tlibs.jsp" %>
+##
+##<html>
+##    <%@include file="/inc/uiCore.jsp" %>
+##  </head>	
+##  <body>
+##    
+##    <!-- edit${entity}.jsp: generated by stajanov code generator -->
+##    <f:loadBundle basename="com.autentia.tnt.resources.messages" var="msg" />
+##    <i:location place="edit${entity}" msg="${msg}"/> 
+##    
+##    <f:view>
+##      
+##      <h:form id="${elw}" enctype="multipart/form-data">
+##        
+##        <%-- Header --%>
+##        <i:titleBar name="${dollar}{${elw}Bean.${desc-props.getProperty("editTitleField")}}" msg="${msg}">
+##          <h:commandLink action="#{${elw}Bean.save}" onclick="if(!askSave('#{${elw}Bean.id}','#{msg['question.confirmSave']}')) return false;">
+##            <h:graphicImage title="#{msg.entityActions_save}"  value="/img/save.gif" styleClass="titleImg" />
+##          </h:commandLink>
+##          <h:commandLink rendered="#{${elw}Bean.deleteAvailable}" action="#{${elw}Bean.delete}" onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
+##            <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="titleImg" />
+##          </h:commandLink>
+##          <h:commandLink action="#{${elw}Bean.list}" immediate="true">
+##            <h:graphicImage title="#{msg.entityActions_back}"  value="/img/back.gif" styleClass="titleImg" />
+##          </h:commandLink>
+##        </i:titleBar>
+##
+##
+##        <%-- Edition form --%>
+##        <table class="editTable" cellpadding="0" cellspacing="0">
+
+            #field( $class.id )
+            #foreach( $field in $class.propertyArray )
+              #field( $field )
+            #end
+            #foreach( $field in $class.manyToOneArray )
+              #field( $field )
+            #end
+            #foreach( $field in $class.oneToOneArray )
+              #field( $field )
+            #end
+            #foreach( $field in $class.setArray )
+              #field( $field )
+            #end
+
+##        </table>
+##
+##      </h:form>
+##    </f:view>
+##    
+##  </body>
+##</html>  		
+

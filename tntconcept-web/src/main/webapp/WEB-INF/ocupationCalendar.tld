@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>Ocupation Tag Library</description>
+	<display-name>Ocupation Tag Library</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>tnt</short-name>
+	<uri>tnt-jsf-validator-taglibrary_1.0</uri>
+
+	<tag id="ocupationCalendar">
+		<description>
+			Provides a ocupation calendar. Unless otherwise specified,
+			all attributes accept static values or EL expressions.
+		</description>
+		<name>ocupationCalendar</name>
+		<tag-class>
+			com.autentia.jsf.component.ocupation.HtmlOcupationCalendarTag
+		</tag-class>
+		<body-content>JSP</body-content>
+
+		<!-- UI attributes -->
+		<attribute>
+			<description>
+				The value binding to store the date
+			</description>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				The developer-assigned ID of this component. The ID must
+				be unique within the scope of the tag's enclosing naming
+				container (e.g. h:form or f:subview). This value must be
+				a static value.
+			</description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				Identifies a backing bean property (of type UIComponent
+				or appropriate subclass) to bind to this component
+				instance. This value must be an EL expression.
+			</description>
+			<name>binding</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				A boolean value that indicates whether this component
+				should be rendered. Default value: true.
+			</description>
+			<name>rendered</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<!-- inputCalendar -->
+		<attribute>
+			<description>
+				CSS class to be used on the TR element for the
+				header-row showing month and year.
+			</description>
+			<name>monthYearRowClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used on the TR element for the
+				header-row showing the week-days.
+			</description>
+			<name>weekRowClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element containing a day
+				days.
+			</description>
+			<name>dayCellClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element of the currently
+				selected date.
+			</description>
+			<name>currentDayCellClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Render the input-calendar as a java-script popup on
+				client.
+			</description>
+			<name>renderAsPopup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Render the input-calendar left of the button, not right
+				like normally done.
+			</description>
+			<name>popupLeft</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Automatically add the input-calendar scripts and css
+				files to the header - set that to false to provide the
+				scripts yourself.
+			</description>
+			<name>addResources</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Defines the date format used by the java-script popup on
+				client.
+			</description>
+			<name>popupDateFormat</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Defines the string displayed on the button which leads
+				to the calendar-popup-window (... by default).
+			</description>
+			<name>popupButtonString</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Defines the css style for the button which leads to the
+				calendar-popup-window.
+			</description>
+			<name>popupButtonStyle</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Defines the css style class for the button which leads
+				to the calendar-popup-window.
+			</description>
+			<name>popupButtonStyleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the string for "Go To Current Month"
+			</description>
+			<name>popupGotoString</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Set the string for "Today is"</description>
+			<name>popupTodayString</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Defines the date format used by the java-script popup on
+				client for the today-is string.
+			</description>
+			<name>popupTodayDateFormat</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>Set the string for "Wk"</description>
+			<name>popupWeekString</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the string for scrolling to the left.
+			</description>
+			<name>popupScrollLeftMessage</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the string for scrolling to the right.
+			</description>
+			<name>popupScrollRightMessage</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the string for "Click to select a month".
+			</description>
+			<name>popupSelectMonthMessage</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the string for "Click to select a year".
+			</description>
+			<name>popupSelectYearMessage</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the string for "Select [date] as date" (do not
+				replace [date], it will be replaced by the current
+				date).
+			</description>
+			<name>popupSelectDateMessage</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Set the theme-prefix for this component.
+			</description>
+			<name>popupTheme</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Url to the image for this popupButton.
+			</description>
+			<name>popupButtonImageUrl</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				If true, renders a calendar icon instead of the button
+				to pop up the calendar.
+			</description>
+			<name>renderPopupButtonAsImage</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				The text that will be rendered in the field - helping
+				the user to find the right format to enter into the
+				field.
+			</description>
+			<name>helpText</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<!-- ocupation attributes-->
+		<attribute>
+			<description>
+				com.autentia.jsf.component.ocupation.OcupationModel Bean
+				Object.
+			</description>
+			<name>ocupationModel</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>Working day hours</description>
+			<name>workingDayHours</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>Extra days of other / next month</description>
+			<name>extraDays</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element of week-ends.
+			</description>
+			<name>weekEndCellClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element extra days
+			</description>
+			<name>extraDaysCellClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element vacances
+			</description>
+			<name>vacancesCellClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element when all hours
+				of day are reached
+			</description>
+			<name>fullWorkCellClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				CSS class to be used for the TD element when all hours
+				of day aren't reached
+			</description>
+			<name>partialWorkCellClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+</taglib>

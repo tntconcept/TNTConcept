@@ -1,0 +1,165 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+################################################################################
+## INITIALIZATION: global variables
+################################################################################
+$_stajanov.info("inlineDetailPage.vm - begin")
+#set( $parent = $desc-props.getProperty( "parent" ) )
+#set( $parentlw = $tools.uncapitalizeFirst( $parent ) )
+#set( $pfld = $desc-props.getProperty( "fieldInParent" ) )
+#set( $pfldup = $tools.capitalizeFirst( $pfld ) )
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $dollar = "$" )
+
+
+################################################################################
+## MACRO: col_class
+################################################################################
+#macro( col_class $field )
+  #set( $fld = $tools.capitalizeFirst( $field.name ) )
+
+  #if( $desc-props.getProperty( "field.${field.name}.ignoreInInlineDetail" ) )
+    ##
+  #else
+    #set( $columnClasses = "$!{columnClasses},detailList${entity}${fld}" )
+  #end
+#end
+
+##
+## MACRO: field
+##
+
+#macro( field $field )
+
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  #set( $df = ${desc-props.getProperty("field.${field.name}.displayField")}  )
+
+  #if( $desc-props.getProperty("field.${field.name}.ignoreInInlineDetail") )
+    <%-- Ignored field: $field.name --%>
+  
+  #else
+  	
+  	<h:column>
+
+      <f:facet name="header">
+        <h:outputText value="#{msg['${elw}.${field.name}']}" styleClass="detailListHeader"/>
+      </f:facet>
+  	
+    	<%-- Field: $field.name --%>
+        
+        #if( $field.class.simpleName.startsWith("Set") )
+          	#if( $tools.getClassName( $field.oneToMany.class1 ) )
+		            <%@include file="inlineDetail${tools.getClassName( $field.oneToMany.class1 )}.jsp"%>
+          	#else
+          		<h:selectManyListbox id="${field.name}" size="4">
+	              <f:selectItems value="#{item.${field.name}Selected}" />
+	              <f:converter converterId="autentia.EntityConverter"/>
+		              <f:attribute name="com.autentia.tntonverter.EntityConverter.valueClass" 
+		                           value="$field.manyToMany.class1"/> 
+	            </h:selectManyListbox>
+          	#end
+ 	    #elseif( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+ 	    	<h:outputText value="#{item.${field.name}.${df}}"/>
+ 	    #elseif( $field.type2.endsWith("Date") )	
+ 	    	<h:outputText value="#{item.${field.name}}" />
+ 	    #elseif( $field.type2.equals("boolean") )
+			<h:selectBooleanCheckbox id="${field.name}" value="#{item.${field.name}}" disabled="true"/>
+        #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+        	<h:outputText value="#{item.${field.name}Formatted}" />
+        #elseif( $desc-props.getProperty( "field.${field.name}.isFile" ) )
+          <i:fileLink type="${elw}" objectId="${dollar}{item.${class.id.name}}" file="${dollar}{item.${field.name}}" /> 
+     	#else
+ 	       <h:outputText value="#{item.${field.name}}" />
+ 	    #end
+
+    </h:column>
+  #end
+#end
+
+
+
+################################################################################
+## INITIALIZATION: column CSS styles 
+################################################################################
+#col_class( $class.id )
+#foreach( $field in $class.propertyArray )
+  #col_class( $field )
+#end
+#foreach( $field in $class.manyToOneArray )
+  #col_class( $field )
+#end
+#foreach( $field in $class.oneToOneArray )
+  #col_class( $field )
+#end
+
+
+################################################################################
+## JSP PAGE
+################################################################################
+<%-- 
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.  
+ *	Copyright (C) 2007 Autentia Real Bussiness Solution S.L.					   
+ *	
+ * 	This program is free software; you can redistribute it and/or
+ * 	modify it under the terms of the GNU General Public License
+ * 	as published by the Free Software Foundation; either version 2
+ * 	of the License, or (at your option) any later version.
+ *
+ * 	This program is distributed in the hope that it will be useful,
+ * 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * 	GNU General Public License for more details.
+ *
+ * 	You should have received a copy of the GNU General Public License
+ * 	along with this program; if not, write to the Free Software
+ * 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * 	Autentia Real Bussiness Solution S.L.
+ * 	Tlf: +34 91 675 33 06, +34 655 99 11 72
+ * 	Fax: +34 91 656 65 04
+ * 	info@autentia.com																
+ *
+ --%>
+<%@page language="java" contentType="text/html; charset=UTF-8"%>
+
+<%@include file="/inc/tlibs.jsp" %>
+
+<%@include file="/inc/uiCore.jsp" %>
+
+<%-- List of ${elw}s --%>
+<t:dataTable id="${pfld}" var="item" value="#{${parentlw}Bean.${pfld}}" preserveDataModel="false" 
+    cellpadding="0" cellspacing="0" styleClass="detailListTable" 
+    headerClass="detailListHeaderCell" footerClass="detailListFooter" 
+    rows="#{settingBean.mySettings.listSize}" rowClasses="detailListRowO,detailListRowE"
+    columnClasses="listCmdCell${columnClasses}">
+
+#field( $class.id )
+
+#foreach( $field in $class.propertyArray )
+  #field( $field )
+#end
+
+#foreach( $field in $class.manyToOneArray )
+  #field( $field )
+#end
+
+#foreach( $field in $class.oneToOneArray )
+  #field( $field )
+#end
+
+</t:dataTable>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<xform style="twocolumn" bundle="com.tonbeller.jpivot.table.resources">
+  <title value="fmt:sortform.title">
+    <imgButton src="wcf/form/cancel.png" action="revert" label="fmt:sortform.close" hide="true" handler="com.tonbeller.wcf.form.ButtonHandler"/>
+  </title>
+
+  <listBox1 type="int" bookmark="false" modelReference="extensions(sortRank).sortMode" label="fmt:sortform.mode">
+  <listItem value="1" label="fmt:sortform.hierup"/>
+  <listItem value="2" label="fmt:sortform.hierdown"/>
+  <listItem value="3" label="fmt:sortform.flatup"/>
+  <listItem value="4" label="fmt:sortform.flatdown"/>
+  <listItem value="5" label="fmt:sortform.topcount"/>
+  <listItem value="6" label="fmt:sortform.bottomcount"/>
+  </listBox1>
+
+  <textField type="posint" bookmark="false" modelReference="extensions(sortRank).topBottomCount" label="fmt:sortform.rowcount" title="fmt:sortform.enternumber"/>
+  <checkBox modelReference="rowAxisBuilder.axisConfig.propertyConfig.showProperties" label="fmt:sortform.showprops"/>
+
+  <buttons>
+    <button action="validate" label="fmt:sortform.ok" handler="com.tonbeller.wcf.form.ButtonHandler" hide="true"/>
+    <button action="revert" label="fmt:sortform.cancel" handler="com.tonbeller.wcf.form.ButtonHandler" hide="true"/>
+  </buttons>
+</xform>

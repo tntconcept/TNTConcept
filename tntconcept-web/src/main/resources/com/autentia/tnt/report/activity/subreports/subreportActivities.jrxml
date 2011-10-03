@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="subreportActivities"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="eurosPerHour" isForPrompting="true" class="java.lang.Double"/>
+	<parameter name="idUser" isForPrompting="true" class="java.lang.Integer"/>
+	<parameter name="idProject" isForPrompting="true" class="java.lang.Integer"/>
+	<parameter name="startDate" isForPrompting="true" class="java.util.Date"/>
+	<parameter name="endDate" isForPrompting="true" class="java.util.Date"/>
+	<parameter name="billable" isForPrompting="true" class="java.lang.Integer"/>
+	<queryString><![CDATA[select userId, projectId, sum(duration)/60 as horas, (sum(duration)*$P{eurosPerHour}/60) as coste 
+from Activity inner join ProjectRole on (Activity.roleId = ProjectRole.id) where userId = $P{idUser} and projectId = $P{idProject} and startDate > $P{startDate} and startDate <= $P{endDate} and Activity.billable != $P{billable} group by userId, projectId
+]]></queryString>
+
+	<field name="userId" class="java.lang.Integer"/>
+	<field name="projectId" class="java.lang.Integer"/>
+	<field name="horas" class="java.lang.Double"/>
+	<field name="coste" class="java.lang.Double"/>
+
+	<variable name="Coste" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{coste}]]></variableExpression>
+	</variable>
+	<variable name="Horas" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{horas}]]></variableExpression>
+	</variable>
+	<variable name="projectId" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$P{idProject}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="24"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="2"
+						width="33"
+						height="16"
+						forecolor="#000000"
+						key="textField"/>
+					<box/>	
+					<textElement verticalAlignment="Top">
+						<font size="12" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{horas}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="49"
+						y="2"
+						width="63"
+						height="16"
+						forecolor="#000000"
+						key="textField-1"/>
+					<box/>					
+					<textElement verticalAlignment="Top">
+						<font size="12" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{coste}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.Organization" table="Organization" >
+    <id name="id" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+	<many-to-one name="type" class="com.autentia.tnt.businessobject.OrganizationType" column="organizationTypeId" />
+	<many-to-one name="category" class="com.autentia.tnt.businessobject.OrganizationISOCategory" column="organizationISOCategoryId" />
+    <property name="name" type="java.lang.String"/>
+    <property name="cif" type="java.lang.String"/>
+    <property name="street" type="java.lang.String"/>
+    <property name="number" type="java.lang.String"/>
+    <property name="locator" type="java.lang.String"/>
+    <property name="postalCode" type="java.lang.String"/>
+    <property name="city" type="java.lang.String"/>
+    <many-to-one name="province" class="com.autentia.tnt.businessobject.Province" column="provinceId" />
+    <property name="state" type="java.lang.String"/>
+    <property name="country" type="java.lang.String"/>
+    <property name="phone" type="java.lang.String"/>
+    <property name="fax" type="java.lang.String"/>
+    <property name="email" type="java.lang.String"/>
+    <property name="website" type="java.lang.String"/>
+    <property name="ftpsite" type="java.lang.String"/>
+
+	<property name="evaluationCriteria">
+		<type name="com.autentia.tnt.util.GenericEnumUserType">
+			<param name="enumClassName">com.autentia.tnt.businessobject.EvaluationCriteria</param>
+		</type>
+	</property>
+                
+    <set name="departments" table="Department_Organization">
+		<key column="organizationId"/>
+		<many-to-many column="departmentId" class="com.autentia.tnt.businessobject.Department"/>
+	</set>
+
+    <property name="notes" type="java.lang.String"/>
+    <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+    
+    <set name="tags" table="Organization_Tag">
+		<key column="organizationId"/>
+		<many-to-many column="tagId" class="com.autentia.tnt.businessobject.Tag"/>
+	</set>
+	
+  </class>
+  
+</hibernate-mapping>

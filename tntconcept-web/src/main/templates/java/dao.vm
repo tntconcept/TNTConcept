@@ -1,0 +1,103 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("dao.vm - begin")
+
+
+##
+## JAVA CLASS
+##
+  /** Logger */
+  private static final Log log = LogFactory.getLog(${entity}DAO.class);
+
+  /**
+   * Get default ${entity}DAO as defined in Spring's configuration file.
+   * @return the default singleton ${entity}DAO
+   */
+  public static ${entity}DAO getDefault()
+  {
+    return (${entity}DAO)SpringUtils.getSpringBean("dao${entity}");
+  }
+
+ /** 
+   * Constructor
+   * @deprecated do not construct DAOs alone: use Spring's declared beans
+   */
+  public ${entity}DAO(){
+    super(false);
+  }
+
+  /** 
+   * Retrieve a ${entity} object from database given its id
+   * @param id primary key of ${entity} object
+   * @return the ${entity} object identified by the id
+   * @throws DataAccException on error
+   */
+  public ${entity} getById( int id ) throws DataAccException {
+    return super.getByPk(${entity}.class,id);
+  }
+
+  /** 
+   * Get all ${entity} objects from database sorted by the given criteria
+   * @param crit the sorting criteria
+   * @return a list with all existing ${entity} objects
+   * @throws DataAccException on error
+   */
+  public List<${entity}> search( SortCriteria crit ) throws DataAccException {
+    return super.list(${entity}.class,crit);
+  }
+
+  /** 
+   * Get specified ${entity} objects from database sorted by the given criteria
+   * @param search search criteria
+   * @param sort the sorting criteria
+   * @return a list with ${entity} objects matching the search criteria
+   * @throws DataAccException on error
+   */
+  public List<${entity}> search(SearchCriteria search, SortCriteria sort) throws DataAccException {
+    return super.search(${entity}.class,search,sort);
+  }
+
+  /** 
+   * Insert a new ${entity} object in database
+   * @param dao the ${entity} object to insert
+   * @throws DataAccException on error
+   */
+  public void insert(${entity} dao) throws DataAccException {
+    super.insert(dao);
+  }
+
+  /** 
+   * Update an existing ${entity} object in database
+   * @param dao the ${entity} object to update
+   * @throws DataAccException on error
+   */
+  public void update(${entity} dao) throws DataAccException {
+    super.update(dao,dao.getId());
+  }
+
+  /** 
+   * Delete an existing ${entity} object in database
+   * @param dao the ${entity} object to update
+   * @throws DataAccException on error
+   */
+  public void delete(${entity} dao) throws DataAccException {
+    super.delete(dao,dao.getId());
+  }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.autentia.tnt.businessobject.Tag" table="Tag">
+		<id name="id" unsaved-value="null" type="java.lang.Integer">
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String" not-null="true" />
+		<property name="description" type="java.lang.String" />
+		<property name="ownerId" type="java.lang.Integer" />
+		<property name="departmentId" type="java.lang.Integer" />
+		<property name="insertDate" type="java.util.Date" />
+		<property name="updateDate" type="java.util.Date" />
+		
+		<set name="positionTags" table="Position_Tag" inverse="false">
+			<key column="tagId" />
+			<many-to-many column="positionId"
+				class="com.autentia.tnt.businessobject.Position" />
+		</set>
+
+		<set name="contactTags" table="Contact_Tag">
+			<key column="tagId" />
+			<many-to-many column="contactId"
+				class="com.autentia.tnt.businessobject.Contact" />
+		</set>
+		
+		<set name="departmentTags" table="Department_Tag">
+			<key column="tagId" />
+			<many-to-many column="departmentId"
+				class="com.autentia.tnt.businessobject.Department" />
+		</set>
+		
+		<set name="organizationTags" table="Organization_Tag">
+			<key column="tagId" />
+			<many-to-many column="organizationId"
+				class="com.autentia.tnt.businessobject.Organization" />
+		</set>
+	</class>
+</hibernate-mapping>

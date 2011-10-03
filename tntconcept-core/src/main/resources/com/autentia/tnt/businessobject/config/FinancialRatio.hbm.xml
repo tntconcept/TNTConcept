@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.FinancialRatio" table="FinancialRatio">
+    <id name="id" unsaved-value="null" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    <property name="title" not-null="true" type="java.lang.String"/>
+    <property name="ratioDate" not-null="true" type="java.util.Date"/>
+    <property name="banksAccounts" not-null="true" type="java.math.BigDecimal"/>
+    
+    <property name="customers" not-null="true" type="java.math.BigDecimal"/>
+    <property name="stocks" not-null="true" type="java.math.BigDecimal"/>
+    <property name="amortizations" not-null="true" type="java.math.BigDecimal"/>
+    <property name="infrastructures" not-null="true" type="java.math.BigDecimal"/>
+    
+    <property name="shortTermLiability" not-null="true" type="java.math.BigDecimal"/>
+    <property name="obligationBond" not-null="true" type="java.math.BigDecimal"/>
+    <property name="capital" not-null="true" type="java.math.BigDecimal"/>
+    <property name="reserves" not-null="true" type="java.math.BigDecimal"/>
+    <property name="incomes" not-null="true" type="java.math.BigDecimal"/>
+    <property name="expenses" not-null="true" type="java.math.BigDecimal"/>
+    
+    
+    <property name="otherExploitationExpenses" not-null="true" type="java.math.BigDecimal"/>
+    <property name="financialExpenses" not-null="true" type="java.math.BigDecimal"/>
+    <property name="taxes" not-null="true" type="java.math.BigDecimal"/>
+    
+    
+    <property name="netAsset" type="java.math.BigDecimal" formula="banksAccounts + customers + stocks" ></property>
+    <property name="totalAsset" type="java.math.BigDecimal" formula="banksAccounts + customers + stocks + infrastructures" ></property>
+    <property name="totalOtherResources" type="java.math.BigDecimal" formula="shortTermLiability + obligationBond" ></property>
+    <property name="totalOurResources" type="java.math.BigDecimal" formula="capital + reserves" ></property>
+    <property name="totalLiability" type="java.math.BigDecimal" formula="shortTermLiability + obligationBond + capital + reserves" ></property>
+    <property name="margin" type="java.math.BigDecimal" formula="incomes - expenses" ></property>
+    <property name="bait" type="java.math.BigDecimal" formula="(incomes - expenses) - otherExploitationExpenses" ></property>
+    <property name="bat" type="java.math.BigDecimal" formula="((incomes - expenses) - otherExploitationExpenses) - financialExpenses" ></property>
+    <property name="bdt" type="java.math.BigDecimal" formula="(((incomes - expenses) - otherExploitationExpenses) - financialExpenses) - taxes" ></property>
+    <property name="baitd" type="java.math.BigDecimal" formula="(((incomes - expenses) - otherExploitationExpenses) - taxes ) + (0.50 * financialExpenses)" ></property>
+    
+    <property name="liquidity" type="java.math.BigDecimal" formula="(banksAccounts + customers + stocks) / shortTermLiability" ></property>
+    <property name="exchequer" type="java.math.BigDecimal" formula="((banksAccounts + customers + stocks) - stocks) / shortTermLiability" ></property>
+    
+    <property name="availability" type="java.math.BigDecimal" formula="(((banksAccounts + customers + stocks) - stocks) -  customers )/ shortTermLiability" ></property>
+    <property name="expensesCoverage" type="java.math.BigDecimal" formula="((banksAccounts + customers + stocks) - stocks) / ((expenses + otherExploitationExpenses)/365) " ></property>
+    <property name="workingCapital" type="java.math.BigDecimal" formula="((banksAccounts + customers + stocks) - shortTermLiability) / (banksAccounts + customers + stocks + infrastructures)" ></property>
+    
+    <property name="solvency" type="java.math.BigDecimal" formula="(capital + reserves) / (shortTermLiability + obligationBond)" ></property>
+    <property name="debtRatio" type="java.math.BigDecimal" formula="(shortTermLiability + obligationBond) / (capital + reserves)" ></property>
+    <property name="debtTotalLiability" type="java.math.BigDecimal" formula="(shortTermLiability + obligationBond) / (shortTermLiability + obligationBond + capital + reserves)" ></property>
+    <property name="guarantee" type="java.math.BigDecimal" formula="(banksAccounts + customers + stocks + infrastructures) / (shortTermLiability + obligationBond)" ></property>
+    <property name="financeCoverage" type="java.math.BigDecimal" formula="((incomes - expenses) - otherExploitationExpenses) / financialExpenses" ></property>
+    
+    <property name="collectionPeriod" type="java.math.BigDecimal" formula="customers / (incomes / 365)" ></property>
+    <property name="payPeriod" type="java.math.BigDecimal" formula="shortTermLiability / (expenses / 365)" ></property>
+    <property name="turnoverAsset" type="java.math.BigDecimal" formula="incomes / (banksAccounts + customers + stocks + infrastructures)" ></property>
+    <property name="turnoverPermanentAsset" type="java.math.BigDecimal" formula="incomes / infrastructures" ></property>
+    <property name="turnoverFM" type="java.math.BigDecimal" formula="incomes / ((banksAccounts + customers + stocks) - shortTermLiability)" ></property>
+    
+    <property name="grossSpread" type="java.math.BigDecimal" formula="(incomes - expenses) / incomes" ></property>
+    <property name="baitSpread" type="java.math.BigDecimal" formula="((incomes - expenses) - otherExploitationExpenses) / incomes" ></property>
+    <property name="bdtSpread" type="java.math.BigDecimal" formula="((((incomes - expenses) - otherExploitationExpenses) - financialExpenses) - taxes) / incomes" ></property>
+    
+    <property name="baitROA" type="java.math.BigDecimal" formula="((incomes - expenses) - otherExploitationExpenses) / (banksAccounts + customers + stocks + infrastructures)" ></property>
+    <property name="baitdROA" type="java.math.BigDecimal" formula="((((incomes - expenses) - otherExploitationExpenses) - taxes ) + (0.50 * financialExpenses)) / (shortTermLiability + obligationBond + capital + reserves)" ></property>
+    <property name="ROE" type="java.math.BigDecimal" formula="((((incomes - expenses) - otherExploitationExpenses) - financialExpenses) - taxes) / (capital + reserves)" ></property>
+    <property name="leveraging" type="java.math.BigDecimal" formula="(banksAccounts + customers + stocks + infrastructures) / (capital + reserves)" ></property>
+    <property name="ROCE" type="java.math.BigDecimal" formula="((((incomes - expenses) - otherExploitationExpenses) - taxes ) + (0.50 * financialExpenses)) / (capital + reserves + obligationBond)" ></property>
+    
+    
+    <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!-- This file defines a JBoss data source for the application
+     - The name have to be like 'xxxx-ds.xml'.
+     - You should place this file in <JBOSS_HOME>/server/default/deploy
+	     - Look that 'default' is the Jboss configuration you are using.
+	     - Remember that you have to copy the MySQL driver to <JBOSS_HOME>/server/default/lib
+		     -->
+		     <datasources>
+			     <local-tx-datasource>
+				     <jndi-name>jdbc/TNTConcept</jndi-name>
+				     <connection-url>jdbc:mysql://localhost:3306/$DB</connection-url>
+				     <driver-class>com.mysql.jdbc.Driver</driver-class>
+				     <user-name>$DBUSER</user-name>
+				     <password>$DBPASSWD</password>
+			     </local-tx-datasource>
+		     </datasources>

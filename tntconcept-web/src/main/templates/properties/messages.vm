@@ -1,0 +1,88 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("messages.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+
+
+##
+## MACRO: field
+##
+#macro( field $field )
+  #if( $_util.isNull( $desc-props.getProperty("field.${field.name}.name") ) )
+    #set( $val = ${field.name} )
+  #else
+    #set( $val = $desc-props.getProperty("field.${field.name}.name") )
+  #end
+  ${elw}.${field.name}=${val}
+#end
+
+
+##
+## MACRO: enum_i18n
+##
+#macro( enum_i18n $field )
+  #if( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+    #set( $tp = $field.type.getParamArray(0).stringValue )
+    #set( $stp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+    #set( $clazz = $tools.getClass( $tp ) )
+    #foreach( $val in $clazz.enumConstants )
+      ${stp}.${val}=$!{desc-props.getProperty( "field.${field.name}.enum.${val}" )}
+    #end
+  #end  
+#end
+
+
+##
+## PROPERTIES FILE
+##
+
+## Field names
+#field( $class.id )
+#foreach( $field in $class.propertyArray )
+  #field( $field )
+#end
+#foreach( $field in $class.manyToOneArray )
+  #field( $field )
+#end
+#foreach( $field in $class.oneToOneArray )
+  #field( $field )
+#end
+#foreach( $field in $class.setArray )
+  #field( $field )
+#end
+
+## Support i18n for enumerated values
+#foreach( $field in $class.propertyArray )
+  #enum_i18n( $field )
+#end
+
+## Menu
+menu.${elw}s=$desc-props.getProperty("entityName")
+
+## Locations
+${elw}s.location=$desc-props.getProperty("locationName") - $desc-props.getProperty("entityName")
+${elw}s.title=$desc-props.getProperty("entityName")
+edit${entity}.location=$desc-props.getProperty("locationName") - Editar $desc-props.getProperty("entityName") 
+edit${entity}.title=Editar $desc-props.getProperty("entityName")
+search${entity}.location=$desc-props.getProperty("locationName") - Buscar $desc-props.getProperty("entityName")
+search${entity}.title=Buscar $desc-props.getProperty("entityName")
+detail${entity}.location=$desc-props.getProperty("locationName") - Detallar $desc-props.getProperty("entityName") 
+detail${entity}.title=Detallar $desc-props.getProperty("entityName")

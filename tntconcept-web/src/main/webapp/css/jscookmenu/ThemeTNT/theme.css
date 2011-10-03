@@ -1,0 +1,305 @@
+/**
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/* ThemeTNTMenu Style Sheet */
+
+.ThemeTNTMenu,.ThemeTNTSubMenuTable
+{
+	font-family:	verdana, arial, sans-serif;
+	font-size:	13px;
+
+	padding:	0;
+
+	white-space:	nowrap;
+	cursor:		default;
+}
+
+.ThemeTNTSubMenu
+{
+	position:	absolute;
+	visibility:	hidden;
+	overflow:	hidden;
+
+	padding:	0px;
+	border:		0px;
+
+	background-color:	transparent;
+}
+
+.ThemeTNTSubMenuShadow
+{
+	z-index:	-1;
+	position:	absolute;
+	top:		9px;
+	left:		9px;
+	width:		100%;
+	height:		300em;
+	background-color:	black;
+	opacity:	0.15;
+	border:		0;
+	margin:		0;
+}
+
+.ThemeTNTSubMenuTable
+{
+	border:		1px solid #ADAA9C;
+	background-color:	white;
+	padding:	1px;
+	margin:		0px 2px 2px 0px;
+}
+
+.ThemeTNTMainItem,.ThemeTNTMainItemHover,.ThemeTNTMainItemActive,
+.ThemeTNTMenuItem,.ThemeTNTMenuItemHover,.ThemeTNTMenuItemActive
+{
+	border:		0;
+	cursor:		default;
+	white-space:	nowrap;
+}
+
+/* common background color to both horizontal and vertical menus */
+
+.ThemeTNTMainItem
+{
+	background-color:	#EFEBDE;
+
+}
+
+.ThemeTNTMainItemHover,.ThemeTNTMainItemActive
+{
+	background-color:	#C6D3EF;
+}
+
+/* horizontal main menu */
+
+.ThemeTNTMainItem
+{
+	padding:	1px;
+	border:		0;
+}
+
+td.ThemeTNTMainItemHover,td.ThemeTNTMainItemActive
+{
+	padding:	0px;
+	border:		1px solid #3169C6;
+
+}
+
+.ThemeTNTMainFolderLeft,.ThemeTNTMainItemLeft,
+.ThemeTNTMainFolderText,.ThemeTNTMainItemText,
+.ThemeTNTMainFolderRight,.ThemeTNTMainItemRight
+{
+	background-color:	inherit;
+	white-space:	nowrap;
+}
+
+/* vertical main menu sub components */
+
+td.ThemeTNTMainFolderLeft,
+td.ThemeTNTMainItemLeft
+{
+	padding:	3px 2px 3px 1px;
+
+	border:		0;
+	background-color:	inherit;
+	white-space:	nowrap;
+}
+
+td.ThemeTNTMainFolderText,
+td.ThemeTNTMainItemText
+{
+	padding:	3px 5px 3px 5px;
+
+	border:		0;
+	background-color:	inherit;
+	white-space:	nowrap;
+}
+
+td.ThemeTNTMainItemRight,
+td.ThemeTNTMainFolderRight
+{
+	padding:	3px 1px 3px 0px;
+
+	border:		0;
+	background-color:	inherit;
+	white-space:	nowrap;
+}
+
+
+tr.ThemeTNTMainItemHover td.ThemeTNTMainFolderLeft,
+tr.ThemeTNTMainItemActive td.ThemeTNTMainFolderLeft,
+tr.ThemeTNTMainItemHover td.ThemeTNTMainItemLeft,
+tr.ThemeTNTMainItemActive td.ThemeTNTMainItemLeft
+{
+	padding:	2px 2px 2px 0px;
+
+	border-width:	1px 0px 1px 1px;
+	border-style:	solid;
+	border-color:	#3169C6;
+}
+
+tr.ThemeTNTMainItemHover td.ThemeTNTMainFolderText,
+tr.ThemeTNTMainItemActive td.ThemeTNTMainFolderText,
+tr.ThemeTNTMainItemHover td.ThemeTNTMainItemText,
+tr.ThemeTNTMainItemActive td.ThemeTNTMainItemText 
+{
+	padding:	2px 5px 2px 5px;
+
+	border-width:	1px 0px 1px 0px;
+	border-style:	solid;
+	border-color:	#3169C6;
+}
+
+tr.ThemeTNTMainItemHover td.ThemeTNTMainFolderRight,
+tr.ThemeTNTMainItemActive td.ThemeTNTMainFolderRight,
+tr.ThemeTNTMainItemHover td.ThemeTNTMainItemRight,
+tr.ThemeTNTMainItemActive td.ThemeTNTMainItemRight
+{
+	padding:	2px 0px 2px 0px;
+
+	border-width:	1px 1px 1px 0px;
+	border-style:	solid;
+	border-color:	#3169C6;
+}
+
+/* sub menu sub components */
+
+.ThemeTNTMenuItem
+{
+	background-color:	white;
+}
+
+.ThemeTNTMenuItemHover,.ThemeTNTMenuItemActive
+{
+	background-color:	#C6D3EF;
+}
+
+.ThemeTNTMenuFolderLeft,
+.ThemeTNTMenuItemLeft
+{
+	padding:	3px 3px 3px 2px;
+	border:		0;
+
+	white-space:	nowrap;
+
+	background-color:	#EFEFDE;
+}
+
+.ThemeTNTMenuFolderText,
+.ThemeTNTMenuItemText
+{
+	padding:	3px 5px 3px 5px;
+	border:		0;
+
+	white-space:	nowrap;
+}
+
+.ThemeTNTMenuFolderRight,
+.ThemeTNTMenuItemRight
+{
+	padding:	3px 1px 3px 0px;
+	border:		0;
+
+	white-space:	nowrap;
+}
+
+.ThemeTNTMenuItemHover .ThemeTNTMenuFolderLeft,
+.ThemeTNTMenuItemActive .ThemeTNTMenuFolderLeft,
+.ThemeTNTMenuItemHover .ThemeTNTMenuItemLeft,
+.ThemeTNTMenuItemActive .ThemeTNTMenuItemLeft
+{
+	padding:	2px 3px 2px 1px;
+
+	background-color:	#C6D3EF;
+	background: url(arrow.gif);
+				 background-repeat: no-repeat;
+				background-position: center; 
+
+
+	border-width:	1px 0px 1px 1px;
+	border-style:	solid;
+	border-color:	#3169C6;
+}
+
+.ThemeTNTMenuItemHover .ThemeTNTMenuFolderText,
+.ThemeTNTMenuItemActive .ThemeTNTMenuFolderText,
+.ThemeTNTMenuItemHover .ThemeTNTMenuItemText,
+.ThemeTNTMenuItemActive .ThemeTNTMenuItemText
+{
+	padding:	2px 5px 2px 5px;
+
+	border-width:	1px 0px 1px 0px;
+	border-style:	solid;
+	border-color:	#3169C6;
+}
+
+.ThemeTNTMenuItemHover .ThemeTNTMenuFolderRight,
+.ThemeTNTMenuItemActive .ThemeTNTMenuFolderRight,
+.ThemeTNTMenuItemHover .ThemeTNTMenuItemRight,
+.ThemeTNTMenuItemActive .ThemeTNTMenuItemRight
+{
+	padding:	2px 0px 2px 0px;
+
+	border-width:	1px 1px 1px 0px;
+	border-style:	solid;
+	border-color:	#3169C6;
+}
+
+/* menu splits */
+
+td.ThemeTNTMenuSplit
+{
+	margin:		0px;
+	padding:	0px;
+	border:		0px;
+}
+
+div.ThemeTNTMenuSplit
+{
+	margin:		3px;
+	height:		1px;
+	overflow:	hidden;
+	background-color:	inherit;
+	border-top:	1px solid #C6C3BD;
+}
+
+/* image shadow animation */
+
+/*
+	seq1:	image for normal
+	seq2:	image for hover and active
+
+	To use, in the icon field, input the following:
+	<img class="seq1" src="normal.gif" /><img class="seq2" src="hover.gif" />
+*/
+
+.ThemeTNTMenuItem img.seq1
+{
+	display:	inline;
+}
+
+.ThemeTNTMenuItemHover seq2,
+.ThemeTNTMenuItemActive seq2
+{
+	display:	inline;
+}
+
+.ThemeTNTMenuItem .seq2,
+.ThemeTNTMenuItemHover .seq1,
+.ThemeTNTMenuItemActive .seq1
+{
+	display:	none;
+}

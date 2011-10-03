@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.Interaction" table="Interaction">
+    <id name="id" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    <property name="creationDate" type="java.util.Date" not-null="true"/>
+    
+    <many-to-one name="project" class="com.autentia.tnt.businessobject.Project"
+                column="projectId" not-null="true" />
+                
+    <many-to-one name="type" class="com.autentia.tnt.businessobject.InteractionType"
+                column="interactionTypeId" not-null="true" />
+                
+    <many-to-one name="user" class="com.autentia.tnt.businessobject.User"
+                column="userId" not-null="true" />
+                
+    <many-to-one name="offer" class="com.autentia.tnt.businessobject.Offer"
+              column="offerId"  /> 
+    
+    <property name="interest" not-null="true">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.InteractionInterest</param>
+      </type>
+    </property>
+    <property name="description" not-null="true" type="java.lang.String"/>
+    <property name="file" type="java.lang.String"/>
+    <property name="fileMime" type="java.lang.String"/>
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+  </class>
+</hibernate-mapping>

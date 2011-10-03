@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.User" table="User">
+    <id name="id" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    <property name="active" type="boolean"/>
+    <property name="login" type="java.lang.String"/>
+    <property name="password" type="java.lang.String"/>
+    <many-to-one name="role" class="com.autentia.tnt.businessobject.Role" column="roleId" not-null="true" />
+
+    <property name="name" type="java.lang.String"/>
+    <property name="startDate" type="java.util.Date"/>
+    <property name="nif" type="java.lang.String"/>
+    <property name="genre">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.UserGenre</param>
+      </type>
+    </property>
+    
+    <many-to-one name="category" class="com.autentia.tnt.businessobject.UserCategory" column="categoryId" not-null="true" />
+    <property name="socialSecurityNumber" type="java.lang.String"/>
+    <property name="workingInClient" type="boolean"/>
+
+    <property name="birthDate" type="java.util.Date"/>
+    <property name="married" type="boolean"/>
+    <property name="childrenNumber" type="int"/>
+    <property name="travelAvailability" type="java.lang.String"/>
+
+    <property name="academicQualification" type="java.lang.String"/>
+
+    <property name="email" type="java.lang.String"/>
+    <property name="phone" type="java.lang.String"/>
+    <property name="mobile" type="java.lang.String"/>
+    <property name="street" type="java.lang.String"/>
+    <property name="postalCode" type="java.lang.String"/>
+    <property name="city" type="java.lang.String"/>
+    <many-to-one name="province" class="com.autentia.tnt.businessobject.Province" column="provinceId" />
+
+    <property name="bank" type="java.lang.String"/>
+    <property name="account" type="java.lang.String"/>
+    <property name="salary" type="java.math.BigDecimal"/>
+    <property name="salaryExtras" type="java.math.BigDecimal"/>
+
+    <property name="drivenLicenseType" type="java.lang.String"/>
+    <property name="vehicleType" type="java.lang.String"/>
+    <property name="licensePlate" type="java.lang.String"/>
+    
+    <many-to-one name="documentCategory" class="com.autentia.tnt.businessobject.DocumentCategory" column="documentCategoryId" cascade="save-update" />
+	<property name="securityCard" type="java.lang.String"/>
+	<property name="healthInsurance" type="java.lang.String"/>
+	<property name="notes" type="java.lang.String"/>
+	
+	<property name="photo" type="java.lang.String"/>
+	<property name="endTestPeriodDate" type="java.util.Date"/>
+	<property name="endContractDate" type="java.util.Date"/>
+	<many-to-one name="department" class="com.autentia.tnt.businessobject.Department" column="departmentId" not-null="true"  />
+	<many-to-one name="contractType" class="com.autentia.tnt.businessobject.ContractType" column="contractTypeId"  />
+	<property name="dayDuration" type="int"/>
+	<property name="agreementYearDuration" type="java.lang.Integer"/>
+	
+	<many-to-one name="agreement" class="com.autentia.tnt.businessobject.WorkingAgreement" column="agreementId" not-null="true" />
+	
+	<property name="contractObservations" type="java.lang.String"/> 
+	<property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	
+	<property name="passwordExpireDate" type="java.util.Date"/>	
+	 
+  </class>
+</hibernate-mapping>

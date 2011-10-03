@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<Schema name="Informe">
+	<Cube name="Informe">
+		<Table name="Bill"/>
+		<Dimension name="Contacto" foreignKey="fk_bill_contactId">
+			<Hierarchy name="Contacto" hasAll="true" allMemberName="Todos" primaryKey="id">
+				<Table name="Contact"/>
+				<Level name="Contacto" table="Contact" column="name" uniqueMembers="false"/>
+			</Hierarchy>
+		</Dimension>
+		<Dimension name="Organizacion" foreignKey="fk_bill_providerId">
+			<Hierarchy name="Organizacion" hasAll="true" allMemberName="Todos" primaryKey="id">
+				<Table name="Organization"/>
+				<Level name="Organizacion" table="Organization" column="name" uniqueMembers="false"/>
+			</Hierarchy>
+		</Dimension>
+		<Measure name="Muestras" column="id" aggregator="count" formatString="#"/>
+	</Cube>
+</Schema>

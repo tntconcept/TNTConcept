@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>tntconcept-parent</artifactId>
+        <groupId>com.autentia.tnt</groupId>
+        <version>0.21.17-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.autentia.tnt</groupId>
+    <artifactId>tntconcept-test</artifactId>
+    <name>tntconcept-test</name>
+    
+<!--
+        === descomentar para lanzar cargo en la fase de test ===
+    <packaging>war</packaging>
+-->
+
+<!--
+    <build>
+
+        === descomentar para lanzar cargo en la fase de test ===
+
+        mirar las siguientes URL para configurar el datasource en un tomcat arrancado con cargo:
+        
+        http://cargo.codehaus.org/Starting+and+stopping+a+container
+        http://209.85.229.132/search?q=cache:u0KiW4gGtK4J:blogs.atlassian.com/developer/2007/03/from_manual_to_automatic.html+maven+cargo+datasource&cd=1&hl=en&ct=clnk&gl=es&client=firefox-a
+
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <wait>false</wait>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <container>
+                        <containerId>tomcat6x</containerId>
+                        <zipUrlInstaller>
+                            <url>http://www.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</url>
+                            <installDir>${installDir}</installDir>
+                        </zipUrlInstaller>
+                        <timeout>120000</timeout>
+                        <output>${project.build.directory}/output.log</output>
+                        <log>${project.build.directory}/cargo-log.log</log>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>hsqldb</groupId>
+                                <artifactId>hsqldb</artifactId>
+                            </dependency>
+                        </dependencies>
+                    </container>
+
+                    <properties>
+                      <cargo.datasource.datasource.TNTConcept>
+                        cargo.datasource.driver=org.hsqldb.jdbcDriver|
+                        cargo.datasource.url=jdbc:hsqldb:mem:tnttest|
+                        cargo.datasource.jndi=java:comp/env/jdbc/TNTConcept|
+                        cargo.datasource.username=sa|
+                        cargo.datasource.password=
+                      </cargo.datasource.datasource.TNTConcept>
+                      <cargo.resource.resource.TNTConceptConfigDir>
+                        cargo.resource.name=resource/TNTConceptConfigDir|
+                        cargo.resource.type=java.lang.String|
+                        cargo.resource.parameters=${project.build.directory}
+                      </cargo.resource.resource.TNTConceptConfigDir>
+                    </properties>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+-->
+    <dependencies>
+
+<!--
+        === descomentar para lanzar cargo en la fase de test ===
+        <dependency>
+            <groupId>com.autentia.tnt</groupId>
+            <artifactId>tntconcept-web-tomcat</artifactId>
+            <version>0.18-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+-->
+
+        <dependency>
+            <groupId>com.autentia.tnt</groupId>
+            <artifactId>tntconcept-core</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.10</version>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.6</version>
+		    <scope>test</scope>
+		</dependency>         
+    </dependencies>
+</project>

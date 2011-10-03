@@ -1,0 +1,129 @@
+~~
+~~ TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+~~ Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+~~
+~~ This program is free software: you can redistribute it and/or modify
+~~ it under the terms of the GNU General Public License as published by
+~~ the Free Software Foundation, either version 3 of the License.
+~~
+~~ This program is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+~~ GNU General Public License for more details.
+~~
+~~ You should have received a copy of the GNU General Public License
+~~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Informes
+~~~~~~~~
+
+
+* 1. Introducción
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	Una importante y novedosa  funcionalidad de la aplicación << TNTConcept >> es la posibilidad que el propio usuario de la aplicación pueda 
+	generar sus propios informes y poder integrarlos en la aplicación.
+	
+	A pesar de la multitud de informes ya existentes en la aplicación (en continua evolución y crecimiento) es probable que el usuario 
+	necesite ciertos informes puntuales o personales. Estos informes (del tipo <jrxml>) pueden ser generados utilizando herramientas para ello, 
+	como por ejemplo << iReport >> (recomendado) , CrystalReport, etc. 
+
+	
+* 2. ¿Cómo integrarlos?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	Una vez se tenga el informe construido se puede integrar en la aplicación automáticamente. 
+
+	¿Cómo?. Primero debe ir a su fichero 
+	<< autentia.properties >> que está en su directorio de configuración y descomentar la línea de <Personal report path> según sea su sistema 
+	operativo y elegir una ruta donde se deberán almacenar sus informes. Por ejemplo:
+	
+	Para Windows:
+
++--
+# Personal report path
+# Unix version    - pathReports=/var/lib/tntconcept/reports
+pathReports=c:/tntconcept/reports/
++--
+
+	Para Unix:
+
++--
+# Personal report path
+pathReports=/var/lib/tntconcept/reports
+# Windows version - pathReports=c:/tntconcept/reports/
++--
+
+	Una vez hecho esto sólo tendrá que colocar sus informes personales en el directorio definido en <pathReports>, rearrancar su <Tomcat> y sus 
+	informes personales será integrados en la aplicación junto con los informes ya existentes. 
+	
+	Estos informes personales se podrán acceder dentro del apartado de informes, en la sección de <Personales>.
+	Para poder integrar perfectamente estos informe en la aplicación se deben seguir unas reglas de normalización para poder estandarizar la 
+	forma de construir los informes.
+
+	
+* 3. Normalización
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	Para la integración correcta de los informes personales dentro de la aplicación se deben seguir una serie de pasos y normas. Antes hay que 
+	explicar que los parámetros que se definan dentro del informe serán pedidos al usuario antes de lanzar dicho informe.
+	
+		[[1]] El nombre de los informes debe ser el mismo nombre que desee que aparezca dentro de la aplicación que identifique a dicho informe. 
+	Los espacios en blanco entre palabras deben ser sustituidos por puntos ( '.' ). Por ejemplo: el informe de nombre <Informe.de.facturas.emitidas.jrxml> 
+	en la aplicación se identificará como <Informe de facturas emitidas>
+
+		[[2]] Si se requiere el uso de parámetros recuerde que el orden de creación en el <iReport> (ordenación dentro del jrxml) importa y que los parámetros 
+	que primero se definan aparecerán los primeros dentro de la página de lanzamiento del informe.
+
+		[[3]] Para la definición de parámetros se deben seguir una serie de reglas. Los parámetros del informe se definen con unos de valores: <Parameter Name,
+	 Parameter class Type, Default value expression y Parameter description>.
+
+			* <El Parameter Name> será el nombre que aparecerá dentro de la aplicación como nombre del parámetro a pedir al usuario.
+		
+			* <Parameter class type> identificará en tipo de parámetro, cadena de texto, fecha, entero, etc.
+	
+			* <Parameter default expression> es el valor por defecto que tomará el parámetro, veremos más adelante que esto nos servirá para determinados tipos de parámetros.
+	
+			* Parameter description identificará el tipo de parámetro. Puede haber 5 tipos de parámetros: <description, Date, Hidden, Subreport y “Tabla”>. 
+	
+	Si el parámetro es del tipo <description> la aplicación sacará por pantalla el nombre del parámetro y su valor por defecto. Se puede usar este tipo 
+	de parámetro para dar  información sobre el informe o para proporcionar una descripción del informe a lanzar. Aquí se puede ver un ejemplo del
+	 tipo de parámetro <description>.	
+	 
+[images/parametro-description.png]
+
+	Si el parámetro es del tipo <Date> la aplicación sacará por pantalla el nombre del parámetro y un campo de texto donde con ayuda de un componente 
+	JSF se deberá elegir una fecha del calendario. Aquí se puede ver un ejemplo del tipo de parámetro Date.
+	
+[images/parametro-date.png]
+
+	Si el parámetro es del tipo <Hidden> la aplicación ocultará este parámetro al usuario y no podrá elegir ningún valor de dicho parámetro sino que 
+	cogerá su valor de defecto (<Default value expression>). Aquí se puede ver un ejemplo del tipo de parámetro Hidden.
+
+[images/parametro-hidden.png]
+
+	También podemos definir un tipo de parámetro especial. En estos parámetros se deberá poner en la descripción del parámetro (<Parameter description>)
+	la tabla de la base de datos relacionada con el parámetros. Se ve mejor con un ejemplo.
+
+[images/parametro-user.png]
+
+	Como vemos en este parámetro de ejemplo, en el campo <Parameter description> hemos escrito User. Esto hará que la aplicación saque una lista de con
+	todos los elementos de la tabla User de la base de datos, el usuario deberá elegir un elemento de esa lista y el id (de ahi el tipo de parámetro 
+	<java.lang.Integer>) de dicho elemento es el que se guardará en dicho parámetro.
+	 
+	Y por último tenemos el tipo de parámetro <Subreport>. Antes de hablar de este tipo de parámetro hay que decir que si un informe contiene 
+	subinformes, estos debes colocarse en una carpeta llamada subreports al mismo nivel que el informe “padre”. 
+
+[images/pantallazo-subreports.png]
+
+	Para que un informe con subinformes se carge correctamente desde la aplicación se deben seguir unas reglas a la hora de definir el parámetro.
+	Debemos darle un nombre que empieze por <SUBREPORT>, declarar el tipo de parámetro como <java.lang.String> y en como valor por defecto debemos poner 
+	el nombre del subinforme << SIN EXTENSIÓN >>.
+	 
+[images/parametro-subreport.png]
+	
+	Este parámetro lo vamos a tener que usar para definir el nombre (<Subreport Expression>) del subinforme a cargar.
+
+[images/subreport-configuracion.png]
+

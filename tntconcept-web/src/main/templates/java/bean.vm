@@ -1,0 +1,649 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("bean.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $abcField = $tools.capitalizeFirst( $desc-props.getProperty( "abcField" ) ) )
+
+
+##
+## MACRO: field
+##
+#macro( field $field )
+
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  #set( $get = "get" )
+  #set( $rendered = "false" )
+  
+  #if( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+    #set( $tp = $tools.getClassName( $field.class1 ) )
+  
+  #elseif( $field.class.simpleName.startsWith("Set") )
+    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+      #set( $tp = "Set<${tools.getClassName( $field.oneToMany.class1 )}>" )
+    #else
+      #set( $tp = "${tools.getClassName( $field.manyToMany.class1 )}" )
+    #set( $rendered = "true" )
+
+  public List<$tp> get${fld}() {
+    List<$tp> ${field.name} = new ArrayList<$tp>();
+    if ( ${elw}.get${fld}()!=null && !${elw}.get${fld}().isEmpty() ) {
+    	${field.name}.addAll(${elw}.get${fld}());
+    }
+    return ${field.name};
+  }
+  
+  public void set${fld}( List<$tp> ${field.name} ) {
+    Set<$tp> result = new HashSet<$tp>();
+	if ( ${field.name}!=null && !${field.name}.isEmpty() ) {
+		result.addAll(${field.name});
+    }
+    ${elw}.set${fld}( result );
+  }
+
+    #end
+
+  #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+    #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+
+  #elseif( $field.type2 == "boolean" )
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    #set( $get = "is" )
+  
+  #else
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+  #end
+
+  #if( $rendered == "false" )
+  public $tp ${get}${fld}() {
+    return ${elw}.${get}${fld}();
+  }
+  public void set${fld}( $tp $field.name ) {
+    ${elw}.set${fld}( $field.name );
+  }
+  #end
+#end
+
+
+##
+## MACRO: ref_lister
+##
+#macro( ref_lister $field )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  #set( $df = $tools.capitalizeFirst( ${desc-props.getProperty("field.${field.name}.displayField")} ) )
+
+  #if( $field.class.simpleName.startsWith("Set") )
+    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+      #set( $tp = $tools.getClassName( $field.oneToMany.class1 ) )
+    #else
+      #set( $tp = $tools.getClassName( $field.manyToMany.class1 ) )
+      	
+      /**
+       * Get the list of all ${field.name} selected
+       * @return the list of all ${field.name} selected
+       */
+      public List<SelectItem> get${fld}Selected(){
+	  ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+	  List<${tp}> refs = this.get${fld}();
+	  for( ${tp} ref : refs ){
+	      ret.add( new SelectItem( ref, ref.get${df}() ) );
+	  }
+	  return ret;
+      }
+    #end
+  #else
+    #set( $tp = $tools.getClassName( $field.class1 ) )
+  #end
+
+  /**
+   * Get the list of all ${field.name}s
+   * @return the list of all ${field.name}s
+   */
+  public List<SelectItem> get${fld}s(){  
+    List<${tp}> refs = ${tp}Manager.getDefault().getAllEntities( null, new SortCriteria("${desc-props.getProperty("field.${field.name}.sortingField")}") );
+	  
+    ArrayList<SelectItem> ret = new ArrayList<SelectItem>();  
+    for( ${tp} ref : refs ){
+      ret.add( new SelectItem( ref, ref.get${df}() ) );
+    }
+    return ret;	
+  }
+#end
+
+##
+## MACRO: enum_lister
+##
+#macro( enum_lister $field )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+
+  public String get${fld}Formatted(){
+    if(this.get${fld}()!=null) {
+      return FacesUtils.formatMessage("${tp}."+this.get${fld}().name());
+    } else {
+      return "";
+    }
+  }
+
+  /**
+   * Get the list of all ${fld} values
+   * @return the list of all ${fld} values
+   */
+  public List<SelectItem> get${fld}s(){
+    ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+    ${tp}[] vals = ${tp}.values();
+    for( ${tp} val : vals ){
+      ret.add( new SelectItem( val, FacesUtils.formatMessage("${tp}."+val.name()) ) );
+    }
+    return ret;
+  }
+#end
+
+
+##
+## MACRO: upload_field
+##
+#macro( upload_field $field )
+  #if( $desc-props.getProperty("field.${field.name}.isFile") ) 
+    #set( $fld = $tools.capitalizeFirst($field.name) )
+  
+    /** Temporary ${field.name} field */
+    private String old${fld};
+
+    /** Uploaded ${field.name} object */
+    private UploadedFile upload${fld};
+
+  #end
+#end
+
+
+##
+## MACRO: upload_setget
+##
+#macro( upload_setget $field )
+  #if( $desc-props.getProperty("field.${field.name}.isFile") ) 
+    #set( $fld = $tools.capitalizeFirst($field.name) )
+    #set( $mf = $tools.capitalizeFirst( ${desc-props.getProperty("field.${field.name}.mimeField")} ) )
+  
+    public void setUpload${fld}( UploadedFile upload${fld} ){
+      if( upload${fld}!=null ){
+        old${fld} = ${elw}.get${fld}();
+        this.upload${fld} = upload${fld};
+        set${fld}( FileUtil.getFileName(upload${fld}.getName()) );
+    #if( ${mf} ) 
+        set${mf}( upload${fld}.getContentType() );
+    #end
+      }
+    }
+    public UploadedFile getUpload${fld}(){
+      return upload${fld};
+    }
+
+  #end
+#end
+
+
+##
+## MACRO: upload_save
+##
+#macro( upload_save $field )
+  #if( $desc-props.getProperty("field.${field.name}.isFile") ) 
+    #set( $fld = $tools.capitalizeFirst($field.name) )
+    #set( $idf = $tools.capitalizeFirst( ${class.id.name} ) )
+
+    // Handle uploads for ${field.name} field
+    if( upload${fld}!=null ){
+      try {
+        uploader.replace( Integer.toString(${elw}.get${idf}()), old${fld}, upload${fld} );
+      } catch (IOException e) {
+        log.error("save - exception uploading field ${field.name}",e);
+        FacesUtils.addErrorMessage("${field.name}","error.fileTransfer",e.getMessage());
+      }
+    }
+
+  #end
+#end
+
+
+##
+## MACRO: search_setget
+##
+#macro( search_setget $field )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.type2.endsWith("Date") || 
+	( !$_util.isNull( $field.type2 ) &&
+	  $tools.isNumberClass( $field.type2 ) && 
+	  $desc-props.getProperty("field.${field.name}.useRangeSearch") 
+	) 
+     ) 
+  
+    ## If field is Date, Number or Range, generate methods for start and end fields of range
+    
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    #set( $tp = $tools.primitiveToClass( $tp ) )
+  
+    public $tp getSearchStart${fld}(){
+        return search.getStart${fld}();
+    }
+    public void setSearchStart${fld}( $tp val ){
+        if( val!=null ){
+          search.setStart${fld}( val );
+        } else {
+          search.unsetStart${fld}();
+        }
+    }
+    public boolean isSearchStart${fld}Valid(){
+        return search.isStart${fld}Set();
+    }
+    public void setSearchStart${fld}Valid( boolean val ){
+        if( val ){
+          search.setStart${fld}( search.getStart${fld}() );
+        } else {
+          search.unsetStart${fld}();
+        }
+    }
+    public $tp getSearchEnd${fld}(){
+        return search.getEnd${fld}();
+    }
+    public void setSearchEnd${fld}( $tp val ){
+        if( val!=null ){
+          search.setEnd${fld}( val );
+        } else {
+          search.unsetEnd${fld}();
+        }
+    }
+    public boolean isSearchEnd${fld}Valid(){
+        return search.isEnd${fld}Set();
+    }
+    public void setSearchEnd${fld}Valid( boolean val ){
+        if( val ){
+          search.setEnd${fld}( search.getEnd${fld}() );
+        } else {
+          search.unsetEnd${fld}();
+        }
+    }
+
+  #else
+  
+    ## Not a range search: generate simple field
+
+    #if(  $field.class.simpleName.startsWith("Set") )
+      #if( !$_util.isNull( $field.oneToMany.class1 ) )
+        #set( $tp = "List<$tools.getClassName( $field.oneToMany.class1 )>" )
+      #else
+        #set( $tp = "List<$tools.getClassName( $field.manyToMany.class1 )>" )
+      #end
+
+    #elseif( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+      #set( $tp = $tools.getClassName( $field.class1 ) )
+    
+    #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+      #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+    
+    #else
+      #set( $tp = $tools.getClassName( $field.type2 ) )
+      #set( $tp = $tools.primitiveToClass( $tp ) )
+
+    #end
+
+    public $tp getSearch${fld}(){
+        return search.get${fld}();
+    }
+    public void setSearch${fld}( $tp val ){
+        if( search.is${fld}Set() ) {
+          search.set${fld}( val );
+        }
+    }
+    public boolean isSearch${fld}Valid(){
+        return search.is${fld}Set();
+    }
+    public void setSearch${fld}Valid( boolean val ){
+        if( val ){
+          search.set${fld}( search.get${fld}() );
+        } else {
+          search.unset${fld}();
+        }
+    }
+  #end
+#end
+
+
+##
+## MACRO: onetomany_methods
+##
+#macro( onetomany_methods $field )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+		#set( $tp = ${tools.getClassName( $field.oneToMany.class1 )} )
+    #else
+		#set( $tp = ${tools.getClassName( $field.manyToMany.class1 )} )
+    #end
+  
+  /**
+   * Create a new empty instance of the one-to-many field
+   * @return forward to the same page
+   */
+  public String create${fld}()
+  {
+    ${tp} item = new ${tp}();
+    $!desc-props.getProperty( "field.${field.name}.initialization" )
+    if (${elw}.get${fld}() == null)
+    {
+        ${elw}.set${fld}( new HashSet() );
+    }
+    ${elw}.get${fld}().add( item );
+    return null;
+  }
+  
+  /**
+   * Create a new empty instance of the one-to-many field
+   * @return forward to the same page
+   */
+  public String edit${fld}()
+  {
+    ${tp} item = new ${tp}();
+    $!desc-props.getProperty( "field.${field.name}.initialization" )
+    if (${elw}.get${fld}() == null)
+    {
+        ${elw}.set${fld}( new HashSet() );
+    }
+    ${elw}.get${fld}().add( item );
+    return null;
+  }
+
+  /**
+   * Delete selected instance of the one-to-many field
+   * @return forward to the same page
+   */
+  public String delete${fld}()
+  {
+    UIData table = (UIData)FacesUtils.getComponent("${elw}:${field.name}");
+    ${elw}.get${fld}().remove( table.getRowData() );
+    return null;
+  }
+#end
+
+
+##
+## JAVA CLASS
+##
+  /** Logger */
+  private static final Log log = LogFactory.getLog(${entity}Bean.class);
+
+ /** Active search object */
+  private ${entity}Search search = new ${entity}Search();
+
+  /** Manager */
+  private static ${entity}Manager manager = ${entity}Manager.getDefault();
+  
+  /** Upload service */
+  private static final Uploader uploader = UploaderFactory.getInstance("${elw}");
+    
+  #foreach( $field in $class.propertyArray )
+    #upload_field( $field )
+  #end
+
+  /** Active ${entity} object */
+  private ${entity} ${elw};
+  
+  /** Default sort column */
+  private String sortColumn = "${desc-props.getProperty("sortingField")}";
+    
+  /** Default sort order */
+  private boolean sortAscending = ${desc-props.getProperty("sortAscending")};
+
+  #if( !$_util.isNull( $abcField ) )
+    /** Quick search letter for ABC pager control */
+    private Character letter;
+  #end
+
+  /**
+   * List ${elw}s. Order depends on Faces parameter sort.
+   * @return the list of all ${elw}s sorted by requested criterion
+   */
+  public List<${entity}> getAll(){
+    return manager.getAllEntities(search, new SortCriteria(sortColumn, sortAscending) );      
+  }
+
+  // Getters to list possible values of related entities
+  #foreach( $field in $class.manyToOneArray )
+    #ref_lister( $field )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #ref_lister( $field )
+  #end
+  #foreach( $field in $class.setArray )
+    #ref_lister( $field )
+  #end
+  
+  // Getters to list possible values of enum fields
+  #foreach( $field in $class.propertyArray )
+    #if( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+      #enum_lister( $field )
+    #end
+  #end
+
+
+  // Methods to create/remove instances of one-to-many entities (slave entities)
+  #foreach( $field in $class.setArray )
+    #onetomany_methods( $field )
+  #end
+
+  /**
+   * Whether or not create button is available for user
+   * @return true if user can create objects of type ${entity}
+   */
+  public boolean isCreateAvailable()
+  {
+    return SpringUtils.isRolePermissionGranted(Permission.Entity_Create(${entity}.class));
+  }
+
+  /**
+   * Whether or not edit button is available for user
+   * @return true if user can edit current object
+   */
+  public boolean isEditAvailable()
+  {
+    return SpringUtils.isAclPermissionGranted(${elw},BasePermission.WRITE);
+  }
+
+  /**
+   * Whether or not delete button is available for user
+   * @return true if user can delete current object
+   */
+  public boolean isDeleteAvailable()
+  {
+    return (${elw}.getId()!=null) &&
+	   SpringUtils.isAclPermissionGranted(${elw},BasePermission.DELETE);
+  }
+
+  /**
+   * Go to create page
+   * @return forward to CREATE page
+   */
+  public String create(){
+    ${elw} = new ${entity}();
+    ${desc-props.getProperty("initialization")}   
+    return NavigationResults.CREATE;
+  }
+
+  /**
+   * Go to detail page
+   * @return forward to DETAIL page
+   */
+  public String detail(){
+    Integer id = Integer.parseInt( FacesUtils.getRequestParameter("${class.id.name}") );
+    ${elw} = manager.getEntityById(id);
+
+    return SpringUtils.isAclPermissionGranted( ${elw}, BasePermission.WRITE )
+	    ? NavigationResults.EDIT
+	    : NavigationResults.DETAIL;
+  }
+
+  /**
+   * Save bean and stay on it
+   * @return forward to list page
+   */
+  public String save(){
+  
+      doBeforeSave();
+  
+      if( ${elw}.get${tools.capitalizeFirst($class.id.name)}()==null ){
+        manager.insertEntity(${elw});
+      } else {
+        manager.updateEntity(${elw});
+      }
+      
+
+      #foreach( $field in $class.propertyArray )
+        #upload_save( $field )
+      #end
+
+      // Calls an after save action
+      String result = doAfterSave(NavigationResults.LIST);
+
+      // Unselect object
+      ${elw} = null;
+
+      return result;
+  }
+    
+  /**
+   * Delete bean and go back to beans list
+   * @return forward to LIST page
+   */
+  public String delete(){
+    manager.deleteEntity(${elw});
+    ${elw} = null;
+    return NavigationResults.LIST;
+  }
+
+  /**
+   * Go back to beans list
+   * @return forward to LIST page
+   */
+  public String list(){
+    return NavigationResults.LIST;
+  }
+
+  /**
+   * Reset search criteria
+   * @return forward to LIST page
+   */
+  public String reset(){
+  	search.reset();
+	return list();    
+  }
+
+  /**
+   * Go to search page
+   * @return forward to SEARCH page
+   */
+  public String search(){
+    return NavigationResults.SEARCH;
+  }
+
+  /** 
+   * Check if we have an active object.
+   * @return true is an object is selected
+   */
+  public boolean is${entity}Selected(){
+    return ${elw}!=null;
+  }
+
+  // Getters and setters to manipulate sorting
+  public boolean isSortAscending() {
+    return sortAscending;
+  }
+  public void setSortAscending(boolean sortAscending) {
+    this.sortAscending = sortAscending;
+  }
+  public String getSortColumn() {
+    return sortColumn;
+  }
+  public void setSortColumn(String sortColumn) {
+    this.sortColumn = sortColumn;
+  }
+
+  // Getters and setters to handle search
+  public ${entity}Search getSearch(){
+    return search;
+  }
+  #foreach( $field in $class.propertyArray )
+    #search_setget( $field )
+  #end
+  #foreach( $field in $class.manyToOneArray )
+    #search_setget( $field )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #search_setget( $field )
+  #end
+  #foreach( $field in $class.setArray )
+    #search_setget( $field )
+  #end
+
+  #if( !$_util.isNull( $abcField ) )
+    /** Handle an ABC pager letter click: filter objects by specified starting letter */
+    public void letterClicked()
+    {
+      if( letter!=null ){
+      	UIComponent comp = FacesUtils.getComponent("${elw}s:list");
+        HtmlDataTable tabla = (HtmlDataTable) comp;
+        tabla.setFirst(0);
+      	
+        search.set${abcField}( letter+"%" );
+      } else {
+        search.unset${abcField}();
+      }
+    }
+
+    public Character getLetter()
+    {
+      return letter;
+    }
+
+    public void setLetter( Character letter )
+    {
+      this.letter = letter;
+    }
+  #end
+
+  // Getters and setters to handle uploads
+  #foreach( $field in $class.propertyArray )
+    #upload_setget( $field )
+  #end
+
+  // Getters and setters to manipulate active ${entity} object
+  public $class.id.type get$tools.capitalizeFirst($class.id.name)() {
+      return ${elw}.get$tools.capitalizeFirst($class.id.name)();
+  }
+  #foreach( $field in $class.propertyArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.manyToOneArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.setArray )
+    #field( $field )
+  #end

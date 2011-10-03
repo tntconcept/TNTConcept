@@ -1,0 +1,2915 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+"http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+  
+  <navigation-rule>
+    <from-view-id>/login.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>controlPanel</from-outcome>
+      <to-view-id>/pages/control_panel.jsp</to-view-id>
+    </navigation-case>  
+    <navigation-case>
+      <from-outcome>notAuthorized</from-outcome>
+      <to-view-id>/notAuthorized.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <navigation-case>
+      <from-outcome>changepassword_ok</from-outcome>
+      <to-view-id>/pages/passwordExpiredOk.jsp</to-view-id>
+    </navigation-case>  
+  </navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/passwordExpiredOk.jsp</from-view-id>	
+		<navigation-case>
+			<from-outcome>ok</from-outcome>
+			<to-view-id>/pages/control_panel.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule> 
+    
+    
+	<navigation-rule>
+    <from-view-id>/pages/activity/availabilitys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>insertOccupation</from-outcome>
+      <to-view-id>/pages/activity/editOccupation.jsp</to-view-id>
+    </navigation-case>
+    
+  </navigation-rule>
+
+
+  <navigation-rule>
+    <!-- from any page -->
+    <!-- <from-view-id>/pages/control_menu.jsp</from-view-id> -->
+       
+     <navigation-case>
+      <from-outcome>workingAgreements</from-outcome>
+      <to-view-id>/pages/admin/workingAgreements.jsp</to-view-id>
+    </navigation-case>
+     
+    <navigation-case>
+      <from-outcome>availabilitys</from-outcome>
+      <to-view-id>/pages/activity/availabilitys.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>occupations</from-outcome>
+      <to-view-id>/pages/activity/occupations.jsp</to-view-id>
+    </navigation-case>
+    
+	<!-- Section: file -->
+    <navigation-case>
+      <from-outcome>exit</from-outcome>
+      <to-view-id>/root.jsp</to-view-id>
+    </navigation-case>
+    
+    <!-- Section: admin -->
+    <navigation-case>
+      <from-outcome>users</from-outcome>
+      <to-view-id>/pages/admin/users.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>userCategorys</from-outcome>
+      <to-view-id>/pages/admin/userCategorys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>inventarys</from-outcome>
+      <to-view-id>/pages/admin/inventarys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>projects</from-outcome>
+      <to-view-id>/pages/admin/projects.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>ideas</from-outcome>
+      <to-view-id>/pages/admin/ideas.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>changePassword</from-outcome>
+      <to-view-id>/pages/admin/changePassword.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>departments</from-outcome>
+      <to-view-id>/pages/admin/departments.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>settings</from-outcome>
+      <to-view-id>/pages/admin/allSettings.jsp</to-view-id>
+    </navigation-case>
+    
+    <!-- Section: billing -->
+    <navigation-case>
+      <from-outcome>bills</from-outcome>
+      <to-view-id>/pages/billing/bills.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>creditTitles</from-outcome>
+      <to-view-id>/pages/billing/creditTitles.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>accounts</from-outcome>
+      <to-view-id>/pages/account/accounts.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>accountEntryTypes</from-outcome>
+      <to-view-id>/pages/account/accountEntryTypes.jsp</to-view-id>
+    </navigation-case>
+     <navigation-case>
+      <from-outcome>accountEntrys</from-outcome>
+      <to-view-id>/pages/account/accountEntrys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>periodicalAccountEntrys</from-outcome>
+      <to-view-id>/pages/account/periodicalAccountEntrys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>nof</from-outcome>
+      <to-view-id>/pages/billing/nof.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>globalHoursReport</from-outcome>
+      <to-view-id>/pages/activity/globalHoursReport.jsp</to-view-id>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>jpivotTest</from-outcome>
+      <to-view-id>/pages/util/jpivotTest.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>financialRatios</from-outcome>
+      <to-view-id>/pages/billing/financialRatios.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>userHolidayState</from-outcome>
+      <to-view-id>/pages/holiday/userHolidaysState.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>myHolidays</from-outcome>
+      <to-view-id>/pages/holiday/myHolidays.jsp</to-view-id>
+    </navigation-case>
+    
+  </navigation-rule>
+  
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/editFinancialRatio.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>compareRatiosForm</from-outcome>
+      <to-view-id>/pages/billing/compareRatiosForm.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/detailFinancialRatio.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>compareRatiosForm</from-outcome>
+      <to-view-id>/pages/billing/compareRatiosForm.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/compareRatiosForm.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/billing/detailFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>compareRatios</from-outcome>
+      <to-view-id>/pages/billing/compareRatios.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/compareRatios.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>compareRatiosForm</from-outcome>
+      <to-view-id>/pages/billing/compareRatiosForm.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+  
+  
+  <navigation-rule>
+    <from-view-id>/login.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>controlPanel</from-outcome>
+      <to-view-id>/pages/control_panel.jsp</to-view-id>
+    </navigation-case>  
+    <navigation-case>
+      <from-outcome>notAuthorized</from-outcome>
+      <to-view-id>/notAuthorized.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  	<!-- from any page -->
+    <!-- <from-view-id>/pages/control_menu.jsp</from-view-id> -->
+    
+    <!-- Section: admin -->
+    <navigation-case>
+      <from-outcome>accountEntrys</from-outcome>
+      <to-view-id>/pages/account/accountEntrys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>contractTypes</from-outcome>
+      <to-view-id>/pages/admin/contractTypes.jsp</to-view-id>
+    </navigation-case>
+    
+    <!-- Section: contacts -->
+    <navigation-case>
+      <from-outcome>organizations</from-outcome>
+      <to-view-id>/pages/contacts/organizations.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>contacts</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>interactions</from-outcome>
+      <to-view-id>/pages/contacts/interactions.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>interactionTypes</from-outcome>
+      <to-view-id>/pages/contacts/interactionTypes.jsp</to-view-id>
+    </navigation-case>    
+    <navigation-case>
+      <from-outcome>organizationTypes</from-outcome>
+      <to-view-id>/pages/contacts/organizationTypes.jsp</to-view-id>
+    </navigation-case>    
+    <navigation-case>
+      <from-outcome>organizationISOCategorys</from-outcome>
+      <to-view-id>/pages/contacts/organizationISOCategorys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>positions</from-outcome>
+      <to-view-id>/pages/contacts/positions.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>tags</from-outcome>
+      <to-view-id>/pages/tags/tags.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>offerRejectReasons</from-outcome>
+      <to-view-id>/pages/contacts/offerRejectReasons.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>offers</from-outcome>
+      <to-view-id>/pages/contacts/offers.jsp</to-view-id>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>collaborators</from-outcome>
+      <to-view-id>/pages/contacts/collaborators.jsp</to-view-id>
+    </navigation-case>
+
+    <navigation-case>
+      <from-outcome>commissionings</from-outcome>
+      <to-view-id>/pages/commissioning/commissionings.jsp</to-view-id>
+    </navigation-case>
+
+    <!-- Section: quality -->
+    <navigation-case>
+      <from-outcome>qualityDocuments</from-outcome>
+      <to-view-id>/pages/document/documentCategorys.jsp</to-view-id>
+    </navigation-case>
+    
+    <!-- Section: bulletin -->
+    <navigation-case>
+      <from-outcome>bulletinBoards</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoards.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>companyStates</from-outcome>
+      <to-view-id>/pages/bulletin/companyStates.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>bulletinBoardCategorys</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoardCategorys.jsp</to-view-id>
+    </navigation-case>
+
+    <!-- Section: activity -->
+    <navigation-case>
+      <from-outcome>activitys</from-outcome>
+      <to-view-id>/pages/activity/activitys.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>objectives</from-outcome>
+      <to-view-id>/pages/activity/objectives.jsp</to-view-id>
+    </navigation-case>
+    
+    <!-- Section: reports -->
+    <navigation-case>
+      <from-outcome>bitacoreReports</from-outcome>
+      <to-view-id>/pages/reports/bitacoreReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generalReports</from-outcome>
+      <to-view-id>/pages/reports/generalReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>interactionReports</from-outcome>
+      <to-view-id>/pages/reports/interactionReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>billReports</from-outcome>
+      <to-view-id>/pages/reports/billReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>organizationReports</from-outcome>
+      <to-view-id>/pages/reports/organizationReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>personalReports</from-outcome>
+      <to-view-id>/pages/reports/personalReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>projectReports</from-outcome>
+      <to-view-id>/pages/reports/projectReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>commissioningReports</from-outcome>
+      <to-view-id>/pages/reports/commissioningReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>offerReports</from-outcome>
+      <to-view-id>/pages/reports/offerReports.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>ownReports</from-outcome>
+      <to-view-id>/pages/reports/ownReports.jsp</to-view-id>
+    </navigation-case>    
+
+    <!-- Section: publish -->
+    <navigation-case>
+      <from-outcome>tutorials</from-outcome>
+      <to-view-id>/pages/publish/tutorials.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>publications</from-outcome>
+      <to-view-id>/pages/publish/publications.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>magazines</from-outcome>
+      <to-view-id>/pages/publish/magazines.jsp</to-view-id>
+    </navigation-case>
+    <!-- Section: holiday -->
+    <navigation-case>
+      <from-outcome>holidays</from-outcome>
+      <to-view-id>/pages/holiday/holidays.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>requestHolidays</from-outcome>
+      <to-view-id>/pages/holiday/requestHolidays.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>adminHolidays</from-outcome>
+      <to-view-id>/pages/holiday/adminHolidays.jsp</to-view-id>
+    </navigation-case>
+    <!-- Section: utils-->
+    <navigation-case>
+      <from-outcome>books</from-outcome>
+      <to-view-id>/pages/book/books.jsp</to-view-id>
+    </navigation-case>
+    
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/control_home.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoard.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/userInfo.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>logout</from-outcome>
+      <to-view-id>/public.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/changePassword.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>changepassword_ok</from-outcome>
+      <to-view-id>/pages/admin/changePasswordOk.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+
+  <navigation-rule>
+    <from-view-id>/pages/util/sendMail.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>result</from-outcome>
+      <to-view-id>/pages/util/sendMailResult.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/consoleLogin.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>ok</from-outcome>
+      <to-view-id>/single/console.jsp</to-view-id>
+      <redirect/>
+    </navigation-case>  
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/single/console.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>logout</from-outcome>
+      <to-view-id>/consoleLogin.jsp</to-view-id>
+      <redirect/>
+    </navigation-case>  
+  </navigation-rule>
+  
+   <navigation-rule>
+    <from-view-id>/pages/contacts/editOffer.jsp</from-view-id>
+  	<navigation-case>
+      <from-outcome>createOfferInteraction</from-outcome>
+      <to-view-id>/pages/contacts/editInteractionFromOffer.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editInteractionFromOffer.jsp</from-view-id>
+  	<navigation-case>
+      <from-outcome>saveInteraction</from-outcome>
+      <to-view-id>/pages/contacts/editOffer.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>listOfferInteraction</from-outcome>
+      <to-view-id>/pages/contacts/editOffer.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+  
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editOffer.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>copyFromOffer</from-outcome>
+      <to-view-id>/pages/admin/editProject.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+  
+  
+<!-- activity - generated by stajanov and manually customized -->
+  <navigation-rule>
+    <from-view-id>/pages/activity/activitys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/activity/editActivity.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/activity/editActivity.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/activity/editActivity.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/activity/activitys.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+   
+  
+<!-- activity - generated by stajanov and manually customized -->
+
+<!-- objective - generated by stajanov and manually customized -->
+  <navigation-rule>
+    <from-view-id>/pages/activity/objectives.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/activity/editObjective.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/activity/editObjective.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/activity/detailObjective.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>propagate</from-outcome>
+      <to-view-id>/pages/activity/propagateObjective.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/activity/propagateObjective.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/activity/objectives.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/activity/editObjective.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/activity/objectives.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+<!-- objective - generated by stajanov and manually customized -->
+
+<!-- publication - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/publish/publications.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/publish/editPublication.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/publish/editPublication.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/publish/detailPublication.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/publish/searchPublication.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/publish/editPublication.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/publications.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/publish/searchPublication.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/publications.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/publish/detailPublication.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/publish/editPublication.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/publications.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- publication - generated by stajanov (do not edit/delete) -->
+
+<!-- companyState - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/companyStates.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/bulletin/editCompanyState.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editCompanyState.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/bulletin/detailCompanyState.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/bulletin/searchCompanyState.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/editCompanyState.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/companyStates.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/searchCompanyState.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/companyStates.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/detailCompanyState.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editCompanyState.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/companyStates.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- companyState - generated by stajanov (do not edit/delete) -->
+
+<!-- idea - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/ideas.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editIdea.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editIdea.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailIdea.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchIdea.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editIdea.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/ideas.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchIdea.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/ideas.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailIdea.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editIdea.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/ideas.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- idea - generated by stajanov (do not edit/delete) -->
+
+<!-- inventary - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/inventarys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editInventary.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editInventary.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailInventary.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchInventary.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editInventary.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/inventarys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchInventary.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/inventarys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailInventary.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editInventary.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/inventarys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- inventary - generated by stajanov (do not edit/delete) -->
+  
+<!-- bulletinBoard - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/bulletinBoards.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoard.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoard.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/bulletin/detailBulletinBoard.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/bulletin/searchBulletinBoard.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/editBulletinBoard.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoards.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/searchBulletinBoard.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoards.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/detailBulletinBoard.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoard.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoards.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- bulletinBoard - generated by stajanov (do not edit/delete) -->
+  
+<!-- bill - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/billing/bills.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/billing/detailBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/billing/searchBill.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/editBill.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/bills.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/searchBill.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/bills.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/detailBill.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/bills.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- bill - generated by stajanov (do not edit/delete) -->
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editUser.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>goDocuments</from-outcome>
+      <to-view-id>/pages/document/documents.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>userPasswordReset</from-outcome>
+      <to-view-id>/pages/admin/userPasswordReset.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+<!-- user - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/users.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editUser.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editUser.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailUser.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchUser.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editUser.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/users.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchUser.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/users.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailUser.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editUser.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/users.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- user - generated by stajanov (do not edit/delete) -->
+
+<!-- bulletinBoardCategory - generated by stajanov (do not edit/delete)
+-->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/bulletinBoardCategorys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoardCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoardCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/bulletin/detailBulletinBoardCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/bulletin/searchBulletinBoardCategory.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/editBulletinBoardCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoardCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/searchBulletinBoardCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoardCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/bulletin/detailBulletinBoardCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/bulletin/editBulletinBoardCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/bulletin/bulletinBoardCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- bulletinBoardCategory - generated by stajanov (do not edit/delete)
+-->
+
+<!-- userCategory - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/userCategorys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editUserCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editUserCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailUserCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchUserCategory.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editUserCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/userCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchUserCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/userCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailUserCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editUserCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/userCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- userCategory - generated by stajanov (do not edit/delete) -->
+
+<!-- project - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/projects.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editProject.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editProject.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailProject.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchProject.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editProject.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/projects.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchProject.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/projects.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailProject.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editProject.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/projects.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- project - generated by stajanov (do not edit/delete) -->
+
+<!-- organization - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/organizations.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editOrganization.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOrganization.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailOrganization.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchOrganization.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editOrganization.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizations.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchOrganization.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizations.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailOrganization.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOrganization.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizations.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- organization - generated by stajanov (do not edit/delete) -->
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/organizations.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>searchContacts</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+<!-- contact - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/contacts.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editContact.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editContact.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailContact.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchContact.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>advancedSearch</from-outcome>
+      <to-view-id>/pages/contacts/advancedSearchContact.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>changes</from-outcome>
+      <to-view-id>/pages/contacts/contactChanges.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/advancedSearchContact.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/advancedSearchContactResults.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/advancedSearchContactResults.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>advancedSearch</from-outcome>
+      <to-view-id>/pages/contacts/advancedSearchContact.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/contactChanges.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editContact.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchContact.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailContact.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editContact.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/contacts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- contact - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editContact.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>notify</from-outcome>
+      <to-view-id>/pages/util/sendMail.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+<!-- interaction - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/contacts/interactions.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editInteraction.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editInteraction.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailInteraction.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchInteraction.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editInteraction.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/interactions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchInteraction.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/interactions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailInteraction.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editInteraction.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/interactions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- interaction - generated by stajanov (do not edit/delete) -->
+  
+<!-- magazine - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/publish/magazines.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/publish/editMagazine.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/publish/editMagazine.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/publish/detailMagazine.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/publish/searchMagazine.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/publish/editMagazine.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/magazines.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/publish/searchMagazine.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/magazines.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/publish/detailMagazine.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/publish/editMagazine.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/magazines.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- magazine - generated by stajanov (do not edit/delete) -->
+
+<!-- tutorial - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/publish/tutorials.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/publish/editTutorial.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/publish/editTutorial.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/publish/detailTutorial.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/publish/searchTutorial.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/publish/editTutorial.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/tutorials.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/publish/searchTutorial.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/tutorials.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/publish/detailTutorial.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/publish/editTutorial.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/publish/tutorials.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- tutorial - generated by stajanov (do not edit/delete) -->
+  
+  <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+-->
+
+  <navigation-rule>
+    <from-view-id>*</from-view-id>
+    <navigation-case>
+      <from-outcome>document</from-outcome>
+      <to-view-id>/pages/document.jsp</to-view-id>
+    </navigation-case> 
+    <navigation-case>
+      <from-outcome>go_error</from-outcome>
+      <to-view-id>/pages/error/error.jsp</to-view-id>
+    </navigation-case>  
+  </navigation-rule>	
+  
+  <navigation-rule>
+    <from-view-id>*</from-view-id>
+    <navigation-case>
+      <from-outcome>see_doc</from-outcome>
+      <to-view-id>/see_document.jsp</to-view-id>
+      <redirect/>
+    </navigation-case>  
+  </navigation-rule>
+  
+<!-- documentCategory - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/document/documentCategorys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/document/editDocumentCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/document/editDocumentCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/document/detailDocumentCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/document/searchDocumentCategory.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/document/editDocumentCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/document/documentCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/document/searchDocumentCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/document/documentCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/document/detailDocumentCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/document/editDocumentCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/document/documentCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- documentCategory - generated by stajanov (do not edit/delete) -->
+
+<!-- document - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/document/documents.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/document/editDocument.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/document/editDocument.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/document/detailDocument.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/document/searchDocument.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/document/editDocument.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/document/documents.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/document/searchDocument.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/document/documents.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/document/detailDocument.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/document/editDocument.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/document/documents.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- document - generated by stajanov (do not edit/delete) -->
+
+  <navigation-rule>
+    <from-view-id>/pages/document/documentCategorys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>documents</from-outcome>
+      <to-view-id>/pages/document/documents.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+<!-- account - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/account/accounts.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/account/editAccount.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editAccount.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/account/detailAccount.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/account/searchAccount.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/editAccount.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accounts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/searchAccount.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accounts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/account/detailAccount.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editAccount.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accounts.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- account - generated by stajanov (do not edit/delete) -->
+<!-- accountEntryTypes - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/account/accountEntryTypes.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/account/editAccountEntryType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editAccountEntryType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/account/detailAccountEntryType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/account/searchAccountEntryType.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/editAccountEntryType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accountEntryTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/searchAccountEntryType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accountEntryTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/account/detailAccountEntryType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editAccountEntryType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accountEntryTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- accountEntryTypes - generated by stajanov (do not edit/delete) -->
+
+<!-- accountEntry - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/account/accountEntrys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/account/editAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/account/detailAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/account/searchAccountEntry.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/editAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accountEntrys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/searchAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accountEntrys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/account/detailAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/accountEntrys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- accountEntry - generated by stajanov (do not edit/delete) -->
+
+<!-- PeriodicalAccountEntry - generated by stajanov (do not edit/delete)
+-->
+  <navigation-rule>
+    <from-view-id>/pages/account/periodicalAccountEntrys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/account/editPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/account/detailPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/account/searchPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/editPeriodicalAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/periodicalAccountEntrys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/searchPeriodicalAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/periodicalAccountEntrys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/account/detailPeriodicalAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/account/editPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/account/periodicalAccountEntrys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- PeriodicalAccountEntry - generated by stajanov (do not edit/delete)
+-->
+
+<!-- InteractionType - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/interactionTypes.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editInteractionType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editInteractionType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailInteractionType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchInteractionType.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editInteractionType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/interactionTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchInteractionType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/interactionTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailInteractionType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editInteractionType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/interactionTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- InteractionType - generated by stajanov (do not edit/delete) -->
+
+<!-- book - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/book/books.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/book/editBook.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/book/editBook.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/book/detailBook.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/book/searchBook.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/book/editBook.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/book/books.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/book/searchBook.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/book/books.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/book/detailBook.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/book/editBook.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/book/books.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- book - generated by stajanov (do not edit/delete) -->
+
+<!-- OrganizationType - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/organizationTypes.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editOrganizationType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOrganizationType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailOrganizationType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchOrganizationType.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editOrganizationType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizationTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchOrganizationType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizationTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailOrganizationType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOrganizationType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizationTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- OrganizationType - generated by stajanov (do not edit/delete) -->
+
+<!-- OrganizationISOCategory - generated by stajanov (do not edit/delete)
+-->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/organizationISOCategorys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editOrganizationISOCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOrganizationISOCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailOrganizationISOCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchOrganizationISOCategory.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editOrganizationISOCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizationISOCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchOrganizationISOCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizationISOCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailOrganizationISOCategory.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOrganizationISOCategory.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/organizationISOCategorys.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- OrganizationISOCategory - generated by stajanov (do not edit/delete)
+-->
+
+
+<!-- holiday - generated by stajanov (do not edit/delete) -->
+  <navigation-rule>
+    <from-view-id>/pages/holiday/holidays.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/holiday/editHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/holiday/editHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/holiday/detailHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/holiday/searchHoliday.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/holiday/editHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/holidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/holiday/searchHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/holidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/holiday/detailHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/holiday/editHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/holidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- holiday - generated by stajanov (do not edit/delete) -->
+<!-- requestHoliday - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/holiday/requestHolidays.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/holiday/editRequestHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/holiday/editRequestHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/holiday/detailRequestHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/holiday/searchRequestHoliday.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/holiday/editRequestHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/requestHolidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/holiday/searchRequestHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/requestHolidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/holiday/detailRequestHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/holiday/editRequestHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/requestHolidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- requestHoliday - generated by stajanov (do not edit/delete) -->
+
+<!-- adminHoliday - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/holiday/adminHolidays.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/holiday/editAdminHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/holiday/editAdminHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/holiday/detailAdminHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/holiday/searchAdminHoliday.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/holiday/editAdminHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/adminHolidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/holiday/searchAdminHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/adminHolidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/holiday/detailAdminHoliday.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/holiday/editAdminHoliday.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/holiday/adminHolidays.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- adminHoliday - generated by stajanov (do not edit/delete) -->
+<!--  fuera del ruso. -->
+<navigation-rule>
+    <from-view-id>/pages/billing/editBill.jsp</from-view-id>
+     <navigation-case>
+      <from-outcome>search_entries</from-outcome>
+      <to-view-id>/pages/billing/searchAccountEntries.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search_bitacore</from-outcome>
+      <to-view-id>/pages/billing/searchBitacore.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+ 
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/searchAccountEntries.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search_entries</from-outcome>
+      <to-view-id>/pages/billing/searchAccountEntries.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/searchBitacore.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>import_bitacore</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/accountEntrys.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>copy_entry</from-outcome>
+      <to-view-id>/pages/account/editPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/account/editAccountEntry.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>copy_entry</from-outcome>
+      <to-view-id>/pages/account/editPeriodicalAccountEntry.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+
+<!-- Department - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/departments.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editDepartment.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editDepartment.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailDepartment.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchDepartment.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editDepartment.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/departments.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchDepartment.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/departments.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailDepartment.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editDepartment.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/departments.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- Department - generated by stajanov (do not edit/delete) -->
+<!-- ContractType - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/contractTypes.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editContractType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editContractType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailContractType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchContractType.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editContractType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/contractTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchContractType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/contractTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailContractType.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editContractType.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/contractTypes.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- ContractType - generated by stajanov (do not edit/delete) -->
+
+<!-- OfferRejectReason - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/offerRejectReasons.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editOfferRejectReason.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOfferRejectReason.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailOfferRejectReason.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchOfferRejectReason.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editOfferRejectReason.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/offerRejectReasons.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchOfferRejectReason.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/offerRejectReasons.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailOfferRejectReason.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOfferRejectReason.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/offerRejectReasons.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- OfferRejectReason - generated by stajanov (do not edit/delete) -->
+
+<!-- Offer - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/offers.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editOffer.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOffer.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailOffer.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchOffer.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editOffer.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/offers.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>editBill</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>    
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchOffer.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/offers.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailOffer.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editOffer.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/offers.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- Offer - generated by stajanov (do not edit/delete) -->
+
+<!-- FinancialRatio - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/financialRatios.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/billing/editFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/billing/detailFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/billing/searchFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/editFinancialRatio.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/financialRatios.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/searchFinancialRatio.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/financialRatios.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/detailFinancialRatio.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editFinancialRatio.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/financialRatios.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- FinancialRatio - generated by stajanov (do not edit/delete) -->
+
+
+  <navigation-rule>
+    <from-view-id>*</from-view-id>
+    <navigation-case>
+      <from-outcome>index</from-outcome>
+      <to-view-id>/normalLogin.jsp</to-view-id>
+      <redirect/>
+    </navigation-case>
+    
+  </navigation-rule>
+  
+<!-- occupation - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/activity/occupations.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/activity/editOccupation.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/activity/editOccupation.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/activity/detailOccupation.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/activity/searchOccupation.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/activity/editOccupation.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/activity/occupations.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/activity/searchOccupation.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/activity/occupations.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/activity/detailOccupation.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/activity/editOccupation.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/activity/occupations.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- occupation - generated by stajanov (do not edit/delete) -->
+  
+<!-- WorkingAgreement - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/workingAgreements.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/admin/editWorkingAgreement.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editWorkingAgreement.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/admin/detailWorkingAgreement.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/admin/searchWorkingAgreement.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/editWorkingAgreement.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/workingAgreements.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/admin/searchWorkingAgreement.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/workingAgreements.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/admin/detailWorkingAgreement.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/admin/editWorkingAgreement.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/admin/workingAgreements.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- WorkingAgreement - generated by stajanov (do not edit/delete) -->
+
+<!-- creditTitle - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/creditTitles.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/billing/editCreditTitle.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editCreditTitle.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/billing/detailCreditTitle.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/billing/searchCreditTitle.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/editCreditTitle.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>search_bills</from-outcome>
+      <to-view-id>/pages/billing/searchBillEntries.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/creditTitles.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/billing/searchCreditTitle.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/creditTitles.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/detailCreditTitle.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editCreditTitle.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/billing/creditTitles.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/searchBillEntries.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editCreditTitle.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- creditTitle - generated by stajanov (do not edit/delete) -->
+
+<!-- collaborator - generated by stajanov (do not edit/delete) -->
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/collaborators.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editCollaborator.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editCollaborator.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailCollaborator.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchCollaborator.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editCollaborator.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/collaborators.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchCollaborator.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/collaborators.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailCollaborator.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editCollaborator.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/collaborators.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+<!-- collaborator - generated by stajanov (do not edit/delete) -->
+
+  <navigation-rule>
+    <from-view-id>/pages/billing/nof.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/billing/editBill.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/billing/detailBill.jsp</to-view-id>
+    </navigation-case>
+   </navigation-rule>
+
+<!-- Commissioning - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/commissioning/commissionings.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/commissioning/editCommissioning.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/commissioning/editCommissioning.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/commissioning/detailCommissioning.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/commissioning/searchCommissioning.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>changes</from-outcome>
+      <to-view-id>/pages/commissioning/commissioningChanges.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/commissioning/editCommissioning.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/commissioning/commissionings.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>changes</from-outcome>
+      <to-view-id>/pages/commissioning/commissioningChanges.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/commissioning/searchCommissioning.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/commissioning/commissionings.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/commissioning/detailCommissioning.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/commissioning/editCommissioning.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/commissioning/commissionings.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>changes</from-outcome>
+      <to-view-id>/pages/commissioning/commissioningChanges.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/commissioning/commissioningChanges.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/commissioning/commissionings.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- Commissioning - generated by stajanov (do not edit/delete) -->
+
+  
+  
+<!-- Position - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/positions.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/contacts/editPosition.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editPosition.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/contacts/detailPosition.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/contacts/searchPosition.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>changes</from-outcome>
+      <to-view-id>/pages/contacts/positionChanges.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/editPosition.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/positions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/contacts/searchPosition.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/positions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/detailPosition.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/contacts/editPosition.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/positions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/contacts/positionChanges.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/contacts/positions.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- Position - generated by stajanov (do not edit/delete) -->
+
+<!-- Tag - generated by stajanov (do not edit/delete) -->
+
+
+
+  <navigation-rule>
+    <from-view-id>/pages/tags/tags.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>create</from-outcome>
+      <to-view-id>/pages/tags/editTag.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/tags/editTag.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>detail</from-outcome>
+      <to-view-id>/pages/tags/detailTag.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>search</from-outcome>
+      <to-view-id>/pages/tags/searchTag.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/tags/editTag.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/tags/tags.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+    <from-view-id>/pages/tags/searchTag.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/tags/tags.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+  <navigation-rule>
+    <from-view-id>/pages/tags/detailTag.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>edit</from-outcome>
+      <to-view-id>/pages/tags/editTag.jsp</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>list</from-outcome>
+      <to-view-id>/pages/tags/tags.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  
+<!-- Tag - generated by stajanov (do not edit/delete) -->
+	
+</faces-config>  

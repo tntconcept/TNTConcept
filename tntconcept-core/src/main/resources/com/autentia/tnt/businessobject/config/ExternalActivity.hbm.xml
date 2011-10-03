@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.ExternalActivity" table="ExternalActivity">
+    <id name="id" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    
+    <property name="name" type="java.lang.String" column="name"/>
+    <property name="category" type="java.lang.String" column="category"/>
+    <property name="startDate" type="java.util.Date" column="startDate"/>
+    <property name="endDate" type="java.util.Date" column="endDate"/>
+    <property name="location" type="java.lang.String" column="location"/>
+    <property name="organizer" type="java.lang.String" column="organizer"/>
+    <property name="comments" type="java.lang.String" column="comments"/>
+        
+    <many-to-one name="documentCategory" class="com.autentia.tnt.businessobject.DocumentCategory" column="documentCategoryId" cascade="save-update" />
+    
+    <many-to-one name="owner"
+			class="com.autentia.tnt.businessobject.User" column="ownerId"
+			 />
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+    
+    <property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	
+	<set name="files" inverse="true" cascade="all-delete-orphan"  order-by="insertDate DESC">
+		<key column="externalActivityId" />
+		<one-to-many class="com.autentia.tnt.businessobject.ActivityFile" />
+	</set>
+    
+  </class>
+</hibernate-mapping>

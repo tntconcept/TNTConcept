@@ -1,0 +1,241 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("listPage.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $dollar = "$" )
+#set( $abcField = $tools.capitalizeFirst( $desc-props.getProperty( "abcField" ) ) )
+
+
+##
+## MACRO: col_class
+##
+#macro( col_class $field )
+
+  #if( $desc-props.getProperty( "field.${field.name}.ignoreInList" ) )
+    ##
+  #else
+    #set( $columnClasses = "$!{columnClasses},list${entity}$tools.capitalizeFirst(${field.name})" )
+  #end
+
+#end
+
+
+##
+## MACRO: field
+##
+#macro( field $field )
+
+  #if( $desc-props.getProperty("field.${field.name}.ignoreInList") )
+    <%-- Ignored field: $field.name --%>
+  #else
+    <%-- Field: $field.name --%>
+    <h:column>
+      <f:facet name="header">
+      	#if( $desc-props.getProperty("field.${field.name}.complexSort") )
+        <t:commandSortHeader styleClass="listHeader" columnName="$desc-props.getProperty("field.${field.name}.complexSort")">
+        #else
+        <t:commandSortHeader styleClass="listHeader" columnName="$field.name">
+        #end
+         <f:facet name="ascending">
+            <t:graphicImage value="/img/ascending-arrow.gif" border="0" />
+          </f:facet>
+          <f:facet name="descending">
+            <t:graphicImage value="/img/descending-arrow.gif" border="0" />
+          </f:facet>
+          <f:verbatim>${dollar}{msg['${elw}.${field.name}']}</f:verbatim>
+        </t:commandSortHeader>
+      </f:facet>
+
+      <t:commandLink action="#{${elw}Bean.detail}" immediate="true">
+	<f:param name="rowid" value="#{${elw}.${class.id.name}}" />
+	#if( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+	  #set( $df = $desc-props.getProperty( "field.${field.name}.displayField" ) )
+	  <%-- Referenced field --%>
+	  <h:outputText value="#{${elw}.${field.name}.${df}}" />
+
+	#elseif( $field.type2.endsWith("Date") )
+	  <%-- Date field --%>
+	  <h:outputText value="#{${elw}.${field.name}}" converter="autentia.dateConverter"/>
+
+	#elseif( $field.type2.endsWith("boolean") )
+	  <%-- Boolean field --%>
+	  <t:graphicImage value="/img/true.png" rendered="#{${elw}.${field.name}}" />
+	  <t:graphicImage value="/img/false.png" rendered="#{!${elw}.${field.name}}" />
+
+	#elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+	  #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+	  <%-- Enumerated field --%>
+	  <h:outputText value="#{${elw}.${field.name}}">
+	    <f:converter converterId="autentia.EnumTranslator"/>
+	  </h:outputText>
+	#else
+	  <%-- String field --%>
+	  <h:outputText value="#{${elw}.${field.name}}" />
+	#end
+      </t:commandLink>
+
+    </h:column>
+  #end
+#end
+
+
+##
+## INITIALIZATION: column CSS styles 
+##
+#col_class( $class.id )
+#foreach( $field in $class.propertyArray )
+  #col_class( $field )
+#end
+#foreach( $field in $class.manyToOneArray )
+  #col_class( $field )
+#end
+#foreach( $field in $class.oneToOneArray )
+  #col_class( $field )
+#end
+
+
+##
+## JSP PAGE
+##
+<%-- 
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.  
+ *	Copyright (C) 2007 Autentia Real Bussiness Solution S.L.					   
+ *	
+ * 	This program is free software; you can redistribute it and/or
+ * 	modify it under the terms of the GNU General Public License
+ * 	as published by the Free Software Foundation; either version 2
+ * 	of the License, or (at your option) any later version.
+ *
+ * 	This program is distributed in the hope that it will be useful,
+ * 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * 	GNU General Public License for more details.
+ *
+ * 	You should have received a copy of the GNU General Public License
+ * 	along with this program; if not, write to the Free Software
+ * 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * 	Autentia Real Bussiness Solution S.L.
+ * 	Tlf: +34 91 675 33 06, +34 655 99 11 72
+ * 	Fax: +34 91 656 65 04
+ * 	info@autentia.com																
+ *
+ --%>
+<%@page language="java" contentType="text/html; charset=UTF-8"%>
+
+<%@include file="/inc/tlibs.jsp" %>
+
+<html>
+  <head>
+    <%@include file="/inc/uiCore.jsp" %>
+  </head>	
+  <body>
+
+    <!-- ${elw}s.jsp: generated by stajanov code generator -->
+    <f:loadBundle basename="com.autentia.tnt.resources.messages" var="msg" />
+    <i:location place="${elw}s" msg="${dollar}{msg}"/> 
+    
+    <f:view>
+     <%@include file="/inc/header.jsp" %>
+      <h:form id="${elw}s">
+        
+        <%-- Header --%>
+        <i:titleBar msg="${dollar}{msg}">
+          <h:commandLink action="#{${elw}Bean.search}">
+            <h:graphicImage rendered="#{ ${elw}Bean.search.searchActive}" title="#{msg.entityActions_filtered}"  value="/img/search_applied.gif" styleClass="titleImg" />
+            <h:graphicImage rendered="#{!${elw}Bean.search.searchActive}" title="#{msg.entityActions_search}"    value="/img/search.gif"         styleClass="titleImg" />
+          </h:commandLink>
+           <h:commandLink action="#{${elw}Bean.reset}">
+            <h:graphicImage rendered="#{${elw}Bean.search.searchActive}" title="#{msg.entityActions_reset}"  value="/img/eraser.png" styleClass="titleImg" />           
+          </h:commandLink>
+          <h:commandLink action="#{${elw}Bean.create}" rendered="#{${elw}Bean.createAvailable}">
+            <h:graphicImage title="#{msg.entityActions_create}"  value="/img/new.gif" styleClass="titleImg" />
+          </h:commandLink>
+        </i:titleBar>
+        
+        #if( !$_util.isNull($abcField) )
+
+          <%-- ABC quick pager --%>
+          <div class="abcPager">
+            <h:outputText value="#{msg['abcPager.title']}" styleClass="abcPagerTitle"/>
+            <a:abcPager styleClass="abcPagerLetter" selectedStyleClass="abcPagerSelectedLetter" 
+                        value="#{${elw}Bean.letter}" action="#{${elw}Bean.letterClicked}"
+                        allowUnselect="true" unselectImage="/img/no_funnel.png"/>
+          </div>
+
+        #end
+
+        <%-- List of ${elw}s --%>
+        <t:dataTable id="list" var="${elw}" value="#{${elw}Bean.all}" preserveDataModel="false" 
+            cellpadding="0" cellspacing="0" styleClass="listTable" 
+            headerClass="listHeaderCell" footerClass="listFooter" 
+            rows="#{settingBean.mySettings.listSize}" rowClasses="listRowO,listRowE"
+            columnClasses="listCmdCell${columnClasses}"
+            sortColumn="#{${elw}Bean.sortColumn}" sortAscending="#{${elw}Bean.sortAscending}"
+	    rowOnMouseOver="this.savedClassName=this.className;this.className='listRowSel';" 
+	    rowOnMouseOut="this.className=this.savedClassName;">
+          
+          <%-- Commands --%>
+          <h:column>
+            <f:facet name="header">
+              <f:verbatim>-</f:verbatim>
+            </f:facet>
+#if( $desc-props.getProperty("extraCommand1") )
+            <t:commandLink action="$desc-props.getProperty("extraCommand1.action")" immediate="true">
+              <f:param name="rowid" value="$desc-props.getProperty("extraCommand1.value")" />
+              <h:graphicImage value="$desc-props.getProperty("extraCommand1.imgName")" styleClass="cmdImg" />
+            </t:commandLink>
+#end
+            <t:commandLink action="#{${elw}Bean.detail}" immediate="true">
+              <f:param name="rowid" value="#{${elw}.${class.id.name}}" />
+              <h:graphicImage title="#{msg.entityActions_detail}"  value="/img/detail.gif" styleClass="cmdImg" />
+            </t:commandLink>
+##            <t:commandLink action="#{${elw}Bean.edit}" immediate="true">
+##              <f:param name="rowid" value="#{${elw}.${class.id.name}}" />
+##              <h:graphicImage title="#{msg.entityActions_edit}"  value="/img/edit.gif" styleClass="cmdImg" />
+##            </t:commandLink>
+          </h:column>
+
+#field( $class.id )
+#foreach( $field in $class.propertyArray )
+
+#field( $field )
+#end
+#foreach( $field in $class.manyToOneArray )
+
+#field( $field )
+#end
+#foreach( $field in $class.oneToOneArray )
+
+#field( $field )
+#end
+
+        </t:dataTable>
+          
+        <%-- Paginator control --%>
+        <%@include file="/inc/paginator.jsp" %>
+        
+      </h:form>
+    </f:view>
+    
+  </body>
+</html>  		
+

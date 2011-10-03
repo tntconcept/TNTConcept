@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+		    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+		    version="2.0">
+    
+  <description>Intraweb core library</description>
+  <display-name>Intraweb core</display-name>
+  <tlib-version>1.0</tlib-version>
+  <short-name>i</short-name>
+  <uri>http://www.autentia.com/intraweb</uri>
+
+  <tag>
+    <description>
+    		Tag to render a link to an attached file. If the file is empty
+    		nothing is rendered.
+    </description>
+    <name>fileLink</name>
+    <tag-class>com.autentia.tnt.tag.FileLinkTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+        <description>Type of object the file is attached to.</description>
+        <name>type</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Id of object the file is attached to.</description>
+        <name>objectId</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Name of the file.</description>
+        <name>file</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Mime type of file.</description>
+        <name>mime</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <description>
+    		Tag to render a standard page header. Relies on title, titleText and titleImg
+    		styles. Relies on showHelp() javascript function (defined in uiCore.jsp for 
+    		convenience).
+    </description>
+    <name>titleBar</name>
+    <tag-class>com.autentia.tnt.tag.TitleBarTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+        <description>
+        	Logical location in application. If this attribute is not specified, it is 
+        	taken from the request, in a bean under name "location". This bean is usually
+        	created by i:location tag.
+        </description>
+        <name>location</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Name of object to show in the title.</description>
+        <name>name</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Messages resource bundle.</description>
+        <name>msg</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+  <tag>
+    <description>
+    		Tag to define current logical location. This tag calls setLocation() javascript
+    		function (defined in uiCore.jsp for convenience) to change location bar text, icons
+    		and user information. It also adds a bean to request scope with name "location" so
+    		that other tags or the page itselt can use it.
+    </description>
+    <name>location</name>
+    <tag-class>com.autentia.tnt.tag.LocationTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+        <description>Logical name of location (usually JSP name without extension).</description>
+        <name>place</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Messages resource bundle.</description>
+        <name>msg</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+  <tag>
+    <description>
+    		Tag to render a img to an attached file. If the file is empty
+    		nothing is rendered.
+    </description>
+    <name>img</name>
+    <tag-class>com.autentia.tnt.tag.ImgTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+        <description>Type of object the file is attached to.</description>
+        <name>type</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Id of object the file is attached to.</description>
+        <name>objectId</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <description>Name of the file.</description>
+        <name>file</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+  </tag>
+
+</taglib>

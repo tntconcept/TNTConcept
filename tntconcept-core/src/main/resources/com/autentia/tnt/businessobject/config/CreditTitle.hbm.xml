@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.CreditTitle" table="CreditTitle">
+    <id name="id" unsaved-value="null" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    
+    <property name="number" not-null="true" type="java.lang.String"/>
+	<property name="concept" type="java.lang.String"/>
+
+    <set name="bills" table="CreditTitle_Bill" cascade="save-update">
+		<key column="creditTitleId"/>
+		<many-to-many column="billId" class="com.autentia.tnt.businessobject.Bill" />
+	</set>
+
+    <property name="state" not-null="true">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.CreditTitleState</param>
+      </type>
+    </property>
+
+    <property name="type" not-null="true">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.CreditTitleType</param>
+      </type>
+    </property>
+    
+    <property name="issueDate" not-null="true" type="java.util.Date"/>
+    <property name="expirationDate" type="java.util.Date"/>
+    <property name="amount" type="java.math.BigDecimal" not-null="true"/>
+    
+    <many-to-one name="organization" class="com.autentia.tnt.businessobject.Organization" 
+    	column="organizationId" not-null="false"  />
+    
+    <property name="observations" type="java.lang.String"/>
+    
+    <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+  </class>
+</hibernate-mapping>

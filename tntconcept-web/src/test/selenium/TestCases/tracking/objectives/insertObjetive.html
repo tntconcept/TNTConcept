@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>Insert Objetive</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Insert Objetive</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/tntconcept/pages/control_panel.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>//div[@id='cmSubMenuID9']/*//td[@class='ThemeOfficeMenuItemText' and text()='Objetivos']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseUp</td>
+	<td>//div[@id='cmSubMenuID9']/*//td[@class='ThemeOfficeMenuItemText' and text()='Objetivos']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td>5000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@src='/tntconcept/img/new.gif']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>objective:name</td>
+	<td>Entregar Hito</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick=&quot;objective_3AstartDateCalendarVar._popUpCalendar(this,document.getElementById('objective:startDate'),'d/MM/yyyy')&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='objective:startDateSpan_calendarDiv']/table/tbody/tr[1]/td/table/tbody/tr/td[1]/span/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='objective:startDateSpan_selectMonthDiv']/table/tbody/tr[5]/td/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectAndWait</td>
+	<td>objective:organization</td>
+	<td>label=Autentia</td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>objective:project</td>
+	<td>label=Migración Datos</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@src='/tntconcept/img/save.gif']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Entregar Hito</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

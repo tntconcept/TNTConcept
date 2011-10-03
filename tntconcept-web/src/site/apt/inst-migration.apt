@@ -1,0 +1,82 @@
+~~
+~~ TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+~~ Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+~~
+~~ This program is free software: you can redistribute it and/or modify
+~~ it under the terms of the GNU General Public License as published by
+~~ the Free Software Foundation, either version 3 of the License.
+~~
+~~ This program is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+~~ GNU General Public License for more details.
+~~
+~~ You should have received a copy of the GNU General Public License
+~~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Migración de los contenidos de la base de datos
+~~~~~~~~~~~~~~~~~~~~
+
+
+*Mecanismo de migración
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+  A partir de la version 0.2 la aplicación es capaz de migrar los contenidos de la base
+  de datos de forma automática después de realizarse la actualización del WAR. Para ello
+  se empaquetan los ficheros SQL existentes en el directorio 
+  <src/main/resources/com/autentia/tntql/mysql> con las clases de la aplicacion.
+
+  Una vez se arranca la aplicacion, el arranque de la aplicacion <com.autentia.tntistener.StartupListener>
+  mirara la version de la base de datos (leyendo la tabla <Version>) y la comparara con la
+  del codigo fuente (fichero <src/main/resources/com/autentia/tnt/version/info.properties>). Si
+  las versiones difieren la aplicación se bloqueará y funcionará en modo consola. Esto quiere decir
+  que si accedemos a la aplicacion a traves del navegador veremos una página donde se nos informará
+  del bloqueo y donde podremos hacer un login con cualquier usuario con permisos de administración.
+
+  Una vez hecho dicho login, podemos invocar el comando que migra la base de datos. Este comando 
+  ira ejecutando los scripts en <src/main/resources/com/com/autentia/tntysql> en el orden necesario
+  para pasar de la version actual de la base de datos a la version necesaria para que funcione el 
+  codigo. Esta ejecucion es transaccional, lo que quiere decir que, si falla, no se deberian perder datos.
+
++----
+¡Aun asi es conveniente hacer un backup de la base de datos antes de migrar puesto que si los scripts
+de migracion no son correctos pueden causar corrupcion de los datos!
++----
+
+  Finalizada la migracion se desbloqueara la aplicacion y ya podemos pinchar en el comando para salir de 
+  la consola, lo que nos llevara a la pantalla habitual de entrada a la aplicacion.
+
+  El codigo de migracion se encuentra en la clase <com.autentia.tnt.mager.data,MigrationManager>.
+
+
+*Mantenimiento de los scripts de migracion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+  A la hora de desarrollar es importante mantener los scripts de migracion en buen estado para que la 
+  liberacion de nuevas versiones no sea traumatica. Para ello, cada vez que se modifique la base de datos
+  habra que añadir al fichero <upgrade.sql> del directorio de la version que se este modificando el codigo
+  SQL necesario para modificar las tablas y migrar los datos anteriores. 
+
+  Para ello hay que seguir las siguientes "recetas":
+
+  [[1]] <<Para añadir un campo nuevo>>: hacer un ALTER TABLE poniendo el campo como opcional o con un valor 
+        por defecto si se crea NOT NULL.
+
+  [[2]] <<Para añadir un campo nuevo que deja otro antiguo obsoleto>>: añadir el campo con ALTER TABLE y 
+        escribir el codigo SQL necesario para convertir los datos de la version antigua a la nueva.
+
+  [[3]] <<Para crear una tabla nueva>>: añadirla con CREATE TABLE y, opcionalmente, insertar datos inciales.
+        Los datos iniciales son aquellos necesarios para que la aplicacion funcione. En ningun caso se
+        insertaran datos de ejemplo. Para insertar datos de ejemplos existen otros scripts en el 
+        directorio <src/main/test/resources/com/aucom/autentia/tntql>.
+
+
+
+
+
+
+
+
+
+
+

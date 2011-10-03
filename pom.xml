@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.autentia.tnt</groupId>
+	<artifactId>tntconcept-parent</artifactId>
+	<version>0.21.17-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>tntconcept-parent</name>
+	<description>
+		TnTConcept es una aplicación open-source de gestión interna para la pequeña 
+		y mediana empresa (PYME) y/o profesional independiente.
+	</description>
+	<url>http://tntconcept.sourceforge.net/</url>
+
+	<modules>
+		<module>tntconcept-core</module>
+		<module>tntconcept-web</module>
+		<module>tntconcept-web-tomcat</module>
+		<module>tntconcept-test</module>
+	</modules>
+
+	<organization>
+		<name>Autentia Real Business Solutions</name>
+		<url>http://www.autentia.com/</url>
+	</organization>
+	
+	<inceptionYear>2007</inceptionYear>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
+			<url>LICENSE.txt</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:svn:https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/trunk/tntconcept-parent</connection>
+		<developerConnection>scm:svn:https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/trunk/tntconcept-parent</developerConnection>
+		<url>http://tntconcept.svn.sourceforge.net/viewvc/tntconcept/</url>
+	</scm>
+
+	<properties>
+		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>	
+		<sourceEncoding>UTF-8</sourceEncoding>
+		<compileSource>1.5</compileSource>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	
+	<build>
+		<resources>
+		      <resource>
+		        <directory>src/main/resources</directory>
+		        <filtering>true</filtering>
+		      </resource>				      
+		</resources>
+		
+			
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${compileSource}</source>
+					<target>${compileSource}</target>
+					<encoding>${sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>${messageResourcesEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<inputEncoding>${sourceEncoding}</inputEncoding>
+					<outputEncoding>${sourceEncoding}</outputEncoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<strictCheck>true</strictCheck>
+					<aggregate>true</aggregate>
+					<header>src/main/config/copyrightNotice.txt</header>
+					<excludes>
+						<exclude>**/LICENSE.txt</exclude>
+						<exclude>**/COPYING.LESSER</exclude>
+						<exclude>**/COPYING</exclude>
+						<exclude>**/*.odt</exclude>
+						<exclude>**/*.ods</exclude>
+						<exclude>**/*.pdf</exclude>
+						<exclude>**/*.mwb</exclude>
+					</excludes>
+					<mapping>
+						<tld>XML_STYLE</tld>
+						<jrxml>XML_STYLE</jrxml>
+					</mapping>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!--
+					| Configures Surefire plugin (the test launcher) to always redirect the output (console) to a file. 
+				-->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<preparationGoals>clean install</preparationGoals>
+					<username>${sourceforge.scm.username}</username>
+					<password>${sourceforge.scm.password}</password>
+					<tagBase>https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/tags</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<configuration>
+					<tags>
+						<tag>TODO</tag>
+						<tag>FIXME</tag>
+						<tag>XXX</tag>
+						<tag>NOPMD</tag>
+					</tags>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<distributionManagement>
+		<site>
+			<id>tntconcept-site</id>
+			<name>TnTConcept Maven Site</name>
+			<url>${tnt.mvn.site}</url>
+		</site>
+		<repository>
+			<id>tntconcept-repository</id>
+			<name>TnTConcept Maven Repository</name>
+			<url>${tnt.mvn.repo}</url>
+		</repository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		 <groupId>quartz</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>1.5.2</version>
+		</dependency>
+				
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>java-net-maven2</id>
+			<name>java-net-maven2</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>java-net-maven1</id>
+			<name>java-net-maven1</name>
+			<url>http://download.java.net/maven/1</url>
+			<layout>legacy</layout>
+		</repository>
+		<repository>
+			<id>jboss</id>
+			<url>http://repository.jboss.com/maven2/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+</project>

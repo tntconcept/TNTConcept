@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<xform style="manual">
+<table border="1" cellspacing="0" cellpadding="2">
+
+ <tr>
+  <th colspan="2" class="xform-title">
+   <table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+     <th align="left" class="xform-title">
+      Propiedades de las gráficas
+     </th>
+     <td align="right" class="xform-close-button">
+      <imgButton src="wcf/form/cancel.png" action="revert" label="Close" hide="true" handler="com.tonbeller.wcf.form.ButtonHandler"/>
+     </td>
+    </tr>
+   </table>
+  </th>
+ </tr>
+
+ <tr>
+  <td>Tipo de gráfica</td>
+  <td>
+   <listBox1 type="int" modelReference="chartType">
+	<listItem value="1" label="Barras verticales"/>
+	<listItem value="2" label="Barras verticales 3D"/>
+	<listItem value="3" label="Barras horizontales"/>
+	<listItem value="4" label="Barras horizontales 3D"/>
+	<listItem value="5" label="Barras apiladas verticales Bar"/>
+	<listItem value="6" label="Barras apiladas verticales 3D"/>
+	<listItem value="7" label="Barras apiladas horizontales Bar"/>
+	<listItem value="8" label="Barras apiladas horizontales 3D"/>
+	<listItem value="9" label="Linea vertical"/>
+	<listItem value="10" label="Linea horizontal"/>
+	<listItem value="11" label="Área vertical"/>
+	<listItem value="12" label="Área horizontal"/>
+	<listItem value="13" label="Áreas apiladas vertical"/>
+	<listItem value="14" label="Áreas apiladas horizntales"/>
+	<listItem value="15" label="Gráfica de queso por columnas"/>
+	<listItem value="16" label="Gráfica de queso por filas"/>
+   </listBox1>
+  </td>
+ </tr>
+
+ <!--<tr>
+  <td>Enable Drill Through</td>
+  <td>
+   <checkBox modelReference="drillThroughEnabled"/>
+  </td>
+ </tr>-->
+
+ <tr>
+  <td>Título de la gráfica</td>
+  <td>
+   <textField type="string" modelReference="chartTitle" size="30" title="enter a title for this chart"/>
+  </td>
+ </tr>
+ <tr>
+  <td>Fuente para el título de la gráfica</td>
+  <td>
+   <listBox1 type="string" modelReference="fontName" label="Title font">
+  	<listItem value="SansSerif" label="SansSerif"/>
+	<listItem value="Serif" label="Serif"/>
+	<listItem value="Monospaced" label="Monospaced"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="fontStyle" label="Title font style">
+  	<listItem value="0" label="Plain"/>
+	<listItem value="1" label="Bold"/>
+	<listItem value="2" label="Italic"/>
+	<listItem value="3" label="Bold Italic"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="fontSize" label="Title font size">
+  	<listItem value="8" label="8"/>
+	<listItem value="10" label="10"/>
+	<listItem value="12" label="12"/>
+	<listItem value="14" label="14"/>
+	<listItem value="16" label="16"/>
+	<listItem value="18" label="18"/>
+	<listItem value="20" label="20"/>
+	<listItem value="22" label="22"/>
+	<listItem value="24" label="24"/>
+	<listItem value="26" label="26"/>
+	<listItem value="28" label="28"/>
+	<listItem value="30" label="30"/>
+	<listItem value="32" label="32"/>
+   </listBox1>
+  </td>
+ </tr>
+ 
+ <tr>
+  <td>Etiqueta horizontal</td>
+  <td>
+   <textField type="string" modelReference="horizAxisLabel" size="30" title="enter a label for this axis"/>
+  </td>
+ </tr>
+ <tr>
+  <td>Etiqueta vertical</td>
+  <td>
+   <textField type="string" modelReference="vertAxisLabel" size="30" title="enter a label for this axis"/>
+  </td>
+ </tr>
+ <tr>
+  <td>Fuente para el texto del eje vertical</td>
+  <td>
+   <listBox1 type="string" modelReference="axisFontName">
+  	<listItem value="SansSerif" label="SansSerif"/>
+	<listItem value="Serif" label="Serif"/>
+	<listItem value="Monospaced" label="Monospaced"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="axisFontStyle">
+  	<listItem value="0" label="Plain"/>
+	<listItem value="1" label="Bold"/>
+	<listItem value="2" label="Italic"/>
+	<listItem value="3" label="Bold Italic"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="axisFontSize">
+  	<listItem value="8" label="8"/>
+	<listItem value="10" label="10"/>
+	<listItem value="12" label="12"/>
+	<listItem value="14" label="14"/>
+	<listItem value="16" label="16"/>
+	<listItem value="18" label="18"/>
+	<listItem value="20" label="20"/>
+	<listItem value="22" label="22"/>
+	<listItem value="24" label="24"/>
+	<listItem value="26" label="26"/>
+	<listItem value="28" label="28"/>
+	<listItem value="30" label="30"/>
+	<listItem value="32" label="32"/>
+   </listBox1>
+  </td>
+ </tr>
+ 
+ <tr>
+  <td>Fuente para el texto del eje horizontal</td>
+  <td>
+   <listBox1 type="string" modelReference="axisTickFontName">
+  	<listItem value="SansSerif" label="SansSerif"/>
+	<listItem value="Serif" label="Serif"/>
+	<listItem value="Monospaced" label="Monospaced"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="axisTickFontStyle">
+  	<listItem value="0" label="Plain"/>
+	<listItem value="1" label="Bold"/>
+	<listItem value="2" label="Italic"/>
+	<listItem value="3" label="Bold Italic"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="axisTickFontSize">
+  	<listItem value="8" label="8"/>
+	<listItem value="10" label="10"/>
+	<listItem value="12" label="12"/>
+	<listItem value="14" label="14"/>
+	<listItem value="16" label="16"/>
+	<listItem value="18" label="18"/>
+	<listItem value="20" label="20"/>
+	<listItem value="22" label="22"/>
+	<listItem value="24" label="24"/>
+	<listItem value="26" label="26"/>
+	<listItem value="28" label="28"/>
+	<listItem value="30" label="30"/>
+	<listItem value="32" label="32"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="tickLabelRotate">
+        <listItem value="0" label="0°"/>
+        <listItem value="30" label="30°"/>
+        <listItem value="45" label="45°"/>
+        <listItem value="90" label="90°"/>
+   </listBox1>
+  </td>
+ </tr>
+
+ <tr>
+  <td>Mostrar leyenda</td>
+  <td>
+   <checkBox modelReference="showLegend"/>
+   <listBox1 type="int" modelReference="legendPosition">
+  	<listItem value="1" label="Top"/>
+	<listItem value="3" label="Bottom"/>
+	<listItem value="0" label="Left"/>
+	<listItem value="2" label="Right"/>
+   </listBox1>
+  </td>
+ </tr>
+ <tr>
+  <td>Fuente para la leyenda</td>
+  <td>
+   <listBox1 type="string" modelReference="legendFontName">
+  	<listItem value="SansSerif" label="SansSerif"/>
+	<listItem value="Serif" label="Serif"/>
+	<listItem value="Monospaced" label="Monospaced"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="legendFontStyle">
+  	<listItem value="0" label="Plain"/>
+	<listItem value="1" label="Bold"/>
+	<listItem value="2" label="Italic"/>
+	<listItem value="3" label="Bold Italic"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="legendFontSize">
+  	<listItem value="8" label="8"/>
+	<listItem value="10" label="10"/>
+	<listItem value="12" label="12"/>
+	<listItem value="14" label="14"/>
+	<listItem value="16" label="16"/>
+	<listItem value="18" label="18"/>
+	<listItem value="20" label="20"/>
+	<listItem value="22" label="22"/>
+	<listItem value="24" label="24"/>
+	<listItem value="26" label="26"/>
+	<listItem value="28" label="28"/>
+	<listItem value="30" label="30"/>
+	<listItem value="32" label="32"/>
+   </listBox1>
+  </td>
+ </tr>
+
+ <!-- <tr>
+  <td>Show Slicer</td>
+  <td>
+   <checkBox modelReference="showSlicer"/>
+   <listBox1 type="int" modelReference="slicerPosition" label="Slicer Position">
+  	<listItem value="0" label="Top"/>
+	<listItem value="1" label="Bottom"/>
+	<listItem value="3" label="Left"/>
+	<listItem value="2" label="Right"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="slicerAlignment" label="Slicer Alignment">
+	<listItem value="3" label="Left"/>
+	<listItem value="2" label="Right"/>
+	<listItem value="4" label="Center"/>
+   </listBox1>
+  </td>
+ </tr>
+ 
+ <tr>
+  <td>Slicer Font</td>
+  <td>
+   <listBox1 type="string" modelReference="slicerFontName">
+  	<listItem value="SansSerif" label="SansSerif"/>
+	<listItem value="Serif" label="Serif"/>
+	<listItem value="Monospaced" label="Monospaced"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="slicerFontStyle">
+  	<listItem value="0" label="Plain"/>
+	<listItem value="1" label="Bold"/>
+	<listItem value="2" label="Italic"/>
+	<listItem value="3" label="Bold Italic"/>
+   </listBox1>
+   <listBox1 type="int" modelReference="slicerFontSize">
+  	<listItem value="8" label="8"/>
+	<listItem value="10" label="10"/>
+	<listItem value="12" label="12"/>
+	<listItem value="14" label="14"/>
+	<listItem value="16" label="16"/>
+	<listItem value="18" label="18"/>
+	<listItem value="20" label="20"/>
+	<listItem value="22" label="22"/>
+	<listItem value="24" label="24"/>
+	<listItem value="26" label="26"/>
+	<listItem value="28" label="28"/>
+	<listItem value="30" label="30"/>
+	<listItem value="32" label="32"/>
+   </listBox1>
+  </td>
+ </tr> -->
+
+ <tr>
+  <td>Alto de la gráfica</td>
+  <td>
+   <textField type="posint" modelReference="chartHeight" size="5" title="enter height in pixels - default 300"/>
+   &#160;&#160;&#160;Ancho de la gráfica
+   <textField type="posint" modelReference="chartWidth" size="5" title="enter width in pixels - default 500"/>
+  </td>
+ </tr>
+ 
+ <tr>
+  <td>Color de fondo (R, G, B)</td>
+  <td>
+   <textField type="posint" modelReference="bgColorR" size="4" title="enter Red value 0-255"/>
+   <textField type="posint" modelReference="bgColorG" size="4" title="enter Green value 0-255"/>
+   <textField type="posint" modelReference="bgColorB" size="4" title="enter Blue value 0-255"/>
+  </td>
+ </tr>
+
+ <tr>
+  <td align="right" colspan="4">
+    <button action="validate" label="OK" handler="com.tonbeller.wcf.form.ButtonHandler" hide="true"/>
+    <button action="revert" label="Cancel" handler="com.tonbeller.wcf.form.ButtonHandler" hide="true"/>
+  </td>
+ </tr>
+
+</table>
+
+</xform>

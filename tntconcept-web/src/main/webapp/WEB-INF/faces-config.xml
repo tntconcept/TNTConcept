@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+"http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+
+	<!-- Spring integration, supported locales and resources file -->
+	<application>
+		<locale-config>
+			<default-locale>es</default-locale>
+			<supported-locale>en</supported-locale>
+		</locale-config>
+		<message-bundle>
+			com.autentia.tnt.resources.messages
+		</message-bundle>
+	</application>
+
+	<!-- Converter for Enum types -->
+	<converter>
+		<converter-id>autentia.EnumConverter</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.EnumConverter
+		</converter-class>
+	</converter>
+
+	<!-- Converter for entity (transfer object) object -->
+	<converter>
+		<converter-id>autentia.EntityConverter</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.EntityConverter
+		</converter-class>
+	</converter>
+
+	<!-- Converter for minutes to hour -->
+	<converter>
+		<converter-id>autentia.MinuteToHourConverter</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.MinuteToHourConverter
+		</converter-class>
+	</converter>
+
+	<!-- Translator (I18N) for Enum types -->
+	<converter>
+		<converter-id>autentia.EnumTranslator</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.EnumTranslator
+		</converter-class>
+	</converter>
+
+	<!-- Translator for String types -->
+	<converter>
+		<converter-id>autentia.CutStringTranslator</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.CutStringTranslator
+		</converter-class>
+	</converter>
+
+	<!--
+		Converter for Date objects (deprecated: use JSF convertDateTime tag)
+	-->
+	<converter>
+		<converter-id>autentia.dateConverter</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.DateConverter
+		</converter-class>
+	</converter>
+
+	<!--
+		Converter for Date objects (deprecated: use JSF convertDateTime tag)
+	-->
+	<converter>
+		<converter-id>autentia.date2YearConverter</converter-id>
+		<converter-class>
+			com.autentia.tnt.converter.Date2YearConverter
+		</converter-class>
+	</converter>
+
+
+	<!--
+		*********************************************************************
+	-->
+
+	<!-- Check Indentity Card format -->
+	<validator>
+		<validator-id>
+			autentia.genericIdentityCardValidator
+		</validator-id>
+		<validator-class>
+			com.autentia.tnt.validator.GenericIdentityCardValidator
+		</validator-class>
+	</validator>
+
+	<!-- Check money quantities -->
+	<validator>
+		<validator-id>autentia.genericMoneyValidator</validator-id>
+		<validator-class>
+			com.autentia.tnt.validator.GenericMoneyValidator
+		</validator-class>
+	</validator>
+
+	<!-- Check negative/positive for account entry -->
+	<validator>
+		<validator-id>autentia.accountEntryValidator</validator-id>
+		<validator-class>
+			com.autentia.tnt.validator.GenericAccountEntryValidator
+		</validator-class>
+	</validator>
+
+	<!-- Check negative/positive for periodical account entry -->
+	<validator>
+		<validator-id>
+			autentia.periodicalAccountEntryValidator
+		</validator-id>
+		<validator-class>
+			com.autentia.tnt.validator.GenericPeriodicalAccountEntryValidator
+		</validator-class>
+	</validator>
+
+	<!-- Check if dates are complete and use a concrete format -->
+	<validator>
+		<validator-id>
+			autentia.dateValidator
+		</validator-id>
+		<validator-class>
+			com.autentia.tnt.validator.GenericDateValidator
+		</validator-class>
+	</validator>
+
+	<!-- render kits -->
+	<render-kit>
+		<renderer>
+			<description>
+				Renderer for the activity schedule component.
+			</description>
+			<component-family>javax.faces.Panel</component-family>
+			<renderer-type>org.apache.myfaces.Schedule</renderer-type>
+			<renderer-class>
+				com.autentia.tnt.jsf.schedule.renderer.ActivityScheduleRenderer
+			</renderer-class>
+		</renderer>
+	</render-kit>
+	<component>
+		<component-type>
+			com.autentia.jsf.component.ocupation.HtmlOcupationCalendar
+		</component-type>
+		<component-class>
+			com.autentia.jsf.component.ocupation.HtmlOcupationCalendar
+		</component-class>
+	</component>
+
+	<render-kit>
+		<renderer>
+			<component-family>
+				com.autentia.jsf.component.ocupation.HtmlOcupationCalendar
+			</component-family>
+			<renderer-type>
+				com.autentia.jsf.component.ocupation.HtmlOcupationCalendarRenderer
+			</renderer-type>
+			<renderer-class>
+				com.autentia.jsf.component.ocupation.HtmlOcupationCalendarRenderer
+			</renderer-class>
+		</renderer>
+	</render-kit>
+
+  <!-- components -->
+  <component>
+    <component-type>com.autentia.jsf.component.html.HtmlAbcPager</component-type>
+    <component-class>com.autentia.jsf.component.html.HtmlAbcPager</component-class>
+  </component>
+
+  <!-- renderkit -->
+  <render-kit>
+    <renderer>
+      <component-family>com.autentia.jsf.component.AbcPager</component-family>
+      <renderer-type>com.autentia.jsf.renderer.html.HtmlAbcPagerRenderer</renderer-type>
+      <renderer-class>com.autentia.jsf.renderer.html.HtmlAbcPagerRenderer</renderer-class>
+    </renderer>
+  </render-kit>
+  
+</faces-config>

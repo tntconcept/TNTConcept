@@ -1,0 +1,697 @@
+/**
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.barranavega1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+	background-position: center;
+}
+
+.barranavega2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: bold;
+	color: #000033;
+}
+
+.menu1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+.menu2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+a.barranavega1:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+}
+
+a.barranavega1:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+}
+
+a.barranavega1:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+a.barranavega1:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+a.menu1:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+}
+
+a.menu1:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+}
+
+a.menu1:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #003399;
+}
+
+a.menu1:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #003399;
+}
+
+a.menu2:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+a.menu2:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+a.menu2:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #000033;
+}
+
+a.menu2:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+.cuerpo1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+
+.cuerpo2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+
+.subtitulo1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #003366;
+	text-decoration: none;
+}
+
+.barrainferior {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+	background-position: center;
+}
+
+.cajaTexto {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #558FA2;
+	background-color: #FBFBFB;
+	border-right: 1px solid #B1B1B1;
+	border-bottom: 1px solid #B1B1B1;
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-color: #B1B1B1;
+	border-left-color: #B1B1B1;
+	border-top-style: solid;
+	border-left-style: solid;
+}
+
+.login {
+	background-color: #FFFFFF;
+	border-right: 1px solid #B1B1B1;
+	border-bottom: 1px solid #B1B1B1;
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-color: #B1B1B1;
+	border-left-color: #B1B1B1;
+	border-top-style: solid;
+	border-left-style: solid;
+}
+
+.loginPassword {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+.tituloGrande {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+.scrollerTable {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 0;
+	color: #000000;
+	background-color: #FFFFFF;
+	width: 100%;
+}
+
+.scrollerTableGestion {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 0;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.categoria_tema {
+	width: 600px;
+}
+
+.categoria_numMensajes {
+	width: 145px;
+}
+
+.standardTable_Header {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+	background-color: #AFBDB6;
+	padding: 0;
+	text-align: left;
+	border: none;
+}
+
+.standardTable_Row1 {
+	background-color: #FFFFE0;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Row2 {
+	background-color: #FFFFE0;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column {
+	text-align: left;
+	width: 33%;
+}
+
+.standardTable_Column_50 {
+	text-align: left;
+	width: 50%;
+	font-size: 10px;
+}
+
+.standardTable_Column_60 {
+	text-align: left;
+	width: 60%;
+	font-size: 10px;
+}
+
+.standardTable_Column_50_abajoderecha {
+	text-align: left;
+	width: 50%;
+	border-bottom: #D9D7BB 1px solid;
+	border-right: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_60_abajo {
+	text-align: left;
+	width: 60%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_40_abajo {
+	text-align: left;
+	width: 40%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_20_abajo {
+	text-align: left;
+	width: 20%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_10_abajo {
+	text-align: left;
+	width: 10%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_50_abajo {
+	text-align: left;
+	width: 50%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_25 {
+	text-align: left;
+	width: 25%;
+}
+
+.standardTable_Column_15 {
+	text-align: left;
+	width: 15%;
+}
+
+.standardTable_Column_25_abajoderecha {
+	text-align: left;
+	width: 25%;
+	border-bottom: #D9D7BB 1px solid;
+	border-right: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_25_abajo {
+	text-align: left;
+	width: 25%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_30_abajo {
+	text-align: left;
+	width: 30%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_20_abajo {
+	text-align: left;
+	width: 20%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_Column_15_abajo {
+	text-align: left;
+	width: 15%;
+	border-bottom: #D9D7BB 1px solid;
+}
+
+.standardTable_ColumnCentered {
+	text-align: center
+}
+
+.scroller {
+	padding-left: 0px;
+}
+
+.standard {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+}
+
+.gestionUsuariosFormTable {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 1;
+	border-style: solid;
+	border-width: 0px;
+}
+
+.gestionUsuariosFormHeader {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	font-weight: bold;
+	color: #000000;
+	background-color: #AFBDB6;
+	padding: 0;
+	text-align: left;
+	border: none;
+}
+
+.gestionUsuariosFormFooter {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	font-weight: bold;
+	color: #000000;
+	background-color: #AFBDB6;
+	padding: 0;
+	text-align: left;
+	border: none;
+}
+
+.gestionUsuariosFormLabels {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 2;
+	border-style: none;
+	text-align: right;
+	font-weight: bold;
+	width: 33%;
+}
+
+.gestionUsuariosFormLabelsV {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 2;
+	border-style: none;
+	text-align: right;
+	font-weight: bold;
+	width: 33%;
+	vertical-align: top;
+}
+
+.textoNormal {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 2;
+	border-style: none;
+	text-align: right;
+	font-weight: normal;
+}
+
+.gestionUsuariosFormLabels1 {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 2;
+	border-style: none;
+	text-align: right;
+	font-weight: bold;
+}
+
+.gestionUsuariosFormInputs {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 2;
+	border-style: none;
+	width: 60%;
+}
+
+.gestionUsuariosFormInputs1 {
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	padding: 2;
+	border-style: none;
+}
+
+/*
+   ------------------------------------------------------------
+   Calendar component
+   ------------------------------------------------------------
+*/
+.cabeceraMesDeAnno {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	size: 20px;
+	color: #000000;
+	text-align: center;
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	background-color: #FFDD00;
+}
+
+.cabeceraDiasSemana {
+	background-color: #E7E7E7;
+	color: #000000;
+	text-align: center;
+	font-family: verdana;
+	size: 20;
+	border-style: solid;
+	border-bottom: 1px solid #B1B1B1;
+}
+
+.currentDayCell {
+	background-color: #FFDD00;
+	color: #000000;
+	text-align: center;
+	font-family: verdana;
+	font-size: 20;
+}
+
+/*
+   ------------------------------------------------------------
+   End Calendar component
+   ------------------------------------------------------------
+*/
+.fecha {
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 10px;
+	font-weight: normal;
+	color: #044683;
+	text-align: right;
+	vertical-align: middle;
+	padding-right: 24px;
+	padding-bottom: 4px
+}
+
+.version {
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 8px;
+	font-weight: normal;
+	color: #044683;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.txtCabecera {
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 10px;
+	font-weight: normal;
+	color: #DBE7EB
+}
+
+.CajasTexto {
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	border: 1px solid #015874;
+	background: #DEDFE6
+}
+
+.CajasTextarea {
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	border: 1px solid #015874;
+	background: #DEDFE6
+}
+
+.txtPanel {
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000
+}
+
+.txtCategoria {
+	font-family: Tahoma;
+	font-size: 20px;
+	font-weight: bold;
+	color: #AFBDB6
+}
+
+.scrollestilo {
+	overflow: auto;;
+	background-color: #FFFFFF;;
+	visibility: inherit;
+}
+
+.yu {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-color: #AFBDB6;
+}
+
+.CpLCabUnidadesOrg {
+	border: 1px solid #C8D0C8;;
+	position: absolute;
+	width: 426;
+	height: 1;
+	left: 0;
+	overflow: hidden;
+}
+
+.CpLin1ListaHistos {
+	border: 1px solid #B9C0B9;;
+	position: absolute;
+	width: 220;
+	height: 200;
+	left: 22;
+	top: 30;
+	overflow: hidden;
+}
+
+.du {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #000000;
+}
+
+.enlace1 {
+	text-decoration: none;
+}
+
+.txtPanelEnlace {
+	text-decoration: none;;
+	font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000
+}
+
+/*
+   ------------------------------------------------------------
+   Popup component
+   ------------------------------------------------------------
+*/
+.popup {
+	background-color: #FFFFFF;
+	color: #000000;
+	border: 1px solid #CCCCCC;
+	font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 5px;
+}
+
+/** AYUDAS */
+.fondoAzulClaro {
+	background-color: rgb(213, 225, 224);
+}
+
+/** COLOR ROJO ENTRADA CONTABILIDAD < 0 */
+.r {
+	color: red;
+}
+
+.b {
+	color: blue;
+}
+
+/*
+	Availability
+*/
+
+.listAvailabilityAction {
+	vertical-align: top;
+  	width: 5%;
+  	text-align: center;
+  	padding: 2px 0 0 2px;
+}
+
+.listAvailabilityUser {
+	vertical-align: top;
+  	width: 20%;
+  	text-align: left;
+  	padding: 2px 0 0 2px;
+}
+
+.listAvailabilityModel {
+	vertical-align: top;
+	width:75%;
+	margin-top:10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	text-align: center;
+}
+
+.vacationDay{
+background-color: #FCA673;
+}
+
+.weekendDay {
+background-color: #8097FD;
+}
+
+
+.fullDay {
+background-color: #008000;
+color: white;
+}
+
+.halfDay {
+background-color: #8F4F00;
+color: white;
+}
+
+.freeDay {
+background-color: #FFFFFF;
+}
+
+.extraDay {
+background-color: #DBD8D1;
+}
+
+
+#expirePassword a {
+	text-decoration: underline;
+}

@@ -1,0 +1,490 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("search.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $searchActive = "")
+
+
+##
+## MACRO: field
+##
+#macro( field $field )
+  $_stajanov.debug("search.vm - field $field.name")
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.class.simpleName.startsWith("Set") )
+    private boolean ${field.name}Set;
+    #set( $searchActive = "$searchActive||${field.name}Set" )
+    #if( !$_util.isNull($field.oneToMany.class1) )
+    	#set( $tp = $tools.getClassName( ${field.oneToMany.class1} ) )
+    	private List<${tp}> ${field.name};
+    #else
+	#set( $tp = $tools.getClassName( $field.manyToMany.class1 ) )
+    	private List<${tp}> ${field.name};
+    #end
+  
+  #elseif( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+    #set( $tp = $tools.getClassName( $field.class1 ) )
+    private boolean ${field.name}Set;
+    #set( $searchActive = "$searchActive||${field.name}Set" )
+    private $tp ${field.name};
+  
+  #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+    #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+    private boolean ${field.name}Set;
+    #set( $searchActive = "$searchActive||${field.name}Set" )
+    private $tp ${field.name};
+
+  #elseif( $field.type2.endsWith("Date") )
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    private boolean start${fld}Set;
+    #set( $searchActive = "$searchActive||start${fld}Set" )
+    private $tp start${fld};
+    private boolean end${fld}Set;
+    #set( $searchActive = "$searchActive||end${fld}Set" )
+    private $tp end${fld};
+
+  #elseif( !$_util.isNull( ${field.type2} ) && $tools.isNumberClass( ${field.type2} ) && $desc-props.getProperty("field.${field.name}.useRangeSearch") )
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    #set( $tp = $tools.primitiveToClass( $tp ) )
+    private boolean start${fld}Set;
+    #set( $searchActive = "$searchActive||start${fld}Set" )
+    private $tp start${fld};
+    private boolean end${fld}Set;
+    #set( $searchActive = "$searchActive||end${fld}Set" )
+    private $tp end${fld};
+
+  #else
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    #set( $tp = $tools.primitiveToClass( $tp ) )
+    private boolean ${field.name}Set;
+    #set( $searchActive = "$searchActive||${field.name}Set" )
+    private $tp ${field.name};
+
+  #end
+#end
+
+
+##
+## MACRO: setget
+##
+#macro( setget $field )
+  $_stajanov.debug("search.vm - setget $field.name")
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.type2.endsWith("Date") || 
+	( !$_util.isNull( ${field.type2} ) && 
+	  $tools.isNumberClass( $tools.primitiveToClass(${field.type2}) ) && 
+	  $desc-props.getProperty("field.${field.name}.useRangeSearch") 
+	) 
+     ) 
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    #set( $tp = $tools.primitiveToClass( $tp ) )
+
+    public boolean isStart${fld}Set(){
+        return start${fld}Set;
+    }
+    public $tp getStart${fld}(){
+        return start${fld};
+    }
+    public void setStart${fld}( $tp start${fld} ){
+        this.start${fld} = start${fld};
+        this.start${fld}Set = true;
+    }
+    public void unsetStart${fld}(){
+        this.start${fld}Set = false;
+    }
+    public boolean isEnd${fld}Set(){
+        return end${fld}Set;
+    }
+    public $tp getEnd${fld}(){
+        return end${fld};
+    }
+    public void setEnd${fld}( $tp end${fld} ){
+        this.end${fld} = end${fld};
+        this.end${fld}Set = true;
+    }
+    public void unsetEnd${fld}(){
+        this.end${fld}Set = false;
+    }
+
+  #else
+
+    #if( $field.class.simpleName.startsWith("Set") )
+	    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+      		#set( $tp = "List<$tools.getClassName( $field.oneToMany.class1 )>" )
+	    #else
+		#set( $tp = "List<${tools.getClassName( $field.manyToMany.class1 )}>" )
+	    #end
+    
+    #elseif( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+      #set( $tp = $tools.getClassName( $field.class1 ) )
+
+    #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+      #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+    
+    #else
+      #set( $tp = $tools.getClassName( $field.type2 ) )
+      #set( $tp = $tools.primitiveToClass( $tp ) )
+
+    #end
+
+    public boolean is${fld}Set(){
+        return ${field.name}Set;
+    }
+    public $tp get${fld}(){
+        return ${field.name};
+    }
+    public void set${fld}( $tp ${field.name} ){
+        this.${field.name} = ${field.name};
+        this.${field.name}Set = true;
+    }
+    public void unset${fld}(){
+        this.${field.name}Set = false;
+    }
+  #end
+#end
+
+
+##
+## MACRO: toString
+##
+#macro( toString $field )
+  $_stajanov.debug("search.vm - toString $field.name")
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.type2.endsWith("Date") || 
+	( !$_util.isNull( ${field.type2} ) && 
+	  $tools.isNumberClass( $tools.primitiveToClass(${field.type2}) ) && 
+	  $desc-props.getProperty("field.${field.name}.useRangeSearch") 
+        ) 
+     ) 
+
+    if( isStart${fld}Set() ){
+        ret.append( "(start${fld}" );
+        ret.append( "="+start${fld} );
+        ret.append( ")" );
+    }
+    if( isEnd${fld}Set() ){
+        ret.append( "(end${fld}" );
+        ret.append( "="+end${fld} );
+        ret.append( ")" );
+    }
+
+  #else
+
+    #if( $field.class.simpleName.startsWith("Set") )
+      if( is${fld}Set() ){
+          ret.append( "(${field.name}={" );
+          for( Object o : ${field.name}.toArray() ){
+            ret.append( ","+o );
+          }
+          ret.append( "})" );
+      }
+
+    #else
+      if( is${fld}Set() ){
+          ret.append( "(${field.name}" );
+          ret.append( "="+${field.name} );
+          ret.append( ")" );
+      }
+
+    #end
+
+  #end
+#end
+
+
+##
+## MACRO: getArguments
+##
+#macro( getArguments $field )
+  $_stajanov.debug("search.vm - getArguments $field.name")
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.type2.endsWith("Date") || 
+	( !$_util.isNull( ${field.type2} ) && 
+	  $tools.isNumberClass( $tools.primitiveToClass(${field.type2}) ) && 
+	  $desc-props.getProperty("field.${field.name}.useRangeSearch") 
+	) 
+     ) 
+    if( isStart${fld}Set() ){
+        ret.add( start${fld} );
+    }
+    if( isEnd${fld}Set() ){
+        ret.add( end${fld} );
+    }
+
+  #elseif( $field.class.simpleName.startsWith("Set") )
+    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+	    #set( $type = $tools.getClassName($field.oneToMany.class1) )
+    #else
+	    #set( $type = $tools.getClassName($field.manyToMany.class1) )
+    #end
+  
+    if( is${fld}Set() ){
+      List<Integer> params = new ArrayList<Integer>();
+      for( ITransferObject to : ${field.name} )
+      {
+        params.add( to.getId() );
+      }
+      ret.add( params );
+    }
+
+  #else
+    if( is${fld}Set() && get${fld}()!=null ){
+        ret.add( ${field.name} );
+    }
+
+  #end
+#end
+
+
+##
+## MACRO: reset
+##
+#macro( reset $field )
+  $_stajanov.debug("search.vm - reset $field.name")
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.type2.endsWith("Date") || 
+	( !$_util.isNull( ${field.type2} ) && 
+	  $tools.isNumberClass( $tools.primitiveToClass(${field.type2}) ) && 
+	  $desc-props.getProperty("field.${field.name}.useRangeSearch") 
+	) 
+     ) 
+    unsetStart${fld}();
+    unsetEnd${fld}();
+
+  #else
+    unset${fld}();
+  
+  #end
+#end
+
+
+##
+## MACRO: getHQL
+##
+#macro( getHQL $field )
+  $_stajanov.debug("search.vm - getHQL $field.name")
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  
+  #if( $field.type2.endsWith("Date") || 
+	( !$_util.isNull( ${field.type2} ) && 
+	  $tools.isNumberClass( $tools.primitiveToClass(${field.type2}) ) && 
+	  $desc-props.getProperty("field.${field.name}.useRangeSearch") 
+	) 
+     ) 
+    if( isStart${fld}Set() ){
+      ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+      if( start${fld} == null ){
+        ret.append( "$field.name=:arg"+(iArgNum++) );
+      } else {
+        ret.append( "$field.name>=:arg"+(iArgNum++) );
+      }
+    }
+    if( isEnd${fld}Set() ){
+      ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+      if( end${fld} == null ){
+        ret.append( "$field.name=:arg"+(iArgNum++) );
+      } else {
+        ret.append( "$field.name<=:arg"+(iArgNum++) );
+      }
+    }
+
+  #elseif( $field.class.simpleName.startsWith("Set") )
+    if( is${fld}Set() ){
+      ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+      ret.append( "${field.name}.id IN (:arg"+(iArgNum++)+")" );
+    }
+
+  #else
+
+    #if( $_util.isNull( $desc-props.getProperty("field.${field.name}.searchOp") ) )
+      #set( $op = "=" )
+    #else
+      #set( $op = ${desc-props.getProperty("field.${field.name}.searchOp")} )
+    #end
+
+    if( is${fld}Set() ){
+      ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+      if( get${fld}()==null ){
+	ret.append( "$field.name is NULL" );
+      } else {
+	ret.append( "$field.name $op :arg"+(iArgNum++) );
+      }
+    }
+
+  #end
+#end
+
+
+##
+## JAVA CLASS
+##
+##package com.autentia.tnt.dao.search;
+##
+##import java.util.*;
+##import java.math.*;
+##
+##import org.hibernate.type.*;
+##
+##import com.autentia.tnt.businessobject.*;
+##import com.autentia.tnt.dao.*;
+##
+##/**
+## * Class to search for ${entity} objects
+## * @author stajanov code generator
+## */
+##public class ${entity}Search extends SearchCriteria 
+##{
+  @Override
+  public String getHQL() {
+    StringBuilder ret = new StringBuilder();
+    int iArgNum = 0;
+    #foreach( $field in $class.propertyArray )
+      #getHQL( $field )
+    #end
+    #foreach( $field in $class.manyToOneArray )
+      #getHQL( $field )
+    #end
+    #foreach( $field in $class.oneToOneArray )
+      #getHQL( $field )
+    #end
+    #foreach( $field in $class.setArray )
+      #getHQL( $field )
+    #end
+    customGetHQL(ret,iArgNum);
+    return ret.toString();
+  }
+
+  @Override
+  public Object[] getArguments(){
+    ArrayList<Object> ret = new ArrayList<Object>();
+    #foreach( $field in $class.propertyArray )
+      #getArguments( $field )
+    #end
+    #foreach( $field in $class.manyToOneArray )
+      #getArguments( $field )
+    #end
+    #foreach( $field in $class.oneToOneArray )
+      #getArguments( $field )
+    #end  
+    #foreach( $field in $class.setArray )
+      #getArguments( $field )
+    #end  
+    customGetArguments(ret);
+    return ret.toArray();
+  }
+
+  @Override
+  public void reset(){
+    #foreach( $field in $class.propertyArray )
+      #reset( $field )
+    #end
+    #foreach( $field in $class.manyToOneArray )
+      #reset( $field )
+    #end
+    #foreach( $field in $class.oneToOneArray )
+      #reset( $field )
+    #end
+    #foreach( $field in $class.setArray )
+      #reset( $field )
+    #end
+    customReset();
+  }
+    
+  @Override
+  public String toString() {
+    StringBuilder ret = new StringBuilder();
+    ret.append("${entity}Search{");
+    #foreach( $field in $class.propertyArray )
+      #toString( $field )
+    #end
+    #foreach( $field in $class.manyToOneArray )
+      #toString( $field )
+    #end
+    #foreach( $field in $class.oneToOneArray )
+      #toString( $field )
+    #end
+    #foreach( $field in $class.setArray )
+      #toString( $field )
+    #end
+    customToString(ret);
+    ret.append("}");
+    return ret.toString();
+  }
+
+  // Getters and setters
+  #foreach( $field in $class.propertyArray )
+    #setget( $field )
+  #end
+  #foreach( $field in $class.manyToOneArray )
+    #setget( $field )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #setget( $field )
+  #end
+  #foreach( $field in $class.setArray )
+    #setget( $field )
+  #end
+
+  // Fields
+  #foreach( $field in $class.propertyArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.manyToOneArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.setArray )
+    #field( $field )
+  #end
+
+  // Returns if there are a search condition active
+  public boolean isSearchActive() {
+    return customIsSearchActive()${searchActive};
+  }
+
+  private void customGetHQL(StringBuilder ret, int iArgNum) {
+  	//añadir codigo si fuera necesario
+  }
+
+  private void customGetArguments(List<Object> ret) {
+  	//añadir codigo si fuera necesario
+  }
+
+  private void customReset() {
+  	//añadir codigo si fuera necesario
+  }
+
+  private void customToString(StringBuilder ret) {
+	//añadir codigo si fuera necesario
+  }
+
+  private boolean customIsSearchActive() {
+    // añadir codigo si fuera necesario
+    return false;
+  }
+##}

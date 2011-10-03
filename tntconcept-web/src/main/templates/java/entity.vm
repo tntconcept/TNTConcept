@@ -1,0 +1,188 @@
+#*
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *#
+
+##
+## INITIALIZATION: global variables
+##
+$_stajanov.info("entity.vm - begin")
+#set( $elw = $tools.uncapitalizeFirst( $entity ) )
+#set( $idField = $class.id.name )
+#set( $idFieldUP = $tools.capitalizeFirst( $idField ) )
+
+
+##
+## MACRO: setget
+##
+#macro( setget $field $setterModif )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+  #set( $get = "get" )
+
+  #if( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+    #set( $tp = $tools.getClassName( $field.class1 ) )
+
+  #elseif( $field.class.simpleName.startsWith("Set") )
+    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+		#set( $tp = "Set<${tools.getClassName( $field.oneToMany.class1 )}>" )
+    #else
+		#set( $tp = "Set<${tools.getClassName( $field.manyToMany.class1 )}>" )
+    #end
+  #elseif( $field.class.simpleName.startsWith("Bag") )
+    #set( $tp = "List<${tools.getClassName( $field.oneToMany.class1 )}>" )
+
+  #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+    #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+
+  #elseif( $field.class.simpleName.startsWith("Id") )
+    #set( $tp = $tools.getClassName( $field.type ) )
+
+  #elseif( $field.type2 == "boolean" )
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+    #set( $get = "is" )
+
+  #else
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+
+  #end
+
+  public $tp ${get}${fld}() {
+    return ${field.name};
+  }
+  $setterModif void set${fld}( $tp $field.name ) {
+    this.${field.name} = ${field.name};
+  }
+#end
+
+
+##
+## MACRO: field
+##
+#macro( field $field )
+  #set( $fld = $tools.capitalizeFirst($field.name) )
+
+  #if( $field.class.simpleName.startsWith("OneToOne") || $field.class.simpleName.startsWith("ManyToOne") )
+    #set( $tp = $tools.getClassName( $field.class1 ) )
+
+  #elseif( $field.class.simpleName.startsWith("Set") )
+    #if( !$_util.isNull( $field.oneToMany.class1 ) )
+		#set( $tp = "Set<${tools.getClassName( $field.oneToMany.class1 )}>" )
+    #else
+		#set( $tp = "Set<${tools.getClassName( $field.manyToMany.class1 )}>" )
+    #end
+  #elseif( $field.class.simpleName.startsWith("Bag") )
+    #set( $tp = "List<${tools.getClassName( $field.oneToMany.class1 )}>" )
+
+  #elseif( !$_util.isNull($field.type.name) && $field.type.name == "com.autentia.tnt.util.GenericEnumUserType" )
+    #set( $tp = $tools.getClassName( $field.type.getParamArray(0).stringValue ) )
+
+  #elseif( $field.class.simpleName.startsWith("Id") )
+    #set( $tp = $tools.getClassName( $field.type ) )
+
+  #else
+    #set( $tp = $tools.getClassName( $field.type2 ) )
+  #end
+  
+  private $tp ${field.name};
+
+#end
+
+
+##
+## JAVA CLASS
+##
+  // Fields
+  #field( $class.id )
+  #foreach( $field in $class.propertyArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.manyToOneArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.setArray )
+    #field( $field )
+  #end
+  #foreach( $field in $class.bagArray )
+    #field( $field )
+  #end
+	 	
+
+  // Setters and getters
+  #setget( $class.id "private" )
+  #foreach( $field in $class.propertyArray )
+    #setget( $field "public" )
+  #end
+  #foreach( $field in $class.manyToOneArray )
+    #setget( $field "public" )
+  #end
+  #foreach( $field in $class.oneToOneArray )
+    #setget( $field "public" )
+  #end
+  #foreach( $field in $class.setArray )
+    #setget( $field "public" )
+  #end
+  #foreach( $field in $class.bagArray )
+    #setget( $field "public" )
+  #end
+
+  #if( !$_util.isNull( ${desc-props.getProperty("getOwnerId")} ) )
+    public Integer getOwnerId()
+    {
+      ${desc-props.getProperty("getOwnerId")}
+    }
+  #end
+  
+  #if( !$_util.isNull( ${desc-props.getProperty("getDepartmentId")} ) )
+    public Integer getDepartmentId()
+    {
+      ${desc-props.getProperty("getDepartmentId")}
+    }
+  #end
+  
+  #if( !$_util.isNull( ${desc-props.getProperty("setOwnerId")} ) )
+    public void setOwnerId(Integer ownerId) {
+      ${desc-props.getProperty("setOwnerId")}
+    }
+  #end
+  
+  #if( !$_util.isNull( ${desc-props.getProperty("setDepartmentId")} ) )
+    public void setDepartmentId(Integer departmentId) {
+      ${desc-props.getProperty("setDepartmentId")}
+    }
+  #end
+
+  @Override
+  public boolean equals( Object that )
+  {
+  	try {
+  		if (that == null) 
+  			return false;
+  		else 
+    		return this.get${idFieldUP}().equals( ((${entity})that).get${idFieldUP}() );
+    } catch (Exception e) {
+		return false;
+	}
+  }
+  
+  @Override
+  public int hashCode() {
+  	  if(this.get${idFieldUP}()==null)
+  	  	return super.hashCode();
+  	  else	
+	 	return this.get${idFieldUP}().intValue();
+	}
