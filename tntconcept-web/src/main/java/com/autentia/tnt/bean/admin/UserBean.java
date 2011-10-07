@@ -85,14 +85,16 @@ public class UserBean extends BaseBean {
 	 */
 	public String goDocuments() {
 		User currentUser = user;
+		final Integer userId = user.getId();
 		// Save user's data
 		save();
 		// Prepares the category bean filter
-		DocumentBean documentBean = (DocumentBean) FacesUtils.getBean("documentBean");
-		List<DocumentCategory> categories = new ArrayList<DocumentCategory>();
+		final DocumentBean documentBean = (DocumentBean) FacesUtils.getBean("documentBean");
+		final List<DocumentCategory> categories = new ArrayList<DocumentCategory>();
 		categories.add(currentUser.getDocumentCategory());
 		documentBean.setSearchCategoriesValid(true);
 		documentBean.setSearchCategories(categories);
+		documentBean.getSearch().setOwnerId(userId);
 		return "goDocuments";
 	}
 
