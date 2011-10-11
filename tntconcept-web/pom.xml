@@ -8,7 +8,6 @@
 		<version>0.21.17-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-web</artifactId>
 	<packaging>war</packaging>
 
@@ -90,7 +89,7 @@
 		<dependency>
 			<groupId>com.autentia.tnt</groupId>
 			<artifactId>tntconcept-core</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>			
 		</dependency>
 
 		<!--

@@ -33,7 +33,7 @@
         <include>*.war</include>
       </includes>
     </fileSet>
-    <fileSet>
+	<fileSet>
     	<directory>../src/main/install</directory>
     	<outputDirectory>/</outputDirectory>
     	<includes>
@@ -48,11 +48,11 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>/</directory>
+      <directory>../</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>../LICENSE.txt</include>
-        <include>../NOTICE.txt</include>
+        <include>LICENSE.txt</include>
+        <include>NOTICE.txt</include>
       </includes>
     </fileSet>
   </fileSets>

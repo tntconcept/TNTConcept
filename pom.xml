@@ -60,6 +60,7 @@
 		
 			
 		<plugins>
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -85,14 +86,15 @@
 					<outputEncoding>${sourceEncoding}</outputEncoding>
 				</configuration>
 			</plugin>
-			<plugin>
+			<plugin>				
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<version>1.9.0</version>
+				<inherited>false</inherited>
 				<configuration>
 					<strictCheck>true</strictCheck>
-					<aggregate>true</aggregate>
-					<header>src/main/config/copyrightNotice.txt</header>
+					<failIfMissing>true</failIfMissing>
+					<header>${basedir}/src/main/config/copyrightNotice.txt</header>
 					<excludes>
 						<exclude>**/LICENSE.txt</exclude>
 						<exclude>**/COPYING.LESSER</exclude>
@@ -101,6 +103,8 @@
 						<exclude>**/*.ods</exclude>
 						<exclude>**/*.pdf</exclude>
 						<exclude>**/*.mwb</exclude>
+						<exclude>**/*.gitignore</exclude>
+						<exclude>**/*.markdown</exclude>
 					</excludes>
 					<mapping>
 						<tld>XML_STYLE</tld>
@@ -109,6 +113,8 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>check-headers</id>
+            			<phase>verify</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>

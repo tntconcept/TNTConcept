@@ -7,7 +7,6 @@
         <version>0.21.17-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.autentia.tnt</groupId>
     <artifactId>tntconcept-test</artifactId>
     <name>tntconcept-test</name>
     
