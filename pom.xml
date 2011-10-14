@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -26,7 +27,7 @@
 		<name>Autentia Real Business Solutions</name>
 		<url>http://www.autentia.com/</url>
 	</organization>
-	
+
 	<inceptionYear>2007</inceptionYear>
 	<licenses>
 		<license>
@@ -35,7 +36,7 @@
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
-	
+
 	<scm>
 		<connection>scm:svn:https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/trunk/tntconcept-parent</connection>
 		<developerConnection>scm:svn:https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/trunk/tntconcept-parent</developerConnection>
@@ -43,24 +44,24 @@
 	</scm>
 
 	<properties>
-		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>	
+		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<compileSource>1.5</compileSource>
-	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-	
+
 	<build>
 		<resources>
-		      <resource>
-		        <directory>src/main/resources</directory>
-		        <filtering>true</filtering>
-		      </resource>				      
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
 		</resources>
-		
-			
+
+
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -86,7 +87,7 @@
 					<outputEncoding>${sourceEncoding}</outputEncoding>
 				</configuration>
 			</plugin>
-			<plugin>				
+			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<version>1.9.0</version>
@@ -114,7 +115,7 @@
 				<executions>
 					<execution>
 						<id>check-headers</id>
-            			<phase>verify</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -122,9 +123,8 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!--
-					| Configures Surefire plugin (the test launcher) to always redirect the output (console) to a file. 
-				-->
+				<!-- | Configures Surefire plugin (the test launcher) to always redirect 
+					the output (console) to a file. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -210,11 +210,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		 <groupId>quartz</groupId>
-		    <artifactId>quartz</artifactId>
-		    <version>1.5.2</version>
+			<groupId>quartz</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.5.2</version>
 		</dependency>
-				
+
 	</dependencies>
 
 	<repositories>
@@ -232,6 +232,13 @@
 		<repository>
 			<id>jboss</id>
 			<url>http://repository.jboss.com/maven2/</url>
+		</repository>
+		<repository>
+			<id>repository.jboss.org</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 	<pluginRepositories>
