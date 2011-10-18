@@ -59,7 +59,7 @@
 			</resource>
 		</resources>
 
-
+	<pluginManagement>	
 		<plugins>
 
 			<plugin>
@@ -140,7 +140,34 @@
 					<tagBase>https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/tags</tagBase>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+		      <groupId>org.eclipse.m2e</groupId>
+		      <artifactId>lifecycle-mapping</artifactId>
+		      <version>1.0.0</version>
+		      <configuration>
+		        <lifecycleMappingMetadata>
+		          <pluginExecutions>
+		            <pluginExecution>
+		              <pluginExecutionFilter>
+		                <groupId>org.codehaus.mojo</groupId>
+		                <artifactId>aspectj-maven-plugin</artifactId>
+		                <versionRange>1.4</versionRange>
+		                <goals>
+		                  <goal>test-compile</goal>
+		                  <goal>compile</goal>
+		                </goals>
+		              </pluginExecutionFilter>
+		              <action>
+		                <execute />
+		              </action>
+		            </pluginExecution>
+		          </pluginExecutions>
+		        </lifecycleMappingMetadata>
+		      </configuration>
+		    </plugin>
 		</plugins>
+	</pluginManagement>	
 	</build>
 
 	<reporting>
