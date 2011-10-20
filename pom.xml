@@ -50,7 +50,36 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-
+	
+	
+	<profiles>
+	    <profile>
+	      <id>tomcat-profile</id>
+	      <activation>
+	        <property>
+	          <name>server</name>
+	          <value>tomcat</value>
+	        </property>
+		     <activeByDefault>true</activeByDefault>
+	      </activation>
+	      <properties>
+	        <appserver.scope>compile</appserver.scope>
+	      </properties>
+	    </profile>
+	    <profile>
+	      <id>jboss-profile</id>
+	      <activation>
+	        <property>
+	          <name>server</name>
+	          <value>jboss</value>
+	        </property>
+	      </activation>
+	      <properties>
+	        <appserver.scope>provided</appserver.scope>
+	      </properties>
+	    </profile>
+  	</profiles>
+	
 	<build>
 		<resources>
 			<resource>
