@@ -162,12 +162,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<preparationGoals>clean install</preparationGoals>
-					<username>${sourceforge.scm.username}</username>
-					<password>${sourceforge.scm.password}</password>
-					<tagBase>https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/tags</tagBase>
-				</configuration>
+				<version>2.1</version>
 			</plugin>
 			
 			<plugin>
