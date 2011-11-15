@@ -38,9 +38,9 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:svn:https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/trunk/tntconcept-parent</connection>
-		<developerConnection>scm:svn:https://tntconcept.svn.sourceforge.net/svnroot/tntconcept/trunk/tntconcept-parent</developerConnection>
-		<url>http://tntconcept.svn.sourceforge.net/viewvc/tntconcept/</url>
+		<connection>scm:git:git://github.com/autentia/TNTConcept.git</connection>
+		<developerConnection>scm:git:git@github.com:autentia/TNTConcept.git</developerConnection>
+		<url>https://github.com/autentia/TNTConcept</url>
 	</scm>
 
 	<properties>
