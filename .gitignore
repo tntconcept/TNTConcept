@@ -7,6 +7,10 @@ target/
 .settings/
 .classpath
 
+# Configuración del IntelliJ
+.idea/
+*.iml
+
 # Ficheros de backup del vi
 *.swp
 
