@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.autentia.tnt.util;
+package com.autentia.tnt.util.testing;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -23,8 +23,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -32,16 +30,21 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ConfigurationUtil {
-	private static final Log log = LogFactory.getLog(ConfigurationUtil.class);
+import com.autentia.tnt.util.ConfigurationUtil;
+import com.autentia.tnt.util.SpringUtils;
+
+public class ConfigurationUtilForTesting extends ConfigurationUtil {
+	private static final Log log = LogFactory
+			.getLog(ConfigurationUtilForTesting.class);
 
 	/**
 	 * Get default configuration bean defined in Spring.
 	 * 
 	 * @return the default configuration bean
 	 */
-	public static ConfigurationUtil getDefault() {
-		return (ConfigurationUtil) SpringUtils.getSpringBean("configuration");
+	public static ConfigurationUtilForTesting getDefault() {
+		return (ConfigurationUtilForTesting) SpringUtils
+				.getSpringBean("configuration");
 	}
 
 	/** Configuration object */
@@ -58,18 +61,17 @@ public class ConfigurationUtil {
 	 * @param file
 	 *            path to configuration file
 	 */
-	public ConfigurationUtil(String jndiPathVar, String file)
+	
+	
+	public ConfigurationUtilForTesting(String jndiPathVar, String file)
 			throws ConfigurationException, NamingException {
-		Context ctx = new InitialContext();
-		configDir = (String) ctx.lookup(jndiPathVar);
+		
+		super();
+		configDir = jndiPathVar;
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
 			configDir += "/";
 		}
 		config = new PropertiesConfiguration(configDir + file);
-	}
-
-	protected ConfigurationUtil() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -217,14 +219,15 @@ public class ConfigurationUtil {
 	public float getIva() {
 		return Float.parseFloat(getProperty("iva", "16"));
 	}
+
 	public float getIva18() {
 		return Float.parseFloat(getProperty("currentIva", "18"));
 	}
-	
-	public String  getAdminUser() {
+
+	public String getAdminUser() {
 		return getProperty("UserAdmin", "admin");
 	}
-	
+
 	public String getIdentityCardValidator() {
 		return getProperty("identityCardValidator",
 				"com.autentia.tnt.validator.NifValidator");
@@ -276,9 +279,10 @@ public class ConfigurationUtil {
 	}
 
 	public boolean getPayBillsWhenCreditTitleIsPaid() {
-		return Boolean.parseBoolean(getProperty("payBillsWhenCreditTitleIsPaid", "true"));
+		return Boolean.parseBoolean(getProperty(
+				"payBillsWhenCreditTitleIsPaid", "true"));
 	}
-	
+
 	/**
 	 * Get a configuration property by name.
 	 * 
@@ -293,7 +297,6 @@ public class ConfigurationUtil {
 		return ret;
 	}
 
-	
 	/**
 	 * 
 	 * return the name of the logo file for reports. (just the name)
@@ -416,30 +419,34 @@ public class ConfigurationUtil {
 	}
 
 	public boolean isForceCompileReports() {
-		return "1".equals(getProperty("forceCompileReports", "0").trim()) ? true : false;
+		return "1".equals(getProperty("forceCompileReports", "0").trim()) ? true
+				: false;
 	}
 
 	public String getCommissioningMailSubject() {
-		return getProperty("mail.commissioning.mailSubject", "Ficha de Proyecto del OSE");
+		return getProperty("mail.commissioning.mailSubject",
+				"Ficha de Proyecto del OSE");
 	}
 
 	public String getCommissioningMailBody() {
-		return getProperty("mail.commissioning.mailBody", "Se envia adjunta la ficha de proyecto.\n\nUn saludo");
+		return getProperty("mail.commissioning.mailBody",
+				"Se envia adjunta la ficha de proyecto.\n\nUn saludo");
 	}
 
 	public int getDaysToExpirePassword() {
 		try {
-			int daysToExpirePassword = Integer.parseInt(this.getProperty("daysToExpirePassword", "365"));
-			
-			if (daysToExpirePassword <= 0){
+			int daysToExpirePassword = Integer.parseInt(this.getProperty(
+					"daysToExpirePassword", "365"));
+
+			if (daysToExpirePassword <= 0) {
 				throw new IllegalArgumentException();
 			}
-			
+
 			return daysToExpirePassword;
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			log.warn("daysToExpirePassword must be a positive number, setting default interval.");
-			
-			return 365;	// Por defecto cada 90 dias
+
+			return 365; // Por defecto cada 90 dias
 		}
 	}
 }

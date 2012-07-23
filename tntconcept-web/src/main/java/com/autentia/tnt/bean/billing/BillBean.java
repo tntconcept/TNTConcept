@@ -73,6 +73,7 @@ import com.autentia.tnt.upload.UploaderFactory;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
+import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
 /**
  * UI bean for Bill objects.
@@ -1227,15 +1228,7 @@ public class BillBean extends BaseBean {
 	public String createBreakDown() {
 		BillBreakDown item = new BillBreakDown();
 		item.setBill(bill);
-		
-		Date fecha=new Date("June 30, 2010");
-		if(bill.getCreationDate().after(fecha)){		
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-		}
-		else{			
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-		}
-		
+		IvaApplicator.applyIvaToTaxableObject(bill.getCreationDate(), item);
 		item.setUnits(new BigDecimal(1));
 		if (bill.getBreakDown() == null) {
 			bill.setBreakDown(new HashSet());
@@ -1244,7 +1237,6 @@ public class BillBean extends BaseBean {
 		bill.getBreakDown().add(item);
 		return null;
 	}
-	
 
 	public String createBillPayment() {
 		final BillPayment item = new BillPayment();

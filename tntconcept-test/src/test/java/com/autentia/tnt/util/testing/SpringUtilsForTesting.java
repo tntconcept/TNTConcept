@@ -23,6 +23,8 @@
 package com.autentia.tnt.util.testing; 
 import org.springframework.context.ApplicationContext;
 
+import com.autentia.tnt.util.SpringUtils;
+
 public class SpringUtilsForTesting {
 
     private static ApplicationContext appCtx;
@@ -34,6 +36,9 @@ public class SpringUtilsForTesting {
 		{
 			appCtx = ctx;
 		}
+		
+		SpringUtils.configureTest( ctx);
+		
 	}
 
     public static Object getSpringBean( String name )

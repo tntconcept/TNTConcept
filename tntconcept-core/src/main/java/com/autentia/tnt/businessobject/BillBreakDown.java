@@ -27,7 +27,7 @@ import com.autentia.tnt.dao.ITransferObject;
 
 
 
-public class BillBreakDown implements Serializable, ITransferObject 
+public class BillBreakDown implements Serializable, ITransferObject, TaxableObject 
 {
 
 	public static final int MAX_LENGTH = 4096;

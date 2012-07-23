@@ -24,7 +24,7 @@ import java.util.List;
 
 import com.autentia.tnt.dao.ITransferObject;
 
-public class OfferCost implements Serializable, ITransferObject {
+public class OfferCost implements Serializable, ITransferObject, TaxableObject {
 
 	public static final int MAX_LENGTH = 4096;
 	

@@ -27,7 +27,6 @@ import java.util.Set;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.html.HtmlDataTable;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
@@ -48,7 +47,6 @@ import com.autentia.tnt.businessobject.OfferRejectReason;
 import com.autentia.tnt.businessobject.OfferRole;
 import com.autentia.tnt.businessobject.OfferState;
 import com.autentia.tnt.businessobject.Organization;
-import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.ContactSearch;
@@ -67,6 +65,7 @@ import com.autentia.tnt.upload.Uploader;
 import com.autentia.tnt.upload.UploaderFactory;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.FacesUtils;
+import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
 
 public class OfferBean extends BaseBean {
@@ -257,37 +256,7 @@ public class OfferBean extends BaseBean {
 	public String createRoles() {
 		OfferRole item = new OfferRole();
 		item.setOffer(offer);
-		Date fecha=new Date("June 30, 2010");
-		if(offer.getCreationDate().after(fecha)){		
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-		}
-		else{			
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-		}
-		
-		if (offer.getRoles() == null) {
-			offer.setRoles(new HashSet());
-		}
-		offer.getRoles().add(item);
-		return null;
-	}
-
-	/**
-	 * Create a new empty instance of the one-to-many field
-	 * 
-	 * @return forward to the same page
-	 */
-	public String editRoles() {
-		OfferRole item = new OfferRole();
-		item.setOffer(offer);
-		Date fecha=new Date("June 30, 2010");
-		if(offer.getCreationDate().after(fecha)){		
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-		}
-		else{			
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-		}
-		
+		IvaApplicator.applyIvaToTaxableObject(offer.getCreationDate(), item);
 		if (offer.getRoles() == null) {
 			offer.setRoles(new HashSet());
 		}
@@ -314,39 +283,7 @@ public class OfferBean extends BaseBean {
 	public String createCosts() {
 		OfferCost item = new OfferCost();
 		item.setOffer(offer);
-		Date fecha=new Date("June 30, 2010");
-		if(offer.getCreationDate().after(fecha)){		
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-		}
-		else{			
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-		}
-		
-		
-		if (offer.getCosts() == null) {
-			offer.setCosts(new HashSet());
-		}
-		offer.getCosts().add(item);
-		return null;
-	}
-
-	/**
-	 * Create a new empty instance of the one-to-many field
-	 * 
-	 * @return forward to the same page
-	 */
-	public String editCosts() {
-		OfferCost item = new OfferCost();
-		item.setOffer(offer);
-		Date fecha=new Date("June 30, 2010");
-		if(offer.getCreationDate().after(fecha)){		
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-		}
-		else{			
-			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-		}
-		
-		
+		IvaApplicator.applyIvaToTaxableObject(offer.getCreationDate(), item);
 		if (offer.getCosts() == null) {
 			offer.setCosts(new HashSet());
 		}

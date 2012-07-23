@@ -242,16 +242,13 @@ public class User implements Serializable, ITransferObject
   // Setters and getters
   
   
-  
+  protected void setId(Integer id) {
+	  this.id = id ; 
+  }
 
-public Integer getId() {
-    return id;
+  public Integer getId() {
+	  return id;
   }
-  private void setId( Integer id ) {
-    this.id = id;
-  }
-      
-  
   
   public boolean isActive() {
     return active;

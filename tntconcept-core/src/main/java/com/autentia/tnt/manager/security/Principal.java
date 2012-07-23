@@ -17,16 +17,16 @@
 
 package com.autentia.tnt.manager.security;
 
-import com.autentia.tnt.businessobject.User;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.GrantedAuthorityImpl;
 import org.acegisecurity.userdetails.UserDetails;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.autentia.tnt.businessobject.User;
 
 /**
  * This class acts as a bridge between our User DTO and ACEGI representations of
@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Ivan Zaera Avellon
  */
+@SuppressWarnings("serial")
 public class Principal implements UserDetails {
 	private static final Log				log				= LogFactory.getLog(Principal.class);
 

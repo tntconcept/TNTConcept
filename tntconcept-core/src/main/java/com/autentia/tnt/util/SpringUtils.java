@@ -17,10 +17,8 @@
 
 package com.autentia.tnt.util;
 
-import com.autentia.tnt.dao.ITransferObject;
-import com.autentia.tnt.manager.security.Principal;
-
 import java.util.Map;
+
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.acls.Acl;
 import org.acegisecurity.acls.AclService;
@@ -34,6 +32,9 @@ import org.acegisecurity.acls.sid.SidRetrievalStrategy;
 import org.acegisecurity.acls.sid.SidRetrievalStrategyImpl;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.context.ApplicationContext;
+
+import com.autentia.tnt.dao.ITransferObject;
+import com.autentia.tnt.manager.security.Principal;
 
 /**
  * Utility Spring class
@@ -50,6 +51,17 @@ public class SpringUtils
 	 * Configure this class
 	 * @param appCtx
 	 */
+	
+	public synchronized static void configureTest( ApplicationContext ctx )	{
+		
+		if( appCtx==null ) {
+			// Store application context
+			appCtx = ctx;
+		}
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
 	public synchronized static void configure( ApplicationContext ctx )
 	{
 		// Do not let configure more than once
