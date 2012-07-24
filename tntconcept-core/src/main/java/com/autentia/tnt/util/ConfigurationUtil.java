@@ -214,11 +214,16 @@ public class ConfigurationUtil {
 		return Integer.parseInt(getProperty("roleClientId", "5"));
 	}
 
-	public float getIva() {
-		return Float.parseFloat(getProperty("iva", "16"));
+	public float getIvaUntilJuly2010() {
+		return Float.parseFloat(getProperty("ivaUntilJuly2010", "16"));
 	}
-	public float getIva18() {
-		return Float.parseFloat(getProperty("currentIva", "18"));
+	
+	public float getIvaUntilSeptember2012() {
+		return Float.parseFloat(getProperty("ivaUntilSeptember2012", "18"));
+	}
+	
+	public float getActualIva() {
+		return Float.parseFloat(getProperty("iva", "21"));
 	}
 	
 	public String  getAdminUser() {

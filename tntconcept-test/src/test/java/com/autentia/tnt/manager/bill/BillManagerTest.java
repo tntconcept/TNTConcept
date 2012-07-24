@@ -43,9 +43,12 @@ public class BillManagerTest {
 	
 	final Date dateFor16Iva = new GregorianCalendar(2009, 7, 21).getTime();
 	
-	final Date firstDateFor18Iva = new GregorianCalendar(2010, 7, 1).getTime();
+	final Date firstDateFor18Iva = new GregorianCalendar(2010, 6, 1).getTime();
 	
-	final Date lastDateFor18Iva = new GregorianCalendar(2012, 8, 31).getTime();
+	final Date lastDateFor18Iva = new GregorianCalendar(2012, 7, 31).getTime();
+	
+	// 1 de Septiembre de 2012 a la 1 de la madrugada
+	final Date firstDateFor21Iva = new GregorianCalendar(2012, 8, 1, 1, 0).getTime();
 	
 	private final BigDecimal IVA16 = new BigDecimal("16");
 	
@@ -106,10 +109,22 @@ public class BillManagerTest {
 	public void getAllBitacoreBreakDownsHaveCorrectIvaForLastDayOf18IvaTest() {
 		final Project project = insertProjectIntoContext(lastDateFor18Iva);
 		ProjectCost projectCost = createProjectCost(project);
-		final GregorianCalendar calendarEnd = new GregorianCalendar(2012, 12, 1);
+		final GregorianCalendar calendarEnd = new GregorianCalendar(2012, 11, 1);
 		final List<BillBreakDown> billBreakDownList = billManager.getAllBitacoreBreakDowns(lastDateFor18Iva, calendarEnd.getTime(), project);
 		assertEquals(IVA18, billBreakDownList.get(0).getIva());
 		assertEquals(IVA18, billBreakDownList.get(1).getIva());
+		deleteProjectCostFromContext(projectCost);
+		deleteProjectFromContext(project);
+	}
+	
+	@Test
+	public void getAllBitacoreBreakDownsHaveCorrectIvaFirstDayOf21IvaTest() {
+		final Project project = insertProjectIntoContext(firstDateFor21Iva);
+		ProjectCost projectCost = createProjectCost(project);
+		final GregorianCalendar calendarEnd = new GregorianCalendar(2012, 10, 1);
+		final List<BillBreakDown> billBreakDownList = billManager.getAllBitacoreBreakDowns(firstDateFor21Iva, calendarEnd.getTime(), project);
+		assertEquals(IVA21, billBreakDownList.get(0).getIva());
+		assertEquals(IVA21, billBreakDownList.get(1).getIva());
 		deleteProjectCostFromContext(projectCost);
 		deleteProjectFromContext(project);
 	}

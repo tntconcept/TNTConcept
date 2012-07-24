@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -41,7 +40,7 @@ public class BillBeanTest {
 		
 		BillBean billBean = new BillBean();
 		billBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2010, 7, 1);
+		final GregorianCalendar calendar = new GregorianCalendar(2010, 6, 1);
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
@@ -54,7 +53,7 @@ public class BillBeanTest {
 		
 		BillBean billBean = new BillBean();
 		billBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 31);
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 7, 31);
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
@@ -62,13 +61,13 @@ public class BillBeanTest {
 		}
 	}
 	
-	@Ignore
 	@Test
 	public void createBreakDownInFirstDayOf21Test() {
 		
 		BillBean billBean = new BillBean();
 		billBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 9, 1);
+		// 1 de septiembre a la 1 de la madrugada
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1, 1, 0);
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {

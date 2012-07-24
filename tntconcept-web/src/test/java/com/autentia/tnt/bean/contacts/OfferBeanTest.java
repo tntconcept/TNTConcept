@@ -77,7 +77,7 @@ public class OfferBeanTest {
 		
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2010, 7, 1);
+		final GregorianCalendar calendar = new GregorianCalendar(2010, 6, 1);
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createRoles();
 		for (OfferRole offerRole:offerBean.getRoles()) {
@@ -90,11 +90,25 @@ public class OfferBeanTest {
 		
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 31);
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 7, 31);
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createRoles();
 		for (OfferRole offerRole:offerBean.getRoles()) {
 			assertEquals(IVA18,offerRole.getIva());
+		}
+	}
+	
+	@Test
+	public void createRolesInFirstDayOf21Test() {
+		
+		BillBean billBean = new BillBean();
+		billBean.create();
+		// 1 de Septiembre de 2012 a la 1 de la madrugada
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1, 1, 0);
+		billBean.setCreationDate(calendar.getTime());
+		billBean.createBreakDown();
+		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
+			assertEquals(IVA21,billBreakDown.getIva());
 		}
 	}
 	
@@ -116,7 +130,7 @@ public class OfferBeanTest {
 		
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2010, 7, 1);
+		final GregorianCalendar calendar = new GregorianCalendar(2010, 6, 1);
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createCosts();
 		for (OfferCost offerCost:offerBean.getCosts()) {
@@ -129,7 +143,7 @@ public class OfferBeanTest {
 		
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 31);
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 7, 31);
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createCosts();
 		for (OfferCost offerCost:offerBean.getCosts()) {
@@ -137,30 +151,17 @@ public class OfferBeanTest {
 		}
 	}
 	
-	@Ignore
-	@Test
-	public void createRolesInFirstDayOf21Test() {
-		
-		BillBean billBean = new BillBean();
-		billBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 9, 1);
-		billBean.setCreationDate(calendar.getTime());
-		billBean.createBreakDown();
-		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertEquals(IVA21,billBreakDown.getIva());
-		}
-	}
-	@Ignore
 	@Test
 	public void createCostsInFirstDayOf21Test() {
 		
-		BillBean billBean = new BillBean();
-		billBean.create();
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 9, 1);
-		billBean.setCreationDate(calendar.getTime());
-		billBean.createBreakDown();
-		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertEquals(IVA21,billBreakDown.getIva());
+		OfferBean offerBean = new OfferBean();
+		offerBean.create();
+		// 1 de Septiembre de 2012 a la 1 de la madrugada
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1, 1 ,0);
+		offerBean.setCreationDate(calendar.getTime());
+		offerBean.createCosts();
+		for (OfferCost offerCost:offerBean.getCosts()) {
+			assertEquals(IVA21,offerCost.getIva());
 		}
 	}
 }
