@@ -58,7 +58,7 @@ import com.autentia.tnt.dao.search.BillSearch;
 import com.autentia.tnt.dao.search.ProjectCostSearch;
 import com.autentia.tnt.dao.search.ProjectRoleSearch;
 import com.autentia.tnt.dao.search.ProjectSearch;
-import com.autentia.tnt.util.ConfigurationUtil;
+import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
 
 public class BillManager {
@@ -189,14 +189,7 @@ public class BillManager {
 					+ " - " + pR.getName());
 			brd.setAmount(pR.getCostPerHour());
 			
-			Date fecha=new Date("June 30, 2010");
-			
-			if(start.after(fecha)){		
-				brd.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-			}
-			else{			
-				brd.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-			}			
+			IvaApplicator.applyIvaToTaxableObject(start, brd);
 			
 			BigDecimal unitsTotal = new BigDecimal(0);
 			for (Activity act : actividadesUsuarioRol) {
@@ -220,14 +213,8 @@ public class BillManager {
 			brd.setConcept("Coste: " + proyCost.getName());
 			brd.setUnits(new BigDecimal(1));
 			brd.setAmount(proyCost.getCost());
-			Date fecha=new Date("June 30, 2010");
 			
-			if(start.after(fecha)){		
-				brd.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva18()));
-			}
-			else{			
-				brd.setIva(new BigDecimal(ConfigurationUtil.getDefault().getIva()));
-			}		
+			IvaApplicator.applyIvaToTaxableObject(start, brd);
 			
 			brd.setSelected(true);
 			desgloses.add(brd);

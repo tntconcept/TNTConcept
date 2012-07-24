@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.autentia.tnt.businessobject.BillBreakDown;
-import com.autentia.tnt.util.testing.SpringUtilsForTestingWeb;
+import com.autentia.tnt.util.testing.SpringUtilsForTesting;
 
 
 
@@ -19,7 +19,7 @@ public class BillBeanTest {
 	
 	@BeforeClass
     public static void init() throws Exception {
-        SpringUtilsForTestingWeb.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
+        SpringUtilsForTesting.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
     }
 
 	

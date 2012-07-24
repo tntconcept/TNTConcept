@@ -40,7 +40,7 @@ import com.autentia.tnt.dao.hibernate.WorkingAgreementDAO;
 import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.util.SpringUtils;
 
-public class SpringUtilsForTestingWeb {
+public class SpringUtilsForTesting {
 
     private static ApplicationContext appCtx;
     
@@ -60,8 +60,8 @@ public class SpringUtilsForTestingWeb {
 	{
 		return appCtx.getBean(name);
 	}
-
-	public static User createUserInContextWithRoleAndDepartment() {
+    
+    public static User createUserInContextWithRoleAndDepartment() {
 		
         setUserForTestingInContext();
         final User user = new User();
@@ -83,7 +83,7 @@ public class SpringUtilsForTestingWeb {
 		workingAgreementDAO.insert(agreement);
 		return agreement;
 	}
-
+	
 	private static UserCategory createUserCategoryInContext() {
 		
 		final UserCategory category = new UserCategory();
@@ -91,23 +91,23 @@ public class SpringUtilsForTestingWeb {
 		userCategoryDAO.insert(category);
 		return category;
 	}
-
+	
 	private static UserForTesting setUserForTestingInContext() {
 		
 		final GrantedAuthority[] authorities = new GrantedAuthority[] {
-                new GrantedAuthorityImpl("User"),
-                new GrantedAuthorityImpl("Administrator") };
+	            new GrantedAuthorityImpl("User"),
+	            new GrantedAuthorityImpl("Administrator") };
 		final UserForTesting user = new UserForTesting();
-        user.setLogin("admin");
-        user.setId(1);
-        final DepartmentForTesting departmentForTesting = new DepartmentForTesting();
-        departmentForTesting.setId(1);
-        user.setDepartment(departmentForTesting);
-        final RoleForTesting roleForTesting = new RoleForTesting();
-        roleForTesting.setId(1);
-        user.setRole(roleForTesting);
-        final Principal principal = new Principal(user, authorities);
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal,"admin"));
+	    user.setLogin("admin");
+	    user.setId(1);
+	    final DepartmentForTesting departmentForTesting = new DepartmentForTesting();
+	    departmentForTesting.setId(1);
+	    user.setDepartment(departmentForTesting);
+	    final RoleForTesting roleForTesting = new RoleForTesting();
+	    roleForTesting.setId(1);
+	    user.setRole(roleForTesting);
+	    final Principal principal = new Principal(user, authorities);
+	    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal,"admin"));
 		return user;
 	}
 	
@@ -118,13 +118,13 @@ public class SpringUtilsForTestingWeb {
 		departmentDao.insert(department);
 		return department;
 	}
-
+	
 	private static Role createRoleInContext() {
-
+	
 		final Role role = new Role();
-        final RoleDAO roleDao = (RoleDAO) appCtx.getBean("daoRole");
-        roleDao.insert(role);
-        return role;
+	    final RoleDAO roleDao = (RoleDAO) appCtx.getBean("daoRole");
+	    roleDao.insert(role);
+	    return role;
 	}
 	
 	public static void removeUserFromContext() {

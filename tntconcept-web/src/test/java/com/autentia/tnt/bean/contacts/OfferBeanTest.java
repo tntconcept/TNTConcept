@@ -19,7 +19,7 @@ import com.autentia.tnt.businessobject.OfferCost;
 import com.autentia.tnt.businessobject.OfferRole;
 import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.util.HibernateUtil;
-import com.autentia.tnt.util.testing.SpringUtilsForTestingWeb;
+import com.autentia.tnt.util.testing.SpringUtilsForTesting;
 
 public class OfferBeanTest {
 	
@@ -27,13 +27,19 @@ public class OfferBeanTest {
 	
 	private static SessionFactory sessionFactory;
 	
+	private final BigDecimal IVA16 = new BigDecimal("16");
+	
+	private final BigDecimal IVA18 = new BigDecimal("18");
+	
+	private final BigDecimal IVA21 = new BigDecimal("21");
+	
 	@BeforeClass
     public static void init() throws Exception {
-        SpringUtilsForTestingWeb.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
+        SpringUtilsForTesting.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
         sessionFactory = HibernateUtil.getSessionFactory();
 		sessionFactory.openSession();
 		sessionFactory.getCurrentSession().beginTransaction();
-        userInContext = SpringUtilsForTestingWeb.createUserInContextWithRoleAndDepartment();
+        userInContext = SpringUtilsForTesting.createUserInContextWithRoleAndDepartment();
         sessionFactory.getCurrentSession().close();
     }
 	
@@ -45,8 +51,8 @@ public class OfferBeanTest {
 	@AfterClass
     public static void terminate() throws Exception {
         
-		SpringUtilsForTestingWeb.removeUserFromContext();
-		SpringUtilsForTestingWeb.deleteUserInContext(userInContext);
+		SpringUtilsForTesting.removeUserFromContext();
+		SpringUtilsForTesting.deleteUserInContext(userInContext);
 		if (sessionFactory.getCurrentSession().getTransaction().isActive()) {
 			sessionFactory.getCurrentSession().getTransaction().rollback();
 		}
@@ -62,7 +68,7 @@ public class OfferBeanTest {
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createRoles();
 		for (OfferRole offerRole:offerBean.getRoles()) {
-			assertEquals(new BigDecimal("16"),offerRole.getIva());
+			assertEquals(IVA16,offerRole.getIva());
 		}
 	}
 	
@@ -75,7 +81,7 @@ public class OfferBeanTest {
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createRoles();
 		for (OfferRole offerRole:offerBean.getRoles()) {
-			assertEquals(new BigDecimal("18"),offerRole.getIva());
+			assertEquals(IVA18,offerRole.getIva());
 		}
 	}
 	
@@ -88,7 +94,7 @@ public class OfferBeanTest {
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createRoles();
 		for (OfferRole offerRole:offerBean.getRoles()) {
-			assertEquals(new BigDecimal("18"),offerRole.getIva());
+			assertEquals(IVA18,offerRole.getIva());
 		}
 	}
 	
@@ -101,7 +107,7 @@ public class OfferBeanTest {
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createCosts();
 		for (OfferCost offerCost:offerBean.getCosts()) {
-			assertEquals(new BigDecimal("16"),offerCost.getIva());
+			assertEquals(IVA16,offerCost.getIva());
 		}
 	}
 	
@@ -114,7 +120,7 @@ public class OfferBeanTest {
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createCosts();
 		for (OfferCost offerCost:offerBean.getCosts()) {
-			assertEquals(new BigDecimal("18"),offerCost.getIva());
+			assertEquals(IVA18,offerCost.getIva());
 		}
 	}
 	
@@ -127,7 +133,7 @@ public class OfferBeanTest {
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createCosts();
 		for (OfferCost offerCost:offerBean.getCosts()) {
-			assertEquals(new BigDecimal("18"),offerCost.getIva());
+			assertEquals(IVA18,offerCost.getIva());
 		}
 	}
 	
@@ -141,7 +147,7 @@ public class OfferBeanTest {
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertEquals(new BigDecimal("21"),billBreakDown.getIva());
+			assertEquals(IVA21,billBreakDown.getIva());
 		}
 	}
 	@Ignore
@@ -154,7 +160,7 @@ public class OfferBeanTest {
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertEquals(new BigDecimal("21"),billBreakDown.getIva());
+			assertEquals(IVA21,billBreakDown.getIva());
 		}
 	}
 }
