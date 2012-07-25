@@ -10,7 +10,8 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.autentia.tnt.businessobject.BillBreakDown;
-import com.autentia.tnt.util.testing.SpringUtilsForTesting;
+import com.autentia.tnt.test.utils.SpringUtilsForTesting;
+
 
 
 
@@ -66,8 +67,7 @@ public class BillBeanTest {
 		
 		BillBean billBean = new BillBean();
 		billBean.create();
-		// 1 de septiembre a la 1 de la madrugada
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1, 1, 0);
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1);
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {

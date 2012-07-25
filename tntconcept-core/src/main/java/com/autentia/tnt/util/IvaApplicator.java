@@ -10,7 +10,8 @@ public class IvaApplicator {
 
 	public static void applyIvaToTaxableObject(Date creationDate, TaxableObject item) {
 		
-		final GregorianCalendar firstDayOfActualIva = new GregorianCalendar(2012, 8, 1);
+		// 31 de Agosto a las 23:59:59
+		final GregorianCalendar firstDayOfActualIva = new GregorianCalendar(2012, 7, 31, 23, 59, 59);
 		if (creationDate.after(firstDayOfActualIva.getTime())) {		
 			item.setIva(new BigDecimal(ConfigurationUtil.getDefault().getActualIva()));
 		} else {

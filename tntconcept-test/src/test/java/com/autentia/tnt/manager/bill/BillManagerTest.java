@@ -47,8 +47,7 @@ public class BillManagerTest {
 	
 	final Date lastDateFor18Iva = new GregorianCalendar(2012, 7, 31).getTime();
 	
-	// 1 de Septiembre de 2012 a la 1 de la madrugada
-	final Date firstDateFor21Iva = new GregorianCalendar(2012, 8, 1, 1, 0).getTime();
+	final Date firstDateFor21Iva = new GregorianCalendar(2012, 8, 1).getTime();
 	
 	private final BigDecimal IVA16 = new BigDecimal("16");
 	

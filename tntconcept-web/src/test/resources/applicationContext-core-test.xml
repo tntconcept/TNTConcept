@@ -91,7 +91,7 @@
 	
 	<!-- Configuration bean -->
 	<bean id="configuration"
-		class="com.autentia.tnt.util.testing.ConfigurationUtilForTesting">
+		class="com.autentia.tnt.test.utils.ConfigurationUtilForTesting">
 		<!-- JNDI variable holding configuration directory -->
 		<!-- <constructor-arg value="java:comp/env/TNTConceptConfigDir"/> -->
 		<constructor-arg

@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -18,8 +17,8 @@ import com.autentia.tnt.businessobject.BillBreakDown;
 import com.autentia.tnt.businessobject.OfferCost;
 import com.autentia.tnt.businessobject.OfferRole;
 import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 import com.autentia.tnt.util.HibernateUtil;
-import com.autentia.tnt.util.testing.SpringUtilsForTesting;
 
 public class OfferBeanTest {
 	
@@ -103,8 +102,7 @@ public class OfferBeanTest {
 		
 		BillBean billBean = new BillBean();
 		billBean.create();
-		// 1 de Septiembre de 2012 a la 1 de la madrugada
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1, 1, 0);
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1);
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
@@ -156,8 +154,7 @@ public class OfferBeanTest {
 		
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
-		// 1 de Septiembre de 2012 a la 1 de la madrugada
-		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1, 1 ,0);
+		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1);
 		offerBean.setCreationDate(calendar.getTime());
 		offerBean.createCosts();
 		for (OfferCost offerCost:offerBean.getCosts()) {
