@@ -67,7 +67,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 			throws ConfigurationException, NamingException {
 		
 		super();
-		configDir = jndiPathVar;
+		configDir =  System.getProperty("user.dir") + jndiPathVar;
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
 			configDir += "/";
 		}

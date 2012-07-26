@@ -95,9 +95,9 @@
 		<!-- JNDI variable holding configuration directory -->
 		<!-- <constructor-arg value="java:comp/env/TNTConceptConfigDir"/> -->
 		<constructor-arg
-			value="/Users/abarranco/workspace/TNTConcept/tnt-parent/src/main/install/config/" />
+			value="/src/test/resources/configForTesting/" />
 
 		<!-- Configuration file -->
-		<constructor-arg value="autentia.properties" />
+		<constructor-arg value="autentia-test.properties" />
 	</bean>
 </beans>
