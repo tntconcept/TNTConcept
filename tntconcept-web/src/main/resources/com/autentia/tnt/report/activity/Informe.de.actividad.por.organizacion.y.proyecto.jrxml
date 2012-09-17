@@ -71,9 +71,9 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select orgName,userName,startDate,duration,description,fact,noFact, projectName from (
+	<queryString><![CDATA[select orgName,userName,roleName,startDate,duration,description,fact,noFact, projectName from (
 
-SELECT o.name as orgName,u.name as userName,p.name as projectName,
+SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as projectName,
  a.startDate,a.duration,a.description,sum(CASE WHEN a.billable=1
    					       then duration end) as 'fact',
 				      sum(CASE WHEN a.billable=0
@@ -87,6 +87,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
+	<field name="roleName" class="java.lang.String"/>
 	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
@@ -289,7 +290,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</rectangle>
 				<textField>
 					<reportElement
-						x="207"
+						x="8"
 						y="4"
 						width="100"
 						height="10"
@@ -304,7 +305,22 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField>
 					<reportElement
-						x="307"
+						x="108"
+						y="4"
+						width="70"
+						height="10"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text9}]]>
+					</textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement
+						x="177"
 						y="4"
 						width="40"
 						height="10"
@@ -319,7 +335,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField>
 					<reportElement
-						x="394"
+						x="264"
 						y="4"
 						width="136"
 						height="10"
@@ -334,22 +350,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField>
 					<reportElement
-						x="8"
-						y="4"
-						width="100"
-						height="10"
-						key="staticText-14"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text5}]]>
-					</textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement
-						x="347"
+						x="217"
 						y="4"
 						width="48"
 						height="10"
@@ -362,28 +363,13 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text6}]]>
 					</textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement
-						x="108"
-						y="4"
-						width="100"
-						height="10"
-						key="staticText-26"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text7}]]>
-					</textFieldExpression>
-				</textField>
 			</band>
 		</columnHeader>
 		<detail>
 			<band height="22"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="307"
+						x="177"
 						y="4"
 						width="40"
 						height="12"
@@ -396,7 +382,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="394"
+						x="264"
 						y="4"
 						width="363"
 						height="12"
@@ -418,20 +404,20 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgName}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{userName}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="208"
+						x="108"
 						y="4"
-						width="100"
+						width="70"
 						height="12"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{userName}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{roleName}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -447,7 +433,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</line>
 				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="347"
+						x="217"
 						y="4"
 						width="48"
 						height="12"
@@ -457,19 +443,6 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						<font fontName="Verdana" size="8"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[new java.lang.Double(($F{fact}.doubleValue())/60.0)]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="108"
-						y="4"
-						width="100"
-						height="12"
-						key="textField-11"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{projectName}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

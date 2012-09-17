@@ -69,6 +69,7 @@
 	<queryString><![CDATA[select 
 	orgName,
 	userName,
+	roleName,
 	startDate,
 	duration,
 	description, 
@@ -80,6 +81,7 @@ from (
 	SELECT 
 		o.name as orgName,
 		u.name as userName,
+		r.name as roleName,
 		a.startDate,
 		a.duration,
 		a.description,
@@ -108,6 +110,7 @@ from (
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
+	<field name="roleName" class="java.lang.String"/>
 	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
@@ -330,6 +333,21 @@ from (
 					<reportElement
 						x="253"
 						y="4"
+						width="77"
+						height="10"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$R{informe.de.actividad.text10}]]>
+					</textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement
+						x="323"
+						y="4"
 						width="66"
 						height="10"
 						key="staticText-6"/>
@@ -343,7 +361,7 @@ from (
 				</textField>
 				<textField>
 					<reportElement
-						x="417"
+						x="487"
 						y="4"
 						width="78"
 						height="10"
@@ -373,7 +391,7 @@ from (
 				</textField>
 				<textField>
 					<reportElement
-						x="309"
+						x="379"
 						y="1"
 						width="48"
 						height="16"
@@ -388,7 +406,7 @@ from (
 				</textField>
 				<textField>
 					<reportElement
-						x="363"
+						x="433"
 						y="1"
 						width="48"
 						height="16"
@@ -422,7 +440,7 @@ from (
 			<band height="22"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="253"
+						x="323"
 						y="4"
 						width="66"
 						height="12"
@@ -435,7 +453,7 @@ from (
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="414"
+						x="484"
 						y="4"
 						width="364"
 						height="12"
@@ -483,9 +501,22 @@ from (
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{userName}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="253"
+						y="4"
+						width="70"
+						height="12"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{roleName}]]></textFieldExpression>
+				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="313"
+						x="383"
 						y="4"
 						width="40"
 						height="12"
@@ -498,7 +529,7 @@ from (
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="368"
+						x="438"
 						y="4"
 						width="39"
 						height="12"
