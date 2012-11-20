@@ -71,7 +71,7 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select orgName,userName,roleName,startDate,duration,description,fact,noFact, projectName from (
+	<queryString><![CDATA[select orgName,userName,roleName,startDate,duration,description,COALESCE(fact/60,0) as fact,COALESCE(noFact/60,0) as noFact, projectName from (
 
 SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as projectName,
  a.startDate,a.duration,a.description,sum(CASE WHEN a.billable=1
@@ -81,7 +81,6 @@ SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as project
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
 and p.id=$P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-and a.billable=1
 group by a.id
 order by a.startDate,u.name) as tabla;]]></queryString>
 
@@ -95,8 +94,12 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 	<field name="noFact" class="java.math.BigDecimal"/>
 	<field name="projectName" class="java.lang.String"/>
 
-	<variable name="sumHorasFact" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[new java.lang.Double(($F{fact}.doubleValue())/60.0)]]></variableExpression>
+	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
+	</variable>
+	
+	<variable name="sumHorasNoFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{noFact}]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -277,7 +280,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="16"  isSplitAllowed="true" >
+			<band height="18"  isSplitAllowed="true" >
 				<rectangle radius="3" >
 					<reportElement
 						x="4"
@@ -335,7 +338,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField>
 					<reportElement
-						x="264"
+						x="318"
 						y="4"
 						width="136"
 						height="10"
@@ -348,19 +351,34 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text4}]]>
 					</textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self">
 					<reportElement
 						x="217"
-						y="4"
+						y="1"
 						width="48"
-						height="10"
+						height="16"
 						key="staticText-23"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String">
 						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text6}]]>
+					</textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self">
+					<reportElement
+						x="265"
+						y="1"
+						width="48"
+						height="16"
+						key="staticText-23"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text10}]]>
 					</textFieldExpression>
 				</textField>
 			</band>
@@ -382,7 +400,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="264"
+						x="318"
 						y="4"
 						width="363"
 						height="12"
@@ -442,7 +460,20 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[new java.lang.Double(($F{fact}.doubleValue())/60.0)]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{fact}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="265"
+						y="4"
+						width="48"
+						height="12"
+						key="textField-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{noFact}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
@@ -581,7 +612,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 			</band>
 		</lastPageFooter>
 		<summary>
-			<band height="50"  isSplitAllowed="true" >
+			<band height="81"  isSplitAllowed="true" >
 				<textField>
 					<reportElement
 						x="143"
@@ -597,6 +628,21 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text8}]]>
 					</textFieldExpression>
 				</textField>
+				<textField>
+					<reportElement
+						x="140"
+						y="31"
+						width="87"
+						height="14"
+						key="staticText-25"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Verdana" pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text11}]]>
+					</textFieldExpression>
+				</textField>
 				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="228"
@@ -608,7 +654,20 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					<textElement textAlignment="Left">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sumHorasFact}]]></textFieldExpression>
+				<textFieldExpression  class="java.math.BigDecimal"><![CDATA[$V{sumHorasFact}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="228"
+						y="31"
+						width="346"
+						height="14"
+						key="textField-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression  class="java.math.BigDecimal"><![CDATA[$V{sumHorasNoFact}]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>
