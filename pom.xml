@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.21.20</version>
+	<version>0.21.21-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
