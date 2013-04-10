@@ -61,9 +61,9 @@ public class ConfigurationUtil {
 	public ConfigurationUtil(String jndiPathVar, String file)
 			throws ConfigurationException, NamingException {
 		Context ctx = new InitialContext();
-		configDir = ctx.lookup(jndiPathVar).toString();
+		configDir = (String) ctx.lookup(jndiPathVar);
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
-			configDir = configDir.trim() + "/";
+			configDir += "/";
 		}
 		config = new PropertiesConfiguration(configDir + file);
 	}
