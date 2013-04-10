@@ -88,7 +88,7 @@
             </h:panelGroup>
             
             <h:panelGroup id="date" rendered="#{reportParameter.dateType == true}">
-                             <h:message styleClass="error" showSummary="true" showDetail="false" for="paramDate" />
+              <h:message styleClass="error" showSummary="true" showDetail="false" for="paramDate" />
               <t:inputCalendar id="paramDate" renderPopupButtonAsImage="true"
                                value="#{reportParameter.dateValue}" size="12"
                                renderAsPopup="true"
