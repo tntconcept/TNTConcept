@@ -43,10 +43,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 	<import value="com.autentia.tnt.util.ConfigurationUtil" />
 
-	<parameter name="SUBREPORT_HEADER" isForPrompting="false" class="java.lang.String">
-		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["ourOrganizationName_subreport"]]></defaultValueExpression>
-	</parameter>
+	
 	<parameter name="SUBREPORT_FOOTER" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
@@ -66,6 +63,12 @@
 	<parameter name="idOrg" isForPrompting="false" class="java.lang.Integer">
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 	</parameter>
+	<parameter name="SUBREPORT_HEADER" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["ourOrganizationName_subreport"]]></defaultValueExpression>
+	</parameter>
+	
+	
 	<queryString><![CDATA[select 
 	u.login as userName,
 	COALESCE(((sum(a.duration)/60)*pr.costPerHour),0) as facturado

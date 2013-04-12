@@ -43,10 +43,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 	<import value="com.autentia.tnt.util.ConfigurationUtil" />
 
-	<parameter name="SUBREPORT_HEADER" isForPrompting="true" class="java.lang.String">
-		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["ourOrganizationName_subreport"]]></defaultValueExpression>
-	</parameter>
+	
 	<parameter name="SUBREPORT_FOOTER" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
@@ -67,6 +64,11 @@
 		<parameterDescription><![CDATA[Date]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_HEADER" isForPrompting="true" class="java.lang.String">
+		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["ourOrganizationName_subreport"]]></defaultValueExpression>
+	</parameter>
+	
 	<queryString><![CDATA[SELECT ct.number,o.name,ct.issueDate, ct.expirationDate, ct.type, ct.amount
 from CreditTitle ct, Organization o
 where ct.organizationId = o.id
