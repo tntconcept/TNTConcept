@@ -46,7 +46,12 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 
 import com.autentia.tnt.bean.reports.ReportParameterDefinition;
+import com.autentia.tnt.businessobject.ProjectRole;
+import com.autentia.tnt.businessobject.Role;
+import com.autentia.tnt.dao.SortCriteria;
+import com.autentia.tnt.dao.hibernate.RoleDAO;
 import com.autentia.tnt.xml.ParameterReport;
+import com.sun.org.apache.commons.collections.IteratorUtils;
 
 public final class ReportUtil {
 
@@ -125,7 +130,11 @@ public final class ReportUtil {
 				} else if (definition.getType().equals("hidden")) {
 					parameters.append(definition.getId() + "=" + definition.getValue() + "&");
 				} else if (definition.getType().equals("selectMany") || definition.getType().equals("selectOne-selectMany")) {
-					selectMany.append(definition.getId() + "=" + definition.getValueMany() + "&");
+					if(definition.getIsRol()) {
+						parameters.append(definition.getId() + "=" + definition.getValue() + "&");
+					} else {
+						selectMany.append(definition.getId() + "=" + definition.getValueMany() + "&");
+					}
 				} else if (definition.getType().equals("checkbox")) {
 					parameters.append(definition.getId() + "=" + definition.getValue() + "&");
 				}
@@ -140,6 +149,7 @@ public final class ReportUtil {
 		String desc;
 		String def;
 		ReportParameterDefinition pdef;
+		boolean showRol = false;
 		
 		if (parameters != null) {
 			for (ParameterReport parameter : parameters){
@@ -156,6 +166,11 @@ public final class ReportUtil {
 						pdef = new ReportParameterDefinition(name, "year", name, years);
 					} else if (desc.equals("USER")) {
 						pdef = new ReportParameterDefinition(name, "selectOne", name, users);
+					} else if (desc.equals("ROL")) {
+						showRol = true;
+						List rolDefault = new ArrayList();
+						rolDefault.add(new SelectItem("1", "-"));
+						pdef = new ReportParameterDefinition(name, "selectOne", name, rolDefault);
 					} else if (desc.equals("ORGANIZATION")) {
 						pdef = new ReportParameterDefinition(name, "selectMany", name, orgs);
 					} else if (desc.equals("PROJECT")) {
@@ -179,6 +194,26 @@ public final class ReportUtil {
 				}
 			}
 		}
+		
+		if(showRol) {
+			for (ReportParameterDefinition rp : reportParametersDefinitions ) {
+				if(rp.getId().equals("Proyecto")) {
+					rp.setIsRol(true);
+				}
+			}
+		}
+	}
+	
+	
+	public static ArrayList<SelectItem> getRoles(ArrayList<SelectItem> projs){
+		final RoleDAO roleDAO = new RoleDAO();
+		
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		List<Role> roles = roleDAO.search(new SortCriteria("name"));
+		for (Role role : roles) {
+			ret.add(new SelectItem(role.getId().toString(), role.getName()));
+		}
+		return ret;
 	}
 	
 	/**

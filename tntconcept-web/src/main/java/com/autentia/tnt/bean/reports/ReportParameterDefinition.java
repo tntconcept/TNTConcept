@@ -44,6 +44,15 @@ public class ReportParameterDefinition {
 	private Date dateValue;
 	private List items;
 	private List items2;
+	private boolean isRol = false;
+	
+	public boolean getIsRol() {
+		return isRol;
+	}
+	
+	public void setIsRol(boolean isRol) {
+		this.isRol = isRol;
+	}
 	
 	
 	public void setValueMany(List valueMany) {

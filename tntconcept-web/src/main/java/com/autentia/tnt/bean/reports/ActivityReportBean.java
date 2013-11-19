@@ -34,13 +34,17 @@ import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.bean.contacts.InteractionBean;
 import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.businessobject.Project;
+import com.autentia.tnt.businessobject.ProjectRole;
 import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.OrganizationDAO;
 import com.autentia.tnt.dao.hibernate.ProjectDAO;
+import com.autentia.tnt.dao.hibernate.ProjectRoleDAO;
+import com.autentia.tnt.dao.hibernate.RoleDAO;
 import com.autentia.tnt.dao.hibernate.UserDAO;
 import com.autentia.tnt.dao.search.BillSearch;
-import com.autentia.tnt.dao.search.ProjectSearch;
+import com.autentia.tnt.dao.search.OrganizationSearch;
+import com.autentia.tnt.dao.search.ProjectRoleSearch;
 import com.autentia.tnt.manager.admin.ProjectManager;
 import com.autentia.tnt.manager.report.ReportManager;
 import com.autentia.tnt.util.ConfigurationUtil;
@@ -74,6 +78,8 @@ public class ActivityReportBean extends BaseBean {
 	private static final ProjectDAO projectDAO = new ProjectDAO();
 
 	private static final UserDAO userDAO = new UserDAO();
+	
+	private static final ProjectRoleDAO projectRoleDAO = new ProjectRoleDAO();
 
 	private BillSearch search = new BillSearch();
 
@@ -90,6 +96,7 @@ public class ActivityReportBean extends BaseBean {
 	/** Selected organization * */
 	private String selectedOrganization	= Integer.toString(ConfigurationUtil.getDefault().getIdOurCompany());
 	
+	private String selectedProject;
 
 	private boolean launch = false;
 
@@ -222,6 +229,20 @@ public class ActivityReportBean extends BaseBean {
 		}
 		return reto;
 	}
+	
+	public ArrayList<SelectItem> getRoles(){
+		ArrayList<SelectItem> reto = new ArrayList<SelectItem>();
+		ProjectRoleSearch prCriteria = new ProjectRoleSearch();
+		Project project = projectDAO.getById(Integer.parseInt(selectedProject));
+		if(project == null)
+			return reto;
+		prCriteria.setProject(project);
+		List<ProjectRole> projectRoles = projectRoleDAO.search(prCriteria, new SortCriteria("name"));
+		for (ProjectRole pRole : projectRoles) {
+			reto.add(new SelectItem(pRole.getId().toString(), pRole.getName()));
+		}
+		return reto;
+	}
 
 	public ArrayList<SelectItem> getUsers() {
 		ArrayList<SelectItem> reto = new ArrayList<SelectItem>();
@@ -252,6 +273,14 @@ public class ActivityReportBean extends BaseBean {
 			return;
 
 	}
+	
+	public String getSelectedProject() {
+		return selectedProject;
+	}
+	
+	public void setSelectedProject(String selectedProject) {
+		this.selectedProject = selectedProject;
+	}
 
 	public String getSelectedOrganization() {
 		return selectedOrganization;
@@ -271,6 +300,22 @@ public class ActivityReportBean extends BaseBean {
 			}			
 		}
 		
+		FacesUtils.renderResponse();
+	}
+	
+	public void selectedProjectChanged(ValueChangeEvent event) {
+		
+		setSelectedProject((String) event.getNewValue());
+		
+		for (ReportParameterDefinition param : reportParametersDefinitions) {
+			if(param.getId().equals("ROL")) {
+				param.setItems(getRoles());
+			}
+			if(param.getId().equalsIgnoreCase("Proyecto")) {
+				param.setValue(selectedProject);
+			}
+		}
+			
 		FacesUtils.renderResponse();
 	}
 	
