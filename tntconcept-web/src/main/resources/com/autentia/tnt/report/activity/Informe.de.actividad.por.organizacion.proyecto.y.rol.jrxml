@@ -42,7 +42,12 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 	<import value="com.autentia.tnt.util.ConfigurationUtil" />
-
+	
+	<parameter name="idOrg" isForPrompting="true" class="java.lang.Integer">
+		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
+		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
+	</parameter>
+	
 	<parameter name="descripcion" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.de.actividad.por.organizacion.proyecto.y.rol.description"]]></defaultValueExpression>
@@ -53,10 +58,14 @@
 		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
 	
+
+	
 	<parameter name="ROL" isForPrompting="true" class="java.lang.Integer">
 		<parameterDescription><![CDATA[ROL]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
+	
+
 	
 	<parameter name="Fecha inicio" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
@@ -67,7 +76,7 @@
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
 	
-	<parameter name="SUBREPORT_HEADER" isForPrompting="true" class="java.lang.String">
+						<parameter name="SUBREPORT_HEADER" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganizationName_subreport"]]></defaultValueExpression>
 	</parameter>
@@ -75,10 +84,10 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="idOrg" isForPrompting="true" class="java.lang.Integer">
-		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
-		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
-	</parameter>
+
+	
+	
+
 	
 	
 <queryString><![CDATA[
@@ -170,6 +179,21 @@ SELECT 	o.name as orgName,
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.organizacion.proyecto.y.rol.description}]]></textFieldExpression>
 				</textField>
+				
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="12"
+						y="65"
+						width="602"
+						height="15"
+						key="staticText-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Oblique" size="10" isItalic="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Organización: " + $F{orgName} + ", proyecto: " + $F{projectName} + ", y rol: " + $F{roleName} + "." ]]></textFieldExpression>
+				</textField>
+				
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="12"
@@ -324,7 +348,7 @@ SELECT 	o.name as orgName,
 				</rectangle>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="108"
+						x="18"
 						y="4"
 						width="100"
 						height="10"
@@ -337,7 +361,7 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="277"
+						x="160"
 						y="4"
 						width="40"
 						height="10"
@@ -350,9 +374,9 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="463"
 						y="4"
-						width="136"
+						width="163"
 						height="10"
 						key="staticText-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -363,20 +387,7 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="208"
-						y="4"
-						width="70"
-						height="10"
-						key="staticText-14"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.organizacion.proyecto.y.rol.rol}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="317"
+						x="250"
 						y="1"
 						width="48"
 						height="16"
@@ -389,7 +400,7 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="366"
+						x="336"
 						y="1"
 						width="48"
 						height="16"
@@ -400,26 +411,13 @@ SELECT 	o.name as orgName,
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.organizacion.proyecto.y.rol.horasNoFactTitulo}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="8"
-						y="4"
-						width="100"
-						height="10"
-						key="staticText-26"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.organizacion.proyecto.y.rol.proyecto}]]></textFieldExpression>
-				</textField>
 			</band>
 		</columnHeader>
 		<detail>
 			<band height="22"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="277"
+						x="160"
 						y="4"
 						width="40"
 						height="12"
@@ -432,9 +430,9 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						x="463"
 						y="4"
-						width="363"
+						width="163"
 						height="12"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -445,20 +443,7 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="208"
-						y="4"
-						width="70"
-						height="12"
-						key="textField"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{roleName}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="108"
+						x="18"
 						y="4"
 						width="100"
 						height="12"
@@ -483,7 +468,7 @@ SELECT 	o.name as orgName,
 				</line>
 				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="317"
+						x="250"
 						y="4"
 						width="48"
 						height="12"
@@ -496,7 +481,7 @@ SELECT 	o.name as orgName,
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="365"
+						x="336"
 						y="4"
 						width="48"
 						height="12"
@@ -506,19 +491,6 @@ SELECT 	o.name as orgName,
 						<font fontName="Verdana" size="8"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{noFact}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="8"
-						y="4"
-						width="100"
-						height="12"
-						key="textField-11"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{projectName}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
@@ -660,9 +632,9 @@ SELECT 	o.name as orgName,
 			<band height="81"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="102"
+						x="59"
 						y="29"
-						width="83"
+						width="115"
 						height="14"
 						key="staticText-25"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -687,7 +659,7 @@ SELECT 	o.name as orgName,
 				
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="83"
+						x="63"
 						y="46"
 						width="102"
 						height="14"
