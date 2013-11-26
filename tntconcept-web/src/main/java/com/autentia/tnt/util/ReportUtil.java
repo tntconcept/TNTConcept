@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -142,9 +143,8 @@ public final class ReportUtil {
 		}
 	}
 
-
 	
-	public static void createReportParameterDefinition(List<ParameterReport> parameters, ArrayList<ReportParameterDefinition> reportParametersDefinitions, ArrayList<SelectItem> users, ArrayList<SelectItem> orgs, ArrayList<SelectItem> projs, ArrayList<SelectItem> years) {
+	public static void createReportParameterDefinition(List<ParameterReport> parameters, ArrayList<ReportParameterDefinition> reportParametersDefinitions, Map<String, List<SelectItem>> dataPanel) {
 		String name;
 		String desc;
 		String def;
@@ -163,20 +163,18 @@ public final class ReportUtil {
 					if (desc.equals("DATE")) {
 						pdef = new ReportParameterDefinition(name, "date", name, new Date());
 					} else if (desc.equals("YEAR")) {
-						pdef = new ReportParameterDefinition(name, "year", name, years);
+						pdef = new ReportParameterDefinition(name, "year", name, dataPanel.get("years"));
 					} else if (desc.equals("USER")) {
-						pdef = new ReportParameterDefinition(name, "selectOne", name, users);
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("users"));
 					} else if (desc.equals("ROL")) {
 						showRol = true;
-						List rolDefault = new ArrayList();
-						rolDefault.add(new SelectItem("1", "-"));
-						pdef = new ReportParameterDefinition(name, "selectOne", name, rolDefault);
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("roles"));
 					} else if (desc.equals("ORGANIZATION")) {
-						pdef = new ReportParameterDefinition(name, "selectMany", name, orgs);
+						pdef = new ReportParameterDefinition(name, "selectMany", name, dataPanel.get("orgs"));
 					} else if (desc.equals("PROJECT")) {
-						pdef = new ReportParameterDefinition(name, "selectOne-selectMany", name, orgs, projs);
+						pdef = new ReportParameterDefinition(name, "selectOne-selectMany", name, dataPanel.get("orgs"), dataPanel.get("projects"));
 					} else if (desc.equals("PROJECT_OUR_COMPANY")) {
-						pdef = new ReportParameterDefinition(name, "selectOne", name, orgs, projs);
+						pdef = new ReportParameterDefinition(name, "selectOne", name,  dataPanel.get("projects"));
 					} else if (desc.equals("SUBREPORT")) {
 						pdef = new ReportParameterDefinition(name, "hidden", name, def.replace('"', ' ').trim());
 					} else if (desc.equals("DESCRIPTION")) {
@@ -184,7 +182,7 @@ public final class ReportUtil {
 					} else if (desc.equals("TIMESTAMP")) {
 						pdef = new ReportParameterDefinition(name, "timestamp", name, new Date());
 					} else if (desc.equals("ACCOUNT")) {
-						pdef = new ReportParameterDefinition(name, "selectOne", name, projs);
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("accounts"));
 					} else if (desc.equals("BILLABLE")) {
 						pdef = new ReportParameterDefinition(name, "checkbox", name, new Boolean(false));
 					} else {
@@ -197,7 +195,7 @@ public final class ReportUtil {
 		
 		if(showRol) {
 			for (ReportParameterDefinition rp : reportParametersDefinitions ) {
-				if(rp.getId().equals("Proyecto")) {
+				if(rp.getId().equalsIgnoreCase("Proyecto")) {
 					rp.setIsRol(true);
 				}
 			}

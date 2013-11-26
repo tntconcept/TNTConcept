@@ -191,7 +191,7 @@ SELECT 	o.name as orgName,
 					<textElement textAlignment="Left">
 						<font pdfFontName="Helvetica-Oblique" size="10" isItalic="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Organización: " + $F{orgName} + ", proyecto: " + $F{projectName} + ", y rol: " + $F{roleName} + "." ]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Proyecto: " + $F{projectName} + "; ROL: " + $F{roleName} + "." ]]></textFieldExpression>
 				</textField>
 				
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >

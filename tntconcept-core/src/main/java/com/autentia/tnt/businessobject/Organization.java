@@ -164,7 +164,7 @@ public class Organization implements Serializable, ITransferObject
 public void setEvaluationCriteria(EvaluationCriteria evaluationCriteria) {
 	this.evaluationCriteria = evaluationCriteria;
 }
-private void setId( Integer id ) {
+public void setId( Integer id ) {
     this.id = id;
   }
       

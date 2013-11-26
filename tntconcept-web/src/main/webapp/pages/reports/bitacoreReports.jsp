@@ -113,7 +113,7 @@
             <h:panelGroup id="selectOneSelectManys" rendered="#{reportParameter.selectOneSelectManyType == true}">
              <h:message styleClass="error" showSummary="true" showDetail="false" for="selectMany2" />
               <h:selectOneMenu id="selectOneOrg"  immediate="true" onchange="submit()"
-                 value="#{activityReportBean.selectedOrganization}" required="true" 
+                 value="#{activityReportBean.selectedOrganization.id}" required="true" 
                  valueChangeListener="#{activityReportBean.selectedOrganizationChanged}">
                 <f:selectItems value="#{reportParameter.items}" />                
               </h:selectOneMenu>
@@ -122,10 +122,10 @@
               rendered="#{reportParameter.isRol == false}"  disabled="#{reportParameter.isRol == true}">
                 <f:selectItems value="#{reportParameter.items2}" />
               </h:selectManyListbox>
-              <h:selectOneMenu id="selectOneProject" value="#{activityReportBean.selectedProject}" onchange="submit()"
+              <h:selectOneMenu id="selectOneProject" value="#{activityReportBean.selectedProject.id}" onchange="submit()"
               rendered="#{reportParameter.isRol == true}" required="#{reportParameter.isRol == true}" disabled="#{reportParameter.isRol == false}"
                valueChangeListener="#{activityReportBean.selectedProjectChanged}">
-               <f:selectItems value="#{reportParameter.items2}" />
+               <f:selectItems value="#{reportParameter.items2}"/>
                </h:selectOneMenu>
             </h:panelGroup>
             

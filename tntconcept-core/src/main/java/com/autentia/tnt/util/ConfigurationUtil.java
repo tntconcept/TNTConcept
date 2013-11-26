@@ -99,6 +99,10 @@ public class ConfigurationUtil {
 	public int getIdOurCompany() {
 		return Integer.parseInt(getProperty("idOurCompany", "1"));
 	}
+	
+	public int getIdProject() {
+		return Integer.parseInt(getProperty("idProject", "1"));
+	}
 
 	/**
 	 * Get id of the main Category's Id for Quality Documents.

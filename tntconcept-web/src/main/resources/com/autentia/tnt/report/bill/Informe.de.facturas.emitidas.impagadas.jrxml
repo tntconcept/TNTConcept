@@ -43,7 +43,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 	<import value="com.autentia.tnt.util.ConfigurationUtil" />
 
-	<parameter name="descripcion" isForPrompting="true" class="java.lang.String">
+	<parameter name="descripcion" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.de.facturas.emitidas.impagadas.description"]]></defaultValueExpression>
 	</parameter>
@@ -55,17 +55,20 @@
 		<parameterDescription><![CDATA[Date]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_HEADER" isForPrompting="true" class="java.lang.String">
-		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["ourOrganizationName_subreport"]]></defaultValueExpression>
+	<parameter name="idOrg" isForPrompting="false" class="java.lang.Integer">
+		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 	</parameter>
-	<parameter name="SUBREPORT_FOOTER" isForPrompting="true" class="java.lang.String">
+	<parameter name="SUBREPORT_HEADER" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["ourOrganizationNameCenter_subreport"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_FOOTER" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="idOrg" isForPrompting="true" class="java.lang.Integer">
-		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
-		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
+	<parameter name="SUBREPORT_FECHA_ASIENTOS" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["subinforme_fecha_asientos"]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT b.number,o.name,b.creationDate, max(bp.expirationDate) AS expiration,COALESCE(sum(bb.amount*bb.units*(1 + (bb.iva/100))),0) AS sumaTotal
 from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, Project p, BillPayment bp
