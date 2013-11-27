@@ -66,7 +66,7 @@ public abstract class ReportBean extends BaseBean {
 
 	private ArrayList<ReportParameterDefinition> reportParametersDefinitions;
 	
-	private static Map<String, List<SelectItem>> dataPanels = new HashMap<String, List<SelectItem>>();
+	private static Map<String, List<SelectItem>> dataPanels = null; 
 	
 	private static final OrganizationDAO organizationDAO = new OrganizationDAO();
 	private static final ProjectDAO projectDAO = new ProjectDAO();
@@ -133,6 +133,8 @@ public abstract class ReportBean extends BaseBean {
 
 	protected void setMapDataPanels(List<Integer> arguments){
 		
+		dataPanels = new HashMap<String, List<SelectItem>>();
+		
 		for (Integer argument : arguments) {
 
 			switch (argument) {
@@ -171,7 +173,9 @@ public abstract class ReportBean extends BaseBean {
 		
 		reportParametersDefinitions = new ArrayList<ReportParameterDefinition>();
 
-		init();
+		if (dataPanels == null){
+			init();
+		}
 		for (List reportsData : listReports) {
 
 			// En el 0 esta el nombre

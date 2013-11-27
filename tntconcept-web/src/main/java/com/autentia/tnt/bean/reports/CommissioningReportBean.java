@@ -64,8 +64,6 @@ public class CommissioningReportBean extends ReportBean{
 						
 		List<Project> refs = projectDAO.search(new SortCriteria("name"));
 		for (Project ref : refs) {
-			String clave = ref.getId().toString();
-			String name = ref.getName();
 			reto.add(new SelectItem(ref.getId().toString(), ref.getName()));
 		}
 		return reto;
