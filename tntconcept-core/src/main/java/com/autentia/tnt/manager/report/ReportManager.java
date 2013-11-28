@@ -87,7 +87,7 @@ public class ReportManager implements ContentHandler {
 		reportListOffer = parserFolderReport(true, COM_AUTENTIA_TNT_REPORT_OFFER);
 		reportListCommissioning = parserFolderReport(true, COM_AUTENTIA_TNT_REPORT_COMMISSIONING);
 		reportListPersonal = parserFolderReport(false, ConfigurationUtil.getDefault()
-				.getReportPath());
+				.getReportPath() + "personal/");
 		reportListOwn = parserOwnReport();
 	}
 

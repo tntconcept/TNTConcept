@@ -21,11 +21,18 @@
 
 package com.autentia.tnt.bean.reports;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import javax.faces.model.SelectItem;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.autentia.tnt.businessobject.Project;
+import com.autentia.tnt.dao.SortCriteria;
+import com.autentia.tnt.dao.hibernate.ProjectDAO;
 import com.autentia.tnt.manager.report.ReportManager;
 
 public class ProjectReportBean extends ReportBean {
@@ -38,9 +45,22 @@ public class ProjectReportBean extends ReportBean {
 		setMapDataPanels(Arrays.asList
 			(
 				USERS_ARGUMENTS,
-				ORGANIZATIONS_ARGUMENTS
+				ORGANIZATIONS_ARGUMENTS,
+				PROJECTS_ARGUMENTS
 			)
 		);
+	}
+	
+	@Override
+	public ArrayList<SelectItem> getProjects() {
+		ProjectDAO projectDAO = new ProjectDAO();
+		ArrayList<SelectItem> reto = new ArrayList<SelectItem>();
+						
+		List<Project> refs = projectDAO.search(new SortCriteria("name"));
+		for (Project ref : refs) {
+			reto.add(new SelectItem(ref.getId().toString(), ref.getName()));
+		}
+		return reto;
 	}
 	
 	@Override 

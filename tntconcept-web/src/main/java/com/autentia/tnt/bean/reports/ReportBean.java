@@ -295,7 +295,7 @@ public abstract class ReportBean extends BaseBean {
 				"name"));
 
 		for (Account ref : refs) {
-			reto.add(new SelectItem(ref.getId(), ref.getName()));
+			reto.add(new SelectItem(ref.getId().toString(), ref.getName()));
 		}
 
 		return reto;

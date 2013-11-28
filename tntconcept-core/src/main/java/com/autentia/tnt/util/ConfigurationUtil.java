@@ -142,7 +142,11 @@ public class ConfigurationUtil {
 	 * @return personal reports path
 	 */
 	public String getReportPath() {
-		return getProperty("pathReports", "/var/lib/tntconcept/reports");
+		String ret = getProperty("pathReports", "/var/lib/tntconcept/reports");
+		if (!ret.endsWith("\\") || !ret.endsWith("/")) {
+			ret += File.separator;
+		}
+		return ret;
 	}
 
 	/**
