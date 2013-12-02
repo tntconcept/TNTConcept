@@ -173,9 +173,8 @@ public abstract class ReportBean extends BaseBean {
 		
 		reportParametersDefinitions = new ArrayList<ReportParameterDefinition>();
 
-		if (dataPanels == null){
-			init();
-		}
+		init();
+		
 		for (List reportsData : listReports) {
 
 			// En el 0 esta el nombre

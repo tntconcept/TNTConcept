@@ -576,7 +576,9 @@ public class ReportServlet extends HttpServlet {
 					.append("<subreportParameter  name='eurosPerHour'>")
 					.append(
 							"<subreportParameterExpression><![CDATA[new java.lang.Double(")
-					.append(user.getSalaryPerHour()).append(
+			//		.append(user.getSalaryPerHour())
+					.append(new Double(0))
+					.append(
 							")]]></subreportParameterExpression>").append(
 							"</subreportParameter>");
 			detail
