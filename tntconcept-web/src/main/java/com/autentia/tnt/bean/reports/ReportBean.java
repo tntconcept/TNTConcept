@@ -55,13 +55,6 @@ import com.autentia.tnt.xml.ParameterReport;
 
 public abstract class ReportBean extends BaseBean {
 
-	protected static final int ORGANIZATIONS_ARGUMENTS = 1;
-	protected static final int PROJECTS_ARGUMENTS = 2;
-	protected static final int USERS_ARGUMENTS = 3;
-	protected static final int ROLES_ARGUMENTS = 4;
-	protected static final int YEARS_ARGUMENTS = 5;
-	protected static final int ACCOUNTS_ARGUMENTS = 6;
-
 	private ArrayList<SelectItem> reports;
 
 	private ArrayList<ReportParameterDefinition> reportParametersDefinitions;
@@ -88,8 +81,20 @@ public abstract class ReportBean extends BaseBean {
 
 	private String format;
 	
-	protected abstract void init();
+	
 	protected abstract void setListReports();
+	
+	protected void init(){
+		
+		dataPanels = new HashMap<String, List<SelectItem>>();
+		
+		dataPanels.put("users", getUsers());
+		dataPanels.put("projects", getProjects());
+		dataPanels.put("orgs", getOrganizations());
+		dataPanels.put("roles", getRoles());
+		dataPanels.put("years", getYears());
+		dataPanels.put("accounts", getAccounts());
+	}
 	
 	public void run() {
 		parameters = new StringBuffer();
@@ -124,45 +129,22 @@ public abstract class ReportBean extends BaseBean {
 		//actualizar lista de reports cuando cambia entre categorias.
 		setListReports();
 		createReportParameters();
+		for (ReportParameterDefinition param : reportParametersDefinitions) {
+			 if (param.getId().equalsIgnoreCase("Proyecto")) {
+				param.setValue(getSelectedProject().getId().toString());
+			}
+		}
 		FacesUtils.renderResponse();
 	}
 
 	public String getSelectedReport() {
 		return selectedReport;
 	}
-
-	protected void setMapDataPanels(List<Integer> arguments){
-		
-		dataPanels = new HashMap<String, List<SelectItem>>();
-		
-		for (Integer argument : arguments) {
-
-			switch (argument) {
-			case USERS_ARGUMENTS:
-				dataPanels.put("users", getUsers());
-				break;
-			case PROJECTS_ARGUMENTS:
-				dataPanels.put("projects", getProjects());
-				break;
-			case ORGANIZATIONS_ARGUMENTS:
-				dataPanels.put("orgs", getOrganizations());
-				break;
-			case ROLES_ARGUMENTS:
-				dataPanels.put("roles", getRoles());
-				break;
-			case YEARS_ARGUMENTS:
-				dataPanels.put("years", getYears());
-				break;
-			case ACCOUNTS_ARGUMENTS:
-				dataPanels.put("accounts", getAccounts());
-				break;
-			}
-
-		}
-
-	}
 	
 	private Map<String, List<SelectItem>> getMapDataPanels() {
+		
+		init();
+		
 		return dataPanels;
 	}
 	
@@ -172,8 +154,6 @@ public abstract class ReportBean extends BaseBean {
 
 		
 		reportParametersDefinitions = new ArrayList<ReportParameterDefinition>();
-
-		init();
 		
 		for (List reportsData : listReports) {
 
@@ -271,7 +251,7 @@ public abstract class ReportBean extends BaseBean {
 				projectRoleSearch, new SortCriteria("name"));
 
 		for (ProjectRole projectRole : projectRoles) {
-			ret.add(new SelectItem(projectRole.getProject().getId().toString(), projectRole
+			ret.add(new SelectItem(projectRole.getId().toString(), projectRole
 					.getName()));
 		}
 
@@ -361,7 +341,7 @@ public abstract class ReportBean extends BaseBean {
 				param.setItems(getRoles());
 			}
 			else if (param.getId().equalsIgnoreCase("Proyecto")) {
-				param.setValue((getSelectedProject().getId()).toString());
+				param.setValue(getSelectedProject().getId().toString());
 			}
 		}
 
@@ -371,14 +351,14 @@ public abstract class ReportBean extends BaseBean {
 	public void selectedProjectChanged(ValueChangeEvent event) {
 
 		setSelectedProject(ProjectManager.getDefault().getEntityById(
-				(Integer) event.getNewValue()));
+				Integer.parseInt(event.getNewValue().toString())));
 
 		for (ReportParameterDefinition param : reportParametersDefinitions) {
 			if (param.getId().equalsIgnoreCase("ROL")) {
 				param.setItems(getRoles());
 			}
 			else if (param.getId().equalsIgnoreCase("Proyecto")) {
-				param.setValue((getSelectedProject().getId()).toString());
+				param.setValue(getSelectedProject().getId().toString());
 			}
 		}
 

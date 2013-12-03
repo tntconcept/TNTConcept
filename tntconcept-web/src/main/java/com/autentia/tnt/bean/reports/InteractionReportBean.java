@@ -32,21 +32,8 @@ public class InteractionReportBean extends ReportBean{
 	
 	private static final Log log = LogFactory.getLog(InteractionReportBean.class);
 	
-
-	@Override
-	protected void init(){
-		
-		setMapDataPanels(Arrays.asList
-			(
-				USERS_ARGUMENTS,
-				ORGANIZATIONS_ARGUMENTS
-			)
-		);
-	}
-	
 	@Override protected void setListReports(){
 		listReports = ReportManager.getReportManager().getReportListInteraction();
 	}
-	
 	
 }

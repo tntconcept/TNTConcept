@@ -75,9 +75,6 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
-	</parameter>
 	<queryString><![CDATA[SELECT o.name as concepto,b.id as billId, case b.state when 'PAID' then 'Pagada'
                     when 'EMITTED' then 'Emitida'
                     when 'IN_CREDITTITLE' then 'En pagare'

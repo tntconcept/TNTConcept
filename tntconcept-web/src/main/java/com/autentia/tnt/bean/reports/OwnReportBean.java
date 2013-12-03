@@ -32,18 +32,6 @@ public class OwnReportBean extends ReportBean {
 	
 	private static final Log log = LogFactory.getLog(OwnReportBean.class);
 	
-	@Override
-	protected void init(){
-		
-		setMapDataPanels(Arrays.asList
-			(
-				USERS_ARGUMENTS,
-				PROJECTS_ARGUMENTS,
-				ORGANIZATIONS_ARGUMENTS
-			)
-		);
-	}
-	
 	@Override protected void setListReports(){
 		listReports = ReportManager.getReportManager().getReportListOwn();
 	}

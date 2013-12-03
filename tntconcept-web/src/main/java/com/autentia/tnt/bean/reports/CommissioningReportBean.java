@@ -41,21 +41,6 @@ import com.autentia.tnt.manager.report.ReportManager;
 public class CommissioningReportBean extends ReportBean{
 	
 	private static final Log log = LogFactory.getLog(CommissioningReportBean.class);
-
-	
-	@Override
-	protected void init(){
-		
-		setMapDataPanels(Arrays.asList
-			(
-				USERS_ARGUMENTS,
-				PROJECTS_ARGUMENTS,
-				YEARS_ARGUMENTS,
-				ORGANIZATIONS_ARGUMENTS
-			)
-		);
-	}
-	
 	
 	@Override
 	public ArrayList<SelectItem> getProjects() {

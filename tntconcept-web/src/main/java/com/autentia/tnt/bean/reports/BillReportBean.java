@@ -37,19 +37,6 @@ public class BillReportBean extends ReportBean{
 	private static final Log log = LogFactory.getLog(BillReportBean.class);
 
 	
-	@Override
-	protected void init(){
-		
-		setMapDataPanels(Arrays.asList
-			(
-				USERS_ARGUMENTS,
-				PROJECTS_ARGUMENTS,
-				YEARS_ARGUMENTS,
-				ACCOUNTS_ARGUMENTS
-			)
-		);
-	}
-	
 	@Override protected void setListReports(){
 		listReports = ReportManager.getReportManager().getReportListBill();
 	}

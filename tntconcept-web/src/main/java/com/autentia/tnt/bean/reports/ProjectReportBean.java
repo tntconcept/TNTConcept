@@ -40,18 +40,6 @@ public class ProjectReportBean extends ReportBean {
 	private static final Log log = LogFactory.getLog(ProjectReportBean.class);
 	
 	@Override
-	protected void init(){
-		
-		setMapDataPanels(Arrays.asList
-			(
-				USERS_ARGUMENTS,
-				ORGANIZATIONS_ARGUMENTS,
-				PROJECTS_ARGUMENTS
-			)
-		);
-	}
-	
-	@Override
 	public ArrayList<SelectItem> getProjects() {
 		ProjectDAO projectDAO = new ProjectDAO();
 		ArrayList<SelectItem> reto = new ArrayList<SelectItem>();

@@ -38,18 +38,7 @@ import com.autentia.tnt.manager.report.ReportManager;
 public class PersonalReportBean extends ReportBean {
 	
 	private static final Log log = LogFactory.getLog(PersonalReportBean.class);
-	
-	@Override
-	protected void init(){
-		
-		setMapDataPanels(Arrays.asList
-			(
-				USERS_ARGUMENTS,
-				ORGANIZATIONS_ARGUMENTS,
-				PROJECTS_ARGUMENTS
-			)
-		);
-	}
+
 	
 	@Override protected void setListReports(){
 		listReports = ReportManager.getReportManager().getReportListPersonal();
