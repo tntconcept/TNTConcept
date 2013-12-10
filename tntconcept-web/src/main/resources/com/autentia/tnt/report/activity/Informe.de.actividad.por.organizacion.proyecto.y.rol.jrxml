@@ -125,7 +125,7 @@ SELECT 	o.name as orgName,
 				a.startDate between $P{Fecha inicio} and 
 				$P{Fecha fin}
 				
-		group by a.id
+		group by r.id
 		
 		order by a.startDate,u.name) 
 		

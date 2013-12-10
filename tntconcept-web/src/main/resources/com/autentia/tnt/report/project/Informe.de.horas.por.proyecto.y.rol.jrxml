@@ -37,7 +37,7 @@
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
 	<parameter name="Proyectos" isForPrompting="false" class="java.lang.Integer">
-		<parameterDescription><![CDATA[Projects]]></parameterDescription>
+		<parameterDescription><![CDATA[Project]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_HEADER" isForPrompting="false" class="java.lang.String">
@@ -58,8 +58,8 @@
  		  then duration end),0) as 'noFact',
  		 IFNULL((( sum(CASE WHEN a.billable=1
     		 then duration end) / r.expectedHours) * 100.0),0) as 'percentage'
-	FROM Activity a LEFT JOIN projectrole r on a.roleId=r.id 
-	LEFT JOIN project p on p.id=r.projectId 
+	FROM Activity a LEFT JOIN ProjectRole r on a.roleId=r.id 
+	LEFT JOIN Project p on p.id=r.projectId 
 	WHERE  p.id=$P{Proyectos}
 		and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
 group by p.id, r.name;]]></queryString>

@@ -42,19 +42,6 @@ public class CommissioningReportBean extends ReportBean{
 	
 	private static final Log log = LogFactory.getLog(CommissioningReportBean.class);
 	
-	@Override
-	public ArrayList<SelectItem> getProjects() {
-		ProjectDAO projectDAO = new ProjectDAO();
-		ArrayList<SelectItem> reto = new ArrayList<SelectItem>();
-						
-		List<Project> refs = projectDAO.search(new SortCriteria("name"));
-		for (Project ref : refs) {
-			reto.add(new SelectItem(ref.getId().toString(), ref.getName()));
-		}
-		return reto;
-	}
-	
-	
 	@Override 
 	protected void setListReports(){
 		listReports =  ReportManager.getReportManager().getReportListCommissioning();

@@ -232,7 +232,10 @@ public abstract class ReportBean extends BaseBean {
 		ProjectSearch projectCriteria = new ProjectSearch();
 		projectCriteria.setClient(getSelectedOrganization());
 		List<Project> projects = projectDAO.getDefault().searchByOrganization(new SortCriteria("name"), getSelectedOrganization());
-		setSelectedProject(projects.get(0));
+		
+		if(!projects.isEmpty()){
+			setSelectedProject(projects.get(0));
+		}
 
 		for (Project project : projects) {
 			ret.add(new SelectItem(project.getId().toString(), project

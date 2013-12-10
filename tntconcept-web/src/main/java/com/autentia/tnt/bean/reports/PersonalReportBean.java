@@ -44,17 +44,5 @@ public class PersonalReportBean extends ReportBean {
 		listReports = ReportManager.getReportManager().getReportListPersonal();
 	}
 	
-	@Override
-	public ArrayList<SelectItem> getProjects() {
-		ProjectDAO projectDAO = new ProjectDAO();
-		ArrayList<SelectItem> reto = new ArrayList<SelectItem>();
-						
-		List<Project> refs = projectDAO.search(new SortCriteria("name"));
-		for (Project ref : refs) {
-			reto.add(new SelectItem(ref.getId().toString(), ref.getName()));
-		}
-		return reto;
-	}
-	
 
 }

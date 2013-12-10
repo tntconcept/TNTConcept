@@ -230,11 +230,11 @@ private void setId( Integer id ) {
 		  long total = 0;
 		  if (this.getActivities()!=null){
 			  for (Activity activity : this.getActivities()){
-						total += activity.getDuration()/60;
+						total += activity.getDuration();
 				}
 			
 		  }	  
-		  return total;		
+		  return total/60;		
 	}
 	
 	

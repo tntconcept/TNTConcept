@@ -87,6 +87,19 @@
 			  <h:inputHidden value="#{reportParameter.value}"></h:inputHidden>			
             </h:panelGroup>
             
+             <h:panelGroup id="selectOneSelectManys" rendered="#{reportParameter.selectOneSelectManyType == true}">
+             <h:message styleClass="error" showSummary="true" showDetail="false" for="selectOne2" />
+              <h:selectOneMenu id="selectOneOrg"  immediate="true" onchange="submit();"
+                 value="#{commissioningReportBean.selectedOrganization.id}" required="true" 
+                 valueChangeListener="#{commissioningReportBean.selectedOrganizationChanged}">
+                <f:selectItems value="#{reportParameter.items}" />               
+              </h:selectOneMenu>
+              <f:verbatim><br/></f:verbatim>
+              <h:selectOneMenu id="selectOne2" value="#{reportParameter.value}" required="true">
+                <f:selectItems value="#{reportParameter.items2}" />
+              </h:selectOneMenu>
+            </h:panelGroup>
+            
             <h:panelGroup id="date" rendered="#{reportParameter.dateType == true}">
                              <h:message styleClass="error" showSummary="true" showDetail="false" for="paramDate" />
               <t:inputCalendar id="paramDate" renderPopupButtonAsImage="true"
