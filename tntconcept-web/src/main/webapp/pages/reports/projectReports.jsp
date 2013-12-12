@@ -98,16 +98,22 @@
 				</h:panelGroup>
 				
 				<h:panelGroup id="selectOneSelectManys" rendered="#{reportParameter.selectOneSelectManyType == true}">
-             <h:message styleClass="error" showSummary="true" showDetail="false" for="selectOne2" />
+             <h:message styleClass="error" showSummary="true" showDetail="false" for="selectMany2" />
               <h:selectOneMenu id="selectOneOrg"  immediate="true" onchange="submit();"
                  value="#{projectReportBean.selectedOrganization.id}" required="true" 
                  valueChangeListener="#{projectReportBean.selectedOrganizationChanged}">
                 <f:selectItems value="#{reportParameter.items}" />               
               </h:selectOneMenu>
               <f:verbatim><br/></f:verbatim>
-              <h:selectOneMenu id="selectOne2" value="#{reportParameter.value}" required="true">
+              <h:selectManyListbox size="4" id="selectMany2" value="#{reportParameter.valueMany}" required="#{reportParameter.isRol == false}"
+              rendered="#{reportParameter.isRol == false}"  disabled="#{reportParameter.isRol == true}">
                 <f:selectItems value="#{reportParameter.items2}" />
-              </h:selectOneMenu>
+              </h:selectManyListbox>
+              <h:selectOneMenu id="selectOneProject" value="#{reportParameter.value}"  onchange="submit();"
+              rendered="#{reportParameter.isRol == true}" required="#{reportParameter.isRol == true}" disabled="#{reportParameter.isRol == false}"
+               valueChangeListener="#{projectReportBean.selectedProjectChanged}">
+               <f:selectItems value="#{reportParameter.items2}"/>
+               </h:selectOneMenu>
             </h:panelGroup>
 
 				<h:panelGroup id="date"

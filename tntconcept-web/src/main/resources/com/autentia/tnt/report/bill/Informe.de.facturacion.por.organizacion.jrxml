@@ -61,7 +61,7 @@ from (
   Select o.id as orgId, o.name as name, o.cif, p.id as projectId, p.name as projName, p.organizationId as opId, p.billable, b.id as factId, b.number, b.name as BillName, b.projectId as billProjId, bb.id, bb.billid as lineFactId, bb.units as units, bb.amount as amount, bb.iva as iva
   from Organization o, Project p, Bill b, BillBreakDown bb
   where  o.id  = p.organizationId and p.id = b.projectId and b.id = bb.billId and b.billType='issued' and b.state!='IN_CREDITTITLE' 
-  and b.creationDate between '2008-01-01' and '2013-12-31'
+  and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 ) as fact
 group by orgId
 ) as facturacion
@@ -69,7 +69,7 @@ group by orgId
 (
 select o.id as orgId, o.name, sum(CASE WHEN a.billable=1 then duration end)/60 as horasFact
 from Organization o, Project p, ProjectRole r, Activity a
-where o.id = p.organizationId and p.id=r.projectId and r.id=a.roleId and a.startDate between '2008-01-01' and '2013-12-31'
+where o.id = p.organizationId and p.id=r.projectId and r.id=a.roleId and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
 group by o.id
 ) as horas
 
@@ -80,7 +80,7 @@ from (
   Select COALESCE(sum(CASE WHEN b.state='paid' then (amount*units*(1 + (iva/100))) end),0) as sumaPagadas, o.id as orgId, o.name as name, o.cif, p.id as projectId, p.name as projName, p.organizationId as opId, p.billable, b.id as factId, b.number, b.name as BillName, b.projectId as billProjId, bb.id, bb.billid as lineFactId, bb.units as units, bb.amount as amount, bb.iva as iva, b.state as state
   from Organization o, Project p, Bill b, BillBreakDown bb
   where  o.id  = p.organizationId and p.id = b.projectId and b.id = bb.billId and b.billType='issued' and b.state!='IN_CREDITTITLE' 
-  and b.creationDate between '2008-01-01' and '2013-12-31'
+  and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 	group by o.id
 ) as fact
 )as facturacion2
