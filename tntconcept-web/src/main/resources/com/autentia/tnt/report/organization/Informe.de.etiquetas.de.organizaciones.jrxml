@@ -91,8 +91,8 @@ order by o.name]]></queryString>
 			<band height="107"  isSplitAllowed="false" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="8"
-						y="1"
+						x="12"
+						y="6"
 						width="185"
 						height="22"
 						key="textField-1"
@@ -105,8 +105,8 @@ order by o.name]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="8"
-						y="23"
+						x="12"
+						y="28"
 						width="185"
 						height="22"
 						key="textField-2"
@@ -120,8 +120,8 @@ order by o.name]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="8"
-						y="45"
+						x="12"
+						y="50"
 						width="185"
 						height="23"
 						key="textField-3"
@@ -138,8 +138,8 @@ order by o.name]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="8"
-						y="68"
+						x="12"
+						y="73"
 						width="185"
 						height="23"
 						key="textField-4"
