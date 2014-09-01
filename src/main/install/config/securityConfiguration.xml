@@ -17,7 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-
+<!-- TODO se deben añadir los atributos del projectManager a todos los elementos. 
+Deberán tener el mismo valor que el del "user" salvo para los informes de proyectos, que los tendrán accesibles. -->
 <securityConfiguration>
 	<entities>
 		<entity name="User">

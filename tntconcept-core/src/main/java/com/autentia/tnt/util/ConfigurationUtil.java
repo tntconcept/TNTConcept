@@ -221,6 +221,11 @@ public class ConfigurationUtil {
 	public int getRoleClientId() {
 		return Integer.parseInt(getProperty("roleClientId", "5"));
 	}
+	
+	//TODO identificador del nuevo ROL
+	public int getRoleProjectManagerId() {
+		return Integer.parseInt(getProperty("roleProjectManagerId", "6"));
+	}
 
 	public float getIvaUntilJuly2010() {
 		return Float.parseFloat(getProperty("ivaUntilJuly2010", "16"));
@@ -455,4 +460,5 @@ public class ConfigurationUtil {
 			return 365;	// Por defecto cada 90 dias
 		}
 	}
+
 }

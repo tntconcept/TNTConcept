@@ -30,8 +30,11 @@ public class State {
 	private boolean permStaff = false;
 	private boolean permUser = false;
 	private boolean permCli = false;
+	//TODO
+	private boolean projectManager = false;
 	
 	private List<Field> fields = new ArrayList<Field>();
+	private Boolean valueOf;
 	
 	public State() {
 		
@@ -123,6 +126,11 @@ public class State {
 
 	public void setPermCli(boolean permCli) {
 		this.permCli = permCli;
+	}
+
+	//TODO seteamos el nuevo rol
+	public void setPermProjectManager(Boolean projectManager) {
+		this.projectManager = projectManager;
 	}
 	
 	

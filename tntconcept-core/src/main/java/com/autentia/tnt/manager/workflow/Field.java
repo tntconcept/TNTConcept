@@ -28,6 +28,8 @@ public class Field {
 	private Permission permStaff = Permission.NONE;
 	private Permission permUser = Permission.NONE;
 	private Permission permCli = Permission.NONE;
+	//TODO inicializamos el nuevo rol
+	private Permission projectManager = Permission.NONE;
 	
 	public Field() {
 		
@@ -96,5 +98,12 @@ public class Field {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	//TODO seteamos el nuevo rol
+	public void setPermProjectManager(
+			com.autentia.tnt.manager.workflow.Field.Permission projectManager) {
+				this.projectManager = projectManager;
+		
 	}
 }
