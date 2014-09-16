@@ -65,7 +65,6 @@ public final class DefaultSecurityConfiguration implements
 	private int roleStaffId;
 	private int roleUserId;
 	private int roleClientId;
-	//TODO atributo para el nuevo ROL
 	private int roleProjectManagerId;
 
 	private static final Log logger = LogFactory
@@ -96,7 +95,6 @@ public final class DefaultSecurityConfiguration implements
 			this.roleStaffId = cfg.getRoleStaffId();
 			this.roleUserId = cfg.getRoleUserId();
 			this.roleClientId = cfg.getRoleClientId();
-			//TODO RECUPERAR EL ID DEL NUEVO ROL
 			this.roleProjectManagerId = cfg.getRoleProjectManagerId();
 
 			this.readMatrix = new HashMap<AclMatrixKey, AclMatrixValue>();
@@ -132,10 +130,8 @@ public final class DefaultSecurityConfiguration implements
 					3));
 			this.rolePermissions.put(roleClientId, loadPermsArray(
 					permissionsMap, 4));
-			
-			//TODO CARGAR LOS PERMISOS DEL NUEVO ROL 
 			this.rolePermissions.put(roleProjectManagerId, loadPermsArray(
-					permissionsMap, 4));
+					permissionsMap, 5));
 
 			logger.info("ACEGI configuration OK readed" + confFile);
 		} catch (Exception ex) {
@@ -164,7 +160,6 @@ public final class DefaultSecurityConfiguration implements
 		AclMatrixValue staff = null;
 		AclMatrixValue user = null;
 		AclMatrixValue cli = null;
-		//TODO Añadir la nueva matriz de ACL
 		AclMatrixValue projectManager = null;
 		Map<AclMatrixKey, AclMatrixValue> targetMatrix = null;
 
@@ -223,14 +218,12 @@ public final class DefaultSecurityConfiguration implements
 								staff = getVisibility(operation, "staff");
 								user = getVisibility(operation, "user");
 								cli = getVisibility(operation, "cli");
-								//TODO Configurar la visibilidad del nuevo rol
 								projectManager = getVisibility(operation, "projectManager");
 
 								Class _class = Class.forName(classname);
 								Class<? extends ITransferObject> t = _class;
-								//TODO Inlcuir la matriz con el nuevo rol
 								putInMatrix(targetMatrix, t, admin, super1,
-										staff, user, cli,projectManager);
+										staff, user, cli, projectManager);
 							} else {
 								// Es una operacion del tipo: {list, create,
 								// menu}
@@ -267,12 +260,10 @@ public final class DefaultSecurityConfiguration implements
 									Boolean staffView = getFieldVisibility(field, "staff");
 									Boolean userView = getFieldVisibility(field, "user");
 									Boolean cliView = getFieldVisibility(field, "cli");
-									//TODO Añadir la nueva vista del projectManager
 									Boolean projectManagerView = getFieldVisibility(field, "projectManager");
 
 									Class _class = Class.forName(classname);
 									Class<? extends ITransferObject> t = _class;
-									//TODO añadir la vista del nuevo ROL
 									putInDetailViewMatrix(t, fieldName, adminView, superView, staffView, userView,
 											cliView, projectManagerView);
 								}
@@ -342,8 +333,8 @@ public final class DefaultSecurityConfiguration implements
 	 * @return
 	 */
 	private boolean[] getPermisionArray(Node node) {
-		boolean[] privileges = new boolean[5];
-		String[] profiles = { "admin", "super", "staff", "user", "cli" };
+		boolean[] privileges = new boolean[6];
+		String[] profiles = { "admin", "super", "staff", "user", "cli", "projectManager" };
 		String pvalue;
 
 		for (int i = 0; i < profiles.length; i++) {
@@ -381,7 +372,6 @@ public final class DefaultSecurityConfiguration implements
 		matrix.put(new AclMatrixKey(type, roleStaffId), staffLevel);
 		matrix.put(new AclMatrixKey(type, roleUserId), userLevel);
 		matrix.put(new AclMatrixKey(type, roleClientId), clientLevel);
-		//TODO Añadir el nivel del nuevo ROL a la matriz
 		matrix.put(new AclMatrixKey(type, roleProjectManagerId), projectManagerLevel);
 	}
 	
@@ -404,8 +394,6 @@ public final class DefaultSecurityConfiguration implements
 		this.detailViewMatrix.put(new FieldAclMatrixKey(type, roleStaffId, fieldName), staffView);
 		this.detailViewMatrix.put(new FieldAclMatrixKey(type, roleUserId, fieldName), userView);
 		this.detailViewMatrix.put(new FieldAclMatrixKey(type, roleClientId, fieldName), clientView);
-		
-		//TODO AÑADIR LA VISTA DEL NUEVO ROL
 		this.detailViewMatrix.put(new FieldAclMatrixKey(type, roleProjectManagerId, fieldName), projectManagerView);
 	}
 
@@ -538,7 +526,6 @@ public final class DefaultSecurityConfiguration implements
 		final String staff = DOMUtils.getAttribute(node, "staff");
 		final String user = DOMUtils.getAttribute(node, "user");
 		final String cli = DOMUtils.getAttribute(node, "cli");
-		//TODO recuperar el permiso del nuevo ROL
 		final String projectManager = DOMUtils.getAttribute(node, "projectManager");
 
 		if (admin != null) {
@@ -561,7 +548,6 @@ public final class DefaultSecurityConfiguration implements
 			state.setPermCli(Boolean.valueOf(cli.toLowerCase()));
 		}
 		
-		//TODO permisos del nuevo ROL
 		if (projectManager != null) {
 			state.setPermProjectManager(Boolean.valueOf(projectManager.toLowerCase()));
 		}
@@ -596,7 +582,6 @@ public final class DefaultSecurityConfiguration implements
 		final String xstaff = DOMUtils.getAttribute(node, "staff");
 		final String xuser = DOMUtils.getAttribute(node, "user");
 		final String xcli = DOMUtils.getAttribute(node, "cli");
-		//TODO preparación del nuevo rol
 		final String projectManager = DOMUtils.getAttribute(node, "projectManager");
 
 		if (logger.isDebugEnabled()) {
@@ -636,7 +621,6 @@ public final class DefaultSecurityConfiguration implements
 							.valueOf(xcli.toUpperCase()));
 		}
 		
-		//TODO preparamos permisos del nuevo rol
 		if (projectManager != null) {
 			field
 					.setPermProjectManager(com.autentia.tnt.manager.workflow.Field.Permission

@@ -69,6 +69,7 @@
 	   <xsd:attribute name="staff" type="privilegeDomain" use="optional" default="deny"/>
 	   <xsd:attribute name="user"  type="privilegeDomain" use="optional" default="deny"/>
 	   <xsd:attribute name="cli"   type="privilegeDomain" use="optional" default="deny"/>
+	   <xsd:attribute name="projectManager" type="privilegeDomain" use="optional" default="deny"/>
   </xsd:complexType>
   <xsd:complexType name="DetailView">
 	   <xsd:sequence>
@@ -83,6 +84,7 @@
 	   <xsd:attribute name="staff" type="xsd:boolean" use="optional" default="false"/>
 	   <xsd:attribute name="user"  type="xsd:boolean" use="optional" default="false"/>
 	   <xsd:attribute name="cli"   type="xsd:boolean" use="optional" default="false"/>
+	   <xsd:attribute name="projectManager" type="xsd:boolean" use="optional" default="false"/>
   </xsd:complexType>     
   <xsd:complexType name="Action">
 	   <xsd:attribute name="name"  type="xsd:string" use="required"/>
@@ -91,5 +93,6 @@
 	   <xsd:attribute name="staff" type="xsd:boolean" use="optional" default="false"/>
 	   <xsd:attribute name="user"  type="xsd:boolean" use="optional" default="false"/>
 	   <xsd:attribute name="cli"   type="xsd:boolean" use="optional" default="false"/>
+	   <xsd:attribute name="projectManager" type="xsd:boolean" use="optional" default="false"/>
   </xsd:complexType>    
 </xsd:schema>

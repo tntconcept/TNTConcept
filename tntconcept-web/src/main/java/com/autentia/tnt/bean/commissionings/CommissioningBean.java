@@ -1527,6 +1527,11 @@ public class CommissioningBean extends BaseBean {
 			if (rolId == ConfigurationUtil.getDefault().getRoleClientId()) {
 				iHavePermission = st.isPermCli();
 			}
+
+			if (rolId == ConfigurationUtil.getDefault().getRoleProjectManagerId()) {
+				iHavePermission = st.isPermProjectManager();
+			}
+			
 		}
 
 		return iHavePermission && !commissioning.getStatus().equals(nextStep());

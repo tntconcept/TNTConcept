@@ -28,13 +28,9 @@
 			<default-locale>es</default-locale>
 			<supported-locale>en</supported-locale>
 		</locale-config>
-		<locale-config>
-			<default-locale>en</default-locale>
-		</locale-config>
 		<message-bundle>
 			com.autentia.tnt.resources.messages
 		</message-bundle>
-		<message-bundle>resources.application</message-bundle>
 	</application>
 
 	<!-- Converter for Enum types -->

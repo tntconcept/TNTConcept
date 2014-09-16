@@ -20,7 +20,6 @@ package com.autentia.tnt.manager.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.autentia.tnt.manager.workflow.Field.Permission;
 
 public class State {
 	
@@ -30,14 +29,12 @@ public class State {
 	private boolean permStaff = false;
 	private boolean permUser = false;
 	private boolean permCli = false;
-	//TODO
-	private boolean projectManager = false;
+	private boolean permProjectManager = false;
 	
 	private List<Field> fields = new ArrayList<Field>();
-	private Boolean valueOf;
 	
 	public State() {
-		
+		super();
 	}
 	
 	public State(String name) {
@@ -128,11 +125,11 @@ public class State {
 		this.permCli = permCli;
 	}
 
-	//TODO seteamos el nuevo rol
-	public void setPermProjectManager(Boolean projectManager) {
-		this.projectManager = projectManager;
+	public boolean isPermProjectManager() {
+		return permProjectManager;
 	}
 	
-	
-	
+	public void setPermProjectManager(boolean permProjectManager) {
+		this.permProjectManager = permProjectManager;
+	}
 }

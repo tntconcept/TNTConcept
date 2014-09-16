@@ -69,7 +69,7 @@ public class ConfigurationUtil {
 	}
 
 	protected ConfigurationUtil() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**
@@ -222,7 +222,6 @@ public class ConfigurationUtil {
 		return Integer.parseInt(getProperty("roleClientId", "5"));
 	}
 	
-	//TODO identificador del nuevo ROL
 	public int getRoleProjectManagerId() {
 		return Integer.parseInt(getProperty("roleProjectManagerId", "6"));
 	}

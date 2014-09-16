@@ -28,7 +28,6 @@ public class Field {
 	private Permission permStaff = Permission.NONE;
 	private Permission permUser = Permission.NONE;
 	private Permission permCli = Permission.NONE;
-	//TODO inicializamos el nuevo rol
 	private Permission projectManager = Permission.NONE;
 	
 	public Field() {
@@ -76,6 +75,10 @@ public class Field {
 	public void setPermCli(Permission permCli) {
 		this.permCli = permCli;
 	}
+	public void setPermProjectManager(Permission projectManager) {
+		this.projectManager = projectManager;
+		
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,10 +103,4 @@ public class Field {
 		return true;
 	}
 
-	//TODO seteamos el nuevo rol
-	public void setPermProjectManager(
-			com.autentia.tnt.manager.workflow.Field.Permission projectManager) {
-				this.projectManager = projectManager;
-		
-	}
 }
