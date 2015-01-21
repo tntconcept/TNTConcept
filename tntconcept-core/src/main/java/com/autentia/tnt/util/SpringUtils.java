@@ -51,13 +51,11 @@ public class SpringUtils
 	 * Configure this class
 	 * @param appCtx
 	 */
-	
 	public synchronized static void configureTest( ApplicationContext ctx )	{
-		
-		if( appCtx==null ) {
-			// Store application context
-			appCtx = ctx;
-		}
+		// Se permite la sobreescritura del contexto para que cada test pueda 
+		// disponer de un contexto propio. Tener en cuenta que los tests se ejecutan secuencialmente. 
+		// La solución podría dar problemas con ejecuciones concurrentes.
+		appCtx = ctx;
 	}
 	
 	
