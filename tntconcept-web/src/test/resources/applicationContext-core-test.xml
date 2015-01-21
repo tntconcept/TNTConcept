@@ -88,6 +88,9 @@
 	<bean id="managerOffer" class="com.autentia.tnt.manager.contacts.OfferManager">
 		<constructor-arg ref="daoOffer" />
 	</bean>
+	<bean id="managerProject" class="com.autentia.tnt.manager.admin.ProjectManager">
+		<constructor-arg ref="daoProject" />
+	</bean>
 	
 	<!-- Configuration bean -->
 	<bean id="configuration"

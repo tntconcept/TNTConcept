@@ -437,16 +437,21 @@ public class BillBean extends BaseBean {
 	}
 
 	public List<SelectItem> getProjectsOpenBySelectedOrganization() {
-		List<Project> refs = ProjectManager.getDefault().getProjectsByOrganization(selectedOrganization); 
 		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
-		for (Object ref : refs) {
-			Project proy = (Project) ref;
+		List<Project> refs = new ArrayList<Project>();
+		if(bill.getId()!=null){
+			refs = ProjectManager.getDefault().getProjectsByOrganization(selectedOrganization);
+		}else{
+			refs = ProjectManager.getDefault().getOpenProjectsByOrganization(selectedOrganization);
+		}
+		for (Project proy : refs) {
 			String asterisco = proy.isFinished() ? "(*)" : "";
 			ret.add(new SelectItem(proy, proy.getName() + asterisco));
 		}
+		
 		return ret;
 	}
-
+	
 	public void onSelectedOrganizationChanged(ValueChangeEvent event) {
 		setSelectedOrganization((Organization) event.getNewValue());
 

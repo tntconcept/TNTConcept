@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  context definido para debug local -->
+
+<Context path="/tntconcept" docBase="tntconcept">
+	<Manager pathname="" />
+	<Environment name="TNTConceptConfigDir" type="java.lang.String" value="/var/lib/tntconcept" />
+	<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver"
+		maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/TNTConcept"
+		password="tnt" type="javax.sql.DataSource"
+		url="jdbc:mysql://localhost:3306/tntconcept?autoReconnect=true"
+		username="tnt" />
+</Context>
