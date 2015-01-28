@@ -70,20 +70,27 @@
 				title="#{msg['activitys.alt.back']}" immediate="true">
 				<t:graphicImage value="/img/back.gif" styleClass="titleImg" />
 			</t:commandLink>
-						
-			<h:commandLink action="#{activityBean.save}">
-				<h:graphicImage value="/img/save.gif" styleClass="titleImg" />
-			</h:commandLink>
-			<h:commandLink action="#{activityBean.delete}" rendered="#{activityBean.deleteAvailable}"
-				onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
-				<h:graphicImage value="/img/delete.gif" styleClass="titleImg" />
-			</h:commandLink>
+			
+			<c:if test="${! activityBean.selectedProject.finished}">			
+				<h:commandLink action="#{activityBean.save}">
+					<h:graphicImage value="/img/save.gif" styleClass="titleImg" />
+				</h:commandLink>
+				<h:commandLink action="#{activityBean.delete}" rendered="#{activityBean.deleteAvailable}"
+					onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
+					<h:graphicImage value="/img/delete.gif" styleClass="titleImg" />
+				</h:commandLink>
+			</c:if>
 		</i:titleBar>
 	
 
     <%-- Edition form --%>
     <h:panelGrid styleClass="editTable" cellpadding="0" cellspacing="0" columns="2" columnClasses="editLabelRW,editFieldCell" rendered="#{activityBean.activitySelected}">
 
+	  <%-- Non Editable Message --%>
+		<c:if test="${activityBean.selectedProject.finished}">
+				<h:outputText value=""/>
+				<h:outputText styleClass="warning" value="#{msg['editActivity.nonEditableActivityClosedProject']}"/>
+        </c:if>
 	  <%-- Field: startDateS --%>
 	  	<h:outputText value="#{msg['activity.startDate']}:" />
 	      <h:outputText value="#{activityBean.startDate}">
@@ -163,14 +170,17 @@
       <%-- Customized: project list --%>
       	<h:outputText value="*#{msg['editActivity.projects']}:"/>
           <h:panelGroup>
+          	
             <h:message styleClass="error" showSummary="true" showDetail="false" for="projects" />
             <t:selectOneListbox id="projects" value="#{activityBean.selectedProject}"  onchange="submit()" size="5"
-            				 required="activityBean.projectsOpenBySelectedOrganization.size > 0" styleClass="requiredFieldClass" 
+            				 required="activityBean.projectsVisiblesBySelectedOrganization.size > 0" styleClass="requiredFieldClass" 
             				 valueChangeListener="#{activityBean.onSelectedProjectChanged}" immediate="true" rendered="#{activityBean.projectsRendered}">
-              	<f:selectItems value="#{activityBean.projectsOpenBySelectedOrganization}" />
+              		<f:selectItems value="#{activityBean.projectsVisiblesBySelectedOrganization}" />
               	<f:converter converterId="autentia.EntityConverter"/>
             </t:selectOneListbox>
+            
           </h:panelGroup>
+          
  	  
       <%-- Field: role --%>
       	<h:outputText value="*#{msg['activity.role']}:"/>

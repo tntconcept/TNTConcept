@@ -56,6 +56,7 @@ import org.apache.myfaces.custom.schedule.model.ScheduleEntry;
 import org.apache.myfaces.custom.schedule.model.ScheduleModel;
 import org.apache.myfaces.custom.schedule.model.SimpleScheduleModel;
 import org.apache.myfaces.custom.schedule.renderer.ScheduleEntryRenderer;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.util.CollectionUtils;
 
 import com.autentia.tnt.bean.BaseBean;
@@ -435,11 +436,15 @@ public class ActivityBean extends BaseBean {
 	 * 
 	 * @return the list of all projects
 	 */
-	public List<SelectItem> getProjectsOpenBySelectedOrganization() {
+	public List<SelectItem> getProjectsVisiblesBySelectedOrganization() {
 		Organization  companySelected = this.getSelectedOrganization();
 		List<Project> openProjects 	  = ProjectManager.getDefault().getOpenProjectsByOrganization(companySelected);
 		ArrayList<SelectItem> ret  = new ArrayList<SelectItem>();
-		
+
+		if(selectedProject !=null && selectedProject.isFinished()){
+			ret.add(new SelectItem(selectedProject, selectedProject.getName() + " (*)"));
+		}
+
 		if (openProjects == null || openProjects.size() == 0) {
 			projects.clear();
 			return ret;
@@ -489,7 +494,7 @@ public class ActivityBean extends BaseBean {
 	}
 
 	/**
-	 * @return Organizaciones con proyectos abiertos que adem�s tengan ROLES creados
+	 * @return Organizaciones con proyectos abiertos que ademas tengan ROLES creados
 	 */
 	public List<SelectItem> getOrganizations() {
 		ArrayList<SelectItem> 		  ret	    = new ArrayList<SelectItem>(32);		
@@ -722,11 +727,18 @@ public class ActivityBean extends BaseBean {
 		Project pr = null;
 		
 		if (projectRoleId != -1) {
-			ProjectRole projectRole = projectRoleMgr.getEntityById(projectRoleId);
-			setRole(projectRole);
-			setSelectedProject(projectRole.getProject());
-			setSelectedOrganization(getSelectedProject().getClient());
-			pr=projectRole.getProject();
+			ProjectRole projectRole;
+			try{
+				projectRole = projectRoleMgr.getEntityById(projectRoleId);
+				if(!projectRole.getProject().isFinished()) {
+					setRole(projectRole);
+					setSelectedProject(projectRole.getProject());
+					setSelectedOrganization(getSelectedProject().getClient());
+					pr=projectRole.getProject();
+				}
+			}catch(ObjectNotFoundException onfex){
+				// Caso especial. Si no se  localiza el anterior rol, continuamos con la ejecucion.
+			}
 		}
 		
 		if(pr!=null) {
@@ -1481,6 +1493,7 @@ public class ActivityBean extends BaseBean {
 	 * @param event
 	 */
 	public void activityClicked(ScheduleMouseEvent event) {
+
 
 		setSelectedDate(event.getClickedDate());
 
