@@ -451,8 +451,9 @@ public class Bill implements Serializable, ITransferObject
 		if(getBreakDown()!=null)
 		{
 			for(BillBreakDown elem:getBreakDown())
-			{
-				valor = valor.add(elem.getAmount().multiply(elem.getUnits()));
+			{	if(elem.getAmount()!=null){
+					valor = valor.add(elem.getAmount().multiply(elem.getUnits()));
+				}
 			}
 			
 		}
