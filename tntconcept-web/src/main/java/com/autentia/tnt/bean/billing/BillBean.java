@@ -313,6 +313,8 @@ public class BillBean extends BaseBean {
 	private BigDecimal totalsNoTaxes;
 	
 	private BigDecimal totalsTaxes;
+	
+	private BigDecimal totalsUnpaid;
 
 	public BigDecimal getTotals() {
 		return totals;
@@ -328,6 +330,10 @@ public class BillBean extends BaseBean {
 	
 	public BigDecimal getBillPaymentTotal() {
 		return bill.getBillPaymentTotal();
+	}
+
+	public BigDecimal getTotalNoTaxes() {
+		return bill.getTotalNoTaxes();
 	}
 	
 	// reloads the page to update the total of the bill
@@ -349,19 +355,30 @@ public class BillBean extends BaseBean {
 	public void setTotalsTaxes(BigDecimal totalsTaxes) {
 		this.totalsTaxes = totalsTaxes;
 	}
+
+	public BigDecimal getTotalsUnpaid() {
+		return totalsUnpaid;
+	}
+	
+	public void setTotalsUnpaid(BigDecimal totalsUnpaid) {
+		this.totalsUnpaid = totalsUnpaid;
+	}
 	
 	private void calcTotals(List<Bill> res) {
 
-		BigDecimal valor = new BigDecimal(0);
-		BigDecimal valorNoTaxes = new BigDecimal(0);
+		BigDecimal totals = new BigDecimal(0);
+		BigDecimal totalsNoTaxes = new BigDecimal(0);
+		BigDecimal totalsUnpaid = new BigDecimal(0);
 		for (Bill elem : res) {
-			valor = valor.add(elem.getTotal());
-			valorNoTaxes = valorNoTaxes.add(elem.getTotalNoTaxes());
+			totals = totals.add(elem.getTotal());
+			totalsNoTaxes = totalsNoTaxes.add(elem.getTotalNoTaxes());
+			totalsUnpaid = totalsUnpaid.add(elem.getUnpaid());
 		}
 
-		setTotals(valor);
-		setTotalsNoTaxes(valorNoTaxes);
-		setTotalsTaxes(valor.subtract(valorNoTaxes));
+		setTotals(totals);
+		setTotalsNoTaxes(totalsNoTaxes);
+		setTotalsTaxes(totals.subtract(totalsNoTaxes));
+		setTotalsUnpaid(totalsUnpaid);
 	}
 
 	/** Selected organization * */
@@ -1595,6 +1612,10 @@ public class BillBean extends BaseBean {
   	 * @return Devuelve la cantidad pendiente de ser pagada
   	 */
   	public BigDecimal getUnpaid(){
-  		return bill.getUnpaid();
+  		if(bill==null){
+  			return bill.getTotal();
+  		}else{
+  			return bill.getUnpaid();
+  		}
   	}      
 }

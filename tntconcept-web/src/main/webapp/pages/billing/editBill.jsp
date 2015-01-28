@@ -215,14 +215,25 @@
           
           
           <tr>
+            <td class="editLabelRW">${msg['bill.totalNoTax']}:</td>
+            <td class="editFieldCell" align="right">
+              <h:panelGroup>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="totalNoTaxes" />
+                <h:outputText id="totalNoTaxes" value="#{billBean.totalNoTaxes}  " styleClass="requiredFieldClass"/>
+                <h:commandLink action="#{billBean.reloadTotal}">
+            		<h:graphicImage title="#{msg['bill.action.reload']}" value="/img/refresh.png" />
+          		</h:commandLink>
+              </h:panelGroup>
+            </td>
+          </tr>
+
+
+          <tr>
             <td class="editLabelRW">${msg['bill.total']}:</td>
             <td class="editFieldCell" align="right">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="total" />
                 <h:outputText id="total" value="#{billBean.total}  " styleClass="requiredFieldClass"/>
-                <h:commandLink action="#{billBean.reloadTotal}">
-            		<h:graphicImage title="#{msg['bill.action.reload']}" value="/img/refresh.png" />
-          		</h:commandLink>
               </h:panelGroup>
             </td>
           </tr>

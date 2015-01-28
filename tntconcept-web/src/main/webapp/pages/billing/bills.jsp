@@ -73,12 +73,11 @@
             cellpadding="0" cellspacing="0" styleClass="listTable" 
             headerClass="listHeaderCell" footerClass="listFooter" 
             rows="#{settingBean.mySettings.listSize}" rowClasses="listRowO,listRowE"
-            columnClasses="lctl, lctl,lctl,lctl,lctl,lctl,lctr,lctr,lctr,lctr,lctr"
+            columnClasses="lctl, lctl,lctl,lctl,lctl,lctl,lctl,lctl,lctr,lctr, lctr, lctl"
             sortColumn="#{billBean.sortColumn}" sortAscending="#{billBean.sortAscending}"
 	    	rowOnMouseOver="this.savedClassName=this.className;this.className='listRowSel';" 
 	    	rowOnMouseOut="this.className=this.savedClassName;">            
           
-          <%-- Commands --%>
           <%-- Commands --%>
           <h:column>
             <f:facet name="header">
@@ -178,7 +177,6 @@
                 <f:verbatim>${msg['bill.name']}</f:verbatim>
               </t:commandSortHeader>
             </f:facet>
-            <%-- String field --%>
             <h:outputText value="#{bill.name}" />
           </h:column>
           
@@ -195,7 +193,6 @@
                 <f:verbatim>${msg['bill.creationDate']}</f:verbatim>
               </t:commandSortHeader>
             </f:facet>
-            <%-- Date field --%> 
             <h:outputText value="#{bill.creationDate}" converter="autentia.dateConverter"/>
           </h:column>
 
@@ -216,16 +213,27 @@
                 <f:verbatim>${msg['bill.state']}</f:verbatim>
               </t:commandSortHeader>
             </f:facet>
-            <%-- Enumerated field --%>
             <h:outputText value="#{bill.state}">
               <f:converter converterId="autentia.EnumTranslator"/>
             </h:outputText>
           </h:column>
 
-         
-        
-        
-        
+		<%-- Field: Total before taxes --%>
+          <h:column>
+            <f:facet name="header">
+              <t:commandSortHeader styleClass="listHeader" columnName="amount">
+                <f:facet name="ascending">
+                  <t:graphicImage value="/img/ascending-arrow.gif" border="0" />
+                </f:facet>
+                <f:facet name="descending">
+                  <t:graphicImage value="/img/descending-arrow.gif" border="0" />
+                </f:facet>
+                <f:verbatim>${msg['bill.totalNoTax']}</f:verbatim>
+              </t:commandSortHeader>
+            </f:facet>
+            <h:outputText value="#{bill.totalNoTaxes}" />
+          </h:column>
+          
           <h:column>
             <f:facet name="header">
               <t:commandSortHeader styleClass="listHeader" columnName="amount">
@@ -238,10 +246,8 @@
                 <f:verbatim>${msg['bill.total']}</f:verbatim>
               </t:commandSortHeader>
             </f:facet>
-            <%-- String field --%>
             <h:outputText value="#{bill.total}" />
           </h:column>
-          
           
           <h:column>
             <f:facet name="header">
@@ -255,7 +261,6 @@
                 <f:verbatim>${msg['bill.unpaidTotal']}</f:verbatim>
               </t:commandSortHeader>
             </f:facet>
-            <%-- String field --%>
             <h:outputText value="#{bill.unpaid}" />
           </h:column>
                     
@@ -272,7 +277,6 @@
                 <f:verbatim>${msg['bill.entries']}</f:verbatim>
               </t:commandSortHeader>
             </f:facet>
-            <%-- String field --%>
           <t:graphicImage value="#{(bill.hasEntries>0)?'/img/true.png':'/img/false.png'}" border="0" />
           </h:column>
         
@@ -299,9 +303,11 @@
 	       	<h:outputText value="#{billBean.totalsTaxes}" styleClass="r"/>
 	       	<f:verbatim>&nbsp;&nbsp;&nbsp;</f:verbatim>
 	       	<f:verbatim>&nbsp;${msg['bill.totals']}:</f:verbatim>
-	       	<f:verbatim>&nbsp;${msg['bill.unpaidTotal']}:</f:verbatim>
 	       	<h:outputText value="#{billBean.totals}" styleClass="#{billBean.totals<0?'r':'b'}"/>
-	       
+	       	<f:verbatim>&nbsp;&nbsp;&nbsp;</f:verbatim>
+	       	<f:verbatim>&nbsp;${msg['bill.unpaidTotal']}:</f:verbatim>
+	       	<h:outputText value="#{billBean.totalsUnpaid}" styleClass="#{billBean.totalsUnpaid>0?'r':'b'}"/>
+	        
            </h:panelGroup>
            
         </t:panelGrid>
