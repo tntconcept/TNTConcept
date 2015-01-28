@@ -175,7 +175,11 @@
                 <h:outputText value="#{projectBean.totalCost}">
                   <f:convertNumber pattern="#,##0.00"/>
                 </h:outputText>
+              <h:commandLink action="#{billBean.reloadTotal}">
+            		&nbsp;<h:graphicImage title="#{msg['bill.action.reload']}" value="/img/refresh.png" />
+          		</h:commandLink>
               </h:panelGroup>
+              
             </td>
           </tr>
           <%-- Field: Horas trabajadas --%>

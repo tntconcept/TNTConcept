@@ -1039,5 +1039,10 @@ project.setBillable(true);
 	  
 	  return totalCost;  
   }  
+  	
+  	/** Fuerza refresh de pantalla */
+  	public String reload(){
+  		return null;
+  	}
   
 }
