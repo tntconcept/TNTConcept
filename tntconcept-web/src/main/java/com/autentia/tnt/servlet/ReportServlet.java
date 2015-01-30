@@ -125,7 +125,7 @@ public class ReportServlet extends HttpServlet {
 	}
 
 	private URL getResourceAsURL(String qualifiedName) {
-		return getClass().getClassLoader().getResource(qualifiedName);
+		return Thread.currentThread().getContextClassLoader().getResource(qualifiedName);
 	}
 
 	private String getResourceAsString(String qualifiedName) {
@@ -243,7 +243,8 @@ public class ReportServlet extends HttpServlet {
 	}
 
 	private Map getParametersAsMapAndSubReport(HttpServletRequest request,
-			String reportCategory, JasperReport subReport) throws Exception {
+			String reportCategory) throws Exception {
+		JasperReport subReport;
 		Map args = new HashMap();
 		Enumeration e = request.getParameterNames();
 		while (e.hasMoreElements()) {
@@ -281,7 +282,7 @@ public class ReportServlet extends HttpServlet {
 					String path = ConfigurationUtil.getDefault()
 							.getReportPath();
 					String target = path + ReportUtil.SUBREPORT_PREFIX + obj;
-					if (null == getClass().getClassLoader().getResource(
+					if (null == Thread.currentThread().getContextClassLoader().getResource(
 							target + ReportUtil.REPORT_DEFINITION_SUFFIX)) {
 						try {
 							JasperCompileManager.compileReportToFile(target
@@ -343,7 +344,6 @@ public class ReportServlet extends HttpServlet {
 		}
 
 		JasperReport report = null;
-		JasperReport subReport = null;
 
 		Session session = null;
 		Connection con = null;
@@ -368,8 +368,7 @@ public class ReportServlet extends HttpServlet {
 				return;
 			}
 
-			Map args = getParametersAsMapAndSubReport(request, reportCategory,
-					subReport);
+			Map args = getParametersAsMapAndSubReport(request, reportCategory);
 
 			// establecemos el resource bundle correspondiente al locale actual
 			// del usuario al JasperReport
@@ -444,7 +443,7 @@ public class ReportServlet extends HttpServlet {
 		debug("doGet - report file: " + ReportUtil.REPORT_PREFIX + reportName
 				+ ReportUtil.REPORT_SUFFIX);
 		debug("doGet - report jrxml url: "
-				+ getClass().getClassLoader().getResource(
+				+ Thread.currentThread().getContextClassLoader().getResource(
 						ReportUtil.REPORT_PREFIX + reportName
 								+ ReportUtil.REPORT_DEFINITION_SUFFIX));
 		debug("doGet - comprobación de fichero .jasper");
@@ -828,7 +827,7 @@ public class ReportServlet extends HttpServlet {
 
 			output = report.toByteArray();
 
-		} catch (Throwable t) {
+		} catch (Exception t) {
 			log.error("Error generando JRXML de parte de horas global", t);
 
 		} finally {
@@ -922,7 +921,7 @@ public class ReportServlet extends HttpServlet {
 		Set<String> replacementKeys = replacements.keySet();
 
 		for (String key : replacementKeys) {
-			result = result.replaceAll(key, replacements.get(key));
+			result = result.replaceAll(key, replacements.get(key)); //NOSONAR
 		}
 
 		return result;

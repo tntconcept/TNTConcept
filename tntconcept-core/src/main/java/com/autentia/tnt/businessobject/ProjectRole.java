@@ -213,7 +213,7 @@ private void setId( Integer id ) {
 		
 		if(this.getActivities()!=null){
 			for (Activity activity : this.getActivities()){
-				worked += activity.getDuration()/60;
+				worked += (double)activity.getDuration()/60;
 			}
 		}
 		if (worked == 0){

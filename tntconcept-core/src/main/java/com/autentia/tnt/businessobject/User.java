@@ -698,7 +698,7 @@ public class User implements Serializable, ITransferObject
 		 * Si no, se usa el numero de horas incluido en el convenio 
 		 */
 		double userYearHours = this.getAgreementYearDuration() != null ? (this.getAgreementYearDuration()/60.0) : (this.getAgreement().getYearDuration() / 60.0);
-		double costPerHour = ( this.getSalary() != null) ? this.getSalary().doubleValue()/userYearHours : 0;
+		double costPerHour = this.getSalary().doubleValue()/userYearHours;
 		
 		return costPerHour;
 	}

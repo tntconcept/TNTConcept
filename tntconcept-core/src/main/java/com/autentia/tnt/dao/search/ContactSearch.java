@@ -654,7 +654,7 @@ public class ContactSearch extends SearchCriteria {
 		if( isOrganizationSet() )
 		{
 			ret.append( (ret.length()==0) ? "WHERE " : " AND " );
-			ret.append( "id IN(SELECT contactInfo.contact.id from ContactInfo as contactInfo join contactInfo.organization organization where organization.id = :arg"+(iArgNum++)+")" );
+			ret.append( "id IN(SELECT contactInfo.contact.id from ContactInfo as contactInfo join contactInfo.organization organization where organization.id = :arg"+ iArgNum +")" );
 		}
 	}
 

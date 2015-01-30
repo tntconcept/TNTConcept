@@ -70,15 +70,15 @@ public class HibernateSessionRequestFilter implements Filter {
             // give the user of the application a chance to merge some of his work with
             // fresh data... what you do here depends on your applications design.
             throw staleEx;
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             // Rollback only
-            ex.printStackTrace();
-            try {
+            log.error("Error en doFilter ", ex);
+        	try {
                 if (sf.getCurrentSession().getTransaction().isActive()) {
                     log.debug("Trying to rollback database transaction after exception");
                     sf.getCurrentSession().getTransaction().rollback();
                 }
-            } catch (Throwable rbEx) {
+            } catch (Exception rbEx) {
                 log.error("Could not rollback transaction after exception!", rbEx);
             }
 

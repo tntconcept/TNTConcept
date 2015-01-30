@@ -53,7 +53,7 @@ public class Version implements Comparable<Version>, Cloneable
     {
       try
       {
-        InputStream is = Version.class.getClassLoader().getResourceAsStream("com/autentia/tnt/version/info.properties");
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/autentia/tnt/version/info.properties");
         Properties props = new Properties();
         props.load(is);
 
@@ -92,27 +92,33 @@ public class Version implements Comparable<Version>, Cloneable
     ResultSet rs = null;
     String ret = null;
 
-    try
-    {
+    try {
       stmt = con.createStatement();
       rs = stmt.executeQuery("select version from Version");
 
-      if( rs.next() )
-      {
+      if( rs.next() ){
         ret = rs.getString("version");
       }
-    }
-    catch( SQLException e )
-    {
+    } catch( SQLException e ) {
       throw e;
-    }
-    finally
-    {
-      if( rs!=null ) try { rs.close(); } catch (SQLException e){};
-      if( stmt!=null ) try { stmt.close(); } catch (SQLException e){};
-    }
+    } finally {
+    	if( rs!=null ){
+    		try { 
+    			rs.close(); 
+    		} catch (SQLException e){
+    	    	log.error("Error al liberar el resultset", e);
+    		}
+    	}
+    	if( stmt!=null ) {
+    		try { 
+    			stmt.close(); 
+    		} catch (SQLException e){
+    			log.error("Error al liberar el statement", e);
+    		}
+    	}
+      }
     
-    return new Version(ret);
+    return new Version(ret==null?"0":ret);
   }
   
   /** Creates a new instance of Version */
@@ -133,23 +139,22 @@ public class Version implements Comparable<Version>, Cloneable
     
     String[] numbers = number.split("\\.");
     
-    switch( numbers.length )
-    {
-      case 3:
-        this.patch = Integer.parseInt(numbers[2]);
-        // fall down
-        
-      case 2:
-        this.minor = Integer.parseInt(numbers[1]);
-        // fall down
-        
-      case 1:
-        this.major = Integer.parseInt(numbers[0]);
-        break;
-        
-      default:
-        throw new IllegalArgumentException("Invalid version number: "+number);
+    if(numbers.length < 1 || numbers.length > 3){
+    	throw new IllegalArgumentException("Invalid version number: "+number);
     }
+    
+    if(numbers.length >=1 ){
+    	this.major = Integer.parseInt(numbers[0]);
+    }
+    
+    if(numbers.length>=2){
+    	 this.minor = Integer.parseInt(numbers[1]);
+    }
+    
+    if(numbers.length == 3){
+    	this.patch = Integer.parseInt(numbers[2]);
+    }
+        
   }
   
   public int getMajor()
@@ -225,6 +230,10 @@ public class Version implements Comparable<Version>, Cloneable
     
     diff = this.patch - that.patch;
     return diff;
+  }
+  
+  public int hashCode(){
+	  return (this.major + "." + this.minor + "." + this.patch).hashCode();
   }
 
 }

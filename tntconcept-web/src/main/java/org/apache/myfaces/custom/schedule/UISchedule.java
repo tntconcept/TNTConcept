@@ -507,7 +507,7 @@ public class UISchedule extends UIComponentBase implements ValueHolder,
      */
     public void setVisibleEndHour(int visibleEndHour)
     {
-        this.visibleEndHour = new Integer(visibleEndHour);
+        this.visibleEndHour = Integer.valueOf(visibleEndHour);
     }
 
     /**
@@ -519,7 +519,7 @@ public class UISchedule extends UIComponentBase implements ValueHolder,
      */
     public void setVisibleStartHour(int visibleStartHour)
     {
-        this.visibleStartHour = new Integer(visibleStartHour);
+        this.visibleStartHour = Integer.valueOf(visibleStartHour);
     }
 
     /**
@@ -531,7 +531,7 @@ public class UISchedule extends UIComponentBase implements ValueHolder,
      */
     public void setWorkingEndHour(int workingEndHour)
     {
-        this.workingEndHour = new Integer(workingEndHour);
+        this.workingEndHour = Integer.valueOf(workingEndHour);
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -545,7 +545,7 @@ public class UISchedule extends UIComponentBase implements ValueHolder,
      */
     public void setWorkingStartHour(int workingStartHour)
     {
-        this.workingStartHour = new Integer(workingStartHour);
+        this.workingStartHour = Integer.valueOf(workingStartHour);
     }
 }
 //The End

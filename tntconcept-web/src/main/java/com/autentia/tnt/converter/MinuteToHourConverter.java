@@ -40,7 +40,7 @@ public class MinuteToHourConverter implements Converter {
     } else {
       try {
         double val = Double.parseDouble(value.replaceAll(",","."));
-        return new Integer((int)(val*60));
+        return Integer.valueOf((int)(val*60));
       } catch( NumberFormatException e ){
         throw new ConverterException("Error converting minutes: "+value,e);
       }

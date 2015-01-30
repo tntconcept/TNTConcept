@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,11 +66,11 @@ public class ReportManager implements ContentHandler {
 	private List					reportListCommissioning	= null;
 	private List					reportListInteraction	= null;
 	private List					reportListOwn			= null;
-	private static List				filesList				= null;
+//	private List					filesList				= null;
 	private static ReportManager	instancia				= null;
 
 	private List<ParameterReport>	param					= null;
-	private List					reportList				= null;
+//	private List					reportList				= null;
 	private String					tempVal;
 	private ParameterReport			tempParam;
 	private long					parsingStart;
@@ -103,10 +102,8 @@ public class ReportManager implements ContentHandler {
 	}
 
 	public List parserFolderReport(Boolean typeFile, String folder) {
-		reportList = null;
-		reportList = new ArrayList<List>();
-		filesList = null;
-		filesList = filesFromFolder(typeFile, folder);
+		List reportList = new ArrayList<List>();
+		List filesList = filesFromFolder(typeFile, folder);
 
 		for (int i = 0; i < filesList.size(); i++) {
 			param = new ArrayList<ParameterReport>();
@@ -123,10 +120,10 @@ public class ReportManager implements ContentHandler {
 	}
 
 	public List parserOwnReport() {
-		reportList = new ArrayList<List>();
+		List reportList = new ArrayList<List>();
 		
 		// reports that the user can see
-		filesList = new ArrayList<String>();
+		List filesList = new ArrayList<String>();
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.externa.por.usuario.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.y.organizacion.jrxml");
@@ -146,8 +143,10 @@ public class ReportManager implements ContentHandler {
 	}
 	
 	private void parseDocument(Boolean typeFile, String reportName) {
-		final InputStream jasperreportDtd = ReportManager.class.getClassLoader()
-				.getResourceAsStream("net/sf/jasperreports/engine/dtds/jasperreport.dtd");
+
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
+		final InputStream jasperreportDtd = loader.getResourceAsStream("net/sf/jasperreports/engine/dtds/jasperreport.dtd");
 		InputStream xmlSource = null;
 
 		parsingStart = System.currentTimeMillis();
@@ -157,7 +156,6 @@ public class ReportManager implements ContentHandler {
 			log.debug("parseDocument -   newSAXParser="
 					+ (System.currentTimeMillis() - parsingStart) + " ms.");
 
-			ClassLoader loader = (ReportManager.class).getClassLoader();
 			File f = null;
 			try {
 				if (typeFile == true)
@@ -165,7 +163,7 @@ public class ReportManager implements ContentHandler {
 				else
 					f = new File(reportName);
 			} catch (URISyntaxException e) {
-				e.printStackTrace();
+				log.error("Error en ParseDocument", e);
 			}
 			log.debug("parseDocument -   getResource="
 					+ (System.currentTimeMillis() - parsingStart) + " ms.");
@@ -224,7 +222,7 @@ public class ReportManager implements ContentHandler {
 	public static List<String> filesFromFolder(Boolean typeFile, String path) {
 		File[] filesList = null;
 		List<String> list = new ArrayList<String>();
-		ClassLoader loader = (ReportManager.class).getClassLoader();
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		File f = null;
 		try {
 			if (typeFile == true)
@@ -232,9 +230,9 @@ public class ReportManager implements ContentHandler {
 			else
 				f = new File(path);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error en filesFromFolder", e);
 		}
-		if (f.isDirectory()) {
+		if (f!=null && f.isDirectory()) {
 			filesList = f.listFiles();
 			for (File file : filesList) {
 				int i = file.getAbsolutePath().lastIndexOf(".");

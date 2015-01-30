@@ -54,7 +54,7 @@ public class JPivotBean {
 	public String showTable() {
 		try 
 		{
-			ClassLoader loader = (JPivotBean.class).getClassLoader();
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
 			File file = new File(loader.getResource("com/autentia/tnt/jpivot/jpivot_test.xml").toURI());
 			cubeURL = file.toURL();
 			
@@ -65,7 +65,6 @@ public class JPivotBean {
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
 			log.error("cannot generate the jpivot cube: ", e);
 			return "error";
 		}

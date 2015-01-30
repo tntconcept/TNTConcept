@@ -219,7 +219,7 @@ public class Document implements Serializable, ITransferObject {
 
 	private void updateLastVersionDocumentInfo() {
 		if (this.getVersions() != null && !this.getVersions().isEmpty()) {
-			Integer lastId = new Integer(-1);
+			Integer lastId = Integer.valueOf(-1);
 			for (Iterator iter = this.getVersions().iterator(); iter.hasNext();) {
 				DocumentVersion version = (DocumentVersion) iter.next();
 				if (version.getId() > lastId) {

@@ -123,7 +123,7 @@ public class GlobalHourReport implements Serializable {
 		
 		try {
 			GlobalHourReport objGlo = (GlobalHourReport)that;
-			if(objGlo.project.getId()==this.project.getId())
+			if(objGlo.project.getId().intValue()==this.project.getId().intValue())
 				return true;
 			else 
 				return false;

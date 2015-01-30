@@ -128,7 +128,7 @@ public class DynMenuBean extends BaseBean implements Serializable {
 	 */
 	private List<NavigationMenuItem> generateMenu() {
 
-		if (navItems == null | !locale.equals(FacesUtils.getViewLocale())) {
+		if (navItems == null || !locale.equals(FacesUtils.getViewLocale())) {
 			locale = FacesUtils.getViewLocale();
 			
 			if (log.isDebugEnabled()) {
@@ -209,10 +209,7 @@ public class DynMenuBean extends BaseBean implements Serializable {
 							"magazines", null)));
 					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(OfferRejectReason.class),
 							"offerRejectReasons", null)));
-					
-					
-					NavigationMenuItem[] arr= item.getNavigationMenuItems();
-					
+										
 					addItem2Items(navItems,item);
 				}
 

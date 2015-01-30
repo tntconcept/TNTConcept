@@ -671,7 +671,7 @@ public class AccountEntryTypeSearch extends SearchCriteria
 		if ( isDifferentIdSet() )
 		{
 			ret.append( (ret.length()==0) ? "WHERE " : " AND " );
-			ret.append( "id <> :arg"+(iArgNum++) );
+			ret.append( "id <> :arg"+ iArgNum);
 		}
 	}
 
@@ -701,4 +701,5 @@ public class AccountEntryTypeSearch extends SearchCriteria
 	{
 		return differentIdSet;
 	}
+	
 }

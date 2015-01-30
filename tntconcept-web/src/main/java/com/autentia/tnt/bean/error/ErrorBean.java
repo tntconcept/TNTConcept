@@ -87,8 +87,6 @@ public class ErrorBean extends BaseBean {
             return;
         }
 
-        ex.printStackTrace(pw);
-
         if (ex instanceof ServletException) {
             Throwable cause = ((ServletException) ex).getRootCause();
 

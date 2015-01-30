@@ -137,8 +137,8 @@ public class DefaultMailService implements MailService {
 		                DataSource source = new ByteArrayDataSource(attachment, "application/octet-stream");
 		                
 		                messageBodyPart.setDataHandler(new DataHandler(source));
-		                messageBodyPart.setFileName(attachments.get(attachment));
-		                multipart.addBodyPart(messageBodyPart);            	
+		                messageBodyPart.setFileName(attachments.get(attachment)); //NOSONAR 
+		                multipart.addBodyPart(messageBodyPart);            		  //Se emplea keyset y no valueset porque se emplea tanto la key como el val
 		            }
 	            } catch (IOException e) {
 	            	throw new MessagingException("cannot add an attachment to mail", e);

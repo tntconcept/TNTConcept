@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jfree.util.Log;
+
 import com.autentia.tnt.bean.activity.GlobalHoursReportBean;
 import com.autentia.tnt.businessobject.GlobalHourReport;
 import com.autentia.tnt.businessobject.User;
@@ -85,8 +87,7 @@ public class GlobalHoursReportCSVServlet extends HttpServlet {
 			
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.error("Error en el parseo ", e);
 		} finally {
 			writer.close();
 		}

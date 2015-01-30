@@ -54,19 +54,36 @@ public class DefaultUploader implements Uploader {
 
 	/** */
 	public void store(String id, UploadedFile file) throws IOException {
+		InputStream in = null;
+		OutputStream out = null;
 		byte[] buffer = new byte[65536];
 		int nr;
 
-		final InputStream in = file.getInputStream();
-		final OutputStream out = new FileOutputStream(getFilePath(id)
+		try{
+		in = file.getInputStream();
+		out = new FileOutputStream(getFilePath(id)
 				+ FileUtil.getFileName(file.getName()));
 
 		while ((nr = in.read(buffer)) != -1) {
 			out.write(buffer, 0, nr);
 		}
 
-		in.close();
-		out.close();
+		}finally{
+			if(in != null){
+				try{
+					in.close();
+				}catch(IOException ioex){
+					// Ignored
+				}
+			}
+			if(out!=null){
+				try{
+					out.close();
+				}catch(IOException ioex){
+					// Ignored
+				}
+			}
+		}
 	}
 
 	/** */
@@ -121,16 +138,32 @@ public class DefaultUploader implements Uploader {
 		byte[] buffer = new byte[65536];
 		int nr;
 
-		final InputStream in = newFile.getInputStream();
-		final OutputStream out = new FileOutputStream(getFilePath(id)
-				+ FileUtil.getFileName(versioned));
-
-		while ((nr = in.read(buffer)) != -1) {
-			out.write(buffer, 0, nr);
+		InputStream in = null;
+		OutputStream out = null;
+		try{
+			in = newFile.getInputStream();
+			out = new FileOutputStream(getFilePath(id)
+					+ FileUtil.getFileName(versioned));
+	
+			while ((nr = in.read(buffer)) != -1) {
+				out.write(buffer, 0, nr);
+			}
+		}finally{	
+			if(in != null){
+				try{
+					in.close();
+				}catch(IOException ioex){
+					// Ignored
+				}
+			}
+			if(out!=null){
+				try{
+					out.close();
+				}catch(IOException ioex){
+					// Ignored
+				}
+			}
 		}
-
-		in.close();
-		out.close();
 
 		return versioned;
 	}

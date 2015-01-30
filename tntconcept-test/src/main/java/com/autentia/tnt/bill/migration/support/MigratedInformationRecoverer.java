@@ -17,10 +17,13 @@
 
 package com.autentia.tnt.bill.migration.support;
 
+import java.io.File;
 import java.io.LineNumberReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
@@ -39,7 +42,8 @@ public class MigratedInformationRecoverer {
 	public static double getTotalFacturasMigrated(String billType) throws Exception {
 		
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		LineNumberReader file = null;
 		double result = -1;
 		
@@ -48,11 +52,14 @@ public class MigratedInformationRecoverer {
 
 			// connect to database
 			Class.forName(BillToBillPaymentMigration.DATABASE_DRIVER);
-			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS);
-			con.setAutoCommit(false);
-			stmt = con.createStatement();
+			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS); 	//NOSONAR
+			con.setAutoCommit(false);																																				// DATABASE_PASS es nula					
 			
-			ResultSet rs = stmt.executeQuery("SELECT sum(bp.amount) FROM BillPayment bp, Bill b where bp.billId = b.id and b.billType = '" + billType + "'");  
+			String sql = "SELECT sum(bp.amount) FROM BillPayment bp, Bill b where bp.billId = b.id and b.billType = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, billType);
+			
+			rs = pstmt.executeQuery();  
 			while(rs.next())  
 			{
 				result = rs.getDouble(1);
@@ -61,18 +68,13 @@ public class MigratedInformationRecoverer {
 			
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null){
 				con.rollback();
 			}
+			
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, pstmt, rs);
 		}			
 		return result;
 	} 
@@ -83,7 +85,8 @@ public class MigratedInformationRecoverer {
 	 */
 	public static double[] getImporteFacturaMigrated(String billType) throws Exception {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		LineNumberReader file = null;
 		double[] result = new double[0];
 		
@@ -92,11 +95,14 @@ public class MigratedInformationRecoverer {
 
 			// connect to database
 			Class.forName(BillToBillPaymentMigration.DATABASE_DRIVER);
-			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS);
-			con.setAutoCommit(false);
-			stmt = con.createStatement();
+			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS); 	// NOSONAR
+			con.setAutoCommit(false);																																				// DATABASE_PASS vacio			
 			
-			ResultSet rs = stmt.executeQuery("SELECT bp.amount FROM BillPayment bp, Bill b where bp.billId = b.id and b.billType = '" + billType + "' order by amount");
+			String sql = "SELECT bp.amount FROM BillPayment bp, Bill b where bp.billId = b.id and b.billType = ? order by amount";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, billType);
+			rs = pstmt.executeQuery();
 
 			rs.last();
 			result = new double[rs.getRow()];
@@ -112,18 +118,13 @@ public class MigratedInformationRecoverer {
 			
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null) {
 				con.rollback();
 			}
+			
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, pstmt, rs);
 		}			
 		return result;
 	}
@@ -134,7 +135,8 @@ public class MigratedInformationRecoverer {
 	 */
 	public static Date[] getFechaFacturaMigrated(String billType) throws Exception {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		LineNumberReader file = null;
 		Date[] result = new Date[0];
 		
@@ -143,11 +145,14 @@ public class MigratedInformationRecoverer {
 
 			// connect to database
 			Class.forName(BillToBillPaymentMigration.DATABASE_DRIVER);
-			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS);
-			con.setAutoCommit(false);
-			stmt = con.createStatement();
+			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS); 	//NOSONAR
+			con.setAutoCommit(false);																																				// DATABASE_PASS vacio.
 			
-			ResultSet rs = stmt.executeQuery("SELECT bp.expirationDate FROM BillPayment bp, Bill b where bp.billId = b.id and b.billType = '" + billType + "' order by bp.expirationDate");
+			String sql = "SELECT bp.expirationDate FROM BillPayment bp, Bill b where bp.billId = b.id and b.billType = ? order by bp.expirationDate";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,billType);
+			
+			rs = pstmt.executeQuery();
 
 			rs.last();
 			result = new Date[rs.getRow()];
@@ -163,19 +168,51 @@ public class MigratedInformationRecoverer {
 			
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null){
 				con.rollback();
 			}
+			
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, pstmt, rs);
 		}			
 		return result;
 	}
+	
+	private static void liberaConexion(Connection con, PreparedStatement stmt, ResultSet rs) {
+		if(rs != null){
+			try{
+				rs.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar el ResultSet", sqlex);
+			}
+		}
+		
+		if(stmt != null){
+			try{
+				stmt.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar el Statement", sqlex);
+			}
+		}
+		
+		if(con != null){
+			try{
+				con.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar la conexión", sqlex);
+			}
+		}
+	}
+	
+	private static void cierraFichero (LineNumberReader f){
+		try{
+			if(f!=null){
+				f.close();
+			}
+		}catch(Exception ex){
+			log.error("Error al cerrar fichero", ex);
+		}
+	}
+	
 }

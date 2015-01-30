@@ -171,7 +171,7 @@ public class ContactManager {
                 this.updateEntity(contact);
 		  }
 	  } catch (Exception e) {
-		  
+		  log.error("addOrganizationDepartmentOrPositionByDefault - Error ", e);
 	  }
 	  return contact;
   }

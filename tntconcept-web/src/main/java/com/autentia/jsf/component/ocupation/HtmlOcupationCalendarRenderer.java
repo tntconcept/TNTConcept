@@ -18,10 +18,12 @@
 package com.autentia.jsf.component.ocupation;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -68,16 +70,16 @@ public class HtmlOcupationCalendarRenderer extends
 		Date value = null;
 
 		Calendar timeKeeper = Calendar.getInstance(currentLocale);
-		timeKeeper.setTime(value != null ? value : new Date());
+		timeKeeper.setTime(new Date());
 
 		try {
 			value = new CalendarDateTimeConverter().getAsDate(facesContext, inputCalendar);
+			timeKeeper.setTime(value);
 		} catch (IllegalArgumentException i) {
 			log.warn("encodeEnd - IllegalArgumentException", i);
 		}
 
-		timeKeeper.setTime(value);
-
+		
 		if (log.isDebugEnabled()) {
 			log.debug("encodeEnd - timeKeeper=\"" + timeKeeper.getTime() + "\".");
 		}
@@ -129,7 +131,7 @@ public class HtmlOcupationCalendarRenderer extends
 		if (log.isDebugEnabled()) {
 			log.debug("writeDays - currentDay=\"" + currentDay + "\", weekDayOfFirstDayOfMonth=\""
 					+ weekDayOfFirstDayOfMonth + "\", lastDayInMonth=\"" + lastDayInMonth
-					+ "\", weekdays=\"" + weekdays + "\".");
+					+ "\", weekdays=\"" + Arrays.toString(weekdays) + "\".");
 		}
 
 		OcupationModel ocupation = inputComponent.getOcupation();

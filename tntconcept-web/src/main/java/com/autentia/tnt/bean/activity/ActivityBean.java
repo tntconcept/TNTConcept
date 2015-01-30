@@ -823,7 +823,6 @@ public class ActivityBean extends BaseBean {
 	public String createDocument() {
 		
 		Document doc = new Document();
-		DocumentVersion docVersion = new DocumentVersion();
 		
 		HashSet<DocumentCategory> categories = new HashSet<DocumentCategory>();
 		categories.add(externalActivity.getDocumentCategory());
@@ -970,7 +969,7 @@ public class ActivityBean extends BaseBean {
 				
 				if (uploader.exists(Integer.toString(externalActivity.getId()), fileName)) {
 					// el fichero ya existe y lo versionamos
-					fileName = uploader.version(Integer.toString(externalActivity.getId()), fileName, uploadFile);
+					uploader.version(Integer.toString(externalActivity.getId()), fileName, uploadFile);
 				} else {
 					uploader.store(Integer.toString(externalActivity.getId()), uploadFile);
 				}
@@ -2080,7 +2079,7 @@ public class ActivityBean extends BaseBean {
 		
 		UIData table = (UIData) FacesUtils.getComponent("activity:tabExternalActivity:list");
 		ActivityFile toDelete = (ActivityFile) table.getRowData(); 
-		boolean deleted = externalActivity.getFiles().remove(toDelete);
+		externalActivity.getFiles().remove(toDelete);
 		
 		return null;
 	}

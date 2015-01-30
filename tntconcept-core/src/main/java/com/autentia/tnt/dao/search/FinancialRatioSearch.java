@@ -3159,7 +3159,7 @@ private void customGetHQL(StringBuilder ret, int iArgNum) {
 	if ( isDifferentIdSet() )
 	{
 		ret.append( (ret.length()==0) ? "WHERE " : " AND " );
-		ret.append( "id <> :arg"+(iArgNum++) );
+		ret.append( "id <> :arg"+(iArgNum) );
 	}
 	
 }

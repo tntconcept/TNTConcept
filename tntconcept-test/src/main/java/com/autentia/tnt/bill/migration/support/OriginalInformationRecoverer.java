@@ -20,7 +20,9 @@ package com.autentia.tnt.bill.migration.support;
 import java.io.LineNumberReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
@@ -40,7 +42,8 @@ public class OriginalInformationRecoverer {
 	public static double getTotalFacturasOriginal(String billType) throws Exception {
 		
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		LineNumberReader file = null;
 		double result = -1;
 		
@@ -49,31 +52,31 @@ public class OriginalInformationRecoverer {
 
 			// connect to database
 			Class.forName(BillToBillPaymentMigration.DATABASE_DRIVER);
-			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS);
-			con.setAutoCommit(false);
-			stmt = con.createStatement();
+			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS); 	//NOSONAR
+			con.setAutoCommit(false);																																				// DATABASE_PASS vacio				
+			String sql = "SELECT sum((bb.units*bb.amount)*(1+(bb.iva/100))) as total from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, Project p where b.projectId = p.id and p.organizationId = o.id and b.billType= ?";
 			
-			ResultSet rs = stmt.executeQuery("SELECT sum((bb.units*bb.amount)*(1+(bb.iva/100))) as total from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, Project p where b.projectId = p.id and p.organizationId = o.id and b.billType='" + billType + "'");  
-			while(rs.next())  
-			{
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, billType);
+			
+			rs = pstmt.executeQuery();  
+			
+			while(rs.next())   {
 				result = rs.getDouble(1);
 				log.info("\t" + result);
 			}
 			
+			con.commit();
+			
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null){
 				con.rollback();
 			}
+			
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, pstmt, rs);
 		}
 		
 		return result;
@@ -85,7 +88,8 @@ public class OriginalInformationRecoverer {
 	 */
 	public static double[] getImporteFacturaOriginal(String billType) throws Exception {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		LineNumberReader file = null;
 		double[] result = new double[0];
 		
@@ -94,11 +98,15 @@ public class OriginalInformationRecoverer {
 
 			// connect to database
 			Class.forName(BillToBillPaymentMigration.DATABASE_DRIVER);
-			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS);
-			con.setAutoCommit(false);
-			stmt = con.createStatement();
+			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS); 	//NOSONAR
+			con.setAutoCommit(false);																																				//DATABASE_PASS vacio.				
+
+			String sql = "SELECT sum((bb.units*bb.amount)*(1+(bb.iva/100))) as total from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, Project p where b.projectId = p.id and p.organizationId = o.id and b.billType= ? group by b.id order by total";
 			
-			ResultSet rs = stmt.executeQuery("SELECT sum((bb.units*bb.amount)*(1+(bb.iva/100))) as total from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, Project p where b.projectId = p.id and p.organizationId = o.id and b.billType='" + billType + "' group by b.id order by total");
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			pstmt.setString(1,  billType);
 
 			rs.last();
 			result = new double[rs.getRow()];
@@ -111,21 +119,15 @@ public class OriginalInformationRecoverer {
 				log.info("\t" + result[counter]);
 				counter++;
 			}
-			
+			con.commit();
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null){
 				con.rollback();
 			}
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, pstmt, rs);
 		}			
 		return result;
 	}
@@ -136,7 +138,8 @@ public class OriginalInformationRecoverer {
 	 */
 	public static Date[] getFechaFacturaOriginal(String billType) throws Exception {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		LineNumberReader file = null;
 		Date[] result = new Date[0];
 		
@@ -145,11 +148,12 @@ public class OriginalInformationRecoverer {
 
 			// connect to database
 			Class.forName(BillToBillPaymentMigration.DATABASE_DRIVER);
-			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS);
-			con.setAutoCommit(false);
-			stmt = con.createStatement();
-			
-			ResultSet rs = stmt.executeQuery("SELECT date_add(creationDate, INTERVAL expiration DAY) as date FROM Bill B where billType = '" + billType + "' order by date");
+			con = DriverManager.getConnection(BillToBillPaymentMigration.DATABASE_CONNECTION, BillToBillPaymentMigration.DATABASE_USER, BillToBillPaymentMigration.DATABASE_PASS); 	//NOSONAR
+			con.setAutoCommit(false);																																				// DATABASE_PASS vacia
+			String sql = "SELECT date_add(creationDate, INTERVAL expiration DAY) as date FROM Bill B where billType = ? order by date";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,  billType);
+			rs= pstmt.executeQuery();
 
 			rs.last();
 			result = new Date[rs.getRow()];
@@ -162,22 +166,52 @@ public class OriginalInformationRecoverer {
 				log.info("\t" + result[counter]);
 				counter++;
 			}
-			
+			con.commit();
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null){
 				con.rollback();
 			}
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, pstmt, rs);
 		}			
 		return result;
+	}
+	
+	private static void liberaConexion(Connection con, PreparedStatement stmt, ResultSet rs) {
+		if(rs != null){
+			try{
+				rs.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar el ResultSet", sqlex);
+			}
+		}
+		
+		if(stmt != null){
+			try{
+				stmt.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar el Statement", sqlex);
+			}
+		}
+		
+		if(con != null){
+			try{
+				con.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar la conexión", sqlex);
+			}
+		}
+	}
+
+	private static void cierraFichero (LineNumberReader f){
+		try{
+			if(f!=null){
+				f.close();
+			}
+		}catch(Exception ex){
+			log.error("Error al cerrar fichero", ex);
+		}
 	}
 }

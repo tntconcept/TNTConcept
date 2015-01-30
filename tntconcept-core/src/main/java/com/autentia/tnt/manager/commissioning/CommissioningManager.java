@@ -420,6 +420,9 @@ public class CommissioningManager {
 				break;
 			}
 		}
+		if(paymentInList == null){
+			throw new IllegalArgumentException ("PaymentInList no localizado");
+		}
 		// asignamos los valores de antes y despues
 		CommissioningPaymentData paymentPrevious = null;
 		CommissioningPaymentData paymentNow = null;

@@ -70,7 +70,7 @@ public class Principal implements UserDetails {
 		this.enabled = enabled;
 		this.realName = realName;
 		this.roleId = roleId;
-		this.authorities = authorities;
+		this.authorities = authorities.clone();
 
 		for (GrantedAuthority authority : authorities) {
 			hasAuthority.put(authority, true);

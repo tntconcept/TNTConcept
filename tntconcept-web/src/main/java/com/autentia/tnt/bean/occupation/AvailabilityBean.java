@@ -80,15 +80,11 @@ public class AvailabilityBean extends BaseBean {
 		
 		for (User user : users) {
 			
-			List <OcupationEntry> listOccupations = new ArrayList<OcupationEntry>(); 	
 			OcupationModelImpl model = new OcupationModelImpl();
 							
 			Availability availability = new Availability();
-				availability.setUser(user);
-				availability.setModel(model);
-				
-			
-			 
+			availability.setUser(user);
+			availability.setModel(model);
 				
 			fillModelHolidays(user,model);
 			fillAvailability(user, model);

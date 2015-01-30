@@ -338,7 +338,7 @@ public class Project implements Serializable, ITransferObject
 	
 	public double getPercentageWorked(){
 		double expected = this.getExpectedHours();
-		double worked	  = this.getWorkedHours()/60;
+		double worked	  = (double)this.getWorkedHours()/60;
 		
 		if (worked == 0){
 			return 0;

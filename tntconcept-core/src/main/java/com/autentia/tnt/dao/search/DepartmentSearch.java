@@ -625,7 +625,7 @@ public class DepartmentSearch extends SearchCriteria
 		if(isIdDifferentFromSet())
 		{
 			ret.append( (ret.length()==0) ? "WHERE " : " AND " );
-			ret.append( "id != :arg"+(iArgNum++) );
+			ret.append( "id != :arg"+iArgNum );
 		}
 	}
 

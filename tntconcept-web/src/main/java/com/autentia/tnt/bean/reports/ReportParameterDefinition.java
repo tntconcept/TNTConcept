@@ -218,7 +218,6 @@ public class ReportParameterDefinition {
 			traslateValue = resource.getString(value.trim());
 		}catch (MissingResourceException ex){
 			log.error(ex.getMessage());
-			ex.printStackTrace();
 		}
 		return traslateValue;
 	}

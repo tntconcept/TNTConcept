@@ -101,7 +101,7 @@ public class PeriodicalAccountEntryBean extends BaseBean
 		
 		ArrayList <SelectItem> ret = new ArrayList<SelectItem>();
 		
-		ret.add(new SelectItem(new Integer(ALL_ACCOUNTS),bundle.getString("accountEntry.allaccounts")));
+		ret.add(new SelectItem(Integer.valueOf(ALL_ACCOUNTS),bundle.getString("accountEntry.allaccounts")));
 		
 		List<Account> refs = AccountManager.getDefault().getAllEntities(null,new SortCriteria("name"));
 		

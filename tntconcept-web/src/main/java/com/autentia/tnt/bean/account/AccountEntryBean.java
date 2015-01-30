@@ -226,7 +226,7 @@ public class AccountEntryBean extends BaseBean {
 
 		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
 
-		ret.add(new SelectItem(new Integer(ALL_ACCOUNTS), bundle
+		ret.add(new SelectItem(Integer.valueOf(ALL_ACCOUNTS), bundle
 				.getString("accountEntry.allaccounts")));
 
 		List<Account> refs = AccountManager.getDefault().getAllEntities(null,
@@ -255,13 +255,13 @@ public class AccountEntryBean extends BaseBean {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fecha);
 		int actual = cal.get(Calendar.YEAR);
-		ret.add(new SelectItem(new Integer(actual), bundle
+		ret.add(new SelectItem(Integer.valueOf(actual), bundle
 				.getString("accountEntry.fiscalYear.now")));
-		ret.add(new SelectItem(new Integer(ALL_YEARS), bundle
+		ret.add(new SelectItem(Integer.valueOf(ALL_YEARS), bundle
 				.getString("accountEntry.fiscalYear.all")));
 
 		for (int i = 1; i < getMaximumYears(); i++) {
-			ret.add(new SelectItem(new Integer(actual - i), "" + (actual - i)));
+			ret.add(new SelectItem(Integer.valueOf(actual - i), "" + (actual - i)));
 		}
 
 		return ret;

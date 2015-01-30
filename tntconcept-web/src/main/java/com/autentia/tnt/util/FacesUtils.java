@@ -291,7 +291,6 @@ public class FacesUtils {
 		if (loggedIn) {
 			local = AuthenticationManager.getDefault().getCurrentPrincipal().getLocale();
 			if (local != null) {
-				Locale locale = local;
 				FacesUtils.setViewLocale(local);
 			}
 		}

@@ -71,8 +71,8 @@ public class HtmlAbcPagerTag extends AbcPagerTag
   {
     super.setProperties(component);
     
-    FacesContext context = FacesContext.getCurrentInstance();
-    Application application = context.getApplication();
+//    FacesContext context = FacesContext.getCurrentInstance();
+//    Application application = context.getApplication();
     HtmlAbcPager pager = (HtmlAbcPager)component;
     
     pager.setStyleClass( styleClass );

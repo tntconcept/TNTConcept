@@ -22,4 +22,4 @@
 -- -----------------------------------------------------------------------------
 
 -- Update version number
-update Version set version='0.22';
+update Version set version='0.23';

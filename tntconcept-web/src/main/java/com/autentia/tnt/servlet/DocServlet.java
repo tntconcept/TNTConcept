@@ -69,13 +69,19 @@ public class DocServlet extends HttpServlet {
 					response.setContentType(mime);
 				}
 				OutputStream out = response.getOutputStream();
-				InputStream in = new FileInputStream(f);
-				byte[] buffer = new byte[8192];
-				int nr;
-				while( (nr=in.read(buffer))!=-1 ){
-					out.write(buffer,0,nr);
+				InputStream in = null;
+				try {
+					in = new FileInputStream(f);
+					byte[] buffer = new byte[8192];
+					int nr;
+					while( (nr=in.read(buffer))!=-1 ){
+						out.write(buffer,0,nr);
+					}
+				} finally {
+					if(in!=null){
+						in.close();
+					}
 				}
-				in.close();
 			}
 			else
 			{

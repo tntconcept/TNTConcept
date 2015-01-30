@@ -36,14 +36,13 @@ import java.util.Map;
  */
 public abstract class OcupationModel {
 
-	private static final Calendar cals = Calendar.getInstance();
-	private static final Calendar cale = Calendar.getInstance();
-	
 	private final Map<Number, OcupationEntry> idOcupationMap = new HashMap<Number, OcupationEntry>();
 	private final Collection<OcupationEntry> ocupationEntries = new ArrayList<OcupationEntry>();
 	
 	private static final boolean isBetweenRange(Date aDay, OcupationEntry entry) {
-	
+		Calendar cals = Calendar.getInstance();
+		Calendar cale = Calendar.getInstance();
+		
 		cals.setTime(entry.getStart());
 		cale.setTime(entry.getEnd());
 		

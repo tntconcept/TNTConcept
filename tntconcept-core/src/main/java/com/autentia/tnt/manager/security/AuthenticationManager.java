@@ -331,12 +331,14 @@ public class AuthenticationManager implements UserDetailsService {
 					try {
 						rs.close();
 					} catch (SQLException e) {
+						log.error("jdbcSearchByLogin - Error al liberar el resultset", e);
 					}
 				;
 				if (stmt != null)
 					try {
 						stmt.close();
 					} catch (SQLException e) {
+						log.error("jdbcSearchByLogin - Error al liberar el statement", e);
 					}
 				;
 			}

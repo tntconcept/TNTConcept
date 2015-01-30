@@ -113,13 +113,13 @@ public class BillBean extends BaseBean {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fecha);
 		int actual = cal.get(Calendar.YEAR);
-		ret.add(new SelectItem(new Integer(actual), bundle
+		ret.add(new SelectItem(Integer.valueOf(actual), bundle
 				.getString("bill.fiscalYear.now")));
-		ret.add(new SelectItem(new Integer(ALL_YEARS), bundle
+		ret.add(new SelectItem(Integer.valueOf(ALL_YEARS), bundle
 				.getString("bill.fiscalYear.all")));
 
 		for (int i = 1; i < getMaximumYears(); i++) {
-			ret.add(new SelectItem(new Integer(actual - i), "" + (actual - i)));
+			ret.add(new SelectItem(Integer.valueOf(actual - i), "" + (actual - i)));
 		}
 
 		return ret;
@@ -455,7 +455,7 @@ public class BillBean extends BaseBean {
 
 	public List<SelectItem> getProjectsOpenBySelectedOrganization() {
 		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
-		List<Project> refs = new ArrayList<Project>();
+		List<Project> refs = null;
 		if(bill.getId()!=null){
 			refs = ProjectManager.getDefault().getProjectsByOrganization(selectedOrganization);
 		}else{
@@ -1612,10 +1612,6 @@ public class BillBean extends BaseBean {
   	 * @return Devuelve la cantidad pendiente de ser pagada
   	 */
   	public BigDecimal getUnpaid(){
-  		if(bill==null){
-  			return bill.getTotal();
-  		}else{
-  			return bill.getUnpaid();
-  		}
+		return bill.getUnpaid();
   	}      
 }

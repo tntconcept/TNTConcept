@@ -94,7 +94,7 @@ public class MigrationManager {
 				// Compose script name and open it
 				String script = SCRIPT_PREFIX + db.toString(Version.MINOR) + SCRIPT_SUFFIX;
 				log.info("upgradeDatabase - loading script " + script);
-				InputStream sqlScript = getClass().getClassLoader().getResourceAsStream(script);
+				InputStream sqlScript = Thread.currentThread().getContextClassLoader().getResourceAsStream(script);
 				if (sqlScript == null) {
 					throw FileNotFoundException(script);
 				}
@@ -160,24 +160,25 @@ public class MigrationManager {
 			log.info("upgradeDatabase - >>>> MIGRATION SUCCESSFULLY FINISHED <<<<");
 		} catch (Exception e) {
 			log.error("upgradeDatabase - >>>> MIGRATION FAILED: WILL BE ROLLED BACK <<<<", e);
+			try {
+				con.rollback();
+			} catch (SQLException e2) {
+				log.error("upgradeDatabase - Error al realizar el rollback");
+			}
 			throw new DataException("Script was applied but did not upgrade database: ", e);
 		} finally {
 			if (file != null) {
 				try {
 					file.close();
 				} catch (IOException e2) {
+					log.error("upgradeDatabase - Error al cerrar el fichero de script ", e2);
 				}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e2) {
-				}
-			}
-			if (con != null) {
-				try {
-					con.rollback();
-				} catch (SQLException e2) {
+					log.error("upgradeDatabase - Error al cerrar el statement");
 				}
 			}
 			ses.close();

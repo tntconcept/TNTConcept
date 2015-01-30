@@ -401,9 +401,9 @@ public final class DefaultSecurityConfiguration implements
 			Map<GrantedAuthority, boolean[]> permissionsMap, int index) {
 		List<GrantedAuthority> grant = new ArrayList<GrantedAuthority>();
 		Set<GrantedAuthority> perms = permissionsMap.keySet();
-		for (GrantedAuthority perm : perms) {
-			if (permissionsMap.get(perm)[index]) {
-				grant.add(perm);
+		for (GrantedAuthority perm : perms) { 		 
+			if (permissionsMap.get(perm)[index]) {	// NOSONAR
+				grant.add(perm);					// se emplea keyset porque se necesita tanto la key como el value
 			}
 		}
 		return grant.toArray(new GrantedAuthority[] {});

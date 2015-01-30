@@ -21,6 +21,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.jfree.util.Log;
+
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.bean.NavigationResults;
 import com.autentia.tnt.businessobject.Activity;
@@ -242,6 +244,7 @@ public class ExternalActivityBean extends BaseBean {
 		try {
 			ret = sdf.parse(date+" "+time);
 		} catch (ParseException e) {
+			Log.error("dateFromDateAndTime - Erorr transformando Date ", e);
 		}
 		
 		return ret;

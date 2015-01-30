@@ -59,7 +59,7 @@ public abstract class ReportBean extends BaseBean {
 
 	private ArrayList<ReportParameterDefinition> reportParametersDefinitions;
 	
-	private static Map<String, List<SelectItem>> dataPanels = null; 
+	private Map<String, List<SelectItem>> dataPanels = null; 
 	
 	private static final OrganizationDAO organizationDAO = new OrganizationDAO();
 	private static final ProjectDAO projectDAO = new ProjectDAO();
@@ -297,10 +297,11 @@ public abstract class ReportBean extends BaseBean {
 	}
 
 	public void setParameters(StringBuffer parameters) {
-		if (parameters.equals("?")) {
+		if (parameters.toString().equals("?")) {
 			this.parameters = parameters;
-		} else
+		} else {
 			return;
+		}
 	}
 
 	public Project getSelectedProject() {

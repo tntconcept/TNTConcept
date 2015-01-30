@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.type.NullableType;
 import org.hibernate.type.TypeFactory;
@@ -123,8 +124,8 @@ public class GenericEnumUserType implements UserType, ParameterizedType {
         return (Serializable) value;
     }
 
-    public boolean equals(Object x, Object y) throws HibernateException {
-        return x == y;
+    public boolean equals(Object x, Object y) throws HibernateException { //NOSONAR
+        return ObjectUtils.equals(x, y);
     }
 
     public int hashCode(Object x) throws HibernateException {

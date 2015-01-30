@@ -662,7 +662,7 @@ public class DocumentCategorySearch extends SearchCriteria
 		if ( isDifferentIdSet() )
 		{
 			ret.append( (ret.length()==0) ? "WHERE " : " AND " );
-			ret.append( "id <> arg"+(iArgNum++) );
+			ret.append( "id <> arg"+iArgNum );
 		}
 	}
 	

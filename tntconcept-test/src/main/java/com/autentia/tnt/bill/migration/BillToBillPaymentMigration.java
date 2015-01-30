@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.Locale;
@@ -228,12 +230,12 @@ public class BillToBillPaymentMigration {
 
 			// connect to database
 			Class.forName(DATABASE_DRIVER);
-			con = DriverManager.getConnection(DATABASE_CONNECTION, DATABASE_USER, DATABASE_PASS);
-			con.setAutoCommit(false);
+			con = DriverManager.getConnection(DATABASE_CONNECTION, DATABASE_USER, DATABASE_PASS); 	//NOSONAR
+			con.setAutoCommit(false);															  	// DATABASE_PASS es nula
 			stmt = con.createStatement();
 
 			// load file
-			InputStream sqlScript = log.getClass().getClassLoader().getResourceAsStream(script);
+			InputStream sqlScript = Thread.currentThread().getContextClassLoader().getResourceAsStream(script);
 			if (sqlScript == null) {
 				throw new FileNotFoundException(script);
 			}
@@ -289,18 +291,13 @@ public class BillToBillPaymentMigration {
 			
 		} catch (Exception e) {
 			log.error("FAILED: WILL BE ROLLED BACK: ", e);
-			con.rollback();
-			
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
-			if (con != null) {
+			if(con!=null){
 				con.rollback();
 			}
+			
+		} finally {
+			cierraFichero(file);
+			liberaConexion(con, stmt, null);
 		}
 	}	
 	
@@ -308,4 +305,42 @@ public class BillToBillPaymentMigration {
 		return Math.round(numero*Math.pow(10,DOS_DECIMALES))/Math.pow(10,DOS_DECIMALES);
 		// return numero;
 	}
+	
+	
+	private static void liberaConexion(Connection con, Statement stmt, ResultSet rs) {
+		if(rs != null){
+			try{
+				rs.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar el ResultSet", sqlex);
+			}
+		}
+		
+		if(stmt != null){
+			try{
+				stmt.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar el Statement", sqlex);
+			}
+		}
+		
+		if(con != null){
+			try{
+				con.close();
+			}catch(SQLException sqlex) {
+				log.error("Error al liberar la conexión", sqlex);
+			}
+		}
+	}
+	
+	private static void cierraFichero (LineNumberReader f){
+		try{
+			if(f!=null){
+				f.close();
+			}
+		}catch(Exception ex){
+			log.error("Error al cerrar fichero", ex);
+		}
+	}
+	
 }

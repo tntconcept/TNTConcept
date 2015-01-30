@@ -39,9 +39,9 @@ public class UtilitiesXPath {
 	private static List<List> reportListBill = null;
 	private static List<List> reportListProject = null;
 	private static List<List> reportListOrganization = null;
-	private static List<List> reportListInteraction = null;
+	private static List<List> reportListInteraction = null;	
 	
-	private static List<List> reportList = null;
+	//private static List<List> reportList = null;
 	
 	private static List<String> nameReport = null;
 	private static String expression = "";
@@ -50,7 +50,7 @@ public class UtilitiesXPath {
 	private static List parametersDescription = null;
 	private static List parametersDefaultValue = null;
 	private static List nameClass = null;
-	private static List filesList = null;
+	//private static List filesList = null;
 	private static List tmpSend = null;
 	
 	public UtilitiesXPath() {  
@@ -62,20 +62,19 @@ public class UtilitiesXPath {
 		   	reportListBill = ExtractReport("com/autentia/tnt/report/bill");
 		   	reportListProject = ExtractReport("com/autentia/tnt/report/project");
 		   	reportListOrganization = ExtractReport("com/autentia/tnt/report/organization");*/
-		   	reportListInteraction = ExtractReport("com/autentia/tnt/report/interaction");
 		   	
 		   	log.debug("\n---- FIN DEL PARSEADO -----\n");
 		   	
 			    	
 	}
 	
-	public List<List> ExtractReport(String folderReport) {
-	
+	public static List<List> ExtractReport(String folderReport) {
+		List reportList = null;
+		List filesList = null;
 	try {
-	 	reportList = null;
-	 	reportList = new ArrayList<List>();
-		filesList = null;
+		reportList = new ArrayList<List>();
 		filesList = UtilitiesXML.filesFromFolder(folderReport);
+
 		for(int i=0;i<filesList.size();i++) {
     		List<List> tmp = new ArrayList<List>();
     		Document doc = UtilitiesXML.file2Document(filesList.get(i).toString());
@@ -147,14 +146,6 @@ public class UtilitiesXPath {
 		
 	}
 
-	public static List<List> getReportList() {
-		return reportList;
-	}
-
-	public static void setReportList(List<List> reportList) {
-		UtilitiesXPath.reportList = reportList;
-	}
-
 	public static List<List> getReportListActivity() {
 		return reportListActivity;
 	}
@@ -180,6 +171,9 @@ public class UtilitiesXPath {
 	}
 
 	public static List<List> getReportListInteraction() {
+		if(reportListInteraction == null) {
+			reportListInteraction = ExtractReport("com/autentia/tnt/report/interaction");
+		}
 		return reportListInteraction;
 	}
 

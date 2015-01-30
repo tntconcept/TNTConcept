@@ -22,9 +22,6 @@ import java.util.Date;
 
 public class DateUtils {
 
-	private static final Calendar calendar = Calendar.getInstance();
-	
-	
 	/**
 	 * returns a java.util.Date with hours and minutes passed
 	 * as argument. rest of date fields are despreciable.
@@ -34,6 +31,7 @@ public class DateUtils {
 	 * @return date with hour and minutes setted.
 	 */
 	public static Date timeToDate (int hour, int minutes) {
+		Calendar calendar = Calendar.getInstance();
 		
 		calendar.clear();
 		
@@ -51,6 +49,8 @@ public class DateUtils {
 	 */
 	
 	public static Date minHourInDate(Date d) {
+		Calendar calendar = Calendar.getInstance();
+
 		calendar.clear();
 		calendar.setTime(d);
 		
@@ -68,6 +68,8 @@ public class DateUtils {
 	
 	
 	public static Date addDays2Date(Date d, int days) {
+		Calendar calendar = Calendar.getInstance();
+
 		calendar.clear();
 		calendar.setTime(d);
 		calendar.add(Calendar.DAY_OF_MONTH, days);
@@ -83,6 +85,8 @@ public class DateUtils {
 	 */
 	
 	public static Date maxHourInDate(Date d) {
+		Calendar calendar = Calendar.getInstance();
+
 		calendar.clear();
 		calendar.setTime(d);
 		

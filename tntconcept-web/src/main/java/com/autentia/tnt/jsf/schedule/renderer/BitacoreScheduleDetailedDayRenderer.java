@@ -290,7 +290,7 @@ public class BitacoreScheduleDetailedDayRenderer extends AbstractScheduleRendere
         writer.endElement(HTML.TD_ELEM);
 
         float columnWidth = (schedule.getModel().size() == 0) ? 100
-                : (100 / schedule.getModel().size());
+                : ((float)100 / schedule.getModel().size());
 
         for (Iterator dayIterator = schedule.getModel().iterator(); dayIterator
                 .hasNext();)
@@ -492,7 +492,7 @@ public class BitacoreScheduleDetailedDayRenderer extends AbstractScheduleRendere
         maximizeEntries(entries, numberOfColumns);
 
         //now determine the width in percent of 1 column
-        float columnWidth = 100 / numberOfColumns;
+        float columnWidth = (float)100 / numberOfColumns;
 
         //and now draw the entries in the columns
         for (Iterator entryIterator = entrySet.iterator(); entryIterator
@@ -616,7 +616,7 @@ public class BitacoreScheduleDetailedDayRenderer extends AbstractScheduleRendere
         writer.endElement(HTML.TD_ELEM);
 
         float columnWidth = (schedule.getModel().size() == 0) ? 100
-                : (100 / schedule.getModel().size());
+                : ((float)100 / schedule.getModel().size());
 
         for (Iterator dayIterator = schedule.getModel().iterator(); dayIterator
                 .hasNext();)

@@ -38,7 +38,7 @@ public class HibernateUtil
 			sessionFactory = cfg.buildSessionFactory();
 			
 		}
-		catch (Throwable e)
+		catch (Exception e)
 		{
 			// Make sure you log the exception, as it might be swallowed
 			log.fatal("Initial SessionFactory creation failed." + e);

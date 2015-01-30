@@ -389,14 +389,15 @@ public class OfferBean extends BaseBean {
 				}
 			}
 		}
-		offer.setInteractions(interactionsWithProject);
-		
-		if (offer.getId() == null) {
-			manager.insertEntity(offer);
-		} else {
-			manager.updateEntity(offer);
+		if(offer!=null){
+			offer.setInteractions(interactionsWithProject);
+			
+			if (offer.getId() == null) {
+				manager.insertEntity(offer);
+			} else {
+				manager.updateEntity(offer);
+			}
 		}
-
 		// nos mantenemos en la pantalla de edición de ofertas
 		return null;
 	}

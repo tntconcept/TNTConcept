@@ -49,6 +49,11 @@
 			<type>war</type>
 		</dependency>
 
+		<dependency>
+			<groupId>com.autentia.tnt</groupId>
+			<artifactId>tntconcept-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- =================== External dependencies =================== -->
 		<dependency>
 			<groupId>log4j</groupId>

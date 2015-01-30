@@ -60,7 +60,7 @@ public class ValidatorFactory {
 			if (tableValidators.containsKey(className)) {
 				classFinal = (Class) tableValidators.get(className);
 			} else {
-				ClassLoader cl = getClass().getClassLoader();
+				ClassLoader cl = Thread.currentThread().getContextClassLoader();
 				classFinal = cl.loadClass(className);
 				tableValidators.put(className, classFinal);
 			}

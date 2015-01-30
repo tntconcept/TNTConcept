@@ -119,7 +119,7 @@ public class ObjectiveBean extends BaseBean
 	    Collections.sort(refs, new UserComparator());
 	    ArrayList<SelectItem> ret = new ArrayList<SelectItem>();    
 	    
-	    ret.add(new SelectItem(new Integer(ALL_USERS),"--"));
+	    ret.add(new SelectItem(Integer.valueOf(ALL_USERS),"--"));
 	    
 	    for( User ref : refs ){
 	      ret.add( new SelectItem( ref.getId(), ref.getName() ) );

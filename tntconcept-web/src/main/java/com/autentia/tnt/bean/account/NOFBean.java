@@ -343,10 +343,8 @@ public class NOFBean extends BaseBean {
 				PeriodicalAccountEntry second = null;
 				
 				// Ascending order
-				if ( true ) {
-					first = res.get(j);
-					second = res.get(j-1);
-				}
+				first = res.get(j);
+				second = res.get(j-1);
 				
 				if ( first.getDate().getTime() < second.getDate().getTime() ) {
 					temp = res.get(j);

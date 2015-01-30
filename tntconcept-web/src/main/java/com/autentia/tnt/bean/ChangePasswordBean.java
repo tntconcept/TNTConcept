@@ -85,7 +85,7 @@ public class ChangePasswordBean extends BaseBean
         return null;
       }
     }
-    catch(Throwable ex)
+    catch(Exception ex)
     {
       return super.getReturnError("ChangePasswordBean.changePassword. ",ex);
     }

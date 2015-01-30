@@ -26,19 +26,22 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.logging.Log;
-
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.autentia.tnt.manager.report.ReportManager;
+
 
 public class UtilitiesXML {
     
-	
+	private  static Log log = LogFactory.getLog(UtilitiesXML.class);
     /**
-     * Este m�todo busca un fichero de tipo XML en el classpath crea un objeto 
+     * Este metodo busca un fichero de tipo XML en el classpath crea un objeto 
      * de tipo org.w3c.dom.Document.
      * @param fichero: El nombre del fichero a procesar.
      * @return
@@ -46,7 +49,7 @@ public class UtilitiesXML {
      */
     public static Document file2Document(String fichero) throws Exception {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();      
-      ClassLoader loader = (UtilitiesXML.class).getClassLoader();
+      ClassLoader loader = Thread.currentThread().getContextClassLoader();
       URL urlfichero = loader.getResource(fichero);
       Document XMLDoc = factory.newDocumentBuilder().parse(new InputSource(urlfichero.openStream()));
       return XMLDoc;
@@ -54,7 +57,7 @@ public class UtilitiesXML {
     
     
     /**
-     * Este m�todo convierte un objeto de tipo org.w3c.dom.NodeList a List
+     * Este metodo convierte un objeto de tipo org.w3c.dom.NodeList a List
      * @param nodes
      * @return
      * @throws Exception
@@ -71,8 +74,8 @@ public class UtilitiesXML {
 
     
     /**
-     * Este m�todo convierte un objeto de tipo org.w3c.dom.NodeList a List
-     * Este m�todo solo saca el atributo especificado con nombre
+     * Este metodo convierte un objeto de tipo org.w3c.dom.NodeList a List
+     * Este metodo solo saca el atributo especificado con nombre
      * @param nodo
      * @return
      * @throws Exception
@@ -139,15 +142,14 @@ public class UtilitiesXML {
     public static List filesFromFolder(String path) {
     	File[] filesList = null;
         List list = new ArrayList();
-        ClassLoader loader = (UtilitiesXML.class).getClassLoader();
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         File f = null;
 		try {
 			f = new File(loader.getResource(path).toURI());
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error en filesFromFolder", e);
 		}
-        if(f.isDirectory()) {
+        if(f!=null && f.isDirectory()) {
     		filesList = f.listFiles();
     		for(File file : filesList) {
 				int i = file.getAbsolutePath().lastIndexOf(".");

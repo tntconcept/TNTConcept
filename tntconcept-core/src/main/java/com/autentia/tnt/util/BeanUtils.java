@@ -33,11 +33,10 @@ public class BeanUtils
    */
   public static String getErrorDesc( Throwable ex )
   {
-    StringBuffer sb=new StringBuffer();
     StringWriter sw=new StringWriter();
-    ex.printStackTrace(new PrintWriter(sw));
-    sb.append(sw.toString());
-    return sb.toString();
+    ex.printStackTrace(new PrintWriter(sw)); //NOSONAR
+
+    return sw.toString();
   }
 
 	/**
