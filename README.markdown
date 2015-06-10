@@ -17,3 +17,8 @@
 # TNTConcept #
 
 With TNTConcept you can manage, in an integrated way, your customers, providers, contacts, business interactions, projects, week objectives, project time-tracking, bills, cash flow ... Built with the lastest J2EE techs: JSF, Spring, Hibernate, Maven ...
+
+* Build requirements
+- TNTConcept does not compile with JDK 8+
+- Maven 2.2 
+
