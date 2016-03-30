@@ -89,7 +89,7 @@
 		<dependency>
 			<groupId>com.autentia.tnt</groupId>
 			<artifactId>tntconcept-core</artifactId>
-			<version>${project.version}</version>			
+			<version>${project.version}</version>
 		</dependency>
 		
 		<!--
