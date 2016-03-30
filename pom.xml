@@ -280,30 +280,30 @@
 
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>java-net-maven2</id>
-			<name>java-net-maven2</name>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>java-net-maven1</id>
-			<name>java-net-maven1</name>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
-		</repository>
-		<repository>
-			<id>jboss</id>
-			<url>http://repository.jboss.com/</url>
-		</repository>
-		<repository>
-			<id>repository.jboss.org</id>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+	<!--<repositories>-->
+		<!--<repository>-->
+			<!--<id>java-net-maven2</id>-->
+			<!--<name>java-net-maven2</name>-->
+			<!--<url>http://download.java.net/maven/2</url>-->
+		<!--</repository>-->
+		<!--&lt;!&ndash;<repository>&ndash;&gt;-->
+			<!--&lt;!&ndash;<id>java-net-maven1</id>&ndash;&gt;-->
+			<!--&lt;!&ndash;<name>java-net-maven1</name>&ndash;&gt;-->
+			<!--&lt;!&ndash;<url>http://download.java.net/maven/1</url>&ndash;&gt;-->
+			<!--&lt;!&ndash;<layout>legacy</layout>&ndash;&gt;-->
+		<!--&lt;!&ndash;</repository>&ndash;&gt;-->
+		<!--<repository>-->
+			<!--<id>jboss</id>-->
+			<!--<url>http://repository.jboss.com/</url>-->
+		<!--</repository>-->
+		<!--<repository>-->
+			<!--<id>repository.jboss.org</id>-->
+			<!--<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>-->
+			<!--<snapshots>-->
+				<!--<enabled>false</enabled>-->
+			<!--</snapshots>-->
+		<!--</repository>-->
+	<!--</repositories>-->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>mc-release</id>
