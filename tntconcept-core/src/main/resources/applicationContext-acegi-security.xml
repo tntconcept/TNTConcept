@@ -85,13 +85,11 @@
     </bean>
 
     <!-- Filter to load/persist SecurityContext information from/to session -->
-    <bean id="httpSessionContextIntegrationFilter"
-          class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
+    <bean id="httpSessionContextIntegrationFilter" class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
 
     <!-- Filter to wrap standard HttpServletRequest with an ACEGI-aware request which overwrites
          isUserInRole() and getRemoteUser() methods -->
-    <bean id="securityContextHolderAwareRequestFilter"
-          class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter"/>
+    <bean id="securityContextHolderAwareRequestFilter" class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter"/>
 
     <!-- Filter to store authentication details in a persistent cookie so that the user can come back without login -->
     <bean id="rememberMeProcessingFilter" class="org.acegisecurity.ui.rememberme.RememberMeProcessingFilter">
@@ -110,8 +108,10 @@
         <!-- List of authentication providers -->
         <property name="providers">
             <list>
-                <!-- LDAP authentication provider -->
-                <ref local="ldapAuthenticationProvider"/>
+
+                <ref local="ldapAuthenticationProvider" />
+                <!-- DAO authentication provider -->
+                <!--<ref local="daoAuthenticationProvider"/>-->
                 <!-- Anonymous authentication provider -->
                 <bean class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
                     <property name="key" value="changeThis"/>
@@ -124,18 +124,24 @@
         </property>
     </bean>
 
-    <!-- LDAP authentication provider -->
     <bean id="ldapAuthenticationProvider" class="org.acegisecurity.providers.ldap.LdapAuthenticationProvider">
         <constructor-arg ref="ldapBindAuthenticator"/>
         <constructor-arg ref="ldapAuthoritiesPopulator"/>
     </bean>
 
+
     <bean id="ldapBindAuthenticator" class="org.acegisecurity.providers.ldap.authenticator.BindAuthenticator">
         <constructor-arg ref="defaultInitialDirContextFactory"/>
+        <property name="userDnPatterns">
+            <list>
+                <value>cn={0},ou=People</value>
+                <value>uid={0},ou=People</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="defaultInitialDirContextFactory" class="org.acegisecurity.ldap.DefaultInitialDirContextFactory">
-        <constructor-arg value="ldap://192.168.168.3:389/dc=autentia,dc=com"/>
+        <constructor-arg value="ldap://192.168.168.124:389/dc=autentia,dc=com"/>
     </bean>
 
     <bean id="ldapAuthoritiesPopulator" class="org.acegisecurity.providers.ldap.populator.DefaultLdapAuthoritiesPopulator">
@@ -143,36 +149,42 @@
         <constructor-arg value=""/>
     </bean>
 
+
+    <!-- DAO authentication provider -->
+    <bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsService"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <!--
+        <property name="userCache">
+          <bean class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+            <property name="cache">
+              <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager">
+                  <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+                </property>
+                <property name="cacheName" value="userCache"/>
+              </bean>
+            </property>
+          </bean>
+        </property>
+        -->
+    </bean>
+
     <!-- ACL BasePermissions defined by ACEGI -->
-    <bean id="org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION"
-          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-        <property name="staticField">
-            <value>org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION</value>
-        </property>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"><value>org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION</value></property>
     </bean>
-    <bean id="org.acegisecurity.acls.domain.BasePermission.CREATE"
-          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-        <property name="staticField">
-            <value>org.acegisecurity.acls.domain.BasePermission.CREATE</value>
-        </property>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.CREATE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"><value>org.acegisecurity.acls.domain.BasePermission.CREATE</value></property>
     </bean>
-    <bean id="org.acegisecurity.acls.domain.BasePermission.WRITE"
-          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-        <property name="staticField">
-            <value>org.acegisecurity.acls.domain.BasePermission.WRITE</value>
-        </property>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.WRITE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"><value>org.acegisecurity.acls.domain.BasePermission.WRITE</value></property>
     </bean>
-    <bean id="org.acegisecurity.acls.domain.BasePermission.READ"
-          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-        <property name="staticField">
-            <value>org.acegisecurity.acls.domain.BasePermission.READ</value>
-        </property>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.READ" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"><value>org.acegisecurity.acls.domain.BasePermission.READ</value></property>
     </bean>
-    <bean id="org.acegisecurity.acls.domain.BasePermission.DELETE"
-          class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-        <property name="staticField">
-            <value>org.acegisecurity.acls.domain.BasePermission.DELETE</value>
-        </property>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.DELETE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField"><value>org.acegisecurity.acls.domain.BasePermission.DELETE</value></property>
     </bean>
 
     <!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
