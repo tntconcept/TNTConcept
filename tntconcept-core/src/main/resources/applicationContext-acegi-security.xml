@@ -124,9 +124,10 @@
     </property>
   </bean>
 
-  <bean id="ldapAuthenticationProvider" class="org.acegisecurity.providers.ldap.LdapAuthenticationProvider">
+  <bean id="ldapAuthenticationProvider" class="com.autentia.tnt.manager.security.LdapCustomAuthenticationProvider">
     <constructor-arg ref="ldapBindAuthenticator"/>
     <constructor-arg ref="ldapAuthoritiesPopulator"/>
+    <property name="userDetailsService" ref="userDetailsService"/>
   </bean>
 
 
@@ -141,7 +142,7 @@
   </bean>
 
   <bean id="defaultInitialDirContextFactory" class="org.acegisecurity.ldap.DefaultInitialDirContextFactory">
-    <constructor-arg value="ldap://192.168.168.3:389/dc=autentia,dc=com"/>
+    <constructor-arg value="ldap://192.168.168.124:389/dc=autentia,dc=com"/>
   </bean>
 
   <bean id="ldapAuthoritiesPopulator" class="org.acegisecurity.providers.ldap.populator.DefaultLdapAuthoritiesPopulator">
