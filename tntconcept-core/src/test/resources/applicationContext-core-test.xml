@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="changesAspect" class="com.autentia.tnt.tracking.annotation.ChangesHistoryAspect" />
+  
+  <!-- Configuration bean -->
+  <bean id="configuration" class="com.autentia.tnt.util.ConfigurationUtil">
+    <!-- JNDI variable holding configuration directory -->
+    <constructor-arg value="java:comp/env/TNTConceptConfigDir"/> 
+    <!-- Configuration file -->
+    <constructor-arg value="autentia.properties"/> 
+  </bean>
+
+	<!-- DAOs -->
+  <bean id="daoAccount" class="com.autentia.tnt.dao.hibernate.AccountDAO" />
+  <bean id="daoAccountEntry" class="com.autentia.tnt.dao.hibernate.AccountEntryDAO" />
+  <bean id="daoAccountEntryGroup" class="com.autentia.tnt.dao.hibernate.AccountEntryGroupDAO" />
+  <bean id="daoAccountEntryType" class="com.autentia.tnt.dao.hibernate.AccountEntryTypeDAO" />
+  <bean id="daoAccountType" class="com.autentia.tnt.dao.hibernate.AccountTypeDAO" />
+  <bean id="daoActivity" class="com.autentia.tnt.dao.hibernate.ActivityDAO" />
+  <bean id="daoAdminHoliday" class="com.autentia.tnt.dao.hibernate.AdminHolidayDAO" />
+  <bean id="daoBill" class="com.autentia.tnt.dao.hibernate.BillDAO" />
+  <bean id="daoBook" class="com.autentia.tnt.dao.hibernate.BookDAO" />
+  <bean id="daoBulletinBoardCategory" class="com.autentia.tnt.dao.hibernate.BulletinBoardCategoryDAO" />
+  <bean id="daoBulletinBoard" class="com.autentia.tnt.dao.hibernate.BulletinBoardDAO" />
+  <bean id="daoCompanyState" class="com.autentia.tnt.dao.hibernate.CompanyStateDAO" />
+  <bean id="daoContact" class="com.autentia.tnt.dao.hibernate.ContactDAO" />
+  <!-- <bean id="daoContactChange" class="com.autentia.tnt.dao.hibernate.ContactChangeDAO" />-->
+  <bean id="daoContractType" class="com.autentia.tnt.dao.hibernate.ContractTypeDAO" />
+  <bean id="daoDepartment" class="com.autentia.tnt.dao.hibernate.DepartmentDAO" />
+  <bean id="daoDocumentCategory" class="com.autentia.tnt.dao.hibernate.DocumentCategoryDAO" />
+  <bean id="daoDocument" class="com.autentia.tnt.dao.hibernate.DocumentDAO" />    
+  <bean id="daoDocumentVersion" class="com.autentia.tnt.dao.hibernate.DocumentVersionDAO" />    
+  <bean id="daoHoliday" class="com.autentia.tnt.dao.hibernate.HolidayDAO" />
+  <bean id="daoIdea" class="com.autentia.tnt.dao.hibernate.IdeaDAO" />
+  <bean id="daoInteraction" class="com.autentia.tnt.dao.hibernate.InteractionDAO" />
+  <bean id="daoInteractionType" class="com.autentia.tnt.dao.hibernate.InteractionTypeDAO" />    
+  <bean id="daoInventary" class="com.autentia.tnt.dao.hibernate.InventaryDAO" />
+  <bean id="daoMagazine" class="com.autentia.tnt.dao.hibernate.MagazineDAO" />
+  <bean id="daoObjective" class="com.autentia.tnt.dao.hibernate.ObjectiveDAO" />
+  <bean id="daoOrganization" class="com.autentia.tnt.dao.hibernate.OrganizationDAO" />
+  <bean id="daoOrganizationISOCategory" class="com.autentia.tnt.dao.hibernate.OrganizationISOCategoryDAO" />
+  <bean id="daoOrganizationType" class="com.autentia.tnt.dao.hibernate.OrganizationTypeDAO" />
+  <bean id="daoPeriodicalAccountEntry" class="com.autentia.tnt.dao.hibernate.PeriodicalAccountEntryDAO" />
+  <bean id="daoProjectCost" class="com.autentia.tnt.dao.hibernate.ProjectCostDAO" />
+  <bean id="daoProject" class="com.autentia.tnt.dao.hibernate.ProjectDAO" />
+  <bean id="daoProjectRole" class="com.autentia.tnt.dao.hibernate.ProjectRoleDAO" />
+  <bean id="daoProvince" class="com.autentia.tnt.dao.hibernate.ProvinceDAO" />
+  <bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
+  <bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />
+  <bean id="daoRole" class="com.autentia.tnt.dao.hibernate.RoleDAO" />
+  <bean id="daoTutorial" class="com.autentia.tnt.dao.hibernate.TutorialDAO" />
+  <bean id="daoUserCategory" class="com.autentia.tnt.dao.hibernate.UserCategoryDAO" />
+  <bean id="daoUser" class="com.autentia.tnt.dao.hibernate.UserDAO" />
+  <bean id="daoFrequency" class="com.autentia.tnt.dao.hibernate.FrequencyDAO" />
+  <bean id="daoOfferRejectReason" class="com.autentia.tnt.dao.hibernate.OfferRejectReasonDAO" />
+  <bean id="daoOffer" class="com.autentia.tnt.dao.hibernate.OfferDAO" />
+  <bean id="daoBillBreakDown" class="com.autentia.tnt.dao.hibernate.BillBreakDownDAO" />
+  <bean id="daoFinancialRatio" class="com.autentia.tnt.dao.hibernate.FinancialRatioDAO" />
+  <bean id="daoOfferCost" class="com.autentia.tnt.dao.hibernate.OfferCostDAO" />
+  <bean id="daoOfferRole" class="com.autentia.tnt.dao.hibernate.OfferRoleDAO" />
+  <bean id="daoSetting" class="com.autentia.tnt.dao.hibernate.SettingDAO" />
+  <bean id="daoOccupation" class="com.autentia.tnt.dao.hibernate.OccupationDAO" />
+  <bean id="daoWorkingAgreement" class="com.autentia.tnt.dao.hibernate.WorkingAgreementDAO" />
+  <bean id="daoCreditTitle" class="com.autentia.tnt.dao.hibernate.CreditTitleDAO" />
+  <bean id="daoCollaborator" class="com.autentia.tnt.dao.hibernate.CollaboratorDAO" />
+  <bean id="daoCommissioning" class="com.autentia.tnt.dao.hibernate.CommissioningDAO" />
+  <bean id="daoExternalActivity" class="com.autentia.tnt.dao.hibernate.ExternalActivityDAO" />
+  <bean id="daoCommissioningPaymentData" class="com.autentia.tnt.dao.hibernate.CommissioningPaymentDataDAO" />
+  <bean id="daoCommissioningFile" class="com.autentia.tnt.dao.hibernate.CommissioningFileDAO" />
+  <bean id="daoActivityFile" class="com.autentia.tnt.dao.hibernate.ActivityFileDAO" />
+  <bean id="daoPosition" class="com.autentia.tnt.dao.hibernate.PositionDAO" />
+  <bean id="daoTag" class="com.autentia.tnt.dao.hibernate.TagDAO" />
+  <bean id="daoEntityChange" class="com.autentia.tnt.tracking.hibernate.dao.EntityChangeDAO" />
+
+	<!-- Managers -->
+	<bean id="managerAccountEntry" class="com.autentia.tnt.manager.account.AccountEntryManager">
+		<constructor-arg ref="daoAccountEntry" />
+	</bean>
+	<bean id="managerAccountEntryType"
+		class="com.autentia.tnt.manager.account.AccountEntryTypeManager">
+		<constructor-arg ref="daoAccountEntryType" />
+	</bean>
+	<bean id="managerAccount" class="com.autentia.tnt.manager.account.AccountManager">
+		<constructor-arg ref="daoAccount" />
+	</bean>
+	<bean id="managerPeriodicalAccountEntry"
+		class="com.autentia.tnt.manager.account.PeriodicalAccountEntryManager">
+		<constructor-arg ref="daoPeriodicalAccountEntry" />
+	</bean>
+	<bean id="managerObjective" class="com.autentia.tnt.manager.activity.ObjectiveManager">
+		<constructor-arg ref="daoObjective" />
+	</bean>
+	<bean id="managerContractType" class="com.autentia.tnt.manager.admin.ContractTypeManager">
+		<constructor-arg ref="daoContractType" />
+	</bean>
+	<bean id="managerDepartment" class="com.autentia.tnt.manager.admin.DepartmentManager">
+		<constructor-arg ref="daoDepartment" />
+		<property name="contactDAO" ref="daoContact"></property>
+	</bean>
+	<bean id="managerIdea" class="com.autentia.tnt.manager.admin.IdeaManager">
+		<constructor-arg ref="daoIdea" />
+	</bean>
+	<bean id="managerInventary" class="com.autentia.tnt.manager.admin.InventaryManager">
+		<constructor-arg ref="daoInventary" />
+	</bean>
+	<bean id="managerProject" class="com.autentia.tnt.manager.admin.ProjectManager">
+		<constructor-arg ref="daoProject" />
+	</bean>
+	<bean id="managerUserCategory" class="com.autentia.tnt.manager.admin.UserCategoryManager">
+		<constructor-arg ref="daoUserCategory" />
+	</bean>
+	<bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
+		<constructor-arg ref="daoUser" />
+	</bean>
+	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
+		<constructor-arg ref="daoBill" />
+	</bean>
+	<bean id="managerCreditTitle" class="com.autentia.tnt.manager.billing.CreditTitleManager">
+		<constructor-arg ref="daoCreditTitle" />
+		<constructor-arg ref="daoBill" />
+	</bean>
+	<bean id="managerBook" class="com.autentia.tnt.manager.book.BookManager">
+		<constructor-arg ref="daoBook" />
+	</bean>
+	<bean id="managerBulletinBoardCategory"
+		class="com.autentia.tnt.manager.bulletin.BulletinBoardCategoryManager">
+		<constructor-arg ref="daoBulletinBoardCategory" />
+	</bean>
+	<bean id="managerBulletinBoard" class="com.autentia.tnt.manager.bulletin.BulletinBoardManager">
+		<constructor-arg ref="daoBulletinBoard" />
+	</bean>
+	<bean id="managerCompanyState" class="com.autentia.tnt.manager.bulletin.CompanyStateManager">
+		<constructor-arg ref="daoCompanyState" />
+	</bean>
+	<bean id="managerContact" class="com.autentia.tnt.manager.contacts.ContactManager">
+		<constructor-arg ref="daoContact" />
+        <property name="authManager" ref="userDetailsService"/>
+	</bean>
+	<bean id="managerInteraction" class="com.autentia.tnt.manager.contacts.InteractionManager">
+		<constructor-arg ref="daoInteraction" />
+	</bean>
+	<bean id="managerInteractionType"
+		class="com.autentia.tnt.manager.contacts.InteractionTypeManager">
+		<constructor-arg ref="daoInteractionType" />
+	</bean>
+	<bean id="managerOrganizationISOCategory"
+		class="com.autentia.tnt.manager.contacts.OrganizationISOCategoryManager">
+		<constructor-arg ref="daoOrganizationISOCategory" />
+	</bean>
+	<bean id="managerOrganization" class="com.autentia.tnt.manager.contacts.OrganizationManager">
+		<constructor-arg ref="daoOrganization" />
+		<property name="contactDAO" ref="daoContact"></property>
+	</bean>
+	<bean id="managerOrganizationType"
+		class="com.autentia.tnt.manager.contacts.OrganizationTypeManager">
+		<constructor-arg ref="daoOrganizationType" />
+	</bean>
+	<bean id="managerDocumentCategory"
+		class="com.autentia.tnt.manager.document.DocumentCategoryManager">
+		<constructor-arg ref="daoDocumentCategory" />
+	</bean>
+	<bean id="managerDocument" class="com.autentia.tnt.manager.document.DocumentManager">
+		<constructor-arg ref="daoDocument" />
+	</bean>
+	<bean id="managerAdminHoliday" class="com.autentia.tnt.manager.holiday.AdminHolidayManager">
+		<constructor-arg ref="daoAdminHoliday" />
+	</bean>
+	<bean id="managerHoliday" class="com.autentia.tnt.manager.holiday.HolidayManager">
+		<constructor-arg ref="daoHoliday" />
+	</bean>
+	<bean id="managerRequestHoliday" class="com.autentia.tnt.manager.holiday.RequestHolidayManager">
+		<constructor-arg ref="daoRequestHoliday" />
+	</bean>
+	<bean id="managerMagazine" class="com.autentia.tnt.manager.publish.MagazineManager">
+		<constructor-arg ref="daoMagazine" />
+	</bean>
+	<bean id="managerPublication" class="com.autentia.tnt.manager.publish.PublicationManager">
+		<constructor-arg ref="daoPublication" />
+	</bean>
+	<bean id="managerTutorial" class="com.autentia.tnt.manager.publish.TutorialManager">
+		<constructor-arg ref="daoTutorial" />
+	</bean>
+	<bean id="managerProvince" class="com.autentia.tnt.manager.admin.ProvinceManager">
+		<constructor-arg ref="daoProvince" />
+	</bean>
+	<bean id="managerOfferRejectReason"
+		class="com.autentia.tnt.manager.contacts.OfferRejectReasonManager">
+		<constructor-arg ref="daoOfferRejectReason" />
+	</bean>
+	<bean id="managerProjectRole" class="com.autentia.tnt.manager.admin.ProjectRoleManager">
+		<constructor-arg ref="daoProjectRole" />
+	</bean>
+	<bean id="managerProjectCost" class="com.autentia.tnt.manager.admin.ProjectCostManager">
+		<constructor-arg ref="daoProjectCost" />
+	</bean>
+	<bean id="managerFrequency" class="com.autentia.tnt.manager.admin.FrequencyManager">
+		<constructor-arg ref="daoFrequency" />
+	</bean>
+	<bean id="managerRole" class="com.autentia.tnt.manager.admin.RoleManager">
+		<constructor-arg ref="daoRole" />
+	</bean>
+	<bean id="managerDocumentVersion"
+		class="com.autentia.tnt.manager.document.DocumentVersionManager">
+		<constructor-arg ref="daoDocumentVersion" />
+	</bean>
+	<bean id="managerAccountEntryGroup"
+		class="com.autentia.tnt.manager.account.AccountEntryGroupManager">
+		<constructor-arg ref="daoAccountEntryGroup" />
+	</bean>
+	<bean id="managerAccountType" class="com.autentia.tnt.manager.account.AccountTypeManager">
+		<constructor-arg ref="daoAccountType" />
+	</bean>
+	<bean id="managerBillBreakDown" class="com.autentia.tnt.manager.billing.BillBreakDownManager">
+		<constructor-arg ref="daoBillBreakDown" />
+	</bean>
+
+	<bean id="managerOffer" class="com.autentia.tnt.manager.contacts.OfferManager">
+		<constructor-arg ref="daoOffer" />
+	</bean>
+
+	<bean id="managerFinancialRatio" class="com.autentia.tnt.manager.billing.FinancialRatioManager">
+		<constructor-arg ref="daoFinancialRatio" />
+	</bean>
+	<bean id="managerOfferRole" class="com.autentia.tnt.manager.contacts.OfferRoleManager">
+		<constructor-arg ref="daoOfferRole" />
+	</bean>
+	<bean id="managerOfferCost" class="com.autentia.tnt.manager.contacts.OfferCostManager">
+		<constructor-arg ref="daoOfferCost" />
+	</bean>
+	<bean id="managerSetting" class="com.autentia.tnt.manager.admin.SettingManager">
+		<constructor-arg ref="daoSetting" />
+	</bean>
+	<bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
+		<constructor-arg ref="daoActivity" />
+	</bean>
+
+	<bean id="managerGlobalHoursReport"
+		class="com.autentia.tnt.manager.activity.GlobalHourReportManager" />
+
+	<bean id="managerOccupation" class="com.autentia.tnt.manager.activity.OccupationManager">
+		<constructor-arg ref="daoOccupation" />
+	</bean>
+
+	<bean id="managerWorkingAgreement" class="com.autentia.tnt.manager.admin.WorkingAgreementManager">
+		<constructor-arg ref="daoWorkingAgreement" />
+	</bean>
+
+	<bean id="managerUserHolidaysState"
+		class="com.autentia.tnt.manager.holiday.UserHolidaysStateManager" >
+        <constructor-arg ref="daoUser" />
+    </bean>
+
+	<bean id="managerCollaborator" class="com.autentia.tnt.manager.contacts.CollaboratorManager">
+		<constructor-arg ref="daoCollaborator" />
+	</bean>
+
+	<bean id="managerCommissioning"
+		class="com.autentia.tnt.manager.commissioning.CommissioningManager">
+		<constructor-arg ref="daoCommissioning" />
+	</bean>
+
+	<bean id="managerExternalActivity"
+		class="com.autentia.tnt.manager.activity.ExternalActivityManager">
+		<constructor-arg ref="daoExternalActivity" />
+	</bean>
+
+	<bean id="managerCommissioningPaymentData"
+		class="com.autentia.tnt.manager.commissioning.CommissioningPaymentDataManager">
+		<constructor-arg ref="daoCommissioningPaymentData" />
+	</bean>
+
+	<bean id="managerCommissioningFile"
+		class="com.autentia.tnt.manager.commissioning.CommissioningFileManager">
+		<constructor-arg ref="daoCommissioningFile" />
+	</bean>
+
+	<bean id="managerActivityFile" class="com.autentia.tnt.manager.activity.ActivityFileManager">
+		<constructor-arg ref="daoActivityFile" />
+	</bean>
+
+	<bean id="managerPosition" class="com.autentia.tnt.manager.contacts.PositionManager">
+		<constructor-arg ref="daoPosition" />
+		<property name="authManager" ref="userDetailsService"/>
+		<property name="contactDAO" ref="daoContact"></property>
+	</bean>
+
+	<bean id="managerTag" class="com.autentia.tnt.manager.tags.TagManager">
+		<constructor-arg ref="daoTag" />
+        <property name="contactDAO" ref="daoContact"></property>
+        <property name="entityChangeDAO" ref="daoEntityChange"></property>
+	</bean>
+
+	<!-- Mail Service  -->
+	<bean id="mailService" class="com.autentia.tnt.mail.DefaultMailService"
+		init-method="init">
+		<constructor-arg ref="configuration" />
+	</bean>
+	
+	<!-- Changes Mail Service  -->
+	<bean id="changesMailService" class="com.autentia.tnt.tracking.mail.TrackChangesMailService">
+		<property name="mailService" ref="mailService" />
+	</bean>
+	
+	<!--
+	<bean id="billExpirationDateBean" class="com.autentia.tnt.bean.billing.BillExpirationDateBean" />
+  		
+  		<bean id="jobBillingExpirationDate" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		  	 <property name="targetObject" ref="billExpirationDateBean" />  
+			 <property name="targetMethod" value="updateExpirationDate" />  
+  		</bean>
+  		
+  		<bean id="cronBillExpirationDateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  	<property name="jobDetail" ref="jobBillingExpirationDate" />
+		  	<property name="cronExpression" value="00 57 14 * * ?"/>
+  		</bean>
+   		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+    		<property name="triggers">  
+         		<ref bean="cronBillExpirationDateTrigger" />  
+     		</property>  
+ 		</bean>  
+ 		
+ 		-->
+
+	<!--
+		TODO: instantiate managerReport <bean id="managerReport"
+		class="com.autentia.tnt.manager.report.ReportManager" />
+	-->
+
+</beans>
