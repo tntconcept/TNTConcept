@@ -61,7 +61,9 @@ public class ConfigurationUtil {
 	public ConfigurationUtil(String jndiPathVar, String file)
 			throws ConfigurationException, NamingException {
 		Context ctx = new InitialContext();
-		configDir = ctx.lookup(jndiPathVar).toString();
+//		configDir = ctx.lookup(jndiPathVar).toString();
+		//TODO
+		configDir = "/Users/paniadri/autentia/TNTConcept/src/main/install/config";
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
 			configDir = configDir.trim() + "/";
 		}
