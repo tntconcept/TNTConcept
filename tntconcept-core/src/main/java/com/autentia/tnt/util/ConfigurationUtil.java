@@ -63,7 +63,7 @@ public class ConfigurationUtil {
 		Context ctx = new InitialContext();
 //		configDir = ctx.lookup(jndiPathVar).toString();
 		//TODO
-		configDir = "/Users/paniadri/autentia/TNTConcept/src/main/install/config";
+		configDir = "/Users/santiago/git/TNTConcept/src/main/install/config";
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
 			configDir = configDir.trim() + "/";
 		}
@@ -460,6 +460,10 @@ public class ConfigurationUtil {
 			
 			return 365;	// Por defecto cada 90 dias
 		}
+	}
+
+	public String getLdapUrl(){
+		return getProperty("ldapUrl", "ldap://localhost:389/dc=autentia,dc=com");
 	}
 
 }

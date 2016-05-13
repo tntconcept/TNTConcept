@@ -150,8 +150,6 @@
         </property>
     </bean>
 
-
-
     <bean id="defaultInitialDirContextFactory" class="org.acegisecurity.ldap.DefaultInitialDirContextFactory">
         <constructor-arg >
             <bean factory-bean="configuration" factory-method="getLdapUrl"/>
