@@ -238,6 +238,8 @@ public class User implements Serializable, ITransferObject
         	 	
 
   private Date passwordExpireDate;
+
+    private Boolean expiredPassword;
   
   // Setters and getters
   
@@ -726,16 +728,12 @@ public class User implements Serializable, ITransferObject
 	 * @return Return if the user password expired
 	 */
 	public boolean isPasswordExpired() {
-		Date    nowDate		= new Date();
-		Date	expireDate	= this.getPasswordExpireDate();
-		boolean passExpired = (expireDate == null) || nowDate.after(expireDate);
-		
-		if (passExpired && log.isInfoEnabled()){
-			log.info("Passord expired for user " + this.getLogin());
-		}
-		
-		return passExpired;
+		return this.expiredPassword;
 	}
+
+    public void setExpiredPassword(Boolean expiredPassword) {
+        this.expiredPassword = expiredPassword;
+    }
 	
 		
 @Override

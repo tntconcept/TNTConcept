@@ -27,7 +27,7 @@
     
     <!-- DataSource to use -->
     <property name="connection.datasource">java:comp/env/jdbc/TNTConcept</property>
-    
+
     <!-- Use this in case you don't want to configure a pool in your servlet container
          (totally unrecommended)
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>

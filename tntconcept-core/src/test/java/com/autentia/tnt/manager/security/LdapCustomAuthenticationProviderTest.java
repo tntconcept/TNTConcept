@@ -11,17 +11,25 @@ import org.acegisecurity.userdetails.ldap.LdapUserDetails;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.BasicAttribute;
+import javax.naming.directory.BasicAttributes;
 import java.net.Authenticator;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class LdapCustomAuthenticationProviderTest {
 
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final int ID = 1;
+    private static final String USERNAME = "username";
+
+    private static final String PASSWORD = "password";
+
+    private static final int ID = 1;
 
     private LdapCustomAuthenticationProvider sut;
 
@@ -36,6 +44,7 @@ public class LdapCustomAuthenticationProviderTest {
 
     @Before
     public void init(){
+
         sut = new LdapCustomAuthenticationProvider(authenticator, ldapAuthoritiesPopulator);
         sut.setUserDetailsService(userDetailsService);
     }
@@ -49,6 +58,7 @@ public class LdapCustomAuthenticationProviderTest {
         when(userDetailsService.loadUserByUsername(USERNAME)).thenReturn(principal);
         when(principal.getUser()).thenReturn(user);
         when(principal.getAuthorities()).thenReturn(new GrantedAuthority[1]);
+        when(ldapUserDetails.getAttributes()).thenReturn(mock(Attributes.class));
 
         sut.createUserDetails(ldapUserDetails, USERNAME, PASSWORD);
 
@@ -71,6 +81,34 @@ public class LdapCustomAuthenticationProviderTest {
         when(user.getRole()).thenReturn(role);
 
         return user;
+    }
+
+    @Test
+    public void shouldSetExpiredPasswordWhenPwdGraceUseTimeIsActive(){
+
+        Attribute pwdGraceUseTime = new BasicAttribute("pwdGraceUseTime");
+        Attributes attributes = new BasicAttributes();
+        attributes.put(pwdGraceUseTime);
+        when(ldapUserDetails.getAttributes()).thenReturn(attributes);
+
+        User userForTest = getUserForTest();
+        Boolean passExpired = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
+        userForTest.setExpiredPassword(passExpired);
+        assertThat(passExpired ,is(true));
+
+    }
+
+    @Test
+    public void shouldNotSetExpiredPasswordWhenPwdGraceUseTimeIsActive(){
+        Attribute noPwdGrace = new BasicAttribute("noPwdGrace");
+        Attributes attributes = new BasicAttributes();
+        attributes.put(noPwdGrace);
+        when(ldapUserDetails.getAttributes()).thenReturn(attributes);
+
+        User userForTest = getUserForTest();
+        Boolean passExpired = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
+        userForTest.setExpiredPassword(passExpired);
+        assertThat(passExpired ,is(false));
     }
 
 }

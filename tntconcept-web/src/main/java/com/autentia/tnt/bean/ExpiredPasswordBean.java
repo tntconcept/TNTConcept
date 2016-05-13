@@ -76,9 +76,9 @@ public class ExpiredPasswordBean extends BaseBean
 			  } else {
 				  Date					expireDate = calcNextExpireDate(user.getPasswordExpireDate());
 				  
-				  user.setPasswordExpireDate(expireDate);				 // Establecemos la nueva fecha de expiración
+//				  user.setPasswordExpireDate(expireDate);				 // Establecemos la nueva fecha de expiración
 				  authHandler.changePassword(user,password);
-				  manager.updateEntity(user, false);	 
+				  manager.updateEntity(user, false);
 			  }			  
 		  } else {
 			  result = null;

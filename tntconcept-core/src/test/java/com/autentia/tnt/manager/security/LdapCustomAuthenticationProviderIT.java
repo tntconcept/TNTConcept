@@ -14,12 +14,12 @@ import static org.junit.Assert.*;
 
 public class LdapCustomAuthenticationProviderIT {
 
-    public static final String USERNAME = "ablanco";
-    public static final String PASSWORD = "mehmeh";
+    private static final String USERNAME = "user1";
+    private static final String PASSWORD = "mehmeh";
 
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
-    ProviderManager sut;
+    private ProviderManager sut;
 
 
     @Before
@@ -50,6 +50,7 @@ public class LdapCustomAuthenticationProviderIT {
     public void shouldLoadUserByUsername() {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(USERNAME, PASSWORD);
+
         Authentication resultingAuthentication = sut.doAuthentication(authenticationToken);
 
         assertTrue(resultingAuthentication.isAuthenticated());
