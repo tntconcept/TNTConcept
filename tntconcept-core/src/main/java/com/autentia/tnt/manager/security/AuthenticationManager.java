@@ -34,6 +34,7 @@ import org.acegisecurity.providers.ldap.authenticator.LdapShaPasswordEncoder;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
@@ -112,14 +113,23 @@ public class AuthenticationManager implements UserDetailsService {
      * @return
      */
     public boolean checkPassword(User user, String passwd) {
-        return passwd.equalsIgnoreCase(user.getPassword());
+        return ConfigurationUtil.getDefault().isLdapAuthentication() ? passwd.equalsIgnoreCase(user.getPassword())
+                : DigestUtils.shaHex(passwd).equalsIgnoreCase(user.getPassword());
+    }
+
+    public void changePassword(User user, String password) {
+        if (ConfigurationUtil.getDefault().isLdapAuthentication()) {
+            changeLdapPassword(user, password);
+        } else {
+            changeDbPassword(user, password);
+        }
     }
 
     /**
      * @param user
      * @param password
      */
-    public void changePassword(final User user, final String password) {
+    protected void changeLdapPassword(final User user, final String password) {
 
         CustomBindAuthenticator customBindAuthenticator = (CustomBindAuthenticator)SpringUtils
                 .getSpringBean("ldapBindAuthenticator");
@@ -128,8 +138,8 @@ public class AuthenticationManager implements UserDetailsService {
 
         final String ldapName = "uid=".concat(user.getLogin()).concat(",ou=People");
 
-        LdapTemplate template = new LdapTemplate(initialDirContextFactory, ldapName.concat(",").concat(initialDirContextFactory.getRootDn()),
-                user.getPassword());
+        LdapTemplate template = new LdapTemplate(initialDirContextFactory,
+                ldapName.concat(",").concat(initialDirContextFactory.getRootDn()), user.getPassword());
 
         template.execute(new LdapCallback() {
 
@@ -153,6 +163,10 @@ public class AuthenticationManager implements UserDetailsService {
             }
         });
 
+    }
+
+    protected void changeDbPassword(User user, String passwd) {
+        user.setPassword(DigestUtils.shaHex(passwd));
     }
 
     /**
