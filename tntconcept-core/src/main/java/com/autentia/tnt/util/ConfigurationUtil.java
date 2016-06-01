@@ -62,7 +62,7 @@ public class ConfigurationUtil {
 			throws ConfigurationException, NamingException {
 		Context ctx = new InitialContext();
 //		configDir = ctx.lookup(jndiPathVar).toString();
-		//TODO
+		//TODO local configuration.
 		configDir = "/Users/santiago/git/TNTConcept/src/main/install/config";
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
 			configDir = configDir.trim() + "/";
@@ -467,7 +467,7 @@ public class ConfigurationUtil {
 	}
 
 	public Boolean isLdapAuthentication(){
-		return Boolean.getBoolean(getProperty("ldapAuthentication", "true"));
+		return Boolean.valueOf(getProperty("ldapAuthentication", "true"));
 	}
 
 }
