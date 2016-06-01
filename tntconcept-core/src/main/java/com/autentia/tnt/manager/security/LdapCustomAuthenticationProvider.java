@@ -51,20 +51,6 @@ public class LdapCustomAuthenticationProvider extends LdapAuthenticationProvider
         return new Principal(user, principalFromDB.getAuthorities());
     }
 
-    @Override
-    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
-            throws AuthenticationException {
-
-        UserDetails userDetails = null;
-        try {
-            userDetails = super.retrieveUser(username, authentication);
-
-        } catch (AuthenticationException a) {
-            a.getCause();
-        }
-        return userDetails;
-    }
-
     protected Boolean checkExpiredPassword(Attributes attributes) {
 
         return attributes.get("pwdGraceUseTime") != null;
