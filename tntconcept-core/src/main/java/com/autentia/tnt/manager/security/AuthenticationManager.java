@@ -30,7 +30,6 @@ import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.ldap.InitialDirContextFactory;
 import org.acegisecurity.ldap.LdapCallback;
 import org.acegisecurity.ldap.LdapTemplate;
-import org.acegisecurity.providers.ldap.authenticator.LdapShaPasswordEncoder;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
@@ -145,9 +144,7 @@ public class AuthenticationManager implements UserDetailsService {
 
             public Object doInDirContext(DirContext dirContext) throws NamingException {
 
-                LdapShaPasswordEncoder ldapEncoder = new LdapShaPasswordEncoder();
-                String encodedPassword = ldapEncoder.encodePassword(password, null);
-                Attribute newPasswordAttribute = new BasicAttribute("userPassword", encodedPassword);
+                Attribute newPasswordAttribute = new BasicAttribute("userPassword", password);
                 ModificationItem[] mods = new ModificationItem[1];
                 mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
                 try {
