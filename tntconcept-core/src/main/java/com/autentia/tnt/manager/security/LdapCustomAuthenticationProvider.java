@@ -1,8 +1,6 @@
 package com.autentia.tnt.manager.security;
 
 import com.autentia.tnt.businessobject.User;
-import org.acegisecurity.AuthenticationException;
-import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.acegisecurity.providers.ldap.LdapAuthenticationProvider;
 import org.acegisecurity.providers.ldap.LdapAuthenticator;
 import org.acegisecurity.providers.ldap.LdapAuthoritiesPopulator;
@@ -44,11 +42,11 @@ public class LdapCustomAuthenticationProvider extends LdapAuthenticationProvider
     private Principal mergeUsers(LdapUserDetails ldapUser, Principal principalFromDB, String password) {
 
         User user = principalFromDB.getUser();
-        user.setPassword(password);
+        user.setLdapPassword(password);
         user.setActive(ldapUser.isEnabled());
         user.setExpiredPassword(checkExpiredPassword(ldapUser.getAttributes()));
 
-        return new Principal(user, principalFromDB.getAuthorities());
+        return new Principal(user, user.getLdapPassword(), principalFromDB.getAuthorities());
     }
 
     protected Boolean checkExpiredPassword(Attributes attributes) {

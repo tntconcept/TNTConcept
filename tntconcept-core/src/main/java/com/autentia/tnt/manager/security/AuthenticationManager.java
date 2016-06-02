@@ -112,12 +112,12 @@ public class AuthenticationManager implements UserDetailsService {
      * @return
      */
     public boolean checkPassword(User user, String passwd) {
-        return ConfigurationUtil.getDefault().isLdapAuthentication() ? passwd.equalsIgnoreCase(user.getPassword())
+        return user.isLdapAuthentication() ? passwd.equalsIgnoreCase(user.getLdapPassword())
                 : DigestUtils.shaHex(passwd).equalsIgnoreCase(user.getPassword());
     }
 
     public void changePassword(User user, String password) {
-        if (ConfigurationUtil.getDefault().isLdapAuthentication()) {
+        if (user.isLdapAuthentication()) {
             changeLdapPassword(user, password);
         } else {
             changeDbPassword(user, password);
@@ -138,7 +138,7 @@ public class AuthenticationManager implements UserDetailsService {
         final String ldapName = "uid=".concat(user.getLogin()).concat(",ou=People");
 
         LdapTemplate template = new LdapTemplate(initialDirContextFactory,
-                ldapName.concat(",").concat(initialDirContextFactory.getRootDn()), user.getPassword());
+                ldapName.concat(",").concat(initialDirContextFactory.getRootDn()), user.getLdapPassword());
 
         template.execute(new LdapCallback() {
 
@@ -155,7 +155,7 @@ public class AuthenticationManager implements UserDetailsService {
                     throw e;
                 }
                 user.setExpiredPassword(Boolean.FALSE);
-                user.setPassword(password);
+                user.setLdapPassword(password);
                 return user;
             }
         });

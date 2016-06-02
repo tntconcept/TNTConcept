@@ -33,441 +33,430 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class ConfigurationUtil {
-	private static final Log log = LogFactory.getLog(ConfigurationUtil.class);
 
-	/**
-	 * Get default configuration bean defined in Spring.
-	 * 
-	 * @return the default configuration bean
-	 */
-	public static ConfigurationUtil getDefault() {
-		return (ConfigurationUtil) SpringUtils.getSpringBean("configuration");
-	}
+    private static final Log log = LogFactory.getLog(ConfigurationUtil.class);
 
-	/** Configuration object */
-	private PropertiesConfiguration config = null;
+    /**
+     * Get default configuration bean defined in Spring.
+     * 
+     * @return the default configuration bean
+     */
+    public static ConfigurationUtil getDefault() {
+        return (ConfigurationUtil)SpringUtils.getSpringBean("configuration");
+    }
 
-	/** Configuration directory */
-	private String configDir = null;
+    /** Configuration object */
+    private PropertiesConfiguration config = null;
 
-	/**
-	 * Constructor
-	 * 
+    /** Configuration directory */
+    private String configDir = null;
+
+    /**
+     * Constructor
+     * 
 	 * @param jndiPathVar
 	 *            JNDI variable in which configuration directory is stored
 	 * @param file
 	 *            path to configuration file
-	 */
-	public ConfigurationUtil(String jndiPathVar, String file)
-			throws ConfigurationException, NamingException {
-		Context ctx = new InitialContext();
-//		configDir = ctx.lookup(jndiPathVar).toString();
-		//TODO local configuration.
-		configDir = "/Users/santiago/git/TNTConcept/src/main/install/config";
-		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
-			configDir = configDir.trim() + "/";
-		}
-		config = new PropertiesConfiguration(configDir + file);
-	}
+     */
+    public ConfigurationUtil(String jndiPathVar, String file) throws ConfigurationException, NamingException {
+        Context ctx = new InitialContext();
+        // configDir = ctx.lookup(jndiPathVar).toString();
+        // TODO local configuration.
+        configDir = "/Users/santiago/git/TNTConcept/src/main/install/config";
+        if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
+            configDir = configDir.trim() + "/";
+        }
+        config = new PropertiesConfiguration(configDir + file);
+    }
 
-	protected ConfigurationUtil() {
-		super();
-	}
+    protected ConfigurationUtil() {
+        super();
+    }
 
-	/**
-	 * Get configuration directory (with ending "/")
-	 * 
-	 * @return configuration directory (with ending "/")
-	 */
-	public String getConfigDir() {
-		return configDir;
-	}
+    /**
+     * Get configuration directory (with ending "/")
+     * 
+     * @return configuration directory (with ending "/")
+     */
+    public String getConfigDir() {
+        return configDir;
+    }
 
-	/**
-	 * Get id of public bulletin board category.
-	 * 
-	 * @return id of public bulletin board category
-	 */
-	public int getIdPublicCategory() {
-		return Integer.parseInt(getProperty("idPublicCategory", "1"));
-	}
+    /**
+     * Get id of public bulletin board category.
+     * 
+     * @return id of public bulletin board category
+     */
+    public int getIdPublicCategory() {
+        return Integer.parseInt(getProperty("idPublicCategory", "1"));
+    }
 
-	/**
+    /**
 	 * Get id of public bulletin board category. Get id of public bulletin board
 	 * category.
-	 * 
-	 * @return id of public bulletin board category
-	 */
-	public int getIdOurCompany() {
-		return Integer.parseInt(getProperty("idOurCompany", "1"));
-	}
-	
-	public int getIdProject() {
-		return Integer.parseInt(getProperty("idProject", "1"));
-	}
+     * 
+     * @return id of public bulletin board category
+     */
+    public int getIdOurCompany() {
+        return Integer.parseInt(getProperty("idOurCompany", "1"));
+    }
 
-	/**
-	 * Get id of the main Category's Id for Quality Documents.
-	 * 
-	 * @return id of quality document's category
-	 */
-	public int getQualityDocumentCategoryId() {
-		return Integer.parseInt(getProperty("qualityDocumentCategoryId", "1"));
-	}
+    public int getIdProject() {
+        return Integer.parseInt(getProperty("idProject", "1"));
+    }
 
-	/**
-	 * Get id of the Category's Id for User Documents.
-	 * 
-	 * @return id of User Documents Category.
-	 */
-	public int getUserDocumentCategoryId() {
-		return Integer.parseInt(getProperty("userDocumentCategoryId", "4"));
-	}
+    /**
+     * Get id of the main Category's Id for Quality Documents.
+     * 
+     * @return id of quality document's category
+     */
+    public int getQualityDocumentCategoryId() {
+        return Integer.parseInt(getProperty("qualityDocumentCategoryId", "1"));
+    }
 
-	/**
-	 * Get uploaded files path (always with a trailing /).
-	 * 
-	 * @return uploaded files root path
-	 */
-	public String getUploadPath() {
-		String ret = getProperty("pathFicheros", "/var/lib/tntconcept/upload");
-		if (!ret.endsWith("\\") || !ret.endsWith("/")) {
-			ret += File.separator;
-		}
+    /**
+     * Get id of the Category's Id for User Documents.
+     * 
+     * @return id of User Documents Category.
+     */
+    public int getUserDocumentCategoryId() {
+        return Integer.parseInt(getProperty("userDocumentCategoryId", "4"));
+    }
 
-		return ret;
-	}
+    /**
+     * Get uploaded files path (always with a trailing /).
+     * 
+     * @return uploaded files root path
+     */
+    public String getUploadPath() {
+        String ret = getProperty("pathFicheros", "/var/lib/tntconcept/upload");
+        if (!ret.endsWith("\\") || !ret.endsWith("/")) {
+            ret += File.separator;
+        }
 
-	/**
-	 * Get personal reports path (always with a trailing /).
-	 * 
-	 * @return personal reports path
-	 */
-	public String getReportPath() {
-		String ret = getProperty("pathReports", "/var/lib/tntconcept/reports");
-		if (!ret.endsWith("\\") || !ret.endsWith("/")) {
-			ret += File.separator;
-		}
-		return ret;
-	}
+        return ret;
+    }
 
-	/**
+    /**
+     * Get personal reports path (always with a trailing /).
+     * 
+     * @return personal reports path
+     */
+    public String getReportPath() {
+        String ret = getProperty("pathReports", "/var/lib/tntconcept/reports");
+        if (!ret.endsWith("\\") || !ret.endsWith("/")) {
+            ret += File.separator;
+        }
+        return ret;
+    }
+
+    /**
 	 * Get number of children objectives that will be created when a previous
 	 * objective expires.
-	 * 
-	 * @return number of children objectives
-	 */
-	public int getChildObjectivesCount() {
-		return Integer.parseInt(getProperty("childObjectivesCount", "3"));
-	}
+     * 
+     * @return number of children objectives
+     */
+    public int getChildObjectivesCount() {
+        return Integer.parseInt(getProperty("childObjectivesCount", "3"));
+    }
 
-	/**
+    /**
 	 * Get minimum number of children objectives that can be created when a
 	 * previous objective expires.
-	 * 
-	 * @return number of children objectives
-	 */
-	public int getMinChildObjectivesCount() {
-		return Integer.parseInt(getProperty("minChildObjectivesCount", "2"));
-	}
+     * 
+     * @return number of children objectives
+     */
+    public int getMinChildObjectivesCount() {
+        return Integer.parseInt(getProperty("minChildObjectivesCount", "2"));
+    }
 
-	/**
+    /**
 	 * Get maximum number of children objectives that can be created when a
 	 * previous objective expires.
-	 * 
-	 * @return number of children objectives
-	 */
-	public int getMaxChildObjectivesCount() {
-		return Integer.parseInt(getProperty("maxChildObjectivesCount", "5"));
-	}
+     * 
+     * @return number of children objectives
+     */
+    public int getMaxChildObjectivesCount() {
+        return Integer.parseInt(getProperty("maxChildObjectivesCount", "5"));
+    }
 
-	/**
+    /**
 	 * Get the number of days in milliseconds before a category is considered as
 	 * updated
-	 * 
-	 * @return number of days in milliseconds
-	 */
-	public long getUpdatedCategoryDaysInMillis() {
-		return (long) Long.parseLong(getProperty("updatedCategoryDays", "5"))
-				* 24 * 60 * 60 * 1000;
-	}
+     * 
+     * @return number of days in milliseconds
+     */
+    public long getUpdatedCategoryDaysInMillis() {
+        return (long)Long.parseLong(getProperty("updatedCategoryDays", "5")) * 24 * 60 * 60 * 1000;
+    }
 
-	public int getCostId() {
-		return Integer.parseInt(getProperty("costId", "2"));
-	}
+    public int getCostId() {
+        return Integer.parseInt(getProperty("costId", "2"));
+    }
 
-	public int getIncomeId() {
-		return Integer.parseInt(getProperty("incomeId", "1"));
-	}
+    public int getIncomeId() {
+        return Integer.parseInt(getProperty("incomeId", "1"));
+    }
 
-	public int getInitialEntryId() {
-		return Integer.parseInt(getProperty("initialEntryId", "4"));
-	}
+    public int getInitialEntryId() {
+        return Integer.parseInt(getProperty("initialEntryId", "4"));
+    }
 
-	public int getRoleAdminId() {
-		return Integer.parseInt(getProperty("roleAdminId", "1"));
-	}
+    public int getRoleAdminId() {
+        return Integer.parseInt(getProperty("roleAdminId", "1"));
+    }
 
-	public int getRoleSupervisorId() {
-		return Integer.parseInt(getProperty("roleSupervisorId", "2"));
-	}
+    public int getRoleSupervisorId() {
+        return Integer.parseInt(getProperty("roleSupervisorId", "2"));
+    }
 
-	public int getRoleUserId() {
-		return Integer.parseInt(getProperty("roleUserId", "3"));
-	}
+    public int getRoleUserId() {
+        return Integer.parseInt(getProperty("roleUserId", "3"));
+    }
 
-	public int getRoleStaffId() {
-		return Integer.parseInt(getProperty("roleStaffId", "4"));
-	}
+    public int getRoleStaffId() {
+        return Integer.parseInt(getProperty("roleStaffId", "4"));
+    }
 
-	public int getRoleClientId() {
-		return Integer.parseInt(getProperty("roleClientId", "5"));
-	}
-	
-	public int getRoleProjectManagerId() {
-		return Integer.parseInt(getProperty("roleProjectManagerId", "6"));
-	}
+    public int getRoleClientId() {
+        return Integer.parseInt(getProperty("roleClientId", "5"));
+    }
 
-	public float getIvaUntilJuly2010() {
-		return Float.parseFloat(getProperty("ivaUntilJuly2010", "16"));
-	}
-	
-	public float getIvaUntilSeptember2012() {
-		return Float.parseFloat(getProperty("ivaUntilSeptember2012", "18"));
-	}
-	
-	public float getActualIva() {
-		return Float.parseFloat(getProperty("iva", "21"));
-	}
-	
-	public String  getAdminUser() {
-		return getProperty("UserAdmin", "admin");
-	}
-	
-	public String getIdentityCardValidator() {
-		return getProperty("identityCardValidator",
-				"com.autentia.tnt.validator.NifValidator");
-	}
+    public int getRoleProjectManagerId() {
+        return Integer.parseInt(getProperty("roleProjectManagerId", "6"));
+    }
 
-	public String getMoneyValidator() {
-		return getProperty("moneyValidator",
-				"com.autentia.tnt.validator.EuroValidator");
-	}
+    public float getIvaUntilJuly2010() {
+        return Float.parseFloat(getProperty("ivaUntilJuly2010", "16"));
+    }
 
-	public String getAccountEntryValidator() {
-		return getProperty("accountEntryValidator",
-				"com.autentia.tnt.validator.AccountEntryValidator");
-	}
+    public float getIvaUntilSeptember2012() {
+        return Float.parseFloat(getProperty("ivaUntilSeptember2012", "18"));
+    }
 
-	public String getPeriodicalAccountEntryValidator() {
-		return getProperty("periodicalAccountEntryValidator",
-				"com.autentia.tnt.validator.PeriodicalAccountEntryValidator");
-	}
+    public float getActualIva() {
+        return Float.parseFloat(getProperty("iva", "21"));
+    }
 
-	public String getDateValidator() {
-		return getProperty("dateValidator",
-				"com.autentia.tnt.validator.DateValidator");
-	}
+    public String getAdminUser() {
+        return getProperty("UserAdmin", "admin");
+    }
 
-	public int getAccountEntryMaximumYears() {
-		return Integer.parseInt(getProperty("accountEntryMaximumYears", "4"));
-	}
+    public String getIdentityCardValidator() {
+        return getProperty("identityCardValidator", "com.autentia.tnt.validator.NifValidator");
+    }
 
-	public String getReportCSVDelimiter() {
-		return getProperty("reportCSVDelimiter", ";");
-	}
+    public String getMoneyValidator() {
+        return getProperty("moneyValidator", "com.autentia.tnt.validator.EuroValidator");
+    }
 
-	public int getLoadingReportOnLoad() {
-		return Integer.parseInt(getProperty("loadingReportOnLoad", "1"));
-	}
+    public String getAccountEntryValidator() {
+        return getProperty("accountEntryValidator", "com.autentia.tnt.validator.AccountEntryValidator");
+    }
 
-	public int getOrganizationTypeProvider() {
-		return Integer.parseInt(getProperty("organizationTypeProvider", "2"));
-	}
+    public String getPeriodicalAccountEntryValidator() {
+        return getProperty("periodicalAccountEntryValidator",
+                "com.autentia.tnt.validator.PeriodicalAccountEntryValidator");
+    }
 
-	public int getOrganizationTypeProviderAndClient() {
-		return Integer.parseInt(getProperty(
-				"organizationTypeProviderAndClient", "3"));
-	}
+    public String getDateValidator() {
+        return getProperty("dateValidator", "com.autentia.tnt.validator.DateValidator");
+    }
 
-	public boolean getShowLogs() {
-		return Boolean.parseBoolean(getProperty("showLogs", "false"));
-	}
+    public int getAccountEntryMaximumYears() {
+        return Integer.parseInt(getProperty("accountEntryMaximumYears", "4"));
+    }
 
-	public boolean getPayBillsWhenCreditTitleIsPaid() {
-		return Boolean.parseBoolean(getProperty("payBillsWhenCreditTitleIsPaid", "true"));
-	}
-	
-	/**
-	 * Get a configuration property by name.
-	 * 
+    public String getReportCSVDelimiter() {
+        return getProperty("reportCSVDelimiter", ";");
+    }
+
+    public int getLoadingReportOnLoad() {
+        return Integer.parseInt(getProperty("loadingReportOnLoad", "1"));
+    }
+
+    public int getOrganizationTypeProvider() {
+        return Integer.parseInt(getProperty("organizationTypeProvider", "2"));
+    }
+
+    public int getOrganizationTypeProviderAndClient() {
+        return Integer.parseInt(getProperty("organizationTypeProviderAndClient", "3"));
+    }
+
+    public boolean getShowLogs() {
+        return Boolean.parseBoolean(getProperty("showLogs", "false"));
+    }
+
+    public boolean getPayBillsWhenCreditTitleIsPaid() {
+        return Boolean.parseBoolean(getProperty("payBillsWhenCreditTitleIsPaid", "true"));
+    }
+
+    /**
+     * Get a configuration property by name.
+     * 
 	 * @param propertyName
 	 *            property name
-	 * @return a named property
-	 */
-	private String getProperty(String propertyName, String defaultValue) {
-		String ret = config.getString(propertyName);
-		if (ret == null)
-			ret = defaultValue;
-		return ret;
-	}
+     * @return a named property
+     */
+    private String getProperty(String propertyName, String defaultValue) {
+        String ret = config.getString(propertyName);
+        if (ret == null) ret = defaultValue;
+        return ret;
+    }
 
-	
-	/**
-	 * 
-	 * return the name of the logo file for reports. (just the name)
-	 */
-	public String getLogoName() {
-		return getProperty("reportLogoName", "logo.bmp");
-	}
+    /**
+	 *
+     * return the name of the logo file for reports. (just the name)
+     */
+    public String getLogoName() {
+        return getProperty("reportLogoName", "logo.bmp");
+    }
 
-	/**
-	 * Return the path of the logo (including name)
-	 * 
-	 * @return
-	 */
+    /**
+     * Return the path of the logo (including name)
+     * 
+     * @return
+     */
 
-	public String getLogoPath() {
-		return getConfigDir() + getLogoName();
-	}
+    public String getLogoPath() {
+        return getConfigDir() + getLogoName();
+    }
 
-	public InputStream getLogoAsStream() {
-		File f = new File(getLogoPath());
+    public InputStream getLogoAsStream() {
+        File f = new File(getLogoPath());
 
-		try {
-			return new BufferedInputStream(new FileInputStream(f));
-		} catch (FileNotFoundException e) {
-			log.error("Error reading logo file", e);
-			return null;
-		}
+        try {
+            return new BufferedInputStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            log.error("Error reading logo file", e);
+            return null;
+        }
 
-	}
+    }
 
-	/**
-	 * Return a boolean value representing the value of isUsingExternalCss.
-	 * 
-	 * @return
-	 */
-	public boolean isUsingExternalCss() {
-		String valor = getProperty("isUsingExternalCss", "false");
-		return Boolean.getBoolean(valor);
-	}
+    /**
+     * Return a boolean value representing the value of isUsingExternalCss.
+     * 
+     * @return
+     */
+    public boolean isUsingExternalCss() {
+        String valor = getProperty("isUsingExternalCss", "false");
+        return Boolean.getBoolean(valor);
+    }
 
-	/**
-	 * Return the name of the folder of docroot (external files)
-	 * 
-	 * @return
-	 */
-	public String getDocumentoRootFolder() {
-		return getProperty("documentRoot", "docroot");
-	}
+    /**
+     * Return the name of the folder of docroot (external files)
+     * 
+     * @return
+     */
+    public String getDocumentoRootFolder() {
+        return getProperty("documentRoot", "docroot");
+    }
 
-	/**
-	 * Return the name of the mail server. For instance, 'smtp.mycompany.com'
-	 * 
-	 * @return
-	 */
-	public String getMailHost() {
-		return getProperty("mail.host", "smtp.mycompany.com");
-	}
+    /**
+     * Return the name of the mail server. For instance, 'smtp.mycompany.com'
+     * 
+     * @return
+     */
+    public String getMailHost() {
+        return getProperty("mail.host", "smtp.mycompany.com");
+    }
 
-	/**
-	 * Return the port number of the smtp server (by default, 25)
-	 * 
-	 * @return
-	 */
-	public String getMailPort() {
-		return getProperty("mail.port", "25");
-	}
+    /**
+     * Return the port number of the smtp server (by default, 25)
+     * 
+     * @return
+     */
+    public String getMailPort() {
+        return getProperty("mail.port", "25");
+    }
 
-	/**
-	 * Return the username of an smtp user
-	 * 
-	 * @return
-	 */
-	public String getMailUsername() {
-		return getProperty("mail.username", "admin@mycompany.com");
-	}
+    /**
+     * Return the username of an smtp user
+     * 
+     * @return
+     */
+    public String getMailUsername() {
+        return getProperty("mail.username", "admin@mycompany.com");
+    }
 
-	/**
-	 * Return the username of an smtp user
-	 * 
-	 * @return
-	 */
-	public String getMailPassword() {
-		return getProperty("mail.password", "admin@mycompany.com_password");
-	}
+    /**
+     * Return the username of an smtp user
+     * 
+     * @return
+     */
+    public String getMailPassword() {
+        return getProperty("mail.password", "admin@mycompany.com_password");
+    }
 
-	/**
-	 * Return if the smtp server requiures authorization
-	 * 
-	 * @return
-	 */
-	public String getMailRequiresAuth() {
-		return getProperty("mail.requiresAuth", "true");
-	}
+    /**
+     * Return if the smtp server requiures authorization
+     * 
+     * @return
+     */
+    public String getMailRequiresAuth() {
+        return getProperty("mail.requiresAuth", "true");
+    }
 
-	/**
+    /**
 	 * Return the absolute path of the folder docroot (external files) with
 	 * ending /
-	 * 
-	 * @return
-	 */
-	public String getDocumentRootPath() {
-		String path = getDefault().getConfigDir();
+     * 
+     * @return
+     */
+    public String getDocumentRootPath() {
+        String path = getDefault().getConfigDir();
 
-		if (!path.endsWith("\\") || !path.endsWith("/")) {
-			path += File.separator;
-		}
+        if (!path.endsWith("\\") || !path.endsWith("/")) {
+            path += File.separator;
+        }
 
-		path += getDefault().getDocumentoRootFolder();
+        path += getDefault().getDocumentoRootFolder();
 
-		if (!path.endsWith("\\") || !path.endsWith("/")) {
-			path += File.separator;
-		}
+        if (!path.endsWith("\\") || !path.endsWith("/")) {
+            path += File.separator;
+        }
 
-		return path;
+        return path;
 
-	}
+    }
 
-	public String getSecurityMatrix() {
-		return getProperty("securityMatrix", "securityConfiguration.xml");
-	}
+    public String getSecurityMatrix() {
+        return getProperty("securityMatrix", "securityConfiguration.xml");
+    }
 
-	public boolean isForceCompileReports() {
-		return "1".equals(getProperty("forceCompileReports", "0").trim()) ? true : false;
-	}
+    public boolean isForceCompileReports() {
+        return "1".equals(getProperty("forceCompileReports", "0").trim()) ? true : false;
+    }
 
-	public String getCommissioningMailSubject() {
-		return getProperty("mail.commissioning.mailSubject", "Ficha de Proyecto del OSE");
-	}
+    public String getCommissioningMailSubject() {
+        return getProperty("mail.commissioning.mailSubject", "Ficha de Proyecto del OSE");
+    }
 
-	public String getCommissioningMailBody() {
-		return getProperty("mail.commissioning.mailBody", "Se envia adjunta la ficha de proyecto.\n\nUn saludo");
-	}
+    public String getCommissioningMailBody() {
+        return getProperty("mail.commissioning.mailBody", "Se envia adjunta la ficha de proyecto.\n\nUn saludo");
+    }
 
-	public int getDaysToExpirePassword() {
-		try {
-			int daysToExpirePassword = Integer.parseInt(this.getProperty("daysToExpirePassword", "365"));
-			
-			if (daysToExpirePassword <= 0){
-				throw new IllegalArgumentException();
-			}
-			
-			return daysToExpirePassword;
-		} catch (Exception ex){
-			log.warn("daysToExpirePassword must be a positive number, setting default interval.");
-			
-			return 365;	// Por defecto cada 90 dias
-		}
-	}
+    public int getDaysToExpirePassword() {
+        try {
+            int daysToExpirePassword = Integer.parseInt(this.getProperty("daysToExpirePassword", "365"));
 
-	public String getLdapUrl(){
-		return getProperty("ldapUrl", "ldap://localhost:389/dc=autentia,dc=com");
-	}
+            if (daysToExpirePassword <= 0) {
+                throw new IllegalArgumentException();
+            }
 
-	public Boolean isLdapAuthentication(){
-		return Boolean.valueOf(getProperty("ldapAuthentication", "true"));
-	}
+            return daysToExpirePassword;
+        } catch (Exception ex) {
+            log.warn("daysToExpirePassword must be a positive number, setting default interval.");
+
+            return 365; // Por defecto cada 90 dias
+        }
+    }
+
+    public String getLdapUrl() {
+        return getProperty("ldapUrl", "ldap://localhost:389/dc=autentia,dc=com");
+    }
+
 
 }

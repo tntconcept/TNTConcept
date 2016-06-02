@@ -15,6 +15,8 @@ package com.autentia.tnt.bean;
 
 import java.util.Date;
 
+import org.acegisecurity.BadCredentialsException;
+import org.acegisecurity.ldap.LdapDataAccessException;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -67,31 +69,35 @@ public class ExpiredPasswordBean extends BaseBean {
                     result = null;
                     FacesUtils.addErrorMessage(null, "error.newPasswordEqualsOldPassword"); // Las contraseñas no coinciden
                 } else {
-                    Date expireDate = calcNextExpireDate(user.getPasswordExpireDate());
-                    if (!ConfigurationUtil.getDefault().isLdapAuthentication()) {
-                        user.setPasswordExpireDate(expireDate); // Establecemos la nueva fecha de expiración
-                    }
                     authHandler.changePassword(user, password);
-                    manager.updateEntity(user, false);
+
+                    if (!user.isLdapAuthentication()) {
+                        user.setPasswordExpireDate(calcNextExpireDate()); // Establecemos la nueva fecha de expiración
+                        manager.updateEntity(user, false);
+                    }
                 }
             } else {
                 result = null;
                 FacesUtils.addErrorMessage(null, "error.newPasswordsNotEquals"); // Las contraseñas no coinciden
             }
             return result;
+        } catch (LdapDataAccessException ex) {
+
+            String message = ex.getCause().getMessage();
+            FacesUtils.addErrorMessage(null, "error.ppolicy", message);
+            return null;
+        } catch (BadCredentialsException ex){
+            FacesUtils.addErrorMessage(null, "error.administrator.needed");
+            return null;
         } catch (Exception ex) {
+
             return super.getReturnError("ExpiredPasswordBean.changePassword", ex);
         }
     }
 
-    private Date calcNextExpireDate(Date expireDate) {
-        int daysToExpirePassword = ConfigurationUtil.getDefault().getDaysToExpirePassword();
+    private Date calcNextExpireDate() {
 
-        if (expireDate == null) {
-            expireDate = new Date();
-        }
-
-        return DateUtils.addDays(expireDate, daysToExpirePassword);
+        return DateUtils.addDays(new Date(), ConfigurationUtil.getDefault().getDaysToExpirePassword());
     }
 
     /**

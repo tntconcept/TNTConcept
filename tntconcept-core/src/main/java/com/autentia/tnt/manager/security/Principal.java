@@ -36,120 +36,137 @@ import com.autentia.tnt.businessobject.User;
  */
 @SuppressWarnings("serial")
 public class Principal implements UserDetails {
-	private static final Log				log				= LogFactory.getLog(Principal.class);
 
-	private User							dto;
-	private int								id;
-	private int								departmentId;
-	private String							username;
-	private String							password;
-	private boolean							enabled;
-	private String							realName;
-	private int								roleId;
-	private GrantedAuthority[]				authorities;
-	private Map<GrantedAuthority, Boolean>	hasAuthority	= new HashMap<GrantedAuthority, Boolean>();
-	private Locale							locale			= Locale.getDefault();
+    private static final Log log = LogFactory.getLog(Principal.class);
 
-	public Principal(User dto, GrantedAuthority[] authorities) {
-		this(dto.getId(), dto.getDepartmentId(), dto.getLogin(), dto.getPassword(), dto.isActive(),
-				dto.getName(), dto.getRole().getId(), authorities);
-		this.dto = dto;
-	}
+    private User dto;
 
-	public Principal(int id, int departmentId, String username, String password, boolean enabled,
-			String realName, int roleId, GrantedAuthority[] authorities) {
-		
-		if (log.isDebugEnabled()){
-			log.debug("Principal - id=" + id + " username ='" + username + "' roleId=" + roleId + " enabled=" + enabled);
-		}
+    private int id;
 
-		this.id = id;
-		this.departmentId = departmentId;
-		this.username = username;
-		this.password = password;
-		this.enabled = enabled;
-		this.realName = realName;
-		this.roleId = roleId;
-		this.authorities = authorities.clone();
+    private int departmentId;
 
-		for (GrantedAuthority authority : authorities) {
-			hasAuthority.put(authority, true);
-		}
-	}
+    private String username;
 
-	public boolean hasAuthority(GrantedAuthority testAuthority) {
-		Boolean ret = hasAuthority.get(testAuthority);
-		return ret == null ? false : ret;
-	}
+    private String password;
 
-	public int getId() {
-		return id;
-	}
+    private boolean enabled;
 
-	public int getDepartmentId() {
-		return departmentId;
-	}
+    private String realName;
 
-	public int getRoleId() {
-		return roleId;
-	}
+    private int roleId;
 
-	public GrantedAuthority[] getAuthorities() {
-		return authorities;
-	}
+    private GrantedAuthority[] authorities;
 
-	public String getUsername() {
-		return username;
-	}
+    private Map<GrantedAuthority, Boolean> hasAuthority = new HashMap<GrantedAuthority, Boolean>();
 
-	public String getPassword() {
-		return password;
-	}
+    private Locale locale = Locale.getDefault();
 
-	public String getRealName() {
-		return realName;
-	}
+    public Principal(User dto, GrantedAuthority[] authorities) {
+        this(dto, dto.getPassword(), authorities);
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public Principal(User dto, String password, GrantedAuthority[] authorities) {
+        this(dto.getId(), dto.getDepartmentId(), dto.getLogin(), password, dto.isActive(), dto.getName(),
+                dto.getRole().getId(), authorities);
+        this.dto = dto;
+    }
 
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    public Principal(int id, int departmentId, String username, String password, boolean enabled, String realName,
+            int roleId, GrantedAuthority[] authorities) {
 
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+        if (log.isDebugEnabled()) {
+            log.debug(
+                    "Principal - id=" + id + " username ='" + username + "' roleId=" + roleId + " enabled=" + enabled);
+        }
 
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+        this.id = id;
+        this.departmentId = departmentId;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.realName = realName;
+        this.roleId = roleId;
+        this.authorities = authorities.clone();
 
-	public Locale getLocale() {
-		return locale;
-	}
+        for (GrantedAuthority authority : authorities) {
+            hasAuthority.put(authority, true);
+        }
+    }
 
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
+    public boolean hasAuthority(GrantedAuthority testAuthority) {
+        Boolean ret = hasAuthority.get(testAuthority);
+        return ret == null ? false : ret;
+    }
 
-	/**
-	 * <p>
+    public int getId() {
+        return id;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public GrantedAuthority[] getAuthorities() {
+        return authorities;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    /**
+     * <p>
 	 * Get the underlying User object if it is loaded. Please note that this
 	 * method can return null if the user has been read using JDBC instead of
 	 * Hibernate. This normally happens when database needs to be migrated and
 	 * the application is locked.
-	 * </p>
-	 * <p>
+     * </p>
+     * <p>
 	 * You should only access underlying DTO when trying to get a user attribute
 	 * that is not provided by getters of this class.
-	 * </p>
-	 * 
+     * </p>
+     * 
 	 * @return the User DTO read from the database or null if Principal was
 	 *         loaded using JDBC
-	 */
-	public User getUser() {
-		return dto;
-	}
+     */
+    public User getUser() {
+        return dto;
+    }
+
 }
