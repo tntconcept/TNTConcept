@@ -458,5 +458,8 @@ public class ConfigurationUtil {
         return getProperty("ldapUrl", "ldap://localhost:389/dc=autentia,dc=com");
     }
 
+    public Boolean isLdapProviderEnabled() {
+        return Boolean.valueOf(getProperty("ldapAuthentication", "false"));
+    }
 
 }

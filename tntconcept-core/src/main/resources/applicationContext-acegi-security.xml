@@ -106,7 +106,10 @@
     </bean>
 
     <!-- Service for authenticating users -->
-    <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+    <bean id="authenticationManager" class="com.autentia.tnt.manager.security.CustomProviderManager">
+        <constructor-arg >
+            <bean factory-bean="configuration" factory-method="isLdapProviderEnabled"/>
+        </constructor-arg>
         <!-- List of authentication providers -->
         <property name="providers">
             <list>
