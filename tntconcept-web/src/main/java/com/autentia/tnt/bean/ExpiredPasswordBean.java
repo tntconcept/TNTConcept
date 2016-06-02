@@ -32,7 +32,7 @@ import com.autentia.tnt.util.FacesUtils;
  * 
  * @author <a href="www.autentia.com">AUTENTIA</a>
  */
-public class ExpiredPasswordBean extends BaseBean {
+public class ExpiredPasswordBean extends AbstractPasswordBean {
 
     private static final Log log = LogFactory.getLog(ExpiredPasswordBean.class);
 

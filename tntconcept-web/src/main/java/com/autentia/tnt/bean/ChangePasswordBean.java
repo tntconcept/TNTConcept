@@ -26,7 +26,7 @@ import org.acegisecurity.ldap.LdapDataAccessException;
  * @author <a href="www.autentia.com">AUTENTIA</a>
  *
  */
-public class ChangePasswordBean extends BaseBean {
+public class ChangePasswordBean extends AbstractPasswordBean {
 
     /** */
     private static final long serialVersionUID = 4873802999327338762L;
