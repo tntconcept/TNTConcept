@@ -110,10 +110,10 @@
         <!-- List of authentication providers -->
         <property name="providers">
             <list>
-
-                <ref local="ldapAuthenticationProvider"/>
                 <!-- DAO authentication provider -->
-                <!--<ref local="daoAuthenticationProvider"/>-->
+                <ref local="daoAuthenticationProvider"/>
+                <!-- LDAP authentication provider -->
+                <ref local="ldapAuthenticationProvider"/>
                 <!-- Anonymous authentication provider -->
                 <bean class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
                     <property name="key" value="changeThis"/>
