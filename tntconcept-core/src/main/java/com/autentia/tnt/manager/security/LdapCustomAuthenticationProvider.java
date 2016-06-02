@@ -23,10 +23,6 @@ public class LdapCustomAuthenticationProvider extends LdapAuthenticationProvider
         super(authenticator, authoritiesPopulator);
     }
 
-    public UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
-
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
@@ -39,7 +35,7 @@ public class LdapCustomAuthenticationProvider extends LdapAuthenticationProvider
         return mergeUsers(ldapUser, principalFromDB, password);
     }
 
-    private Principal mergeUsers(LdapUserDetails ldapUser, Principal principalFromDB, String password) {
+    protected Principal mergeUsers(LdapUserDetails ldapUser, Principal principalFromDB, String password) {
 
         User user = principalFromDB.getUser();
         user.setLdapPassword(password);
