@@ -45,7 +45,7 @@ public class ChangePasswordBeanTest {
         when(authHandler.checkPassword(user, OLD_PASSWORD)).thenReturn(Boolean.TRUE);
 
         when(user.getPassword()).thenReturn(DigestUtils.shaHex(OLD_PASSWORD));
-        when(user.getLdapPassword()).thenReturn("");
+        when(user.isLdapAuthentication()).thenReturn(true);
 
         doNothing().when(manager).updateEntity(user, false);
 
