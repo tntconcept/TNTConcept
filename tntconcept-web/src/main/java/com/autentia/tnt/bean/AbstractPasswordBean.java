@@ -18,15 +18,16 @@ public abstract class AbstractPasswordBean extends BaseBean {
 
     protected static final Log log = LogFactory.getLog(AbstractPasswordBean.class);
 
-    protected static UserManager manager = UserManager.getDefault();
+    protected UserManager manager = UserManager.getDefault();
 
-    protected static AuthenticationManager authMgr = AuthenticationManager.getDefault();
+    protected AuthenticationManager authMgr = AuthenticationManager.getDefault();
 
     /** Nueva password */
     protected String password;
 
     /** Repetición de password */
     protected String passwordRepe;
+
     /** Password antigua */
     protected String passwordOld;
 
@@ -47,16 +48,14 @@ public abstract class AbstractPasswordBean extends BaseBean {
     /**
      * @return Returns the passwordOld.
      */
-    public String getPasswordOld()
-    {
+    public String getPasswordOld() {
         return passwordOld;
     }
 
     /**
      * @param passwordOld The passwordOld to set.
      */
-    public void setPasswordOld(String passwordOld)
-    {
+    public void setPasswordOld(String passwordOld) {
         this.passwordOld = passwordOld;
     }
 
@@ -77,53 +76,53 @@ public abstract class AbstractPasswordBean extends BaseBean {
     /**
      * Cambia la password
      */
-    public String changePassword()
-    {
-        try
-        {
+    public String changePassword() {
+
+        String result = null;
+        try {
             // Recuperamos el usuario actual
             User user = authMgr.getCurrentPrincipal().getUser();
-
             // Comprobamos que la password antigua introducida es correcta
-            if( authMgr.checkPassword(user,passwordOld) )
-            {
-                if (this.password.equals(passwordRepe))
-                {
-                    authMgr.changePassword(user,password);
-
-                    if (!user.isLdapAuthentication()){
-                        Date expireDate = calcNextExpireDate();
-                        user.setPasswordExpireDate(expireDate);				 // Establecemos la nueva fecha de expiración
-                        manager.updateEntity(user, false);
-                    }
-                    return NavigationResults.CHANGE_PASSWORD_OK;
-                }
-                else
-                {
-                    // Avisamos que las password introducidas no son iguales
-                    addErrorMessage("error.newPasswordsNotEquals");
-                    return null;
-                }
-            }
-            else
-            {
+            if (!authMgr.checkPassword(user, passwordOld)) {
                 // Avisamos que la password introducida no es correcta
                 addErrorMessage("error.invalidPassword");
-                return null;
+            } else {
+                if (!this.password.equals(passwordRepe)) {
+                    // Avisamos que las password introducidas no son iguales
+                    addErrorMessage("error.newPasswordsNotEquals");
+                } else {
+                    if (authMgr.checkPassword(user, password)) {
+                        addErrorMessage("error.newPasswordEqualsOldPassword"); // Las contraseñas no coinciden
+                    } else {
+
+                        authMgr.changePassword(user, password);
+
+                        if (!user.isLdapAuthentication()) {
+                            Date expireDate = calcNextExpireDate();
+                            user.setPasswordExpireDate(expireDate); // Establecemos la nueva fecha de expiración
+                            manager.updateEntity(user, false);
+                        }
+                        result = NavigationResults.CHANGE_PASSWORD_OK;
+                    }
+
+                }
             }
         } catch (LdapDataAccessException ex) {
 
-            String message = ex.getCause().getMessage();
+
+            String message = ex.getMessage();
+            if (ex.getCause() != null){
+                message = ex.getCause().getMessage();
+            }
             addErrorMessage("error.ppolicy", message);
-            return null;
 
         } catch (BadCredentialsException ex) {
             addErrorMessage("error.administrator.needed");
-            return null;
 
         } catch (Exception ex) {
-            return returnError(ex);
+            result = returnError(ex);
         }
+        return result;
     }
 
     protected Date calcNextExpireDate() {
@@ -131,11 +130,9 @@ public abstract class AbstractPasswordBean extends BaseBean {
         return DateUtils.addDays(new Date(), ConfigurationUtil.getDefault().getDaysToExpirePassword());
     }
 
-    protected void addErrorMessage(String messageKey,Object ... args){
+    protected void addErrorMessage(String messageKey, Object... args) {
         FacesUtils.addErrorMessage(null, messageKey, args);
     }
 
-
     public abstract String returnError(Exception ex);
-
 }

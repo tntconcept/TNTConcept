@@ -83,6 +83,7 @@ public class AuthenticationManager implements UserDetailsService {
      */
     public static AuthenticationManager getDefault() {
         return (AuthenticationManager)SpringUtils.getSpringBean("userDetailsService");
+
     }
 
     /**
@@ -112,13 +113,22 @@ public class AuthenticationManager implements UserDetailsService {
      * @return
      */
     public boolean checkPassword(User user, String passwd) {
-        return user.isLdapAuthentication() ? passwd.equalsIgnoreCase(user.getLdapPassword())
-                : DigestUtils.shaHex(passwd).equalsIgnoreCase(user.getPassword());
+        Boolean result;
+        if (user.isLdapAuthentication()) {
+            result = passwd.equalsIgnoreCase(user.getLdapPassword());
+        } else {
+            result = DigestUtils.shaHex(passwd).equalsIgnoreCase(user.getPassword());
+        }
+        return result;
     }
 
     public void changePassword(User user, String password) {
+        this.changePassword(user, null, password);
+    }
+
+    public void changePassword(User user, User userAdmin, String password) {
         if (user.isLdapAuthentication()) {
-            changeLdapPassword(user, password);
+            changeLdapPassword(user, userAdmin, password);
         } else {
             changeDbPassword(user, password);
         }
@@ -128,19 +138,52 @@ public class AuthenticationManager implements UserDetailsService {
      * @param user
      * @param password
      */
-    protected void changeLdapPassword(final User user, final String password) {
+    protected void changeLdapPassword(final User user, final User userAdmin, final String password) {
 
         CustomBindAuthenticator customBindAuthenticator = (CustomBindAuthenticator)SpringUtils
                 .getSpringBean("ldapBindAuthenticator");
 
         InitialDirContextFactory initialDirContextFactory = customBindAuthenticator.getInitialDirContextFactory();
 
-        final String ldapName = "uid=".concat(user.getLogin()).concat(",ou=People");
+
+        if (userAdmin != null) {
+            changeLdapPasswordAsAdmin(user, userAdmin, password, initialDirContextFactory);
+        } else {
+            changeLdapPasswordAsUser(user, password, initialDirContextFactory);
+        }
+
+    }
+
+    protected void changeLdapPasswordAsUser(final User user, final String password, InitialDirContextFactory initialDirContextFactory) {
+
+        LdapTemplate template = new LdapTemplate(initialDirContextFactory, user.getDn(), user.getLdapPassword());
+
+        User updatedUser = (User)template.execute(updateLdapPassword(user, password));
+
+//        final User currentUser = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
+//
+//        currentUser.setExpiredPassword(updatedUser.isPasswordExpired());
+//        currentUser.setLdapPassword(updatedUser.getLdapPassword());
+    }
+
+    /**
+     * @param user
+     * @param password
+     * @param initialDirContextFactory
+     */
+    protected void changeLdapPasswordAsAdmin(User user, User userAdmin, String password, InitialDirContextFactory initialDirContextFactory) {
 
         LdapTemplate template = new LdapTemplate(initialDirContextFactory,
-                ldapName.concat(",").concat(initialDirContextFactory.getRootDn()), user.getLdapPassword());
+                userAdmin.getDn(), userAdmin.getLdapPassword());
 
-        template.execute(new LdapCallback() {
+        user.setLdapName(user.buildLdapName());
+
+        template.execute(updateLdapPassword(user, password));
+
+    }
+
+    private LdapCallback updateLdapPassword(final User user, final String password) {
+        return new LdapCallback() {
 
             public Object doInDirContext(DirContext dirContext) throws NamingException {
 
@@ -148,7 +191,7 @@ public class AuthenticationManager implements UserDetailsService {
                 ModificationItem[] mods = new ModificationItem[1];
                 mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
                 try {
-                    dirContext.modifyAttributes(ldapName, mods);
+                    dirContext.modifyAttributes(user.getLdapName(), mods);
                 } catch (NamingException e) {
                     log.error(e);
                     user.setExpiredPassword(Boolean.TRUE);
@@ -158,8 +201,7 @@ public class AuthenticationManager implements UserDetailsService {
                 user.setLdapPassword(password);
                 return user;
             }
-        });
-
+        };
     }
 
     protected void changeDbPassword(User user, String passwd) {
@@ -240,7 +282,8 @@ public class AuthenticationManager implements UserDetailsService {
      */
     public String resetPassword(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
         String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
-        changePassword(user, changedPassword);
+        final User userAdmin = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
+        changePassword(user, userAdmin, changedPassword);
         return changedPassword;
     }
 

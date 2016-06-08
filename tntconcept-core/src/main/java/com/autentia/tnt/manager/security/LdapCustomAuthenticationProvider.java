@@ -38,6 +38,8 @@ public class LdapCustomAuthenticationProvider extends LdapAuthenticationProvider
     protected Principal mergeUsers(LdapUserDetails ldapUser, Principal principalFromDB, String password) {
 
         User user = principalFromDB.getUser();
+        user.setDn(ldapUser.getDn());
+        user.setLdapName(ldapUser.getDn().replace(",dc=autentia,dc=com",""));
         user.setLdapPassword(password);
         user.setActive(ldapUser.isEnabled());
         user.setExpiredPassword(checkExpiredPassword(ldapUser.getAttributes()));

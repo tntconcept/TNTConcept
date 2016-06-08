@@ -19,9 +19,7 @@ import java.util.Date;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class LdapCustomAuthenticationProviderTest {
 
@@ -47,6 +45,7 @@ public class LdapCustomAuthenticationProviderTest {
 
         sut = new LdapCustomAuthenticationProvider(authenticator, ldapAuthoritiesPopulator);
         sut.setUserDetailsService(userDetailsService);
+        when(ldapUserDetails.getDn()).thenReturn("uid=testUser,ou=People,dc=autentia,dc=com");
     }
 
     @Test
@@ -59,6 +58,7 @@ public class LdapCustomAuthenticationProviderTest {
         when(principal.getUser()).thenReturn(user);
         when(principal.getAuthorities()).thenReturn(new GrantedAuthority[1]);
         when(ldapUserDetails.getAttributes()).thenReturn(mock(Attributes.class));
+
 
         sut.createUserDetails(ldapUserDetails, USERNAME, PASSWORD);
 
