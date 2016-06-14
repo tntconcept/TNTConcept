@@ -59,9 +59,9 @@ import com.autentia.tnt.version.Version;
 /**
  * @author ivan
  */
-public class AuthenticationManager implements UserDetailsService {
+public abstract class AuthenticationManager implements UserDetailsService {
 
-    private static final Log log = LogFactory.getLog(AuthenticationManager.class);
+    protected static final Log log = LogFactory.getLog(AuthenticationManager.class);
 
     /** Algorithm used to store passwords in database */
     public static final String HASH_ALGORITHM = "SHA-1";
@@ -107,106 +107,9 @@ public class AuthenticationManager implements UserDetailsService {
         return (ret instanceof Principal) ? (Principal)ret : null;
     }
 
-    /**
-     * @param user
-     * @param passwd
-     * @return
-     */
-    public boolean checkPassword(User user, String passwd) {
-        Boolean result;
-        if (user.isLdapAuthentication()) {
-            result = passwd.equalsIgnoreCase(user.getLdapPassword());
-        } else {
-            result = DigestUtils.shaHex(passwd).equalsIgnoreCase(user.getPassword());
-        }
-        return result;
-    }
+    public abstract boolean checkPassword(User user, String passwd);
 
-    public void changePassword(User user, String password) {
-        this.changePassword(user, null, password);
-    }
-
-    public void changePassword(User user, User userAdmin, String password) {
-        if (user.isLdapAuthentication()) {
-            changeLdapPassword(user, userAdmin, password);
-        } else {
-            changeDbPassword(user, password);
-        }
-    }
-
-    /**
-     * @param user
-     * @param password
-     */
-    protected void changeLdapPassword(final User user, final User userAdmin, final String password) {
-
-        CustomBindAuthenticator customBindAuthenticator = (CustomBindAuthenticator)SpringUtils
-                .getSpringBean("ldapBindAuthenticator");
-
-        InitialDirContextFactory initialDirContextFactory = customBindAuthenticator.getInitialDirContextFactory();
-
-
-        if (userAdmin != null) {
-            changeLdapPasswordAsAdmin(user, userAdmin, password, initialDirContextFactory);
-        } else {
-            changeLdapPasswordAsUser(user, password, initialDirContextFactory);
-        }
-
-    }
-
-    protected void changeLdapPasswordAsUser(final User user, final String password, InitialDirContextFactory initialDirContextFactory) {
-
-        LdapTemplate template = new LdapTemplate(initialDirContextFactory, user.getDn(), user.getLdapPassword());
-
-        User updatedUser = (User)template.execute(updateLdapPassword(user, password));
-
-//        final User currentUser = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
-//
-//        currentUser.setExpiredPassword(updatedUser.isPasswordExpired());
-//        currentUser.setLdapPassword(updatedUser.getLdapPassword());
-    }
-
-    /**
-     * @param user
-     * @param password
-     * @param initialDirContextFactory
-     */
-    protected void changeLdapPasswordAsAdmin(User user, User userAdmin, String password, InitialDirContextFactory initialDirContextFactory) {
-
-        LdapTemplate template = new LdapTemplate(initialDirContextFactory,
-                userAdmin.getDn(), userAdmin.getLdapPassword());
-
-        user.setLdapName(user.buildLdapName());
-
-        template.execute(updateLdapPassword(user, password));
-
-    }
-
-    private LdapCallback updateLdapPassword(final User user, final String password) {
-        return new LdapCallback() {
-
-            public Object doInDirContext(DirContext dirContext) throws NamingException {
-
-                Attribute newPasswordAttribute = new BasicAttribute("userPassword", password);
-                ModificationItem[] mods = new ModificationItem[1];
-                mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
-                try {
-                    dirContext.modifyAttributes(user.getLdapName(), mods);
-                } catch (NamingException e) {
-                    log.error(e);
-                    user.setExpiredPassword(Boolean.TRUE);
-                    throw e;
-                }
-                user.setExpiredPassword(Boolean.FALSE);
-                user.setLdapPassword(password);
-                return user;
-            }
-        };
-    }
-
-    protected void changeDbPassword(User user, String passwd) {
-        user.setPassword(DigestUtils.shaHex(passwd));
-    }
+    public abstract void changePassword(User user, String password);
 
     /**
      * Load a User for ACEGI given its user name
@@ -276,23 +179,19 @@ public class AuthenticationManager implements UserDetailsService {
 
     /**
      * Reset user password.
-     * 
+     *
      * @param user the user
      * @return the new password
      */
-    public String resetPassword(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
-        String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
-        final User userAdmin = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
-        changePassword(user, userAdmin, changedPassword);
-        return changedPassword;
-    }
+    public abstract String resetPassword(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3,
+            String[] rnd4);
 
     /**
      * Generate a new random password
      * 
      * @return a new random password
      */
-    private String generateRandomPassword(String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
+    protected String generateRandomPassword(String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
         StringBuilder ret = new StringBuilder();
 
         // Get lists of random words. We could cache these, but this method is
