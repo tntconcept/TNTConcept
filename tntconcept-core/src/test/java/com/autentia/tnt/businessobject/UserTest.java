@@ -2,7 +2,6 @@ package com.autentia.tnt.businessobject;
 
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
-import javafx.application.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
