@@ -15,6 +15,42 @@
 	</description>
 	<url>http://tntconcept.sourceforge.net/</url>
 
+	<properties>
+	
+		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
+		<sourceEncoding>UTF-8</sourceEncoding>
+		<compileSource>1.5</compileSource>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+	    <!-- jacoco options -->
+        <jacoco.version>0.7.6.201602180812</jacoco.version>
+        <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
+        <jacoco.utreportpath>${project.build.directory}/jacoco</jacoco.utreportpath>
+        <jacoco.utreportfile>${jacoco.utreportpath}/jacoco.exec</jacoco.utreportfile>
+        <jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
+        <jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>
+        
+        <!-- Sonar options -->
+        <sonar.jacoco.reportPath>${jacoco.utreportpath}/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${jacoco.itreportpath}/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.languaje>java</sonar.languaje>
+		<sonar.excludePlugins>android,branding,buildstability,checkstyle,css,fbcontrib,javascript,ldap,motionchart,pmd,scmstats,tabmetrics,timeline,uselesscodetracker,web,widgetlab,xml</sonar.excludePlugins>
+		<sonar.exclusions></sonar.exclusions>
+		
+		<!-- test -->
+		<junit.version>4.6</junit.version>
+        <mockito.version>1.9.5</mockito.version>
+        <hamcrest.version>1.3</hamcrest.version>
+		<skip.integration.tests>false</skip.integration.tests>
+		
+		<!-- Deploy properties -->
+		<project.final.name>tntconcept</project.final.name>
+	
+		<appserver.scope>compile</appserver.scope>
+		
+	</properties>
+	
 	<modules>
 		<module>tntconcept-core</module>
 		<module>tntconcept-web</module>
@@ -41,15 +77,6 @@
 		<developerConnection>scm:git:git@github.com:autentia/TNTConcept.git</developerConnection>
 		<url>https://github.com/autentia/TNTConcept</url>
 	</scm>
-
-	<properties>
-		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
-		<sourceEncoding>UTF-8</sourceEncoding>
-		<compileSource>1.5</compileSource>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
-	
 	
 	<profiles>
 	    <profile>
@@ -61,9 +88,6 @@
 	        </property>
 		     <activeByDefault>true</activeByDefault>
 	      </activation>
-	      <properties>
-	        <appserver.scope>compile</appserver.scope>
-	      </properties>
 	    </profile>
 	    <profile>
 	      <id>jboss-profile</id>
@@ -77,6 +101,26 @@
 	        <appserver.scope>provided</appserver.scope>
 	      </properties>
 	    </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profile.env>dev</profile.env>
+                <project.final.name>tntconcept-${project.version}</project.final.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <properties>
+                <profile.env>pre</profile.env>
+            </properties>
+        </profile>
+        <profile>
+	        <id>pro</id>
+	        <properties>
+	            <profile.env>pro</profile.env>
+	        </properties>
+        </profile>
+        
   	</profiles>
 	
 	<build>
@@ -150,15 +194,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<!-- | Configures Surefire plugin (the test launcher) to always redirect 
-					the output (console) to a file. -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
-				</configuration>
-			</plugin>
+
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.1</version>
@@ -189,8 +225,127 @@
 		        </lifecycleMappingMetadata>
 		      </configuration>
 		    </plugin>
+		    
 		</plugins>
-	</pluginManagement>	
+	</pluginManagement>
+	<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+                	<!-- 
+                		Prepares a variable, jacoco.agent.ut.arg, that contains the info
+						to be passed to the JVM hosting the code being tested.
+					-->
+					<execution>
+						<id>pre-unit-test</id>
+                        <phase>process-test-classes</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefireArgLine</propertyName>
+							<destFile>${jacoco.utreportfile}</destFile>
+							<append>true</append>
+						</configuration>
+					</execution>
+                    <!--
+			            Ensures that the code coverage report for unit tests after
+			            unit tests have been run.
+			        -->					
+					<execution>
+			            <id>post-unit-test</id>
+			            <phase>test</phase>
+			            <goals>
+			                <goal>report</goal>
+			            </goals>
+					    <configuration>
+		                  <!-- output file with report data. -->
+		                  <dataFile>${jacoco.utreportfile}</dataFile>
+		                  <!-- output directory for the reports. -->
+ 		                  <outputDirectory>${jacoco.utreportpath}</outputDirectory>
+		                </configuration>		
+        			</execution>
+					<!-- Prepares the property pointing to the JaCoCo runtime agent which is passed as VM argument when Maven the Failsafe plugin is executed. -->
+					<execution>
+						<id>pre-integration-test</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<propertyName>failsafeArgLine</propertyName>
+							<destFile>${jacoco.itreportfile}</destFile>
+							<append>true</append>
+						</configuration>
+					</execution>
+                    <!--
+			            Ensures that the code coverage report for integration tests after
+			            integration tests have been run.
+			        -->
+					<execution>
+			            <id>post-integration-test</id>
+			            <phase>post-integration-test</phase>
+			            <goals>
+			                <goal>report</goal>
+			            </goals>
+			            <configuration>
+			                <!-- Sets the path to the file which contains the execution data. -->
+			                <dataFile>${jacoco.itreportfile}</dataFile>
+			                <!-- Sets the output directory for the code coverage report. -->
+			                <outputDirectory>${jacoco.itreportpath}</outputDirectory>
+			            </configuration>
+        			</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.15</version>
+				<configuration>
+					<!-- Sets the VM argument line used when unit tests are run. -->
+					<argLine>${surefireArgLine}</argLine>
+					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
+					<skipTests>${skip.unit.tests}</skipTests>
+					<!-- Excludes integration tests when unit tests are run. -->
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.15</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.14.1</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<!-- Ensures that both integration-test and verify goals of the Failsafe Maven plugin are executed. -->
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the VM argument line used when integration tests are run. -->
+							<argLine>${failsafeArgLine}</argLine>
+							<!-- Skips integration tests if the value of skip.integration.tests property is true -->
+							<skipTests>${skip.integration.tests}</skipTests>
+							<testFailureIgnore>true</testFailureIgnore>
+							<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+	</plugins>
 	</build>
 
 	<reporting>
@@ -231,6 +386,33 @@
 		</repository>
 	</distributionManagement>
 
+	<dependencyManagement>
+        <dependencies>
+        
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -256,8 +438,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.5</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>

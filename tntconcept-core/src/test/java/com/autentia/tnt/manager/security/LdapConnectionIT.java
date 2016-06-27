@@ -15,6 +15,7 @@ import org.acegisecurity.providers.ldap.authenticator.BindAuthenticator;
 import org.acegisecurity.providers.ldap.populator.DefaultLdapAuthoritiesPopulator;
 import org.acegisecurity.userdetails.ldap.LdapUserDetails;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -53,7 +54,7 @@ public class LdapConnectionIT {
     }
 
     @Test
-    // @Ignore
+    @Ignore
     public void shouldEstablishConnectionWithLdapServer() {
 
         LdapUserDetails userDetails = this.authenticator.authenticate(USERNAME, PASSWORD);
@@ -64,6 +65,7 @@ public class LdapConnectionIT {
     }
 
     @Test
+    @Ignore
     public void shouldModifyUserPassword() throws NamingException {
 
         String user = "uid=user1,ou=People,dc=autentia,dc=com";
@@ -82,6 +84,7 @@ public class LdapConnectionIT {
     }
 
     @Test
+    @Ignore
     public void getSchemaTest() throws NamingException {
 
         String user = "uid=user1,ou=People,dc=autentia,dc=com";

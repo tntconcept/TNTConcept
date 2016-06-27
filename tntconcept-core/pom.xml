@@ -43,10 +43,35 @@
 				</executions>
 			</plugin>
 			
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>execution1_jta-1.0.1B</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>javax.transaction</groupId>
+                            <artifactId>jta</artifactId>
+                            <version>1.0.1B</version>
+                            <packaging>jar</packaging>
+                            <file>${project.basedir}/jars_to_install/jta-1.0.1B.jar</file>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
+	    <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
