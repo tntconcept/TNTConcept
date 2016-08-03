@@ -27,7 +27,7 @@ CREATE TABLE  `EntityChange` (
   `entityName` varchar(1024) collate utf8_spanish_ci NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `fk_entityChange_user` (`userId`),
-  CONSTRAINT `fk_entityChange_user` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+  CONSTRAINT `fk_entityChange_user` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
 ) ;
 
 -- Migración de la tabla de cambios de contactos a la genÃ©rica

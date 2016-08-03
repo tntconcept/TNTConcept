@@ -61,9 +61,7 @@ public class ConfigurationUtil {
      */
     public ConfigurationUtil(String jndiPathVar, String file) throws ConfigurationException, NamingException {
         Context ctx = new InitialContext();
-        // configDir = ctx.lookup(jndiPathVar).toString();
-        // TODO local configuration.
-        configDir = "/Users/santiago/git/TNTConcept/src/main/install/config";
+        configDir = ctx.lookup(jndiPathVar).toString();
         if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
             configDir = configDir.trim() + "/";
         }
