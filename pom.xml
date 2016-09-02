@@ -384,7 +384,7 @@
 		<site>
 			<id>tntconcept-site</id>
 			<name>TnTConcept Maven Site</name>
-			<url>${tnt.mvn.site}</url>
+			<url>${tnt.mvn.site}/com/autentia/tntconcept/${project.version}</url>
 		</site>
 		<repository>
 			<id>tntconcept-repository</id>
