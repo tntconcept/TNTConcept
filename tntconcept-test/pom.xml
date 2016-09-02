@@ -129,7 +129,7 @@
         <dependency>
             <groupId>com.autentia.tnt</groupId>
             <artifactId>tntconcept-core</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>hsqldb</groupId>
