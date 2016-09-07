@@ -18,7 +18,7 @@ public class AuthenticationManagerLdapTemplate {
     private static final Log log = LogFactory.getLog(AuthenticationManager.class);
 
     protected LdapTemplate getTemplate(User loggedUser) {
-        return new LdapTemplate(((CustomBindAuthenticator)SpringUtils.getSpringBean("ldapBindAuthenticator"))
+        return new LdapTemplate(((CustomBindAuthenticator) SpringUtils.getSpringBean("ldapBindAuthenticator"))
                 .getInitialDirContextFactory(), loggedUser.getDn(), loggedUser.getLdapPassword());
     }
 
@@ -27,13 +27,23 @@ public class AuthenticationManagerLdapTemplate {
 
             public User doInDirContext(DirContext dirContext) throws NamingException {
 
-                return applyUpdate(dirContext, password, user);
+                return changeLdapUserPassword(dirContext, password, user);
             }
         };
     }
 
-    protected User applyUpdate(DirContext dirContext, String password, User user) throws NamingException {
-        Attribute newPasswordAttribute = new BasicAttribute("userPassword", password);
+    protected LdapCallback getCallback(final User user) {
+        return new LdapCallback() {
+
+            public User doInDirContext(DirContext dirContext) throws NamingException {
+
+                return setLdapUserPasswordResetFlag(dirContext, user);
+            }
+        };
+    }
+
+    protected User changeLdapUserPassword(DirContext dirContext, String password, User user) throws NamingException {
+        Attribute newPasswordAttribute = new BasicAttribute(LdapAttributes.USER_PASSWORD, password);
         ModificationItem[] mods = new ModificationItem[1];
         mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
         try {
@@ -42,8 +52,25 @@ public class AuthenticationManagerLdapTemplate {
             log.error(e);
             throw e;
         }
-        user.setExpiredPassword(Boolean.FALSE);
+        user.setPasswordExpired(Boolean.FALSE);
+        user.setResetPassword(Boolean.FALSE);
         user.setLdapPassword(password);
+
+        return user;
+    }
+
+    protected User setLdapUserPasswordResetFlag(DirContext dirContext, User user) throws NamingException {
+        Attribute newPasswordAttribute = new BasicAttribute(LdapAttributes.PASSWORD_RESET, "TRUE");
+        ModificationItem[] mods = new ModificationItem[1];
+        mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
+        try {
+            modifyAttributes(dirContext, user, mods);
+        } catch (NamingException e) {
+            log.error(e);
+            throw e;
+        }
+        user.setResetPassword(Boolean.TRUE);
+
         return user;
     }
 
@@ -60,6 +87,12 @@ public class AuthenticationManagerLdapTemplate {
     protected void changePassword(final User user, final String password, User userAdmin) {
 
         getTemplate(userAdmin).execute(getCallback(user, password));
+
+    }
+
+    protected void activateLdapUserPasswordResetFlag(final User user, User userAdmin) {
+
+        getTemplate(userAdmin).execute(getCallback(user));
 
     }
 

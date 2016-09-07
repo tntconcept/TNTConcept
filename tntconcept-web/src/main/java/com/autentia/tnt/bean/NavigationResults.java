@@ -47,7 +47,7 @@ public class NavigationResults {
 	public static final String USER_CATEGORY_OK="user_category_ok";
 	public static final String USER_CATEGORY_CANCEL="user_category_cancel";
 	public static final String LOGOUT = "logout";
-	
+
 	public static final String EDIT_INVENTARY="edit_inventary";
 	public static final String INVENTARY_OK="inventary_ok";
 	public static final String INVENTARY_CANCEL="inventary_cancel";
@@ -111,6 +111,7 @@ public class NavigationResults {
 	public static final String GO_ERROR="go_error";
 	public static final String SEE_DOCUMENT="see_doc";	
 	public static final String CHANGE_PASSWORD_OK="changepassword_ok";
+	public static final String RESET_PASSWORD_OK= "resetpassword_ok";
 	
 	public static final String BILL_SEARCH_ENTRIES="search_entries";
 	public static final String COPY_ENTRY = "copy_entry";

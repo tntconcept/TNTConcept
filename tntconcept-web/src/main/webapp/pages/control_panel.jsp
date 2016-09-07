@@ -23,6 +23,12 @@
 <%@include file="/inc/tlibs.jsp" %>
  <%   
     	final Principal principal = AuthenticationManager.getDefault().getCurrentPrincipal();
+
+        if ( principal.getUser().isResetPassword()){
+            request.getRequestDispatcher("/pages/passwordExpired.jsp").forward(request, response);
+            return;
+        }
+
 		//Establecemos el Locale del usuario
 		final SettingManager settingManager = SettingManager.getDefault();
 		final Setting setting = settingManager.get(SettingPath.GENERAL_PREFERRED_LOCALE, false);

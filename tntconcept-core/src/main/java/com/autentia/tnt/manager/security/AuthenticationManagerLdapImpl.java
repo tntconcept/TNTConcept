@@ -27,7 +27,13 @@ public class AuthenticationManagerLdapImpl extends AuthenticationManager {
         String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
         final User userAdmin = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
         changePassword(user, changedPassword, userAdmin);
+        activateLdapUserPasswordResetFlag(user, userAdmin);
         return changedPassword;
+    }
+
+    private void activateLdapUserPasswordResetFlag(final User user,final User userAdmin) {
+        authenticationManagerLdapTemplate.activateLdapUserPasswordResetFlag(user, userAdmin);
+
     }
 
     public void changePassword(final User user, final String password) {

@@ -68,7 +68,7 @@ public class ExpiredPasswordBeanTest {
         sut.setPassword(NEW_PASSWORD);
         sut.setPasswordRepe(NEW_PASSWORD);
 
-        user.setExpiredPassword(true);
+        user.setPasswordExpired(true);
 
         final String result = sut.changePassword();
         assertThat(result, is(NavigationResults.CHANGE_PASSWORD_OK));

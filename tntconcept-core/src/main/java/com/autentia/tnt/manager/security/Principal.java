@@ -1,16 +1,16 @@
 /**
  * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
  * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,7 +31,7 @@ import com.autentia.tnt.businessobject.User;
 /**
  * This class acts as a bridge between our User DTO and ACEGI representations of
  * a user.
- * 
+ *
  * @author Ivan Zaera Avellon
  */
 @SuppressWarnings("serial")
@@ -39,17 +39,17 @@ public class Principal implements UserDetails {
 
     private static final Log log = LogFactory.getLog(Principal.class);
 
-    private User dto;
+    protected User dto;
 
     private int id;
 
     private int departmentId;
 
-    private String username;
+    protected String username;
 
-    private String password;
+    protected String password;
 
-    private boolean enabled;
+    protected boolean enabled;
 
     private String realName;
 
@@ -60,6 +60,10 @@ public class Principal implements UserDetails {
     private Map<GrantedAuthority, Boolean> hasAuthority = new HashMap<GrantedAuthority, Boolean>();
 
     private Locale locale = Locale.getDefault();
+
+    public Principal(){
+
+    }
 
     public Principal(User dto, GrantedAuthority[] authorities) {
         this(dto, dto.getPassword(), authorities);
@@ -72,7 +76,7 @@ public class Principal implements UserDetails {
     }
 
     public Principal(int id, int departmentId, String username, String password, boolean enabled, String realName,
-            int roleId, GrantedAuthority[] authorities) {
+                     int roleId, GrantedAuthority[] authorities) {
 
         if (log.isDebugEnabled()) {
             log.debug(
@@ -86,12 +90,11 @@ public class Principal implements UserDetails {
         this.enabled = enabled;
         this.realName = realName;
         this.roleId = roleId;
-        this.authorities = authorities.clone();
-
-        for (GrantedAuthority authority : authorities) {
-            hasAuthority.put(authority, true);
+            this.authorities = authorities.clone();
+            for (GrantedAuthority authority : authorities) {
+                hasAuthority.put(authority, true);
+            }
         }
-    }
 
     public boolean hasAuthority(GrantedAuthority testAuthority) {
         Boolean ret = hasAuthority.get(testAuthority);
@@ -152,18 +155,18 @@ public class Principal implements UserDetails {
 
     /**
      * <p>
-	 * Get the underlying User object if it is loaded. Please note that this
-	 * method can return null if the user has been read using JDBC instead of
-	 * Hibernate. This normally happens when database needs to be migrated and
-	 * the application is locked.
+     * Get the underlying User object if it is loaded. Please note that this
+     * method can return null if the user has been read using JDBC instead of
+     * Hibernate. This normally happens when database needs to be migrated and
+     * the application is locked.
      * </p>
      * <p>
-	 * You should only access underlying DTO when trying to get a user attribute
-	 * that is not provided by getters of this class.
+     * You should only access underlying DTO when trying to get a user attribute
+     * that is not provided by getters of this class.
      * </p>
-     * 
-	 * @return the User DTO read from the database or null if Principal was
-	 *         loaded using JDBC
+     *
+     * @return the User DTO read from the database or null if Principal was
+     *         loaded using JDBC
      */
     public User getUser() {
         return dto;

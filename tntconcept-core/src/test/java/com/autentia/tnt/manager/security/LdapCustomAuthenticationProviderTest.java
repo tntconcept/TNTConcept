@@ -93,7 +93,7 @@ public class LdapCustomAuthenticationProviderTest {
 
         User userForTest = getUserForTest();
         Boolean passExpired = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
-        userForTest.setExpiredPassword(passExpired);
+        userForTest.setPasswordExpired(passExpired);
         assertThat(passExpired ,is(true));
 
     }
@@ -107,7 +107,7 @@ public class LdapCustomAuthenticationProviderTest {
 
         User userForTest = getUserForTest();
         Boolean passExpired = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
-        userForTest.setExpiredPassword(passExpired);
+        userForTest.setPasswordExpired(passExpired);
         assertThat(passExpired ,is(false));
     }
 

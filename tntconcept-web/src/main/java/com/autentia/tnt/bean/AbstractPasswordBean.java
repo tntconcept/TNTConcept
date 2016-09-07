@@ -22,13 +22,19 @@ public abstract class AbstractPasswordBean extends BaseBean {
 
     protected AuthenticationManager authMgr = AuthenticationManager.getDefault();
 
-    /** Nueva password */
+    /**
+     * Nueva password
+     */
     protected String password;
 
-    /** Repetición de password */
+    /**
+     * Repetición de password
+     */
     protected String passwordRepe;
 
-    /** Password antigua */
+    /**
+     * Password antigua
+     */
     protected String passwordOld;
 
     /**
@@ -82,6 +88,8 @@ public abstract class AbstractPasswordBean extends BaseBean {
         try {
             // Recuperamos el usuario actual
             User user = authMgr.getCurrentPrincipal().getUser();
+            Boolean isReset = user.isResetPassword();
+
             // Comprobamos que la password antigua introducida es correcta
             if (!authMgr.checkPassword(user, passwordOld)) {
                 // Avisamos que la password introducida no es correcta
@@ -102,7 +110,12 @@ public abstract class AbstractPasswordBean extends BaseBean {
                             user.setPasswordExpireDate(expireDate); // Establecemos la nueva fecha de expiración
                             manager.updateEntity(user, false);
                         }
-                        result = NavigationResults.CHANGE_PASSWORD_OK;
+                        if (isReset) {
+                            result = NavigationResults.RESET_PASSWORD_OK;
+                        } else {
+                            result = NavigationResults.CHANGE_PASSWORD_OK;
+                        }
+
                     }
 
                 }
@@ -111,7 +124,7 @@ public abstract class AbstractPasswordBean extends BaseBean {
 
 
             String message = ex.getMessage();
-            if (ex.getCause() != null){
+            if (ex.getCause() != null) {
                 message = ex.getCause().getMessage();
             }
             addErrorMessage("error.ppolicy", message);

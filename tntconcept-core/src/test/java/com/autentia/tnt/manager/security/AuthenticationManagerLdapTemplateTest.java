@@ -55,7 +55,7 @@ public class AuthenticationManagerLdapTemplateTest {
         sut = spy(AuthenticationManagerLdapTemplate.class);
 
         user.setLdapPassword(PASSWORD);
-        user.setExpiredPassword(Boolean.TRUE);
+        user.setPasswordExpired(Boolean.TRUE);
         user.setDn("dc=autentia,dc=com");
         user.setLdapName("user");
 
@@ -75,7 +75,7 @@ public class AuthenticationManagerLdapTemplateTest {
             AuthenticationManagerLdapImpl.log.error(e);
             throw e;
         }
-        user.setExpiredPassword(Boolean.FALSE);
+        user.setPasswordExpired(Boolean.FALSE);
         user.setLdapPassword(NEW_PASSWORD);
         assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
         assertThat(user.getLdapPassword(), is(NEW_PASSWORD));
@@ -85,7 +85,7 @@ public class AuthenticationManagerLdapTemplateTest {
     @Test(expected = NamingException.class)
     public void shouldThrowNamingExceptionWhenApplyUpdate() throws NamingException {
 
-        user.setExpiredPassword(Boolean.FALSE);
+        user.setPasswordExpired(Boolean.FALSE);
 
         doThrow(new NamingException()).when(dirContext).modifyAttributes(eq(user.getLdapName()),
                 any(ModificationItem[].class));
@@ -103,7 +103,7 @@ public class AuthenticationManagerLdapTemplateTest {
                 AuthenticationManagerLdapImpl.log.error(e);
                 throw e;
             }
-            user.setExpiredPassword(Boolean.FALSE);
+            user.setPasswordExpired(Boolean.FALSE);
             user.setLdapPassword(NEW_PASSWORD);
         } catch (NamingException e) {
             assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
@@ -123,7 +123,7 @@ public class AuthenticationManagerLdapTemplateTest {
         verify(sut).getTemplate(user);
         verify(sut).getCallback(user, NEW_PASSWORD);
         try {
-            verify(sut).applyUpdate(any(DirContext.class), eq(NEW_PASSWORD), eq(user));
+            verify(sut).changeLdapUserPassword(any(DirContext.class), eq(NEW_PASSWORD), eq(user));
         } catch (NamingException e) {
             e.printStackTrace();
             throw e;
