@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -458,6 +460,11 @@ public class ConfigurationUtil {
 
     public Boolean isLdapProviderEnabled() {
         return Boolean.valueOf(getProperty("ldapAuthentication", "false"));
+    }
+
+    public Collection<String> getMailSendToHolidayApprovers(){
+        final String mailSendTo = getProperty("mail.sendto.holiday.approvers", "admin@admin.com");
+        return Arrays.asList(mailSendTo.split(" "));
     }
 
 }
