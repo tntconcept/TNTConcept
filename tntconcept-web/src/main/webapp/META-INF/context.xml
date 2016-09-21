@@ -23,7 +23,7 @@ limitations under the License.
 
 
     <Manager pathname=""/>
-    <Environment name="TNTConceptConfigDir" type="java.lang.String" value="/Users/santiago/git/TNTConcept/src/main/install/config"/>
+    <Environment name="TNTConceptConfigDir" type="java.lang.String" value="/Users/dani/Developer/laboratory/vagrant/TNTConcept/src/main/install/config"/>
     <Resource name="jdbc/TNTConcept" auth="Container" type="javax.sql.DataSource"
               maxActive="100" maxIdle="30" maxWait="10000" driverClassName="com.mysql.jdbc.Driver"
               username="tntconcept" password="tntconcept"

@@ -41,7 +41,7 @@
             <h:graphicImage title="#{msg.entityActions_save}"  value="/img/save.gif" styleClass="titleImg" />
           </h:commandLink>
           <h:commandLink action="#{requestHolidayBean.delete}" onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
-            <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="titleImg" />
+            <h:graphicImage rendered="#{requestHolidayBean.deleteAvailable}" title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="titleImg" />
           </h:commandLink>
           <h:commandLink action="#{requestHolidayBean.list}" immediate="true">
             <h:graphicImage title="#{msg.entityActions_back}"  value="/img/back.gif" styleClass="titleImg" />
