@@ -541,44 +541,37 @@ public class CommissioningBean extends BaseBean {
 		}
 		return allValidationPassed;
 	}
-//	CGM Metodo erroneo No invocado. 
-// @TODO Borrar
-//	public String addCollaborator() {
-//
-//		final Collaborator collab = getSelectedCollaborator();
-//
-//		try {
-//			if (!commissioning.getCollaboratorsPaymentData().contains(collab)) 
-//			{
-//				CommissioningPaymentData newCollab = new CommissioningPaymentData();
-//	
-//				newCollab.setCollaborator(collab);
-//				newCollab.setCommissioning(commissioning);
-//				newCollab.setPaymentMode(BillPaymentMode.UNKNOWN);
-//				newCollab.setBillNumber("");
-//				newCollab.setBankAccount("");
-//	
-//				commissioning.getCollaboratorsPaymentData().add(newCollab);
-//	
-//				// Add to history if commissioning is in a valid STATUS
-//				if (commissioning.getStatus() == CommissioningStatus.CONFIRMED
-//						|| commissioning.getStatus() == CommissioningStatus.VALIDATED) {
-//					commissioning.getHistory().add(
-//							manager.getChange("commissioning.collaborator.add", "",
-//									newCollab.getCollaborator().getName(), commissioning));
-//				}
-//			}
-//		} catch (Exception e) {
-//			// no se hace nada, puesto que el error que se puede producir aqui es:
-//			//
-//			//			java.lang.ArrayStoreException
-//			//	        at java.lang.System.arraycopy(Native Method)
-//			//	        at java.util.ArrayList.toArray(ArrayList.java:304)
-//			//
-//			// este error no tiene impacto para el usuario
-//		}
-//		return NavigationResults.EDIT;
-//	}
+
+	public String addCollaborator() {
+
+		final Collaborator collab = getSelectedCollaborator();
+
+		try {
+			if (!commissioning.getCollaboratorsPaymentData().contains(collab))
+			{
+				CommissioningPaymentData newCollab = new CommissioningPaymentData();
+
+				newCollab.setCollaborator(collab);
+				newCollab.setCommissioning(commissioning);
+				newCollab.setPaymentMode(BillPaymentMode.UNKNOWN);
+				newCollab.setBillNumber("");
+				newCollab.setBankAccount("");
+
+				commissioning.getCollaboratorsPaymentData().add(newCollab);
+
+				// Add to history if commissioning is in a valid STATUS
+				if (commissioning.getStatus() == CommissioningStatus.CONFIRMED
+						|| commissioning.getStatus() == CommissioningStatus.VALIDATED) {
+					commissioning.getHistory().add(
+							manager.getChange("commissioning.collaborator.add", "",
+									newCollab.getCollaborator().getName(), commissioning));
+				}
+			}
+		} catch (Exception e) {
+			log.info(e.getCause());
+		}
+		return NavigationResults.EDIT;
+	}
 
 	// private List<String> commissioningPaymentDeletedName = new ArrayList<String>(0);
 	

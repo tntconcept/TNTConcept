@@ -91,7 +91,7 @@ public class AuthenticationManagerLdapImplTest {
         verify(authManagerLdapTemplate).changePassword(user, NEW_PASSWORD);
         verify(authManagerLdapTemplate).getTemplate(user);
         verify(authManagerLdapTemplate).getCallback(user, NEW_PASSWORD);
-        verify(authManagerLdapTemplate).applyUpdate(any(DirContext.class), eq(NEW_PASSWORD), eq(user));
+        verify(authManagerLdapTemplate).changeLdapUserPassword(any(DirContext.class), eq(NEW_PASSWORD), eq(user));
 
     }
 
@@ -107,7 +107,7 @@ public class AuthenticationManagerLdapImplTest {
         verify(authManagerLdapTemplate).changePassword(user, NEW_PASSWORD, userAdmin);
         verify(authManagerLdapTemplate).getTemplate(userAdmin);
         verify(authManagerLdapTemplate).getCallback(user, NEW_PASSWORD);
-        verify(authManagerLdapTemplate).applyUpdate(any(DirContext.class), eq(NEW_PASSWORD), eq(user));
+        verify(authManagerLdapTemplate).changeLdapUserPassword(any(DirContext.class), eq(NEW_PASSWORD), eq(user));
 
     }
 
@@ -128,9 +128,11 @@ public class AuthenticationManagerLdapImplTest {
 
         sut.resetPassword(user, RANDOM, RANDOM, RANDOM, RANDOM, RANDOM);
         verify(authManagerLdapTemplate).changePassword(user, randomPassword, userAdmin);
-        verify(authManagerLdapTemplate).getTemplate(userAdmin);
+        verify(authManagerLdapTemplate, times(2)).getTemplate(userAdmin);
         verify(authManagerLdapTemplate).getCallback(user, randomPassword);
-        verify(authManagerLdapTemplate).applyUpdate(any(DirContext.class), eq(randomPassword), eq(user));
+        verify(authManagerLdapTemplate).getCallback(user);
+        verify(authManagerLdapTemplate).changeLdapUserPassword(any(DirContext.class), eq(randomPassword), eq(user));
+        verify(authManagerLdapTemplate).setLdapUserPasswordResetFlag(any(DirContext.class), eq(user));
 
     }
 
@@ -145,7 +147,7 @@ public class AuthenticationManagerLdapImplTest {
     private User getUser() {
         User user = new User();
         user.setLdapPassword(PASSWORD);
-        user.setExpiredPassword(Boolean.TRUE);
+        user.setPasswordExpired(Boolean.TRUE);
         user.setDn("dc=autentia,dc=com");
         user.setLdapName("uid=user");
         user.setLogin("user");

@@ -139,6 +139,8 @@ public class User implements Serializable, ITransferObject {
 
     private String ldapName;
 
+    private Boolean resetPassword;
+
     // Setters and getters
 
     protected void setId(Integer id) {
@@ -590,7 +592,7 @@ public class User implements Serializable, ITransferObject {
         return (expireDate != null) && nowDate.after(expireDate);
     }
 
-    public void setExpiredPassword(Boolean expiredPassword) {
+    public void setPasswordExpired(Boolean expiredPassword) {
         this.expiredPassword = expiredPassword;
     }
 
@@ -650,5 +652,13 @@ public class User implements Serializable, ITransferObject {
 
     public String buildLdapName() {
         return "uid=" + login + ",ou=People";
+    }
+
+    public void setResetPassword(Boolean resetPassword) {
+        this.resetPassword = resetPassword;
+    }
+
+    public Boolean isResetPassword() {
+        return resetPassword;
     }
 }

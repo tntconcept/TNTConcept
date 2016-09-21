@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import com.autentia.tnt.mail.DefaultMailService;
 import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.tracking.EntityChange;
-import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
 
 public class TrackChangesMailService {

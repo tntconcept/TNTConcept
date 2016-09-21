@@ -7,7 +7,6 @@ import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
@@ -69,7 +68,7 @@ public class ChangePasswordBeanTest {
         sut.setPassword(NEW_PASSWORD);
         sut.setPasswordRepe(NEW_PASSWORD);
         sut.setPasswordOld(OLD_PASSWORD);
-        this.user.setExpiredPassword(true);
+        this.user.setPasswordExpired(true);
 
         final String result = sut.changePassword();
         assertThat(result, is(NavigationResults.CHANGE_PASSWORD_OK));

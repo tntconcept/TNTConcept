@@ -382,19 +382,4 @@ public class Contact extends TrackingBase implements Serializable,
 
 	public static final String FIELD_OWNERS = "contact.owners";
 	
-	
-	@Override
-	public void notifyChanges() {
-		if(this.getOwners()!=null && !this.getOwners().isEmpty()){
-			Collection<String> mailsTo = new HashSet<String>();
-			for(User owner:this.getOwners()){
-				if(owner.getEmail()!=null){
-					mailsTo.add(owner.getEmail());
-				}
-			}
-			TrackChangesMailService.getDefault().sendChangesMail(mailsTo, CHANGES_MAIL_KEY, this.getName(), this.getCurrentChanges().values());
-		}
-	}
-
-	
 }
