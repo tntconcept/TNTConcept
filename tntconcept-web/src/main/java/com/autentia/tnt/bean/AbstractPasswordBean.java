@@ -110,7 +110,7 @@ public abstract class AbstractPasswordBean extends BaseBean {
                             user.setPasswordExpireDate(expireDate); // Establecemos la nueva fecha de expiración
                             manager.updateEntity(user, false);
                         }
-                        if (isReset) {
+                        if ((isReset != null) && isReset) {
                             result = NavigationResults.RESET_PASSWORD_OK;
                         } else {
                             result = NavigationResults.CHANGE_PASSWORD_OK;

@@ -23,6 +23,7 @@ import com.autentia.tnt.util.SpringUtils;
 
 import java.util.*;
 import org.apache.commons.logging.*;
+import org.hibernate.Hibernate;
 
 /**
  * DAO for BulletinBoard objects.
@@ -61,7 +62,9 @@ public class AdminHolidayDAO extends HibernateManagerBase<AdminHoliday>
    * @throws DataAccException on error
    */
   public AdminHoliday getById( int id ) throws DataAccException {
-    return super.getByPk(AdminHoliday.class,id);
+      AdminHoliday holiday = super.getByPk(AdminHoliday.class,id);
+      Hibernate.initialize(holiday.getUserRequest());
+    return holiday;
   }
 
   /** 

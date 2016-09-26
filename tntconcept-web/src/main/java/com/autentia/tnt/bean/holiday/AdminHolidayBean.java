@@ -191,22 +191,23 @@ public class AdminHolidayBean extends BaseBean {
         // Calls an after save action
         String result = doAfterSave(NavigationResults.LIST);
 
+        sendEmail();
+
         // Unselect object
         adminHoliday = null;
 
-//        sendEmail();
 
         return result;
     }
 
-    // FIXME Review the values of user Request
     protected void sendEmail() {
         final DefaultMailService mailService = (DefaultMailService) SpringUtils.getSpringBean("mailService");
 
-        final Collection<String> mailSendToHolidayApprovers = ConfigurationUtil.getDefault().getMailSendToHolidayApprovers();
+        final Collection<String> mailNotificationReceivers = new ArrayList<String>(ConfigurationUtil.getDefault().getMailSendToHolidayApprovers());
+        mailNotificationReceivers.add(this.adminHoliday.getUserRequest().getEmail());
 
-        for (String sendTo : mailSendToHolidayApprovers) {
-            final String name = this.search.getUserRequest().getName();
+        for (String sendTo : mailNotificationReceivers) {
+            final String name = this.adminHoliday.getUserRequest().getName();
             String subject = "Solicitud de vacaciones de " + name + "["+ getState()+"]";
 
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy" +
