@@ -517,7 +517,7 @@ public class ActivityBean extends BaseBean {
 		}
 		
 		Collections.sort(ret, new OperacionesComparator());
-		if(ret.size() > 0) {
+		if((this.selectedOrganization == null) && (ret.size() > 0)) {
 			this.setSelectedOrganization((Organization) ret.get(0).getValue());
 		}
 		
