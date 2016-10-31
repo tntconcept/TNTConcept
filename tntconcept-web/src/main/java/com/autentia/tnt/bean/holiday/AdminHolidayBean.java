@@ -230,8 +230,8 @@ public class AdminHolidayBean extends BaseBean {
                     .concat(newLine);
             try {
                 mailService.sendHtml(sendTo, subject, messageBody);
-            } catch (MessagingException e) {
-                log.error(e.getCause());
+            } catch (Exception e) {
+                log.error("sendEmail", e);
             }
         }
     }

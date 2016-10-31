@@ -251,7 +251,7 @@ public class RequestHolidayBean extends BaseBean {
             try {
                 mailService.sendHtml(sendTo, subject, messageBody);
             } catch (MessagingException e) {
-                log.error(e.getCause());
+                log.error("Send mail", e);
             }
         }
     }
