@@ -59,13 +59,11 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT b.number,o.name,b.creationDate, max(bp.expirationDate) as expiration, COALESCE(sum(bb.amount*bb.units*(1 + (bb.iva/100))),0) as sumaTotal
-from Bill b, Organization o, Project p,BillBreakDown bb, BillPayment bp
-where b.projectId = p.id and p.organizationId = o.id and bb.billId=b.id and b.state='emitted' and b.billType='issued'
-and bp.billId = b.id
-and DATEDIFF(CURRENT_DATE, (select max(bp.expirationDate) from BillPayment bp where bp.billId = b.id)) > 0
-group by b.id
-order by creationDate desc, expiration desc, sumaTotal desc]]></queryString>
+	<queryString><![CDATA[SELECT b.number,o.name,b.creationDate,bp.expirationDate as expiration, bb.amount*bb.units*(1+(bb.iva/100)) as sumaTotal
+	from Bill b, Organization o, Project p,BillBreakDown bb, 
+	(select bp.billId, max(bp.expirationDate) as expirationDate from BillPayment bp where DATEDIFF(CURRENT_DATE , bp.expirationDate) > 0 group by bp.billId) bp
+	where b.projectId = p.id and p.organizationId = o.id and bb.billId=b.id and bp.billId = b.id and b.state='emitted' and b.billType='issued'
+	order by creationDate desc, expiration desc, sumaTotal desc]]></queryString>
 
 	<field name="number" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>

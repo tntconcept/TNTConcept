@@ -669,6 +669,8 @@ padding: 2px 2px 1em 2px;
 }
 .titleImg {
 border: 0;
+margin: 5px;
+
 }
 /** Command cell styles */
 .cmdImg {

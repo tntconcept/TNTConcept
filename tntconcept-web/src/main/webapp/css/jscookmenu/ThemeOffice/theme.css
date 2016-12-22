@@ -86,14 +86,14 @@
 
 .ThemeOfficeMainItem
 {
-	padding:	1px;
+	padding:	5px;
 	border:		0;
 }
 
 td.ThemeOfficeMainItemHover,td.ThemeOfficeMainItemActive
 {
-	padding:	0px;
-	border:		1px solid #FFFFFF;
+	padding:	5px;
+	border:		0px solid #FFFFFF;
 }
 
 .ThemeOfficeMainFolderLeft,.ThemeOfficeMainItemLeft,

@@ -25,7 +25,7 @@
 	<h:column>
 		<f:verbatim>
 			<a href="<%=request.getContextPath()%>/pages/control_panel.jsf"><img
-				src="<%=request.getContextPath()%>/img/home.png"></a>
+				src="<%=request.getContextPath()%>/img/home.png" class="titleImg"></a>
 		</f:verbatim>
 	</h:column>
 	<h:column></h:column>
