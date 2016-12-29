@@ -20,3 +20,7 @@ tntconcept-core/.gitignore
 tntconcept-test/bin/.gitignore
 tntconcept-web-tomcat/bin/.gitignore
 tntconcept-web/.gitignore
+
+# Ficheros de configuracion
+src/main/install/config/autentia.properties
+tntconcept-web/src/main/webapp/META-INF/context.xml
