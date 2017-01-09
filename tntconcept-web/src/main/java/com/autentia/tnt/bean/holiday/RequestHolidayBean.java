@@ -248,11 +248,8 @@ public class RequestHolidayBean extends BaseBean {
                     .concat("Comentarios: ")
                     .concat(this.requestHoliday.getUserComment())
                     .concat(newLine);
-            try {
+            
                 mailService.sendHtml(sendTo, subject, messageBody);
-            } catch (MessagingException e) {
-                log.error("Send mail", e);
-            }
         }
     }
 

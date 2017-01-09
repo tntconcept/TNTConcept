@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Semaphore;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -44,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.autentia.tnt.util.ConfigurationUtil;
 
-public class DefaultMailService implements MailService {
+public class DefaultMailService implements MailService,Runnable {
 
     private static final Log log = LogFactory.getLog(DefaultMailService.class);
 
@@ -54,6 +55,8 @@ public class DefaultMailService implements MailService {
 
     private final ConfigurationUtil configurationUtil;
 
+	private String to, subject, text;
+	 private final Semaphore mutex = new Semaphore(1);
 
     public DefaultMailService(ConfigurationUtil configurationUtil) {
         super();
@@ -161,21 +164,51 @@ public class DefaultMailService implements MailService {
         sendFiles(to, subject, text, null);
     }
 
-    public void sendHtml(String to, String subject, String text) throws MessagingException {
+    
+	public void setHtmlData(String to, String subject, String text) {
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		this.to = to;
+		this.subject = subject;
+		this.text = text;
+	}
 
-        MimeMessage message = new MimeMessage(session);
-        Transport t = session.getTransport("smtp");
+	public void run() {
 
-        message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        message.setSubject(subject);
-        message.setSentDate(new Date());
-        message.setContent(text, "text/html; charset=utf-8");
+		String particularTo = to;
+		String particularSubject = subject;
+		String particularText = text;
+		mutex.release();
+		
+		try {
 
-        t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
+			MimeMessage message = new MimeMessage(session);
+			Transport t = session.getTransport("smtp");
 
-        t.sendMessage(message, message.getAllRecipients());
-        t.close();
-    }
+			message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(particularTo));
+			message.setSubject(particularSubject);
+			message.setSentDate(new Date());
+			message.setContent(particularText, "text/html; charset=utf-8");
+
+			t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
+
+			t.sendMessage(message, message.getAllRecipients());
+			t.close();
+
+		} catch (MessagingException e) {
+			log.error("Send mail", e);
+		}
+	}
+
+	public void sendHtml(String to, String subject, String text) {
+
+		setHtmlData(to, subject, text);
+		new Thread(this).start();
+	}
+
 
 }

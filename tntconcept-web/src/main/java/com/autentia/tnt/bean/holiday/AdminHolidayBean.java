@@ -209,7 +209,6 @@ public class AdminHolidayBean extends BaseBean {
         for (String sendTo : mailNotificationReceivers) {
             final String name = this.adminHoliday.getUserRequest().getName();
             String subject = "Solicitud de vacaciones de " + name + "["+ getState()+"]";
-
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy" +
                     "");
             final String beginDate = dateFormat.format(this.adminHoliday.getBeginDate());
@@ -228,11 +227,8 @@ public class AdminHolidayBean extends BaseBean {
                     .concat("Comentarios: ")
                     .concat(this.adminHoliday.getUserComment())
                     .concat(newLine);
-            try {
+
                 mailService.sendHtml(sendTo, subject, messageBody);
-            } catch (Exception e) {
-                log.error("sendEmail", e);
-            }
         }
     }
 
