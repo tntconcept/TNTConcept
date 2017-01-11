@@ -58,7 +58,14 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[1]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select serialNumber,type,provider,trademark,model from inventory]]></queryString>
+
+
+	<parameter name="MODEL" isForPrompting="true" class="java.lang.String">
+		<parameterDescription><![CDATA[MODEL]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+
+	<queryString><![CDATA[select serialNumber,type,provider,trademark,model from inventory where model like $P{MODEL}]]></queryString>
 
 	<field name="serialNumber" class="java.lang.String"/>
 	<field name="type" class="java.lang.String"/>

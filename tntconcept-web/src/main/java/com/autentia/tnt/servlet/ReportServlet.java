@@ -311,6 +311,11 @@ public class ReportServlet extends HttpServlet {
 					obj = destino;
 				}
 			}
+
+			if (obj.equals("all")){
+				obj = "%";
+			}
+			
 			args.put(arg, obj);
 		}
 

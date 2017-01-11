@@ -169,6 +169,8 @@ public final class ReportUtil {
 					} else if (desc.equals("ROL")) {
 						showRol = true;
 						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("roles"));
+					} else if (desc.equals("MODEL")) {
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("models"));
 					} else if (desc.equals("ORGANIZATION")) {
 						pdef = new ReportParameterDefinition(name, "selectMany", name, dataPanel.get("orgs"));
 					} else if (desc.equals("PROJECTS")) {

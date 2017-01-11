@@ -34,12 +34,14 @@ import org.springframework.util.CollectionUtils;
 
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.businessobject.Account;
+import com.autentia.tnt.businessobject.Inventary;
 import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.businessobject.ProjectRole;
 import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.AccountDAO;
+import com.autentia.tnt.dao.hibernate.InventaryDAO;
 import com.autentia.tnt.dao.hibernate.OrganizationDAO;
 import com.autentia.tnt.dao.hibernate.ProjectDAO;
 import com.autentia.tnt.dao.hibernate.ProjectRoleDAO;
@@ -66,7 +68,8 @@ public abstract class ReportBean extends BaseBean {
 	private static final UserDAO userDAO = new UserDAO();
 	private static final ProjectRoleDAO projectRoleDAO = new ProjectRoleDAO();
 	private static final AccountDAO accountDAO = new AccountDAO();
-
+	private static final InventaryDAO inventoryDAO = new InventaryDAO();
+	
 	private String selectedReport = null;
 	private Organization selectedOrganization = null;
 	private Project selectedProject = null;
@@ -94,11 +97,13 @@ public abstract class ReportBean extends BaseBean {
 		dataPanels.put("roles", getRoles());
 		dataPanels.put("years", getYears());
 		dataPanels.put("accounts", getAccounts());
+		dataPanels.put("models", getModels());
 	}
 	
 	public void run() {
 		parameters = new StringBuffer();
 		selectMany = new StringBuffer();
+		
 		ReportUtil.createRunParameters(reportParametersDefinitions, parameters,
 				selectMany);
 		setLaunch(true);
@@ -156,7 +161,6 @@ public abstract class ReportBean extends BaseBean {
 		reportParametersDefinitions = new ArrayList<ReportParameterDefinition>();
 		
 		for (List reportsData : listReports) {
-
 			// En el 0 esta el nombre
 			if (reportsData.get(0).toString().equalsIgnoreCase(selectedReport)) {
 
@@ -217,6 +221,18 @@ public abstract class ReportBean extends BaseBean {
 		return ret;
 	}
 
+	public ArrayList<SelectItem> getModels() {
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		List<Inventary> refs = inventoryDAO.search(new SortCriteria("model"));
+		for (Inventary ref : refs) {
+			ret.add(new SelectItem(ref.getModel(), ref.getModel()));
+		}
+		
+		ret.add(new SelectItem("all", "-"));
+		
+		return ret;
+	}
+	
 	public ArrayList<SelectItem> getOrganizations() {
 		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
 		List<Organization> refs = organizationDAO.search(new SortCriteria("name"));
