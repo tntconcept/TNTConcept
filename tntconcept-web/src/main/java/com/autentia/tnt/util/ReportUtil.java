@@ -171,6 +171,12 @@ public final class ReportUtil {
 						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("roles"));
 					} else if (desc.equals("MODEL")) {
 						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("models"));
+					} else if (desc.equals("TRADEMARK")) {
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("trademarks"));
+					} else if (desc.equals("PROVIDER")) {
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("providers"));
+					} else if (desc.equals("TYPE")) {
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("types"));
 					} else if (desc.equals("ORGANIZATION")) {
 						pdef = new ReportParameterDefinition(name, "selectMany", name, dataPanel.get("orgs"));
 					} else if (desc.equals("PROJECTS")) {
@@ -273,5 +279,41 @@ public final class ReportUtil {
 
 	public static URL getReportCompiledUrl(String reportName) {
 		return getReportStream(reportName, ReportUtil.REPORT_SUFFIX, true);
+	}
+	
+	public static List<SelectItem> removeDuplicates (List<SelectItem> list) {
+		
+		List<SelectItem> aux = new ArrayList<SelectItem>(); 
+		
+		for (SelectItem si : list) {
+			
+			if (!contains(aux,si)) {
+				
+				aux.add(si);
+			}
+		}
+		
+		return aux;
+	}
+	
+	private static boolean itemEqualIfLabelEqual (SelectItem si1, SelectItem si2) {
+		
+		return si1.getLabel().equals(si2.getLabel());
+	}
+	
+	private static boolean contains (List<SelectItem> list, SelectItem si) {
+		
+		boolean flag = false;
+		
+		for (SelectItem iterator : list) {
+			
+			if (itemEqualIfLabelEqual(iterator, si)) {
+				
+				flag = true;
+				break;
+			}
+		}
+		
+		return flag;
 	}
 }

@@ -312,7 +312,7 @@ public class ReportServlet extends HttpServlet {
 				}
 			}
 
-			if (obj.equals("all")){
+			if (obj.equals("allItemsSelected")){
 				obj = "%";
 			}
 			

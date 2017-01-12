@@ -98,6 +98,9 @@ public abstract class ReportBean extends BaseBean {
 		dataPanels.put("years", getYears());
 		dataPanels.put("accounts", getAccounts());
 		dataPanels.put("models", getModels());
+		dataPanels.put("trademarks", getTrademark());
+		dataPanels.put("providers", getProvider());
+		dataPanels.put("types", getTypes());
 	}
 	
 	public void run() {
@@ -223,13 +226,45 @@ public abstract class ReportBean extends BaseBean {
 
 	public ArrayList<SelectItem> getModels() {
 		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		ret.add(new SelectItem("allItemsSelected", "-"));
 		List<Inventary> refs = inventoryDAO.search(new SortCriteria("model"));
 		for (Inventary ref : refs) {
 			ret.add(new SelectItem(ref.getModel(), ref.getModel()));
 		}
-		
-		ret.add(new SelectItem("all", "-"));
-		
+		ret = (ArrayList<SelectItem>) ReportUtil.removeDuplicates(ret);
+		return ret;
+	}
+	
+	public ArrayList<SelectItem> getTrademark() {
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		ret.add(new SelectItem("allItemsSelected", "-"));
+		List<Inventary> refs = inventoryDAO.search(new SortCriteria("trademark"));
+		for (Inventary ref : refs) {
+			ret.add(new SelectItem(ref.getTrademark(), ref.getTrademark()));
+		}
+		ret = (ArrayList<SelectItem>) ReportUtil.removeDuplicates(ret);
+		return ret;
+	}
+	
+	public ArrayList<SelectItem> getProvider() {
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		ret.add(new SelectItem("allItemsSelected", "-"));
+		List<Inventary> refs = inventoryDAO.search(new SortCriteria("provider"));
+		for (Inventary ref : refs) {
+			ret.add(new SelectItem(ref.getProvider(), ref.getProvider()));
+		}
+		ret = (ArrayList<SelectItem>) ReportUtil.removeDuplicates(ret);
+		return ret;
+	}
+	
+	public ArrayList<SelectItem> getTypes() {
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		ret.add(new SelectItem("allItemsSelected", "-"));
+		List<Inventary> refs = inventoryDAO.search(new SortCriteria("type"));
+		for (Inventary ref : refs) {
+			ret.add(new SelectItem(ref.getType().toString(), ref.getType().toString()));
+		}
+		ret = (ArrayList<SelectItem>) ReportUtil.removeDuplicates(ret);
 		return ret;
 	}
 	

@@ -60,12 +60,27 @@
 	</parameter>
 
 
-	<parameter name="MODEL" isForPrompting="true" class="java.lang.String">
+	<parameter name="modelo" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[MODEL]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["%"]]></defaultValueExpression>
 	</parameter>
 
-	<queryString><![CDATA[select serialNumber,type,provider,trademark,model from inventory where model like $P{MODEL}]]></queryString>
+	<parameter name="marca" isForPrompting="true" class="java.lang.String">
+		<parameterDescription><![CDATA[TRADEMARK]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+
+	<parameter name="proveedor" isForPrompting="true" class="java.lang.String">
+		<parameterDescription><![CDATA[PROVIDER]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+
+	<parameter name="tipo" isForPrompting="true" class="java.lang.String">
+		<parameterDescription><![CDATA[TYPE]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+
+	<queryString><![CDATA[select serialNumber,type,provider,trademark,model from inventory where model like $P{modelo} and trademark like $P{marca} and provider like $P{proveedor} and type like $P{tipo}]]></queryString>
 
 	<field name="serialNumber" class="java.lang.String"/>
 	<field name="type" class="java.lang.String"/>
