@@ -59,21 +59,21 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT b.number,o.name,b.creationDate,bp.expirationDate as expiration, bb.amount*bb.units*(1+(bb.iva/100)) as sumaTotal
-	from Bill b, Organization o, Project p,BillBreakDown bb, 
-	(select bp.billId, max(bp.expirationDate) as expirationDate from BillPayment bp where DATEDIFF(CURRENT_DATE , bp.expirationDate) > 0 group by bp.billId) bp
-	where b.projectId = p.id and p.organizationId = o.id and bb.billId=b.id and bp.billId = b.id and b.state='emitted' and b.billType='issued'
-	order by creationDate desc, expiration desc, sumaTotal desc]]></queryString>
+	<queryString><![CDATA[select b.number,o.name,b.creationDate,bp.expirationDate as expiration, bb.amount*bb.units*(1+(bb.iva/100)) as sumaTotal, bb.amount*bb.units*(1+(bb.iva/100)) - IFNULL(paid.paid,0) as cantidadPorPagar from Bill b  left join   (select billId, sum(amount) as paid from accountentry ae join bill_accountentry ba on ba.accountentryId=ae.id group by billId) paid  on b.id = paid.billId    , Organization o, Project p,BillBreakDown bb,  (select bp.billId, max(bp.expirationDate) as expirationDate from BillPayment bp where DATEDIFF(CURRENT_DATE , bp.expirationDate) > 0 group by bp.billId) bp where b.projectId = p.id and p.organizationId = o.id and bb.billId=b.id and bp.billId = b.id and b.state='emitted' and b.billType='issued' order by creationDate desc, expiration desc, sumaTotal desc]]></queryString>
 
 	<field name="number" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="expiration" class="java.sql.Date"/>
 	<field name="sumaTotal" class="java.math.BigDecimal"/>
+	<field name="cantidadPorPagar" class="java.math.BigDecimal"/>
 
 	<variable name="sumaTotal" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{sumaTotal}]]></variableExpression>
 	</variable>
+	<variable name="cantidadPorPagar" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidadPorPagar}]]></variableExpression>
+	</variable>	
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -151,7 +151,7 @@
 					<reportElement
 						x="4"
 						y="2"
-						width="460"
+						width="490"
 						height="14"
 						backcolor="#CCCCFF"
 						key="rectangle-1"/>
@@ -159,7 +159,7 @@
 				</rectangle>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="100"
+						x="70"
 						y="4"
 						width="86"
 						height="10"
@@ -172,7 +172,7 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="192"
+						x="162"
 						y="4"
 						width="82"
 						height="10"
@@ -181,13 +181,13 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.facturas.recibidas.impagadas.text8}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.facturas.vencidas.impagadas.text2}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="367"
+						x="337"
 						y="4"
-						width="66"
+						width="60"
 						height="10"
 						key="staticText-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -198,7 +198,20 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="279"
+						x="397"
+						y="4"
+						width="93"
+						height="10"
+						key="staticText-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.facturas.vencidas.impagadas.text1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="249"
 						y="4"
 						width="85"
 						height="10"
@@ -211,9 +224,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="30"
+						x="10"
 						y="4"
-						width="66"
+						width="56"
 						height="12"
 						key="staticText-14"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -228,9 +241,9 @@
 			<band height="22"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="30"
+						x="10"
 						y="5"
-						width="66"
+						width="56"
 						height="12"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -241,7 +254,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="191"
+						x="162"
 						y="5"
 						width="82"
 						height="12"
@@ -254,9 +267,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="366"
+						x="337"
 						y="5"
-						width="66"
+						width="60"
 						height="12"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -265,9 +278,22 @@
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{sumaTotal}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="397"
+						y="5"
+						width="93"
+						height="12"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{cantidadPorPagar}]]></textFieldExpression>
+				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="101"
+						x="70"
 						y="5"
 						width="86"
 						height="12"
@@ -280,9 +306,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="280"
+						x="249"
 						y="5"
-						width="82"
+						width="85"
 						height="12"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -295,7 +321,7 @@
 					<reportElement
 						x="9"
 						y="21"
-						width="450"
+						width="480"
 						height="0"
 						forecolor="#CCCCCC"
 						key="line-7"
