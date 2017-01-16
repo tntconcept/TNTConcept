@@ -393,7 +393,7 @@
 		</plugins>
 	</reporting>
 
-	<distributionManagement>
+<!--	<distributionManagement>
 		<site>
 			<id>tntconcept-site</id>
 			<name>TnTConcept Maven Site</name>
@@ -404,7 +404,7 @@
 			<name>TnTConcept Maven Repository</name>
 			<url>${tnt.mvn.repo}</url>
 		</repository>
-	</distributionManagement>
+	</distributionManagement> -->
 
 	<dependencyManagement>
         <dependencies>
