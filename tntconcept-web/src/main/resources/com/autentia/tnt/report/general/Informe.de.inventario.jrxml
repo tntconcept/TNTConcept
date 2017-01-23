@@ -80,7 +80,7 @@
 		<defaultValueExpression ><![CDATA["%"]]></defaultValueExpression>
 	</parameter>
 
-	<queryString><![CDATA[select serialNumber,type,provider,trademark,model from inventory where model like $P{modelo} and trademark like $P{marca} and provider like $P{proveedor} and type like $P{tipo}]]></queryString>
+	<queryString><![CDATA[select serialNumber,type,provider,trademark,model from Inventory where model like $P{modelo} and trademark like $P{marca} and provider like $P{proveedor} and type like $P{tipo} order by model, trademark, provider, type]]></queryString>
 
 	<field name="serialNumber" class="java.lang.String"/>
 	<field name="type" class="java.lang.String"/>
