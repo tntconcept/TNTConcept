@@ -109,7 +109,7 @@ public final class ReportUtil {
 		return new ByteArrayInputStream(os.toByteArray());
 	}
 
-	public static void createRunParameters(List<ReportParameterDefinition> reportParametersDefinitions, StringBuffer parameters, StringBuffer selectMany) {
+	public static StringBuffer createRunParameters(List<ReportParameterDefinition> reportParametersDefinitions, StringBuffer parameters, StringBuffer selectMany) {
 		parameters.append("?");
 		if (reportParametersDefinitions != null){
 			for (ReportParameterDefinition definition : reportParametersDefinitions) {
@@ -141,6 +141,12 @@ public final class ReportUtil {
 				}
 			}
 		}
+		return replaceSpecialCharactersWithUrlEncode (parameters);
+	}
+	
+	private static StringBuffer replaceSpecialCharactersWithUrlEncode (StringBuffer a) {
+		
+		return new StringBuffer(a.toString().replaceAll("\"", "%22"));
 	}
 
 	

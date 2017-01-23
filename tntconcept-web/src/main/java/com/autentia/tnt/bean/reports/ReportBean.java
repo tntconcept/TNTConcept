@@ -107,7 +107,7 @@ public abstract class ReportBean extends BaseBean {
 		parameters = new StringBuffer();
 		selectMany = new StringBuffer();
 		
-		ReportUtil.createRunParameters(reportParametersDefinitions, parameters,
+		parameters = ReportUtil.createRunParameters(reportParametersDefinitions, parameters,
 				selectMany);
 		setLaunch(true);
 		return;
