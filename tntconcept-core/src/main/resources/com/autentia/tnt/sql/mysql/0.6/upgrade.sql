@@ -15,6 +15,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+-- Update table Activity to change startTime dataType
+ALTER TABLE `Activity` MODIFY `startDate` DATETIME DEFAULT '2000-01-01 00:00:00';
+
 
 -- Adding a new field to store a customizable id for this type
 ALTER TABLE `AccountEntryType` ADD COLUMN customizableId int null;

@@ -14,18 +14,9 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-
-
--- ----------------------------------------------------------------------------
--- Activity
--- ----------------------------------------------------------------------------
-
--- Update table Activity to change startDate dataType
-ALTER TABLE `Activity` MODIFY COLUMN `startDate` DATETIME;
-
 -- -----------------------------------------------------------------------------
 -- Version
 -- -----------------------------------------------------------------------------
-
+--
 -- Update version number
 update Version set version='0.28';
