@@ -19,7 +19,7 @@
 	
 		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
-		<compileSource>1.5</compileSource>
+		<compileSource>1.8</compileSource>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
