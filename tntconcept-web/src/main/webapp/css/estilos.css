@@ -15,6 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+.detailForm{
+	
+	display: flex;
+	
+}
+.detailForm > img{
+	
+	max-width: 250px;
+	max-height: 138px;
+}
+.editForm{
+	margin-right: 200px;
+	text-align:right;
+}
+.editForm > img{
+	position: absolute;
+	max-width: 250px;
+	max-height: 138px;
+	margin-top: 750px;
+}
+
 .barranavega1 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
@@ -695,3 +716,4 @@ background-color: #DBD8D1;
 #expirePassword a {
 	text-decoration: underline;
 }
+

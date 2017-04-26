@@ -60,7 +60,7 @@
         <table class="editTable" cellpadding="0" cellspacing="0">
 		
 		<%-- Field: photo --%>
-    <div style="margin: 5pt;position: absolute;right: 250px;top: 100px;">
+    <div class="editForm">
         	<i:img type="user" objectId="${userBean.id}" file="${userBean.photo}"/>
        
     </div>

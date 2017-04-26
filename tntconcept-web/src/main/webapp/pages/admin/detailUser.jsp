@@ -51,12 +51,12 @@
 
 
         <%-- Detail form --%>
+        <div class="detailForm" >
         <table class="detailTable" cellpadding="0" cellspacing="0">
 
-          <div style="margin: 5pt;position: absolute;left: 450px;top: 15px;">
         	<i:img type="user" objectId="${userBean.id}" file="${userBean.photo}"/>
        
-    </div>  
+     
   
       <%-- Ignored field: id --%>
   
@@ -559,6 +559,7 @@
     </tr>
        </c:if>                                 
         </table>
+        </div>
 
       </h:form>
     </f:view>
