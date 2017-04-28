@@ -74,23 +74,23 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["subinforme_ivaGlobalRecibidas"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_CONCEPTOS" isForPrompting="false" class="java.lang.String">
+	<parameter name="SUBREPORT_CONCEPTOS7" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["subinforme_conceptos"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["subinforme_conceptos7"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT bb.concept as concepto,b.id as billId, case b.state when 'PAID' then 'Pagada'
+	<queryString><![CDATA[SELECT bb.concept as concepto,b.id as billId,o.cif as CIF, case b.state when 'PAID' then 'Pagada'
                     when 'EMITTED' then 'Emitida'
                     when 'IN_CREDITTITLE' then 'En pagare'
                     end as estado,b.number,o.name,b.creationDate
-	,sum((bb.units*bb.amount)) as baseImponible, sum((bb.units*bb.amount)*((bb.iva/100))) as iva, 
+	,sum((bb.units*bb.amount)) as baseImponible, sum((bb.units*bb.amount)*((bb.iva/100))) as iva,
 	sum((bb.units*bb.amount)*(1+(bb.iva/100))) as sumaFactura, bb.iva as percent
 from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o
 where b.billType='recieved'
 and bb.billId=b.id and b.providerId = o.id
-and b.creationDate between $P{Fecha inicio} and $P{Fecha fin} 
+and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 group by number
 order by number asc, b.creationDate asc]]></queryString>
 
@@ -99,6 +99,7 @@ order by number asc, b.creationDate asc]]></queryString>
 	<field name="estado" class="java.lang.String"/>
 	<field name="number" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
+  <field name="CIF" class="java.lang.String"/>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
@@ -304,9 +305,22 @@ order by number asc, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text1}]]></textFieldExpression>
 				</textField>
+        <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+          <reportElement
+            x="206"
+            y="2"
+            width="25"
+            height="17"
+            key="staticText-5"/>
+          <box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+          <textElement textAlignment="Center" verticalAlignment="Middle">
+            <font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
+          </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text14}]]></textFieldExpression>
+        </textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="358"
+						x="343"
 						y="2"
 						width="50"
 						height="17"
@@ -319,9 +333,9 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="557"
+						x="524"
 						y="2"
-						width="55"
+						width="50"
 						height="17"
 						key="staticText-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -345,9 +359,9 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="612"
+						x="575"
 						y="2"
-						width="55"
+						width="65"
 						height="17"
 						key="staticText-19"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -358,9 +372,9 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="667"
+						x="640"
 						y="2"
-						width="112"
+						width="140"
 						height="17"
 						key="staticText-22"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -371,7 +385,7 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="408"
+						x="394"
 						y="2"
 						width="55"
 						height="17"
@@ -384,7 +398,7 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="502"
+						x="477"
 						y="2"
 						width="55"
 						height="17"
@@ -397,9 +411,9 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="206"
+						x="232"
 						y="2"
-						width="151"
+						width="120"
 						height="17"
 						key="staticText-25"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -410,7 +424,7 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="463"
+						x="450"
 						y="2"
 						width="39"
 						height="17"
@@ -442,14 +456,27 @@ order by number asc, b.creationDate asc]]></queryString>
 					<reportElement
 						x="81"
 						y="1"
-						width="697"
+						width="125"
+						height="13"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+        <textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="207"
+						y="1"
+						width="500"
 						height="13"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left" verticalAlignment="Bottom">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{CIF}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -464,16 +491,16 @@ order by number asc, b.creationDate asc]]></queryString>
 				</line>
 				<subreport  isUsingCache="true">
 					<reportElement
-						x="1"
+						x="47"
 						y="22"
-						width="778"
+						width="568"
 						height="15"
 						key="subreport-7"/>
 					<subreportParameter  name="billId">
 						<subreportParameterExpression><![CDATA[$F{billId}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_CONCEPTOS}]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_CONCEPTOS7}]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>

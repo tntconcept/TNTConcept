@@ -78,17 +78,17 @@
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
-	
-	<queryString><![CDATA[SELECT o.name as concepto,b.id as billId, case b.state when 'PAID' then 'Pagada'
+
+	<queryString><![CDATA[SELECT o.name as concepto,o.cif as CIF,b.id as billId, case b.state when 'PAID' then 'Pagada'
                     when 'EMITTED' then 'Emitida'
                     when 'IN_CREDITTITLE' then 'En pagare'
                     end as estado,b.number,o.name,b.creationDate
-	,sum((bb.units*bb.amount)) as baseImponible, sum((bb.units*bb.amount)*((bb.iva/100))) as iva, 
-	sum((bb.units*bb.amount)*(1+(bb.iva/100))) as sumaFactura from Bill b left join BillBreakDown bb on b.id=bb.billId, 
+	,sum((bb.units*bb.amount)) as baseImponible, sum((bb.units*bb.amount)*((bb.iva/100))) as iva,
+	sum((bb.units*bb.amount)*(1+(bb.iva/100))) as sumaFactura from Bill b left join BillBreakDown bb on b.id=bb.billId,
 	Organization o, Project p
 where b.projectId = p.id and p.organizationId = o.id
 and b.billType='issued'
-and b.creationDate between $P{Fecha inicio} and $P{Fecha fin} 
+and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 group by b.id
 order by b.number, b.creationDate asc]]></queryString>
 
@@ -97,6 +97,7 @@ order by b.number, b.creationDate asc]]></queryString>
 	<field name="estado" class="java.lang.String"/>
 	<field name="number" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
+  <field name="CIF" class="java.lang.String"/>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
@@ -304,13 +305,13 @@ order by b.number, b.creationDate asc]]></queryString>
 				</rectangle>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="37"
+						x="65"
 						y="15"
-						width="105"
+						width="77"
 						height="17"
 						key="staticText-5"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="5" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.emitidas.text1}]]></textFieldExpression>
@@ -366,6 +367,19 @@ order by b.number, b.creationDate asc]]></queryString>
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="5" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.emitidas.text5}]]></textFieldExpression>
+				</textField>
+        <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="38"
+						y="15"
+						width="35"
+						height="17"
+						key="staticText-14"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="5" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.emitidas.text13}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -448,7 +462,7 @@ order by b.number, b.creationDate asc]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="24"  isSplitAllowed="true" >
+			<band height="20"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="1"
@@ -462,6 +476,19 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{number}]]></textFieldExpression>
 				</textField>
+        <textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+          <reportElement
+            x="38"
+            y="2"
+            width="36"
+            height="17"
+            key="textField"/>
+          <box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+          <textElement textAlignment="Center" verticalAlignment="Middle">
+            <font fontName="Verdana" size="6"/>
+          </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[$F{CIF}]]></textFieldExpression>
+        </textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="142"
@@ -475,7 +502,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{creationDate}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="304"
 						y="2"
@@ -491,9 +518,9 @@ order by b.number, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="37"
+						x="73"
 						y="2"
-						width="105"
+						width="69"
 						height="17"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -544,7 +571,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					<returnValue subreportVariable="sumaAsientos" toVariable="sumaParcial"/>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_C}]]></subreportExpression>
 				</subreport>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="180"
 						y="2"
@@ -558,7 +585,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{baseImponible}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="256"
 						y="2"
@@ -778,7 +805,7 @@ order by b.number, b.creationDate asc]]></queryString>
 						key="rectangle-3"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
-				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="Â¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="448"
 						y="92"
@@ -800,7 +827,7 @@ order by b.number, b.creationDate asc]]></queryString>
 						key="rectangle-4"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
-				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="Â¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="447"
 						y="108"
@@ -813,7 +840,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumaTotal}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="447"
 						y="75"
