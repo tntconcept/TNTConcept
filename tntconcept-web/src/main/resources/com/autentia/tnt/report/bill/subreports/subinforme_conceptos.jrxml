@@ -92,7 +92,7 @@ group by bb.id]]></queryString>
 			<band height="14"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="357"
+						x="300"
 						y="0"
 						width="50"
 						height="13"
@@ -174,7 +174,7 @@ group by bb.id]]></queryString>
 					<reportElement
 						x="205"
 						y="0"
-						width="152"
+						width="70"
 						height="13"
 						key="textField-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
