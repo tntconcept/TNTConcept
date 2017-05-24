@@ -20,8 +20,8 @@ limitations under the License.
 
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
-
-
+    
+	<!-- None of this configuration will be used if you have configured your TOMCAT_DIRECTORY/conf/context.xml -->
     <Manager pathname=""/>
     <Environment name="TNTConceptConfigDir" type="java.lang.String" value="/etc/tntconcept"/>
     <Resource name="jdbc/TNTConcept" auth="Container" type="javax.sql.DataSource"
