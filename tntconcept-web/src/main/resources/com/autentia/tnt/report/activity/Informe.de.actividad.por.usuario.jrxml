@@ -436,11 +436,11 @@
 					<reportElement
 						x="424"
 						y="4"
-						width="416"
+						width="348"
 						height="12"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Left">
+					<textElement textAlignment="Justified">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
