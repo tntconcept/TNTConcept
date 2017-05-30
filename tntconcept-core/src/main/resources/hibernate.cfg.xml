@@ -23,7 +23,7 @@
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-  <session-factory name="java:comp/env/hibernate/SessionFactory">
+  <session-factory>
     
     <!-- DataSource to use -->
     <property name="connection.datasource">java:comp/env/jdbc/TNTConcept</property>

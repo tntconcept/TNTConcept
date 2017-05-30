@@ -1,18 +1,10 @@
 /**
- * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
- * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L. Copyright (C) 2007 Autentia Real Bussiness
+ * Solution S.L. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either version 3 of the License. This program is distributed
+ * in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of
+ * the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.autentia.tnt.manager.report;
@@ -41,39 +33,59 @@ import com.autentia.tnt.xml.ParameterReport;
 
 /**
  * @author cris
- * 
  */
 public class ReportManager implements ContentHandler {
 
-	private static final String	COM_AUTENTIA_TNT_REPORT_OFFER	= "com/autentia/tnt/report/offer";
-	private static final String	COM_AUTENTIA_TNT_REPORT_ORGANIZATION	= "com/autentia/tnt/report/organization";
-	private static final String	COM_AUTENTIA_TNT_REPORT_INTERACTION	= "com/autentia/tnt/report/interaction";
-	private static final String	COM_AUTENTIA_TNT_REPORT_PROJECT	= "com/autentia/tnt/report/project";
-	private static final String	COM_AUTENTIA_TNT_REPORT_BILL	= "com/autentia/tnt/report/bill";
-	private static final String	COM_AUTENTIA_TNT_REPORT_ACTIVITY	= "com/autentia/tnt/report/activity";
-	private static final String	COM_AUTENTIA_TNT_REPORT_GENERAL	= "com/autentia/tnt/report/general";
-	private static final String	COM_AUTENTIA_TNT_REPORT_COMMISSIONING	= "com/autentia/tnt/report/commissioning";
-	private static final Log		log						= LogFactory
-																	.getLog(ReportManager.class);
-	/* type of reports */
-	private List					reportListGeneral		= null;
-	private List					reportListActivity		= null;
-	private List					reportListBill			= null;
-	private List					reportListProject		= null;
-	private List					reportListOrganization	= null;
-	private List					reportListPersonal		= null;
-	private List					reportListOffer			= null;
-	private List					reportListCommissioning	= null;
-	private List					reportListInteraction	= null;
-	private List					reportListOwn			= null;
-//	private List					filesList				= null;
-	private static ReportManager	instancia				= null;
+	private static final String COM_AUTENTIA_TNT_REPORT_OFFER = "com/autentia/tnt/report/offer";
 
-	private List<ParameterReport>	param					= null;
-//	private List					reportList				= null;
-	private String					tempVal;
-	private ParameterReport			tempParam;
-	private long					parsingStart;
+	private static final String COM_AUTENTIA_TNT_REPORT_ORGANIZATION = "com/autentia/tnt/report/organization";
+
+	private static final String COM_AUTENTIA_TNT_REPORT_INTERACTION = "com/autentia/tnt/report/interaction";
+
+	private static final String COM_AUTENTIA_TNT_REPORT_PROJECT = "com/autentia/tnt/report/project";
+
+	private static final String COM_AUTENTIA_TNT_REPORT_BILL = "com/autentia/tnt/report/bill";
+
+	private static final String COM_AUTENTIA_TNT_REPORT_ACTIVITY = "com/autentia/tnt/report/activity";
+
+	private static final String COM_AUTENTIA_TNT_REPORT_GENERAL = "com/autentia/tnt/report/general";
+
+	private static final String COM_AUTENTIA_TNT_REPORT_COMMISSIONING = "com/autentia/tnt/report/commissioning";
+
+	private static final Log log = LogFactory.getLog(ReportManager.class);
+
+	/* type of reports */
+	private List reportListGeneral = null;
+
+	private List reportListActivity = null;
+
+	private List reportListBill = null;
+
+	private List reportListProject = null;
+
+	private List reportListOrganization = null;
+
+	private List reportListPersonal = null;
+
+	private List reportListOffer = null;
+
+	private List reportListCommissioning = null;
+
+	private List reportListInteraction = null;
+
+	private List reportListOwn = null;
+
+	// private List filesList = null;
+	private static ReportManager instancia = null;
+
+	private List<ParameterReport> param = null;
+
+	// private List reportList = null;
+	private String tempVal;
+
+	private ParameterReport tempParam;
+
+	private long parsingStart;
 
 	private ReportManager() {
 		log.info("ReportManager - parsing reports");
@@ -85,8 +97,7 @@ public class ReportManager implements ContentHandler {
 		reportListOrganization = parserFolderReport(true, COM_AUTENTIA_TNT_REPORT_ORGANIZATION);
 		reportListOffer = parserFolderReport(true, COM_AUTENTIA_TNT_REPORT_OFFER);
 		reportListCommissioning = parserFolderReport(true, COM_AUTENTIA_TNT_REPORT_COMMISSIONING);
-		reportListPersonal = parserFolderReport(false, ConfigurationUtil.getDefault()
-				.getReportPath() + "personal/");
+		reportListPersonal = parserFolderReport(false, ConfigurationUtil.getDefault().getReportPath() + "personal/");
 		reportListOwn = parserOwnReport();
 	}
 
@@ -121,12 +132,13 @@ public class ReportManager implements ContentHandler {
 
 	public List parserOwnReport() {
 		List reportList = new ArrayList<List>();
-		
+
 		// reports that the user can see
 		List filesList = new ArrayList<String>();
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.externa.por.usuario.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.y.organizacion.jrxml");
+		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.y.horas.jrxml");
 
 		for (int i = 0; i < filesList.size(); i++) {
 			param = new ArrayList<ParameterReport>();
@@ -141,20 +153,18 @@ public class ReportManager implements ContentHandler {
 		}
 		return reportList;
 	}
-	
+
 	private void parseDocument(Boolean typeFile, String reportName) {
-
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-
-		final InputStream jasperreportDtd = loader.getResourceAsStream("net/sf/jasperreports/engine/dtds/jasperreport.dtd");
+		final InputStream jasperreportDtd = loader
+				.getResourceAsStream("net/sf/jasperreports/engine/dtds/jasperreport.dtd");
 		InputStream xmlSource = null;
 
 		parsingStart = System.currentTimeMillis();
 		log.debug("parseDocument - [start] " + reportName);
 		try {
 			SAXParser sp = new SAXParser();
-			log.debug("parseDocument -   newSAXParser="
-					+ (System.currentTimeMillis() - parsingStart) + " ms.");
+			log.debug("parseDocument -   newSAXParser=" + (System.currentTimeMillis() - parsingStart) + " ms.");
 
 			File f = null;
 			try {
@@ -165,25 +175,19 @@ public class ReportManager implements ContentHandler {
 			} catch (URISyntaxException e) {
 				log.error("Error en ParseDocument", e);
 			}
-			log.debug("parseDocument -   getResource="
-					+ (System.currentTimeMillis() - parsingStart) + " ms.");
+			log.debug("parseDocument -   getResource=" + (System.currentTimeMillis() - parsingStart) + " ms.");
 
 			xmlSource = new FileInputStream(f);
 
 			sp.setContentHandler(this);
 			sp.setEntityResolver(new EntityResolver() {
-				public InputSource resolveEntity(String publicId, String systemId)
-						throws SAXException, IOException {
+
+				public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 					if (publicId.equals("//JasperReports//DTD Report Design//EN")
-							|| systemId
-									.equals("http://jasperreports.sourceforge.net/dtds/jasperreport.dtd")) {
+							|| systemId.equals("http://jasperreports.sourceforge.net/dtds/jasperreport.dtd")) {
 						return new InputSource(jasperreportDtd);
 					} else {
-						String msg = "DTD ("
-								+ publicId
-								+ " "
-								+ systemId
-								+ ") cannot be resolved by ReportManager: "
+						String msg = "DTD (" + publicId + " " + systemId + ") cannot be resolved by ReportManager: "
 								+ "please change TNTConcept to add the new DTD or change your JasperReport's JRXML file "
 								+ "to use the standard DTD";
 						log.error("parseDocument - " + msg);
@@ -214,8 +218,7 @@ public class ReportManager implements ContentHandler {
 			} catch (IOException e) {
 				// ignored
 			}
-			log.info("parseDocument - " + reportName + " ("
-					+ (System.currentTimeMillis() - parsingStart) + " ms.)");
+			log.info("parseDocument - " + reportName + " (" + (System.currentTimeMillis() - parsingStart) + " ms.)");
 		}
 	}
 
@@ -232,7 +235,7 @@ public class ReportManager implements ContentHandler {
 		} catch (Exception e) {
 			log.error("Error en filesFromFolder", e);
 		}
-		if (f!=null && f.isDirectory()) {
+		if (f != null && f.isDirectory()) {
 			filesList = f.listFiles();
 			for (File file : filesList) {
 				int i = file.getAbsolutePath().lastIndexOf(".");
@@ -315,7 +318,7 @@ public class ReportManager implements ContentHandler {
 	public List<List> getReportListProject() {
 		return reportListProject;
 	}
-	
+
 	public List<List> getReportListOwn() {
 		return reportListOwn;
 	}
@@ -325,10 +328,9 @@ public class ReportManager implements ContentHandler {
 	}
 
 	// ContentHandler
-	public void startElement(String uri, String localName, String tagName, Attributes attributes)
-			throws SAXException {
-		log.debug("parseDocument -   startElement(" + tagName + ")="
-				+ (System.currentTimeMillis() - parsingStart) + " ms.");
+	public void startElement(String uri, String localName, String tagName, Attributes attributes) throws SAXException {
+		log.debug("parseDocument -   startElement(" + tagName + ")=" + (System.currentTimeMillis() - parsingStart)
+				+ " ms.");
 		tempVal = "";
 		if (tagName.equals("parameter")) {
 			tempParam = new ParameterReport();
@@ -343,8 +345,8 @@ public class ReportManager implements ContentHandler {
 	}
 
 	public void endElement(String uri, String localName, String tagName) throws SAXException {
-		log.debug("parseDocument -   endElement(" + tagName + ")="
-				+ (System.currentTimeMillis() - parsingStart) + " ms.");
+		log.debug("parseDocument -   endElement(" + tagName + ")=" + (System.currentTimeMillis() - parsingStart)
+				+ " ms.");
 		if (tagName.equals("parameter")) {
 			param.add(tempParam);
 		} else if (tagName.equals("parameterDescription")) {
