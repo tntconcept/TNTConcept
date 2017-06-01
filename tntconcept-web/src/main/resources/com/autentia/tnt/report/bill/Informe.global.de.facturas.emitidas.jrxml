@@ -532,7 +532,7 @@ order by b.number, b.creationDate asc]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="1"
-						y="20"
+						y="0"
 						width="533"
 						height="2"
 						forecolor="#CCCCCC"
