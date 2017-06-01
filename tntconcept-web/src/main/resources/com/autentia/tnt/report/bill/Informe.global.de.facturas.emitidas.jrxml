@@ -502,7 +502,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{creationDate}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="304"
 						y="2"
@@ -571,7 +571,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					<returnValue subreportVariable="sumaAsientos" toVariable="sumaParcial"/>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_C}]]></subreportExpression>
 				</subreport>
-				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="180"
 						y="2"
@@ -585,7 +585,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{baseImponible}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="256"
 						y="2"
@@ -805,7 +805,7 @@ order by b.number, b.creationDate asc]]></queryString>
 						key="rectangle-3"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
-				<textField isStretchWithOverflow="false" pattern="Â¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="448"
 						y="92"
@@ -827,7 +827,7 @@ order by b.number, b.creationDate asc]]></queryString>
 						key="rectangle-4"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
-				<textField isStretchWithOverflow="false" pattern="Â¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="447"
 						y="108"
@@ -840,7 +840,7 @@ order by b.number, b.creationDate asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumaTotal}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="Â¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="447"
 						y="75"
