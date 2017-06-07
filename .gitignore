@@ -20,3 +20,5 @@ tntconcept-core/.gitignore
 tntconcept-test/bin/.gitignore
 tntconcept-web-tomcat/bin/.gitignore
 tntconcept-web/.gitignore
+#
+bin/
