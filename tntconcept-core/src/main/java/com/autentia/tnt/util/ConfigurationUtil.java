@@ -67,6 +67,8 @@ public class ConfigurationUtil {
         if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
             configDir = configDir.trim() + "/";
         }
+       log.info(file);
+       System.out.println(file);
         config = new PropertiesConfiguration(configDir + file);
     }
 
@@ -217,6 +219,14 @@ public class ConfigurationUtil {
 
     public int getRoleStaffId() {
         return Integer.parseInt(getProperty("roleStaffId", "4"));
+    }
+    
+    public int getYearsBackSearchNotPaidBillsNOF() {
+        return Integer.parseInt(getProperty("yearsBackSearchNotPaidBillsNOF", "5"));
+    }
+    
+    public boolean getEnabledSendMail() {
+        return Boolean.valueOf(getProperty("enabledSendMail", "false"));
     }
 
     public int getRoleClientId() {

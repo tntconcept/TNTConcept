@@ -42,6 +42,9 @@ import com.autentia.tnt.dao.search.PeriodicalAccountEntrySearch;
 import com.autentia.tnt.manager.account.PeriodicalAccountEntryManager;
 import com.autentia.tnt.manager.billing.BillManager;
 import com.autentia.tnt.manager.billing.CreditTitleManager;
+import com.autentia.tnt.util.ConfigurationUtil;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * UI bean for NOF objects.
@@ -115,14 +118,22 @@ public class NOFBean extends BaseBean {
 		/**** Facturas emitidas impagadas ya vencidas ****/
 		/**** Facturas recibidas impagadas que vencen en el periodo ****/
 		/**** Facturas recibidas impagadas ya vencidas ****/
+		int years = ConfigurationUtil.getDefault().getYearsBackSearchNotPaidBillsNOF();
 		List<BillType> billTypes = new ArrayList<BillType>();
 		billTypes.add(BillType.ISSUED);
 		billSearch.setBillTypes(billTypes);
 		billSearch.setState(BillState.EMITTED);
+		billSearch.setStartEndBillDate(calculateStartEndByPassedYear(years).getTime());
 		List<Bill> total = billManager.getAllEntities(billSearch, new SortCriteria( "creationDate", true ), 
 												 new GregorianCalendar(1900,1,1).getTime() , getEndDate());
-
 		return convertFromBillToGenericNOF(total);
+	}
+
+
+	private Calendar calculateStartEndByPassedYear(int years) {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.YEAR, -years);
+		return cal;
 	}
 	
 	public List<GenericNOF> getAllNOFReceivedBills() {

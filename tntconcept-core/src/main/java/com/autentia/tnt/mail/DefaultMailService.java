@@ -161,7 +161,9 @@ public class DefaultMailService implements MailService,Runnable {
     }
 
     public void send(String to, String subject, String text) throws MessagingException {
-        sendFiles(to, subject, text, null);
+        if(ConfigurationUtil.getDefault().getEnabledSendMail()){
+    		sendFiles(to, subject, text, null);
+        }
     }
 
     
@@ -205,9 +207,10 @@ public class DefaultMailService implements MailService,Runnable {
 	}
 
 	public void sendHtml(String to, String subject, String text) {
-
-		setHtmlData(to, subject, text);
-		new Thread(this).start();
+		if(ConfigurationUtil.getDefault().getEnabledSendMail()){
+			setHtmlData(to, subject, text);
+			new Thread(this).start();
+		}
 	}
 
 
