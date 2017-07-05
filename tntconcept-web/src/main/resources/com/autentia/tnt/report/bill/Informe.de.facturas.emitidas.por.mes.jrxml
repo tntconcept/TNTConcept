@@ -70,12 +70,13 @@
 SELECT sum(bb.amount*bb.units*(1 + (bb.iva/100))) as suma, 
        concat(month(b.creationDate),' / ',year(b.creationDate)) as fecha,
        year(b.creationDate) as anno,
-       month(b.creationDate) as mes	
+       month(b.creationDate) as mes,
+       b.creationDate as creacionFactura	
 FROM Bill b left join BillBreakDown bb on b.id=bb.billId
 	and b.state='emitted'
 	and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 	group by b.id
-order by year(b.creationDate) asc) as tabla group by anno, mes]]></queryString>
+order by year(b.creationDate) asc) as tabla WHERE creacionFactura between $P{Fecha inicio} and $P{Fecha fin} group by anno, mes]]></queryString>
 
 	<field name="fecha" class="java.lang.String"/>
 	<field name="mes" class="java.lang.Integer"/>
