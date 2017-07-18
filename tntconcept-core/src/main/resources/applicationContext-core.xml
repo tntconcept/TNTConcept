@@ -322,6 +322,23 @@
 		<property name="mailService" ref="mailService" />
 	</bean>
 	
+	<bean id="contractExpirationNotificationBean" class="com.autentia.tnt.bean.ContractExpirationNotificationBean" />
+  		
+  		<bean id="jobContractExpirationNotification" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		  	 <property name="targetObject" ref="contractExpirationNotificationBean" />  
+			 <property name="targetMethod" value="checkExpirationDate" />  
+  		</bean>
+  		
+  		<bean id="cronContractExpirationNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  	<property name="jobDetail" ref="jobContractExpirationNotification" />
+		  	<property name="cronExpression" value="	0 0 8 1 1/1 ? *"/>
+  		</bean>
+   		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+    		<property name="triggers">  
+         		<ref bean="cronContractExpirationNotificationTrigger" />  
+     		</property>  
+ 		</bean>  
+	
 	<!--
 	<bean id="billExpirationDateBean" class="com.autentia.tnt.bean.billing.BillExpirationDateBean" />
   		

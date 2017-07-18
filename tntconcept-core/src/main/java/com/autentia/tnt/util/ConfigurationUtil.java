@@ -372,6 +372,15 @@ public class ConfigurationUtil {
     public String getMailHost() {
         return getProperty("mail.host", "smtp.mycompany.com");
     }
+    
+    public String getMailNotificationContractSubject() {
+        return getProperty("mail.notification.contract.subject", "Finalizacion de Contrato Proximamente");
+    }
+    
+    public Collection<String> getMailNotificationContractSendTo() {
+        final String mailSendTo =getProperty("mail.notification.contract.sendTo", "admin@mycompany.com");
+        return Arrays.asList(mailSendTo.split(" "));
+    }
 
     /**
      * Return the port number of the smtp server (by default, 25)
