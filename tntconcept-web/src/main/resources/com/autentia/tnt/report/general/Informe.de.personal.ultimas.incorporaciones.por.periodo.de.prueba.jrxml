@@ -32,9 +32,9 @@
 		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT User.name,nif,UserCategory.name AS category,startDate,endContractDate,endTestPeriodDate FROM user
+		<![CDATA[SELECT User.name,nif,UserCategory.name AS category,startDate,endContractDate,endTestPeriodDate FROM User
 INNER JOIN UserCategory           
-ON UserCategory.id=user.categoryId
+ON UserCategory.id=User.categoryId
 WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 	</queryString>
 	<field name="name" class="java.lang.String"/>
