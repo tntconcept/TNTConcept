@@ -2,6 +2,7 @@ package com.autentia.tnt.manager.security;
 
 import com.autentia.tnt.businessobject.User;
 import org.acegisecurity.AuthenticationServiceException;
+import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.acegisecurity.providers.ldap.LdapAuthenticationProvider;
 import org.acegisecurity.providers.ldap.LdapAuthenticator;
@@ -40,16 +41,31 @@ public class LdapCustomAuthenticationProvider extends LdapAuthenticationProvider
     }
 
     protected Principal mergeUsers(LdapUserDetails ldapUser, Principal principalFromDB, String password) {
-
-        User user = principalFromDB.getUser();
+    	User user;
+    	Boolean console = false;
+    	
+    	if(principalFromDB.getUser() == null){
+    		user = new User();
+    		console = true;
+    	}else {
+    		user = principalFromDB.getUser();
+    	}
+    	
         user.setDn(ldapUser.getDn());
         user.setLdapName(ldapUser.getDn().replace(",dc=autentia,dc=com", ""));
         user.setLdapPassword(password);
         user.setActive(ldapUser.isEnabled());
         user.setPasswordExpired(checkExpiredPassword(ldapUser.getAttributes()));
         user.setResetPassword(checkResetPassword(ldapUser.getAttributes()));
-
-        return new Principal(user, user.getLdapPassword(), principalFromDB.getAuthorities());
+        
+        Principal ret;
+        if(console){
+        	ret = new Principal(999, 999, user.getLdapName(), user.getLdapPassword(),
+        			 user.isActive(),user.getName(), 999, principalFromDB.getAuthorities());
+        }else{
+        	ret = new Principal(user, user.getLdapPassword(), principalFromDB.getAuthorities());
+        }
+        return ret;
     }
 
     protected Boolean checkExpiredPassword(Attributes attributes) {
