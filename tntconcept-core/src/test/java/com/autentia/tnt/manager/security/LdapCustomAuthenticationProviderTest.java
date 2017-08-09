@@ -132,6 +132,28 @@ public class LdapCustomAuthenticationProviderTest {
         assertThat(ldapPrincipal.getUser().getPassword(),is(nullValue()));
         assertThat(ldapPrincipal.getUser().isActive(),is(true));
     }
+    
+    @Test
+    public void shouldMergeDbUserWithLdapCredentialsWhenMigrationTest(){
+
+        Attribute pwdGraceUseTime = new BasicAttribute("pwdGraceUseTime");
+        pwdGraceUseTime.add(new Date());
+        Attributes attributes = new BasicAttributes();
+        attributes.put(pwdGraceUseTime);
+        when(ldapUserDetails.getAttributes()).thenReturn(attributes);
+
+        User user = getUserForTest();
+
+        Principal principal = new Principal(user, new GrantedAuthority[]{});
+        principal.dto = null;
+
+        final String ldapPassword = "ldapPassword";
+        final Principal ldapPrincipal = sut.mergeUsers(ldapUserDetails, principal, ldapPassword);
+
+        assertThat(ldapPrincipal.getId(),is(999));
+        assertThat(ldapPrincipal.getPassword(),is(ldapPassword));
+    }
+    
 
     @Test
     public void shouldCheckUserPasswordExpiredStatus(){
