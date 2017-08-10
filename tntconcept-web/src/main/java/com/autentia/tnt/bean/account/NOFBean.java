@@ -123,17 +123,17 @@ public class NOFBean extends BaseBean {
 		billTypes.add(BillType.ISSUED);
 		billSearch.setBillTypes(billTypes);
 		billSearch.setState(BillState.EMITTED);
-		billSearch.setStartEndBillDate(calculateStartEndByPassedYear(years).getTime());
+		billSearch.setEndCreationDate(calculateStartEndByPassedYear(years));
 		List<Bill> total = billManager.getAllEntities(billSearch, new SortCriteria( "creationDate", true ), 
 												 new GregorianCalendar(1900,1,1).getTime() , getEndDate());
 		return convertFromBillToGenericNOF(total);
 	}
 
 
-	private Calendar calculateStartEndByPassedYear(int years) {
+	private Date calculateStartEndByPassedYear(int years) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.YEAR, -years);
-		return cal;
+		return cal.getTime();
 	}
 	
 	public List<GenericNOF> getAllNOFReceivedBills() {
