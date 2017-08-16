@@ -123,9 +123,9 @@ public class NOFBean extends BaseBean {
 		billTypes.add(BillType.ISSUED);
 		billSearch.setBillTypes(billTypes);
 		billSearch.setState(BillState.EMITTED);
-		billSearch.setEndCreationDate(calculateStartEndByPassedYear(years));
+		billSearch.setStartEndBillDate(calculateStartEndByPassedYear(years));
 		List<Bill> total = billManager.getAllEntities(billSearch, new SortCriteria( "creationDate", true ), 
-												 new GregorianCalendar(1900,1,1).getTime() , getEndDate());
+												new GregorianCalendar(1900,1,1).getTime() , getEndDate());
 		return convertFromBillToGenericNOF(total);
 	}
 
@@ -141,10 +141,12 @@ public class NOFBean extends BaseBean {
 		/**** Facturas emitidas impagadas ya vencidas ****/
 		/**** Facturas recibidas impagadas que vencen en el periodo ****/
 		/**** Facturas recibidas impagadas ya vencidas ****/
+		int years = ConfigurationUtil.getDefault().getYearsBackSearchNotPaidBillsNOF();
 		List<BillType> billTypes = new ArrayList<BillType>();
 		billTypes.add(BillType.RECIEVED);
 		billSearch.setBillTypes(billTypes);
 		billSearch.setState(BillState.EMITTED);
+		billSearch.setStartEndBillDate(calculateStartEndByPassedYear(years));
 		List<Bill> total = billManager.getAllEntities(billSearch, new SortCriteria( "creationDate", true ), 
 												 new GregorianCalendar(1900,1,1).getTime() , getEndDate());
 
@@ -155,8 +157,10 @@ public class NOFBean extends BaseBean {
 	 * Recover a list of issued credit titles that has to be paid in the period 
 	 */
 	public List<GenericNOF> getAllNOFIssuedCreditTitle() {
+		int years = ConfigurationUtil.getDefault().getYearsBackSearchNotPaidBillsNOF();
 		creditTitleSearch.setCreditTitleType(CreditTitleType.ISSUED);
 		creditTitleSearch.setCreditTitleState(CreditTitleState.EMITTED);
+		creditTitleSearch.setStartExpirationDate(calculateStartEndByPassedYear(years));
 		List <CreditTitle> creditTitles = creditTitleManager.getAllEntities(creditTitleSearch, new SortCriteria( "issueDate", true ), 
 												 new GregorianCalendar(1900,1,1).getTime() , getEndDate());
 		
@@ -167,8 +171,10 @@ public class NOFBean extends BaseBean {
 	 * Recover a list of received credit titles that has to be paid in the period 
 	 */
 	public List<GenericNOF> getAllNOFReceivedCreditTitle() {
+		int years = ConfigurationUtil.getDefault().getYearsBackSearchNotPaidBillsNOF();
 		creditTitleSearch.setCreditTitleType(CreditTitleType.RECEIVED);
 		creditTitleSearch.setCreditTitleState(CreditTitleState.EMITTED);
+		creditTitleSearch.setStartExpirationDate(calculateStartEndByPassedYear(years));
 		List <CreditTitle> creditTitles = creditTitleManager.getAllEntities(creditTitleSearch, new SortCriteria( "issueDate", true ), 
 												 new GregorianCalendar(1900,1,1).getTime() , getEndDate());
 		
