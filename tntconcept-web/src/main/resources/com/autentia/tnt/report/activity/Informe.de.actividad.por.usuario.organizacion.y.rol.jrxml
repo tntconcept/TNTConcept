@@ -70,18 +70,20 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select orgName,userName,startDate,duration,description, COALESCE(fact,0) as fact, COALESCE(noFact,0) as noFact from (SELECT o.name as orgName,u.name as userName,a.startDate,duration,a.description,sum(CASE WHEN a.billable=1
+	<queryString><![CDATA[select orgName,userName,roleName,startDate,duration,description, COALESCE(fact,0) as fact, COALESCE(noFact,0) as noFact from (SELECT o.name as orgName,u.name as userName,
+ r.name as roleName,a.startDate,duration,a.description,sum(CASE WHEN a.billable=1
    					       then duration end) as 'fact',
 				      sum(CASE WHEN a.billable=0
 				      then duration end) as 'noFact' 
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
 and u.id=$P{Usuario} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-group by o.name
+group by a.roleId
 order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
+	<field name="roleName" class="java.lang.String"/>
 	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
@@ -299,6 +301,21 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 				</textField>
 				<textField>
 					<reportElement
+						x="108"
+						y="4"
+						width="70"
+						height="10"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String">
+						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text8}]]>
+					</textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement
 						x="178"
 						y="4"
 						width="100"
@@ -382,6 +399,19 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{userName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="108"
+						y="4"
+						width="70"
+						height="12"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{roleName}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
