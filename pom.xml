@@ -399,12 +399,10 @@
 	</reporting>
 
 	<distributionManagement>
-		<!-- <site> <id>tntconcept-site</id> <name>TnTConcept Maven Site</name> 
-			<url>${tnt.mvn.site}/com/autentia/tntconcept/${project.version}</url> </site> -->
 		<repository>
 			<id>tntconcept-repository</id>
 			<name>TnTConcept Maven Repository</name>
-			<url>${tnt.mvn.repo}</url>
+			<url>${autentia.mvn.distribution}</url>
 		</repository>
 	</distributionManagement>
 
