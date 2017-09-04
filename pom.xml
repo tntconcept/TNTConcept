@@ -10,7 +10,7 @@
 
 	<name>tntconcept-parent</name>
 	<description>
-		TnTConcept es una aplicación open-source de gestión interna para la pequeña 
+		TnTConcept es una aplicación open-source de gestión interna para la pequeña
 		y mediana empresa (PYME) y/o profesional independiente.
 	</description>
 	<url>http://tntconcept.sourceforge.net/</url>
@@ -261,7 +261,7 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
 				<executions>
-					<!-- Prepares a variable, jacoco.agent.ut.arg, that contains the info 
+					<!-- Prepares a variable, jacoco.agent.ut.arg, that contains the info
 						to be passed to the JVM hosting the code being tested. -->
 					<execution>
 						<id>pre-unit-test</id>
@@ -275,7 +275,7 @@
 							<append>true</append>
 						</configuration>
 					</execution>
-					<!-- Ensures that the code coverage report for unit tests after unit 
+					<!-- Ensures that the code coverage report for unit tests after unit
 						tests have been run. -->
 					<execution>
 						<id>post-unit-test</id>
@@ -290,7 +290,7 @@
 							<outputDirectory>${jacoco.utreportpath}</outputDirectory>
 						</configuration>
 					</execution>
-					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+					<!-- Prepares the property pointing to the JaCoCo runtime agent which
 						is passed as VM argument when Maven the Failsafe plugin is executed. -->
 					<execution>
 						<id>pre-integration-test</id>
@@ -303,7 +303,7 @@
 							<append>true</append>
 						</configuration>
 					</execution>
-					<!-- Ensures that the code coverage report for integration tests after 
+					<!-- Ensures that the code coverage report for integration tests after
 						integration tests have been run. -->
 					<execution>
 						<id>post-integration-test</id>
@@ -349,7 +349,7 @@
 					</dependency>
 				</dependencies>
 				<executions>
-					<!-- Ensures that both integration-test and verify goals of the Failsafe 
+					<!-- Ensures that both integration-test and verify goals of the Failsafe
 						Maven plugin are executed. -->
 					<execution>
 						<id>integration-tests</id>
@@ -360,7 +360,7 @@
 						<configuration>
 							<!-- Sets the VM argument line used when integration tests are run. -->
 							<argLine>${failsafeArgLine}</argLine>
-							<!-- Skips integration tests if the value of skip.integration.tests 
+							<!-- Skips integration tests if the value of skip.integration.tests
 								property is true -->
 							<skipTests>${skip.integration.tests}</skipTests>
 							<testFailureIgnore>true</testFailureIgnore>
@@ -400,10 +400,15 @@
 
 	<distributionManagement>
 		<repository>
-			<id>tntconcept-repository</id>
-			<name>TnTConcept Maven Repository</name>
+            <id>autentia-repository</id>
+            <name>Autentia Releases Repository</name>
 			<url>${autentia.mvn.distribution}</url>
 		</repository>
+        <snapshotRepository>
+            <id>autentia-repository-snapshots</id>
+            <name>Autentia Snapshots Repository</name>
+            <url>${autentia.mvn.snapshots}</url>
+        </snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
