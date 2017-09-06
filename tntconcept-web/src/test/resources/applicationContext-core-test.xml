@@ -20,7 +20,7 @@
 
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
- 
+
 	<!-- DAOs -->
 	<bean id="daoAccount" class="com.autentia.tnt.dao.hibernate.AccountDAO" />
 	<bean id="daoAccountEntry" class="com.autentia.tnt.dao.hibernate.AccountEntryDAO" />
@@ -38,12 +38,12 @@
 	<bean id="daoContractType" class="com.autentia.tnt.dao.hibernate.ContractTypeDAO" />
 	<bean id="daoDepartment" class="com.autentia.tnt.dao.hibernate.DepartmentDAO" />
 	<bean id="daoDocumentCategory" class="com.autentia.tnt.dao.hibernate.DocumentCategoryDAO" />
-	<bean id="daoDocument" class="com.autentia.tnt.dao.hibernate.DocumentDAO" />    
-	<bean id="daoDocumentVersion" class="com.autentia.tnt.dao.hibernate.DocumentVersionDAO" />    
+	<bean id="daoDocument" class="com.autentia.tnt.dao.hibernate.DocumentDAO" />
+	<bean id="daoDocumentVersion" class="com.autentia.tnt.dao.hibernate.DocumentVersionDAO" />
 	<bean id="daoHoliday" class="com.autentia.tnt.dao.hibernate.HolidayDAO" />
 	<bean id="daoIdea" class="com.autentia.tnt.dao.hibernate.IdeaDAO" />
 	<bean id="daoInteraction" class="com.autentia.tnt.dao.hibernate.InteractionDAO" />
-	<bean id="daoInteractionType" class="com.autentia.tnt.dao.hibernate.InteractionTypeDAO" />    
+	<bean id="daoInteractionType" class="com.autentia.tnt.dao.hibernate.InteractionTypeDAO" />
 	<bean id="daoInventary" class="com.autentia.tnt.dao.hibernate.InventaryDAO" />
 	<bean id="daoMagazine" class="com.autentia.tnt.dao.hibernate.MagazineDAO" />
 	<bean id="daoObjective" class="com.autentia.tnt.dao.hibernate.ObjectiveDAO" />
@@ -91,7 +91,68 @@
 	<bean id="managerProject" class="com.autentia.tnt.manager.admin.ProjectManager">
 		<constructor-arg ref="daoProject" />
 	</bean>
-	
+
+    <!-- added for ActivtyBean integration tests -->
+	<bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
+        <constructor-arg ref="daoActivity" />
+    </bean>
+    <bean id="managerExternalActivity"
+        class="com.autentia.tnt.manager.activity.ExternalActivityManager">
+        <constructor-arg ref="daoExternalActivity" />
+    </bean>
+    <bean id="managerActivityFile" class="com.autentia.tnt.manager.activity.ActivityFileManager">
+        <constructor-arg ref="daoActivityFile" />
+    </bean>
+    <bean id="managerOrganization" class="com.autentia.tnt.manager.contacts.OrganizationManager">
+        <constructor-arg ref="daoOrganization" />
+        <property name="contactDAO" ref="daoContact"></property>
+    </bean>
+    <bean id="managerDocument" class="com.autentia.tnt.manager.document.DocumentManager">
+        <constructor-arg ref="daoDocument" />
+    </bean>
+    <bean id="managerDocumentCategory"
+        class="com.autentia.tnt.manager.document.DocumentCategoryManager">
+        <constructor-arg ref="daoDocumentCategory" />
+    </bean>
+    <bean id="managerHoliday" class="com.autentia.tnt.manager.holiday.HolidayManager">
+        <constructor-arg ref="daoHoliday" />
+    </bean>
+    <bean id="managerSetting" class="com.autentia.tnt.manager.admin.SettingManager">
+        <constructor-arg ref="daoSetting" />
+    </bean>
+    <bean id="managerProjectRole" class="com.autentia.tnt.manager.admin.ProjectRoleManager">
+        <constructor-arg ref="daoProjectRole" />
+    </bean>
+    <bean id="managerRequestHoliday" class="com.autentia.tnt.manager.holiday.RequestHolidayManager">
+        <constructor-arg ref="daoRequestHoliday" />
+    </bean>
+
+    <bean id="userDetailsService" class="com.autentia.tnt.manager.security.AuthenticationManagerImpl">
+        <constructor-arg value="false" />
+        <constructor-arg>
+            <list>
+                <bean class="com.autentia.tnt.manager.security.AuthenticationManagerLdapImpl">
+                    <constructor-arg ref="configuration"/>
+                    <constructor-arg ref="userRolesService"/>
+                    <constructor-arg>
+                        <bean class="com.autentia.tnt.manager.security.AuthenticationManagerLdapTemplate"/>
+                    </constructor-arg>
+                </bean>
+                <bean class="com.autentia.tnt.manager.security.AuthenticationManagerDaoImpl">
+                    <constructor-arg ref="configuration"/>
+                    <constructor-arg ref="userRolesService"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="userRolesService" class="com.autentia.tnt.manager.security.impl.fixed.UserRolesService">
+        <constructor-arg ref="securityConfiguration"/>
+    </bean>
+    <bean id="securityConfiguration" class="com.autentia.tnt.manager.security.impl.fixed.DefaultSecurityConfiguration">
+        <constructor-arg ref="configuration"/>
+    </bean>
+
+
 	<!-- Configuration bean -->
 	<bean id="configuration"
 		class="com.autentia.tnt.test.utils.ConfigurationUtilForTesting">
