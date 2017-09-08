@@ -20,7 +20,7 @@
  * and open the template in the editor.
  */
 
-package com.autentia.tnt.test.utils; 
+package com.autentia.tnt.test.utils;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.GrantedAuthorityImpl;
 import org.acegisecurity.context.SecurityContextHolder;
@@ -43,7 +43,7 @@ import com.autentia.tnt.util.SpringUtils;
 public class SpringUtilsForTesting {
 
     private static ApplicationContext appCtx;
-    
+
 	public synchronized static void configure( ApplicationContext ctx )
 	{
 		// Do not let configure more than once
@@ -51,20 +51,22 @@ public class SpringUtilsForTesting {
 		{
 			appCtx = ctx;
 		}
-		
+
 		SpringUtils.configureTest( ctx);
-		
+
 	}
 
     public static Object getSpringBean( String name )
 	{
 		return appCtx.getBean(name);
 	}
-    
+
     public static User createUserInContextWithRoleAndDepartment() {
-		
-        setUserForTestingInContext();
-        final User user = new User();
+
+    	// all hibernate DAOs required a principal when inserting in the database so we create a temporary principal
+    	setUserForTestingInContext();
+
+    	final User user = new User();
         user.setLogin("admin");
         user.setRole(createRoleInContext());
         user.setDepartment(createDepartmentInContext());
@@ -73,27 +75,31 @@ public class SpringUtilsForTesting {
         final UserDAO userDao = (UserDAO) appCtx.getBean("daoUser");
         userDao.insert(user);
         user.setActive(true);
+
+        // after inserting the temporary principal in the database now we can assign the database user to our principal
+        setUserForTestingInContext(user);
+
         return user;
 	}
 
 	private static WorkingAgreement createAgreementInContext() {
-		
+
 		final WorkingAgreement agreement = new WorkingAgreement();
 		final WorkingAgreementDAO workingAgreementDAO = (WorkingAgreementDAO) appCtx.getBean("daoWorkingAgreement");
 		workingAgreementDAO.insert(agreement);
 		return agreement;
 	}
-	
+
 	private static UserCategory createUserCategoryInContext() {
-		
+
 		final UserCategory category = new UserCategory();
 		final UserCategoryDAO userCategoryDAO = (UserCategoryDAO) appCtx.getBean("daoUserCategory");
 		userCategoryDAO.insert(category);
 		return category;
 	}
-	
+
 	private static UserForTesting setUserForTestingInContext() {
-		
+
 		final GrantedAuthority[] authorities = new GrantedAuthority[] {
 	            new GrantedAuthorityImpl("User"),
 	            new GrantedAuthorityImpl("Administrator") };
@@ -110,42 +116,50 @@ public class SpringUtilsForTesting {
 	    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal,"admin"));
 		return user;
 	}
-	
+
+	private static void setUserForTestingInContext(User user) {
+		final GrantedAuthority[] authorities = new GrantedAuthority[] {
+	            new GrantedAuthorityImpl("User"),
+	            new GrantedAuthorityImpl("Administrator") };
+	    final Principal principal = new Principal(user, authorities);
+	    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, "admin"));
+	}
+
 	private static Department createDepartmentInContext() {
-		
+
 		final Department department = new Department();
 		final DepartmentDAO departmentDao = (DepartmentDAO) appCtx.getBean("daoDepartment");
 		departmentDao.insert(department);
 		return department;
 	}
-	
+
 	private static Role createRoleInContext() {
-	
+
 		final Role role = new Role();
 	    final RoleDAO roleDao = (RoleDAO) appCtx.getBean("daoRole");
 	    roleDao.insert(role);
 	    return role;
 	}
-	
+
 	public static void removeUserFromContext() {
 
 		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
 	public static void deleteUserInContext(User userInContext) {
-		
+
 		final UserDAO userDao = (UserDAO) appCtx.getBean("daoUser");
 		userDao.delete(userInContext);
-		
+
 		final UserCategoryDAO userCategoryDAO = (UserCategoryDAO) appCtx.getBean("daoUserCategory");
 		userCategoryDAO.delete(userInContext.getCategory());
-		
+
 		final WorkingAgreementDAO workingAgreementDAO = (WorkingAgreementDAO) appCtx.getBean("daoWorkingAgreement");
 		workingAgreementDAO.delete(userInContext.getAgreement());
-		
+
 		final RoleDAO roleDao = (RoleDAO) appCtx.getBean("daoRole");
 		roleDao.delete(userInContext.getRole());
-		
+
 		final DepartmentDAO departmentDao = (DepartmentDAO) appCtx.getBean("daoDepartment");
 		departmentDao.delete(userInContext.getDepartment());
 	}

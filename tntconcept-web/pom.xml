@@ -56,8 +56,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<!-- <plugin> -->
@@ -349,6 +349,12 @@
 			<artifactId>poi</artifactId>
 			<version>2.0-final-20040126</version>
 		</dependency>
+		<!-- Required by com.tonbeller.jpivot.print.PrintServlet -->
+		<dependency>
+		    <groupId>org.apache.xmlgraphics</groupId>
+		    <artifactId>fop</artifactId>
+		    <version>2.2</version>
+		</dependency>
 
 		<!-- =================== Dependencias de Mondrian - JPivot =================== -->
 		<dependency>
@@ -357,7 +363,7 @@
 			<version>1.0.9</version>
 		</dependency>
 
-		<!-- No están en repositorios públicos, hay que añadirlos manualmente a 
+		<!-- No están en repositorios públicos, hay que añadirlos manualmente a
 			nuestro propio repositorio -->
 		<dependency>
 			<groupId>org.olap4j</groupId>
