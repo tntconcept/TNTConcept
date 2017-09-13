@@ -28,7 +28,6 @@
     <property name="connection.username">sa</property>
     <property name="connection.password"></property>
     <property name="connection.pool_size">20</property>
-    <property name="hibernate.hbm2ddl.auto">create-drop</property>
     <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 
     <!-- Automatic context administration -->
@@ -108,6 +107,6 @@
     <mapping resource="com/autentia/tnt/businessobject/config/Tag.hbm.xml"/>
     <mapping resource="com/autentia/tnt/businessobject/config/EntityChange.hbm.xml"/>
     <mapping resource="com/autentia/tnt/businessobject/config/BillPayment.hbm.xml" />
-    
+
   </session-factory>
 </hibernate-configuration>

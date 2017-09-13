@@ -5,10 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
-import org.hibernate.SessionFactory;
-import org.junit.AfterClass;
-import org.junit.Before;
+import org.flywaydb.core.Flyway;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -16,51 +15,30 @@ import com.autentia.tnt.bean.billing.BillBean;
 import com.autentia.tnt.businessobject.BillBreakDown;
 import com.autentia.tnt.businessobject.OfferCost;
 import com.autentia.tnt.businessobject.OfferRole;
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
-import com.autentia.tnt.util.HibernateUtil;
 
 public class OfferBeanTest {
-	
-	private static User userInContext;
-	
-	private static SessionFactory sessionFactory;
-	
+
 	private final BigDecimal IVA16 = new BigDecimal("16");
-	
+
 	private final BigDecimal IVA18 = new BigDecimal("18");
-	
+
 	private final BigDecimal IVA21 = new BigDecimal("21");
-	
+
 	@BeforeClass
     public static void init() throws Exception {
-        SpringUtilsForTesting.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
-        sessionFactory = HibernateUtil.getSessionFactory();
-		sessionFactory.openSession();
-		sessionFactory.getCurrentSession().beginTransaction();
-        userInContext = SpringUtilsForTesting.createUserInContextWithRoleAndDepartment();
-        sessionFactory.getCurrentSession().close();
-    }
-	
-	@Before
-	public void beginTransaction() throws Exception {
-		sessionFactory.getCurrentSession().beginTransaction();
-	}
 
-	@AfterClass
-    public static void terminate() throws Exception {
-        
-		SpringUtilsForTesting.removeUserFromContext();
-		SpringUtilsForTesting.deleteUserInContext(userInContext);
-		if (sessionFactory.getCurrentSession().getTransaction().isActive()) {
-			sessionFactory.getCurrentSession().getTransaction().rollback();
-		}
-		sessionFactory.getCurrentSession().close();
+		Flyway flyway = new Flyway();
+		flyway.setDataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "");
+		flyway.migrate();
+
+		SpringUtilsForTesting.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
+		SpringUtilsForTesting.loadPrincipalInSecurityContext("admin");
     }
 
 	@Test
 	public void createRolesIn2009Test() {
-		
+
 		final OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2009, 8, 31);
@@ -70,10 +48,10 @@ public class OfferBeanTest {
 			assertEquals(IVA16,offerRole.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createRolesInFirstDayOf18Test() {
-		
+
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2010, 6, 1);
@@ -83,10 +61,10 @@ public class OfferBeanTest {
 			assertEquals(IVA18,offerRole.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createRolesInLastDayOf18Test() {
-		
+
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2012, 7, 31);
@@ -96,10 +74,10 @@ public class OfferBeanTest {
 			assertEquals(IVA18,offerRole.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createRolesInFirstDayOf21Test() {
-		
+
 		BillBean billBean = new BillBean();
 		billBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1);
@@ -109,10 +87,10 @@ public class OfferBeanTest {
 			assertEquals(IVA21,billBreakDown.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createCostsIn2009Test() {
-		
+
 		final OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2009, 8, 31);
@@ -122,10 +100,10 @@ public class OfferBeanTest {
 			assertEquals(IVA16,offerCost.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createCostsInFirstDayOf18Test() {
-		
+
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2010, 6, 1);
@@ -135,10 +113,10 @@ public class OfferBeanTest {
 			assertEquals(IVA18,offerCost.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createCostsInLastDayOf18Test() {
-		
+
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2012, 7, 31);
@@ -148,10 +126,10 @@ public class OfferBeanTest {
 			assertEquals(IVA18,offerCost.getIva());
 		}
 	}
-	
+
 	@Test
 	public void createCostsInFirstDayOf21Test() {
-		
+
 		OfferBean offerBean = new OfferBean();
 		offerBean.create();
 		final GregorianCalendar calendar = new GregorianCalendar(2012, 8, 1);

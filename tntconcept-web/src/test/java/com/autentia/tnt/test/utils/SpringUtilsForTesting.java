@@ -21,8 +21,7 @@
  */
 
 package com.autentia.tnt.test.utils;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.GrantedAuthorityImpl;
+import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.context.ApplicationContext;
@@ -35,8 +34,8 @@ import com.autentia.tnt.businessobject.WorkingAgreement;
 import com.autentia.tnt.dao.hibernate.DepartmentDAO;
 import com.autentia.tnt.dao.hibernate.RoleDAO;
 import com.autentia.tnt.dao.hibernate.UserCategoryDAO;
-import com.autentia.tnt.dao.hibernate.UserDAO;
 import com.autentia.tnt.dao.hibernate.WorkingAgreementDAO;
+import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.util.SpringUtils;
 
@@ -61,30 +60,32 @@ public class SpringUtilsForTesting {
 		return appCtx.getBean(name);
 	}
 
-    public static User createUserInContextWithRoleAndDepartment() {
+	public static void loadPrincipalInSecurityContext(String username) {
+		AuthenticationManager authManager = (AuthenticationManager) getSpringBean("userDetailsService");
+		Principal principal = (Principal) authManager.loadUserByUsername(username);
+		Authentication auth = new UsernamePasswordAuthenticationToken(principal, principal.getUser().getPassword(),
+				principal.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(auth);
+	}
 
-    	// all hibernate DAOs required a principal when inserting in the database so we create a temporary principal
-    	setUserForTestingInContext();
-
-    	final User user = new User();
-        user.setLogin("admin");
+	public static User createUser(String login) {
+        final User user = new User();
+        user.setLogin(login);
+        user.setPassword(login);
+        user.setName(login);
         user.setRole(createRoleInContext());
         user.setDepartment(createDepartmentInContext());
         user.setCategory(createUserCategoryInContext());
         user.setAgreement(createAgreementInContext());
-        final UserDAO userDao = (UserDAO) appCtx.getBean("daoUser");
-        userDao.insert(user);
         user.setActive(true);
-
-        // after inserting the temporary principal in the database now we can assign the database user to our principal
-        setUserForTestingInContext(user);
-
+        user.setStartDate(new java.util.Date());
         return user;
-	}
+    }
 
 	private static WorkingAgreement createAgreementInContext() {
 
 		final WorkingAgreement agreement = new WorkingAgreement();
+		agreement.setName("Test Agreement");
 		final WorkingAgreementDAO workingAgreementDAO = (WorkingAgreementDAO) appCtx.getBean("daoWorkingAgreement");
 		workingAgreementDAO.insert(agreement);
 		return agreement;
@@ -93,41 +94,17 @@ public class SpringUtilsForTesting {
 	private static UserCategory createUserCategoryInContext() {
 
 		final UserCategory category = new UserCategory();
+		category.setName("Test Category");
 		final UserCategoryDAO userCategoryDAO = (UserCategoryDAO) appCtx.getBean("daoUserCategory");
 		userCategoryDAO.insert(category);
 		return category;
 	}
 
-	private static UserForTesting setUserForTestingInContext() {
-
-		final GrantedAuthority[] authorities = new GrantedAuthority[] {
-	            new GrantedAuthorityImpl("User"),
-	            new GrantedAuthorityImpl("Administrator") };
-		final UserForTesting user = new UserForTesting();
-	    user.setLogin("admin");
-	    user.setId(1);
-	    final DepartmentForTesting departmentForTesting = new DepartmentForTesting();
-	    departmentForTesting.setId(1);
-	    user.setDepartment(departmentForTesting);
-	    final RoleForTesting roleForTesting = new RoleForTesting();
-	    roleForTesting.setId(1);
-	    user.setRole(roleForTesting);
-	    final Principal principal = new Principal(user, authorities);
-	    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal,"admin"));
-		return user;
-	}
-
-	private static void setUserForTestingInContext(User user) {
-		final GrantedAuthority[] authorities = new GrantedAuthority[] {
-	            new GrantedAuthorityImpl("User"),
-	            new GrantedAuthorityImpl("Administrator") };
-	    final Principal principal = new Principal(user, authorities);
-	    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, "admin"));
-	}
-
 	private static Department createDepartmentInContext() {
 
 		final Department department = new Department();
+		department.setName("Test Department");
+		department.setDescription("Test Department");
 		final DepartmentDAO departmentDao = (DepartmentDAO) appCtx.getBean("daoDepartment");
 		departmentDao.insert(department);
 		return department;
@@ -136,31 +113,10 @@ public class SpringUtilsForTesting {
 	private static Role createRoleInContext() {
 
 		final Role role = new Role();
+		role.setName("Test Role");
 	    final RoleDAO roleDao = (RoleDAO) appCtx.getBean("daoRole");
 	    roleDao.insert(role);
 	    return role;
 	}
 
-	public static void removeUserFromContext() {
-
-		SecurityContextHolder.getContext().setAuthentication(null);
-	}
-
-	public static void deleteUserInContext(User userInContext) {
-
-		final UserDAO userDao = (UserDAO) appCtx.getBean("daoUser");
-		userDao.delete(userInContext);
-
-		final UserCategoryDAO userCategoryDAO = (UserCategoryDAO) appCtx.getBean("daoUserCategory");
-		userCategoryDAO.delete(userInContext.getCategory());
-
-		final WorkingAgreementDAO workingAgreementDAO = (WorkingAgreementDAO) appCtx.getBean("daoWorkingAgreement");
-		workingAgreementDAO.delete(userInContext.getAgreement());
-
-		final RoleDAO roleDao = (RoleDAO) appCtx.getBean("daoRole");
-		roleDao.delete(userInContext.getRole());
-
-		final DepartmentDAO departmentDao = (DepartmentDAO) appCtx.getBean("daoDepartment");
-		departmentDao.delete(userInContext.getDepartment());
-	}
 }

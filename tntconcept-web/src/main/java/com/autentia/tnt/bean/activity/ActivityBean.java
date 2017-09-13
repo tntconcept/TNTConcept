@@ -227,10 +227,10 @@ public class ActivityBean extends BaseBean {
 	/** List of projects */
 	private List<Project>						projects				= new ArrayList<Project>();
 
-	private static AuthenticationManager		authManager				= AuthenticationManager
+	private AuthenticationManager		authManager				= AuthenticationManager
 																				.getDefault();
 
-	private static HolidayManager				holidayManager			= HolidayManager
+	private HolidayManager				holidayManager			= HolidayManager
 																				.getDefault();
 
 	/** Settings manager */

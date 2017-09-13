@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.naming.NamingException;
 
@@ -39,7 +41,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get default configuration bean defined in Spring.
-	 * 
+	 *
 	 * @return the default configuration bean
 	 */
 	public static ConfigurationUtilForTesting getDefault() {
@@ -55,17 +57,17 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param jndiPathVar
 	 *            JNDI variable in which configuration directory is stored
 	 * @param file
 	 *            path to configuration file
 	 */
-	
-	
+
+
 	public ConfigurationUtilForTesting(String jndiPathVar, String file)
 			throws ConfigurationException, NamingException {
-		
+
 		super();
 		configDir =  System.getProperty("user.dir") + jndiPathVar;
 		if (!configDir.endsWith("/") && !configDir.endsWith("\\")) {
@@ -76,7 +78,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get configuration directory (with ending "/")
-	 * 
+	 *
 	 * @return configuration directory (with ending "/")
 	 */
 	public String getConfigDir() {
@@ -85,7 +87,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get id of public bulletin board category.
-	 * 
+	 *
 	 * @return id of public bulletin board category
 	 */
 	public int getIdPublicCategory() {
@@ -95,7 +97,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	/**
 	 * Get id of public bulletin board category. Get id of public bulletin board
 	 * category.
-	 * 
+	 *
 	 * @return id of public bulletin board category
 	 */
 	public int getIdOurCompany() {
@@ -104,7 +106,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get id of the main Category's Id for Quality Documents.
-	 * 
+	 *
 	 * @return id of quality document's category
 	 */
 	public int getQualityDocumentCategoryId() {
@@ -113,7 +115,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get id of the Category's Id for User Documents.
-	 * 
+	 *
 	 * @return id of User Documents Category.
 	 */
 	public int getUserDocumentCategoryId() {
@@ -122,7 +124,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get uploaded files path (always with a trailing /).
-	 * 
+	 *
 	 * @return uploaded files root path
 	 */
 	public String getUploadPath() {
@@ -136,7 +138,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get personal reports path (always with a trailing /).
-	 * 
+	 *
 	 * @return personal reports path
 	 */
 	public String getReportPath() {
@@ -146,7 +148,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	/**
 	 * Get number of children objectives that will be created when a previous
 	 * objective expires.
-	 * 
+	 *
 	 * @return number of children objectives
 	 */
 	public int getChildObjectivesCount() {
@@ -156,7 +158,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	/**
 	 * Get minimum number of children objectives that can be created when a
 	 * previous objective expires.
-	 * 
+	 *
 	 * @return number of children objectives
 	 */
 	public int getMinChildObjectivesCount() {
@@ -166,7 +168,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	/**
 	 * Get maximum number of children objectives that can be created when a
 	 * previous objective expires.
-	 * 
+	 *
 	 * @return number of children objectives
 	 */
 	public int getMaxChildObjectivesCount() {
@@ -176,7 +178,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	/**
 	 * Get the number of days in milliseconds before a category is considered as
 	 * updated
-	 * 
+	 *
 	 * @return number of days in milliseconds
 	 */
 	public long getUpdatedCategoryDaysInMillis() {
@@ -216,14 +218,19 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 		return Integer.parseInt(getProperty("roleClientId", "5"));
 	}
 
+	@Override
+    public int getRoleProjectManagerId() {
+        return Integer.parseInt(getProperty("roleProjectManagerId", "6"));
+    }
+
 	public float getIvaUntilJuly2010() {
 		return Float.parseFloat(getProperty("ivaUntilJuly2010", "16"));
 	}
-	
+
 	public float getIvaUntilSeptember2012() {
 		return Float.parseFloat(getProperty("ivaUntilSeptember2012", "18"));
 	}
-	
+
 	public float getActualIva() {
 		return Float.parseFloat(getProperty("iva", "21"));
 	}
@@ -289,7 +296,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Get a configuration property by name.
-	 * 
+	 *
 	 * @param propertyName
 	 *            property name
 	 * @return a named property
@@ -302,7 +309,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * return the name of the logo file for reports. (just the name)
 	 */
 	public String getLogoName() {
@@ -311,7 +318,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return the path of the logo (including name)
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -333,7 +340,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return a boolean value representing the value of isUsingExternalCss.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isUsingExternalCss() {
@@ -343,7 +350,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return the name of the folder of docroot (external files)
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDocumentoRootFolder() {
@@ -352,7 +359,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return the name of the mail server. For instance, 'smtp.mycompany.com'
-	 * 
+	 *
 	 * @return
 	 */
 	public String getMailHost() {
@@ -361,7 +368,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return the port number of the smtp server (by default, 25)
-	 * 
+	 *
 	 * @return
 	 */
 	public String getMailPort() {
@@ -370,7 +377,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return the username of an smtp user
-	 * 
+	 *
 	 * @return
 	 */
 	public String getMailUsername() {
@@ -379,7 +386,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return the username of an smtp user
-	 * 
+	 *
 	 * @return
 	 */
 	public String getMailPassword() {
@@ -388,7 +395,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 
 	/**
 	 * Return if the smtp server requiures authorization
-	 * 
+	 *
 	 * @return
 	 */
 	public String getMailRequiresAuth() {
@@ -398,7 +405,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	/**
 	 * Return the absolute path of the folder docroot (external files) with
 	 * ending /
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDocumentRootPath() {
@@ -419,7 +426,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	}
 
 	public String getSecurityMatrix() {
-		return getProperty("securityMatrix", "securityConfiguration.xml");
+		return getProperty("securityMatrix", "securityConfiguration-test.xml");
 	}
 
 	public boolean isForceCompileReports() {
@@ -453,4 +460,21 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 			return 365; // Por defecto cada 90 dias
 		}
 	}
+
+	@Override
+	public String getMailNotificationContractSubject() {
+        return getProperty("mail.notification.contract.subject", "Finalizacion de Contrato Proximamente");
+    }
+
+	@Override
+    public Collection<String> getMailNotificationContractSendTo() {
+        final String mailSendTo =getProperty("mail.notification.contract.sendTo", "admin@mycompany.com");
+        return Arrays.asList(mailSendTo.split(" "));
+    }
+
+	@Override
+    public boolean getEnabledSendMail() {
+        return Boolean.valueOf(getProperty("enabledSendMail", "false"));
+    }
+
 }

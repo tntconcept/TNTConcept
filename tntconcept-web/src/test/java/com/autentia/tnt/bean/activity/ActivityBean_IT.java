@@ -7,9 +7,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,23 +19,27 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.autentia.tnt.businessobject.Holiday;
 import com.autentia.tnt.businessobject.HolidayState;
 import com.autentia.tnt.businessobject.RequestHoliday;
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 import com.autentia.tnt.util.HibernateUtil;
-import com.autentia.tnt.util.SpringUtils;
 
 public class ActivityBean_IT {
 
-	private SessionFactory sessionFactory;
-	private User loggedUser;
+	private static SessionFactory sessionFactory;
+
+	@BeforeClass
+	public static void initDB() {
+		Flyway flyway = new Flyway();
+		flyway.setDataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "");
+		flyway.migrate();
+	}
 
 	@Before
 	public void setup() {
 		// test application context
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext-test.xml");
-		SpringUtils.configureTest(appCtx);
+		SpringUtilsForTesting.configure(appCtx);
 
 		// prepare hibernate
 		sessionFactory = HibernateUtil.getSessionFactory();
@@ -41,8 +47,7 @@ public class ActivityBean_IT {
 		sessionFactory.getCurrentSession().beginTransaction();
 
 		// a principal is required in the security context
-		SpringUtilsForTesting.configure(appCtx);
-		loggedUser = SpringUtilsForTesting.createUserInContextWithRoleAndDepartment();
+		SpringUtilsForTesting.loadPrincipalInSecurityContext("admin");
 	}
 
 	@After
@@ -56,7 +61,6 @@ public class ActivityBean_IT {
 		// create a holiday request over two months
 		RequestHolidayManager rhManager = RequestHolidayManager.getDefault();
 		RequestHoliday requestOverMonths = new RequestHoliday();
-		requestOverMonths.setUserRequest(loggedUser);
 		requestOverMonths.setState(HolidayState.ACCEPT);
 
 		LocalDate startRequest = LocalDate.of(2017, 8, 31);
@@ -90,7 +94,6 @@ public class ActivityBean_IT {
 		// create a holiday request within a month
 		RequestHolidayManager rhManager = RequestHolidayManager.getDefault();
 		RequestHoliday requestWithinMonth = new RequestHoliday();
-		requestWithinMonth.setUserRequest(loggedUser);
 		requestWithinMonth.setState(HolidayState.ACCEPT);
 
 		LocalDate startRequest = LocalDate.of(2017, 8, 25);
@@ -120,6 +123,7 @@ public class ActivityBean_IT {
 		LocalDate holidayDay = LocalDate.of(2017, 8, 15);
 		Date holidayDate = Date.from(holidayDay .atStartOfDay(ZoneId.systemDefault()).toInstant());
 		holiday.setDate(holidayDate);
+		holiday.setDescription("Test Holiday");
 		holidayManager.insertEntity(holiday);
 
 		// verify total hours for the month where the holiday day is in
@@ -140,6 +144,7 @@ public class ActivityBean_IT {
 		LocalDate holidayInWeekendDay = LocalDate.of(2017, 8, 13);
 		Date holidayDate = Date.from(holidayInWeekendDay .atStartOfDay(ZoneId.systemDefault()).toInstant());
 		holiday.setDate(holidayDate);
+		holiday.setDescription("Test Holiday");
 		holidayManager.insertEntity(holiday);
 
 		// verify total hours for the month where the holiday is in
