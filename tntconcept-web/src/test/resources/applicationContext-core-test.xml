@@ -91,9 +91,8 @@
 	<bean id="managerProject" class="com.autentia.tnt.manager.admin.ProjectManager">
 		<constructor-arg ref="daoProject" />
 	</bean>
-
     <!-- added for ActivtyBean integration tests -->
-	<bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
+    <bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
         <constructor-arg ref="daoActivity" />
     </bean>
     <bean id="managerExternalActivity"
@@ -126,32 +125,14 @@
     <bean id="managerRequestHoliday" class="com.autentia.tnt.manager.holiday.RequestHolidayManager">
         <constructor-arg ref="daoRequestHoliday" />
     </bean>
-
-    <bean id="userDetailsService" class="com.autentia.tnt.manager.security.AuthenticationManagerImpl">
-        <constructor-arg value="false" />
-        <constructor-arg>
-            <list>
-                <bean class="com.autentia.tnt.manager.security.AuthenticationManagerLdapImpl">
-                    <constructor-arg ref="configuration"/>
-                    <constructor-arg ref="userRolesService"/>
-                    <constructor-arg>
-                        <bean class="com.autentia.tnt.manager.security.AuthenticationManagerLdapTemplate"/>
-                    </constructor-arg>
-                </bean>
-                <bean class="com.autentia.tnt.manager.security.AuthenticationManagerDaoImpl">
-                    <constructor-arg ref="configuration"/>
-                    <constructor-arg ref="userRolesService"/>
-                </bean>
-            </list>
-        </constructor-arg>
-    </bean>
-    <bean id="userRolesService" class="com.autentia.tnt.manager.security.impl.fixed.UserRolesService">
-        <constructor-arg ref="securityConfiguration"/>
-    </bean>
-    <bean id="securityConfiguration" class="com.autentia.tnt.manager.security.impl.fixed.DefaultSecurityConfiguration">
-        <constructor-arg ref="configuration"/>
+    <bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
+        <constructor-arg ref="daoUser" />
     </bean>
 
+    <!-- Mail Service  -->
+    <bean id="mailService" class="com.autentia.tnt.mail.DefaultMailService" init-method="init">
+        <constructor-arg ref="configuration" />
+    </bean>
 
 	<!-- Configuration bean -->
 	<bean id="configuration"

@@ -22,13 +22,13 @@
 <beans>
 
   <bean id="changesAspect" class="com.autentia.tnt.tracking.annotation.ChangesHistoryAspect" />
-  
+
   <!-- Configuration bean -->
   <bean id="configuration" class="com.autentia.tnt.util.ConfigurationUtil">
     <!-- JNDI variable holding configuration directory -->
-    <constructor-arg value="java:comp/env/TNTConceptConfigDir"/> 
+    <constructor-arg value="java:comp/env/TNTConceptConfigDir"/>
     <!-- Configuration file -->
-    <constructor-arg value="autentia.properties"/> 
+    <constructor-arg value="autentia.properties"/>
   </bean>
 
 	<!-- DAOs -->
@@ -49,12 +49,12 @@
   <bean id="daoContractType" class="com.autentia.tnt.dao.hibernate.ContractTypeDAO" />
   <bean id="daoDepartment" class="com.autentia.tnt.dao.hibernate.DepartmentDAO" />
   <bean id="daoDocumentCategory" class="com.autentia.tnt.dao.hibernate.DocumentCategoryDAO" />
-  <bean id="daoDocument" class="com.autentia.tnt.dao.hibernate.DocumentDAO" />    
-  <bean id="daoDocumentVersion" class="com.autentia.tnt.dao.hibernate.DocumentVersionDAO" />    
+  <bean id="daoDocument" class="com.autentia.tnt.dao.hibernate.DocumentDAO" />
+  <bean id="daoDocumentVersion" class="com.autentia.tnt.dao.hibernate.DocumentVersionDAO" />
   <bean id="daoHoliday" class="com.autentia.tnt.dao.hibernate.HolidayDAO" />
   <bean id="daoIdea" class="com.autentia.tnt.dao.hibernate.IdeaDAO" />
   <bean id="daoInteraction" class="com.autentia.tnt.dao.hibernate.InteractionDAO" />
-  <bean id="daoInteractionType" class="com.autentia.tnt.dao.hibernate.InteractionTypeDAO" />    
+  <bean id="daoInteractionType" class="com.autentia.tnt.dao.hibernate.InteractionTypeDAO" />
   <bean id="daoInventary" class="com.autentia.tnt.dao.hibernate.InventaryDAO" />
   <bean id="daoMagazine" class="com.autentia.tnt.dao.hibernate.MagazineDAO" />
   <bean id="daoObjective" class="com.autentia.tnt.dao.hibernate.ObjectiveDAO" />
@@ -316,28 +316,30 @@
 		init-method="init">
 		<constructor-arg ref="configuration" />
 	</bean>
-	
+
 	<!-- Changes Mail Service  -->
 	<bean id="changesMailService" class="com.autentia.tnt.tracking.mail.TrackChangesMailService">
 		<property name="mailService" ref="mailService" />
 	</bean>
-	
-	<bean id="contractExpirationNotificationBean" class="com.autentia.tnt.bean.ContractExpirationNotificationBean" />
-  		
+
+	<bean id="contractExpirationNotificationBean" class="com.autentia.tnt.bean.ContractExpirationNotificationBean">
+	   <constructor-arg ref="mailService" />
+	</bean>
+
   		<bean id="jobContractExpirationNotification" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		  	 <property name="targetObject" ref="contractExpirationNotificationBean" />  
-			 <property name="targetMethod" value="checkExpirationDate" />  
+		  	 <property name="targetObject" ref="contractExpirationNotificationBean" />
+			 <property name="targetMethod" value="checkExpirationDate" />
   		</bean>
-  		
+
   		<bean id="cronContractExpirationNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		  	<property name="jobDetail" ref="jobContractExpirationNotification" />
 		  	<property name="cronExpression" value="	0 0 8 1 1/1 ? *"/>
   		</bean>
-   		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
-    		<property name="triggers">  
-         		<ref bean="cronContractExpirationNotificationTrigger" />  
-     		</property>  
- 		</bean>  
+   		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    		<property name="triggers">
+         		<ref bean="cronContractExpirationNotificationTrigger" />
+     		</property>
+ 		</bean>
 	
 	<!--
 	<bean id="billExpirationDateBean" class="com.autentia.tnt.bean.billing.BillExpirationDateBean" />

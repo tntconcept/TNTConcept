@@ -22,5 +22,7 @@
 <beans>
 
   <import resource="applicationContext-core-test.xml"/>
- 
+  <import resource="applicationContext-acegi-security-test.xml"/>
+  <import resource="applicationContext-tntconcept-security-test.xml"/>
+
 </beans>
