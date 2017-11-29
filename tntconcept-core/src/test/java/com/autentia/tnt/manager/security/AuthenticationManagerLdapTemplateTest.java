@@ -1,21 +1,25 @@
 package com.autentia.tnt.manager.security;
 
-import com.autentia.tnt.businessobject.User;
-import com.autentia.tnt.util.ConfigurationUtil;
-import com.autentia.tnt.util.SpringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.security.providers.ldap.authenticator.BindAuthenticator;
-
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
-
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
+
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.BasicAttribute;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.ModificationItem;
+
+import org.acegisecurity.ldap.InitialDirContextFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+
+import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.util.ConfigurationUtil;
+import com.autentia.tnt.util.SpringUtils;
 
 public class AuthenticationManagerLdapTemplateTest {
 
@@ -25,7 +29,9 @@ public class AuthenticationManagerLdapTemplateTest {
 
     private AuthenticationManagerLdapTemplate sut;
 
-    private BindAuthenticator bindAuthenticator = mock(BindAuthenticator.class);
+    private CustomBindAuthenticator customBindAuthenticator = mock(CustomBindAuthenticator.class);
+
+    private InitialDirContextFactory initialDirContextFactory = mock(InitialDirContextFactory.class);
 
     private DirContext dirContext = mock(DirContext.class);
 
@@ -38,7 +44,9 @@ public class AuthenticationManagerLdapTemplateTest {
     @Before
     public void init() throws NamingException {
 
-        when(ctx.getBean("ldapBindAuthenticator")).thenReturn(bindAuthenticator);
+        when(ctx.getBean("ldapBindAuthenticator")).thenReturn(customBindAuthenticator);
+        when(customBindAuthenticator.getInitialDirContextFactory()).thenReturn(initialDirContextFactory);
+
         when(ctx.getBean("configuration")).thenReturn(configurationUtil);
         when(configurationUtil.isLdapProviderEnabled()).thenReturn(Boolean.TRUE);
 
@@ -54,7 +62,57 @@ public class AuthenticationManagerLdapTemplateTest {
     }
 
     @Test
-    @Ignore("Until AuthenticationManagerLdapTemplate will fixed")
+    public void shouldApplyUpdate() throws NamingException {
+
+        assertThat(user.isPasswordExpired(), is(Boolean.TRUE));
+        assertThat(user.getLdapPassword(), is(PASSWORD));
+        Attribute newPasswordAttribute = new BasicAttribute("userPassword", NEW_PASSWORD);
+        ModificationItem[] mods = new ModificationItem[1];
+        mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
+        try {
+            dirContext.modifyAttributes(user.getLdapName(), mods);
+        } catch (NamingException e) {
+            AuthenticationManagerLdapImpl.log.error(e);
+            throw e;
+        }
+        user.setPasswordExpired(Boolean.FALSE);
+        user.setLdapPassword(NEW_PASSWORD);
+        assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
+        assertThat(user.getLdapPassword(), is(NEW_PASSWORD));
+
+    }
+
+    @Test(expected = NamingException.class)
+    public void shouldThrowNamingExceptionWhenApplyUpdate() throws NamingException {
+
+        user.setPasswordExpired(Boolean.FALSE);
+
+        doThrow(new NamingException()).when(dirContext).modifyAttributes(eq(user.getLdapName()),
+                any(ModificationItem[].class));
+
+        assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
+        assertThat(user.getLdapPassword(), is(PASSWORD));
+
+        try {
+            Attribute newPasswordAttribute = new BasicAttribute("userPassword", NEW_PASSWORD);
+            ModificationItem[] mods = new ModificationItem[1];
+            mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
+            try {
+                dirContext.modifyAttributes(user.getLdapName(), mods);
+            } catch (NamingException e) {
+                AuthenticationManagerLdapImpl.log.error(e);
+                throw e;
+            }
+            user.setPasswordExpired(Boolean.FALSE);
+            user.setLdapPassword(NEW_PASSWORD);
+        } catch (NamingException e) {
+            assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
+            assertThat(user.getLdapPassword(), is(PASSWORD));
+            throw e;
+        }
+    }
+
+    @Test
     public void shouldChangePasswordTest() throws NamingException {
 
 

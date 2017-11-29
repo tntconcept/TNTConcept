@@ -6,17 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Date;
-
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class UserTest {
 
 
-    private final User user = new User();
+    private User user;
 
     private static final String OLD_PASSWORD = "oldPassword";
     private static final String NEW_PASSWORD = "newPassword";
@@ -31,11 +29,13 @@ public class UserTest {
     private ConfigurationUtil configurationUtil = mock(ConfigurationUtil.class);
 
     @Before
-    public void init() {
+    public void init(){
 
         when(applicationContext.getBean("configuration")).thenReturn(configurationUtil);
         SpringUtils.configureTest(applicationContext);
 
+
+        user = new User();
         user.setLdapPassword(OLD_PASSWORD);
         user.setDn(OLD_DN);
         user.setLdapName(OLD_LDAPNAME);
@@ -43,64 +43,56 @@ public class UserTest {
     }
 
     @Test
-    public void getLdapPassword() {
-        assertThat(user.getLdapPassword(), is(OLD_PASSWORD));
+    public void getLdapPassword() throws Exception {
+        assertThat(user.getLdapPassword(),is(OLD_PASSWORD));
     }
 
     @Test
-    public void setLdapPassword() {
+    public void setLdapPassword() throws Exception {
+        assertThat(user.getLdapPassword(),is(OLD_PASSWORD));
         user.setLdapPassword(NEW_PASSWORD);
-        assertThat(user.getLdapPassword(), is(NEW_PASSWORD));
+        assertThat(user.getLdapPassword(),is(NEW_PASSWORD));
     }
 
     @Test
-    public void isLdapAuthentication() {
-        when(configurationUtil.isLdapProviderEnabled()).thenReturn(true);
-        assertThat(user.isLdapAuthentication(), is(true));
+    public void isLdapAuthentication() throws Exception {
+        when(configurationUtil.isLdapProviderEnabled()).thenReturn(Boolean.TRUE);
+        assertThat(user.isLdapAuthentication(), is(Boolean.TRUE));
     }
 
     @Test
-    public void isNotLdapAuthentication() {
-        when(configurationUtil.isLdapProviderEnabled()).thenReturn(false);
-        assertThat(user.isLdapAuthentication(), is(false));
+    public void isNotLdapAuthentication() throws Exception {
+        when(configurationUtil.isLdapProviderEnabled()).thenReturn(Boolean.FALSE);
+        assertThat(user.isLdapAuthentication(), is(Boolean.FALSE));
     }
 
     @Test
-    public void when_isLdapAuthentication_isPasswordExpired() {
-        when(configurationUtil.isLdapProviderEnabled()).thenReturn(true);
-        user.setPasswordExpired(true);
-
-        assertThat(user.isPasswordExpired(), is(true));
+    public void setDn() throws Exception {
+        assertThat(user.getDn(),is(OLD_DN));
     }
 
     @Test
-    public void when_isNotLdapAuthentication_isPasswordExpired() {
-        when(configurationUtil.isLdapProviderEnabled()).thenReturn(false);
-        user.setPasswordExpired(false);
-        user.setPasswordExpireDate(new Date(java.lang.System.currentTimeMillis() - 1));
-
-        assertThat(user.isPasswordExpired(), is(true));
-    }
-
-    @Test
-    public void setDn() {
-        assertThat(user.getDn(), is(OLD_DN));
-    }
-
-    @Test
-    public void getDn() {
+    public void getDn() throws Exception {
+        assertThat(user.getDn(),is(OLD_DN));
         user.setDn(NEW_DN);
-        assertThat(user.getDn(), is(NEW_DN));
+        assertThat(user.getDn(),is(NEW_DN));
     }
 
     @Test
-    public void setLdapName() {
+    public void setLdapName() throws Exception {
+        assertThat(user.getLdapName(),is(OLD_LDAPNAME));
         user.setLdapName(NEW_LDAPNAME);
-        assertThat(user.getLdapName(), is(NEW_LDAPNAME));
+        assertThat(user.getLdapName(),is(NEW_LDAPNAME));
     }
 
     @Test
-    public void buildLdapName() {
+    public void getLdapName() throws Exception {
+        assertThat(user.getLdapName(),is(OLD_LDAPNAME));
+    }
+
+    @Test
+    public void buildLdapName() throws Exception {
+
         assertThat(user.buildLdapName(), is("uid=user,ou=People"));
     }
 

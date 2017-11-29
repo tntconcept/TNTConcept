@@ -1,21 +1,21 @@
 package com.autentia.tnt.manager.security;
 
-import com.autentia.tnt.businessobject.User;
-import com.autentia.tnt.util.ConfigurationUtil;
-import com.autentia.tnt.util.SpringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.security.providers.ldap.authenticator.BindAuthenticator;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import org.acegisecurity.ldap.InitialDirContextFactory;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+
+import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.util.ConfigurationUtil;
+import com.autentia.tnt.util.SpringUtils;
 
 public class AuthenticationManagerLdapImplTest {
 
@@ -31,7 +31,9 @@ public class AuthenticationManagerLdapImplTest {
 
     private IUserRolesService userRolesService = mock(IUserRolesService.class);
 
-    private BindAuthenticator bindAuthenticator = mock(BindAuthenticator.class);
+    private CustomBindAuthenticator customBindAuthenticator = mock(CustomBindAuthenticator.class);
+
+    private InitialDirContextFactory initialDirContextFactory = mock(InitialDirContextFactory.class);
 
     private AuthenticationManagerLdapTemplate authManagerLdapTemplate;
 
@@ -47,8 +49,10 @@ public class AuthenticationManagerLdapImplTest {
     public void init() throws NamingException {
 
         when(ctx.getBean("userDetailsService")).thenReturn(authenticationManager);
-        when(ctx.getBean("ldapBindAuthenticator")).thenReturn(bindAuthenticator);
+        when(ctx.getBean("ldapBindAuthenticator")).thenReturn(customBindAuthenticator);
         when(ctx.getBean("authenticationMangerLdapTemplate")).thenReturn(authManagerLdapTemplate);
+        when(customBindAuthenticator.getInitialDirContextFactory()).thenReturn(initialDirContextFactory);
+
         when(ctx.getBean("configuration")).thenReturn(configurationUtil);
         when(configurationUtil.isLdapProviderEnabled()).thenReturn(Boolean.TRUE);
 
@@ -78,7 +82,6 @@ public class AuthenticationManagerLdapImplTest {
     }
 
     @Test
-    @Ignore("Until AuthenticationManagerLdapTemplate will fixed")
     public void changeAsUserPassword() throws Exception {
 
         doNothing().when(authManagerLdapTemplate).modifyAttributes(any(DirContext.class), eq(user), any(ModificationItem[].class));
@@ -93,7 +96,6 @@ public class AuthenticationManagerLdapImplTest {
     }
 
     @Test
-    @Ignore("Until AuthenticationManagerLdapTemplate will fixed")
     public void changeAsAdminPassword() throws Exception {
 
         User userAdmin = getUserAdmin();
@@ -111,7 +113,6 @@ public class AuthenticationManagerLdapImplTest {
 
 
     @Test
-    @Ignore("Until AuthenticationManagerLdapTemplate will fixed")
     public void resetPassword() throws Exception {
 
         User userAdmin = getUserAdmin();
