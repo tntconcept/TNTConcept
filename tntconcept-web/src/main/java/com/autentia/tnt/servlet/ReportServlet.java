@@ -138,6 +138,7 @@ public class ReportServlet extends HttpServlet {
 		try {
 			generator.generate(builder.build(), response.getOutputStream());
 		} catch (ReportException e1) {
+			log.error(e1);
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					 e1.getMessage());
 		}
