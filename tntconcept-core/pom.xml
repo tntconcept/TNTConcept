@@ -143,10 +143,5 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.9</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-javadoc-plugin</artifactId>
-			 <version>2.10.4</version>
-		</dependency>
 	</dependencies>
 </project>
