@@ -52,6 +52,10 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["proyectoyrol_subreport"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_ORGANIZATIONAMOUNT" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["organizationAmount_subreport"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="SUBREPORT_FOOTER" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
@@ -549,7 +553,32 @@ order by o.name,a.startDate,u.name,p.name;]]></queryString>
 			</band>
 		</lastPageFooter>
 		<summary>
-			<band height="0"  isSplitAllowed="true" >
+			<band height="15"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="36"
+						y="2"
+						width="231"
+						height="11"
+						key="subreport-5"/>
+					<subreportParameter  name="Fecha inicio">
+						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="Fecha fin">
+						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="Organizacion">
+						<subreportParameterExpression><![CDATA[$P{Organizacion}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="Usuario">
+						<subreportParameterExpression><![CDATA[$P{Usuario}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_ORGANIZATIONAMOUNT}]]></subreportExpression>
+				</subreport>
 			</band>
 		</summary>
 </jasperReport>

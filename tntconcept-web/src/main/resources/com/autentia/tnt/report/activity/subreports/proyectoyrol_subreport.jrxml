@@ -39,34 +39,36 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select
+	<queryString><![CDATA[SELECT
 			startDate,
 			startDate + INTERVAL duration MINUTE as endDate,
 			duration,
 			description,
 			COALESCE(fact,0) as fact,
-			COALESCE(noFact,0) as noFact from (
+			COALESCE(noFact,0) as noFact,
+             COALESCE(impFact/60,0) as impFact from (
 
-			SELECT
+			select
  					a.startDate,
  					a.duration,
  					a.description,
  					sum(CASE WHEN a.billable=1 then duration end) as 'fact',
-				    sum(CASE WHEN a.billable=0 then duration end) as 'noFact'
+				    sum(CASE WHEN a.billable=0 then duration end) as 'noFact',
+                    sum(CASE WHEN a.billable=1 then (duration * r.costPerHour) end) as 'impFact'
 
 			FROM Activity a,Organization o,User u,Project p,ProjectRole r
 
-			where 	u.id=a.userId and
+			WHERE 	u.id=a.userId and
 					r.id=a.roleId and
 					p.organizationId=o.id and
 					p.id=r.projectId and
 					p.id=$P{idProyecto} and
-                    r.id=$P{idRol} and
+                				r.id=$P{idRol} and
 					a.startDate between $P{Fecha inicio} and $P{Fecha fin}
 
-			group by a.id
+			GROUP BY a.id
 
-			order by 	a.startDate,
+			ORDER BY 	a.startDate,
 						o.name,
 						u.name) as tabla;]]></queryString>
 
@@ -76,12 +78,16 @@
 	<field name="description" class="java.lang.String"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
+	<field name="impFact" class="java.math.BigDecimal"/>
 
 	<variable name="sumHorasFact" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[new java.lang.Double(($F{fact}.doubleValue())/60.0)]]></variableExpression>
 	</variable>
 	<variable name="sumHorasNoFact" class="java.lang.Double" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[new java.lang.Double(($F{noFact}.doubleValue())/60.0)]]></variableExpression>
+	</variable>
+	<variable name="sumImpFact" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[new java.lang.Double($F{impFact}.doubleValue())]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -295,7 +301,7 @@
 					<reportElement
 						x="117"
 						y="10"
-						width="314"
+						width="99"
 						height="14"
 						key="textField-11"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -308,7 +314,7 @@
 					<reportElement
 						x="117"
 						y="26"
-						width="310"
+						width="99"
 						height="14"
 						key="textField-12"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -316,6 +322,32 @@
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sumHorasNoFact}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="216"
+						y="18"
+						width="83"
+						height="14"
+						key="staticText-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Verdana" pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.detallado.importe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="301"
+						y="18"
+						width="86"
+						height="14"
+						key="textField-13"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sumImpFact}]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>
