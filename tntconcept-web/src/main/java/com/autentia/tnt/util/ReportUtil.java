@@ -183,6 +183,8 @@ public final class ReportUtil {
 						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("providers"));
 					} else if (desc.equals("TYPE")) {
 						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("types"));
+					} else if (desc.equals("ORGANIZATION_ONE")) {
+						pdef = new ReportParameterDefinition(name, "selectOne", name, dataPanel.get("orgs"));
 					} else if (desc.equals("ORGANIZATION")) {
 						pdef = new ReportParameterDefinition(name, "selectMany", name, dataPanel.get("orgs"));
 					} else if (desc.equals("PROJECTS")) {
