@@ -31,6 +31,10 @@
 		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
+	<parameter name="idUser" isForPrompting="false" class="java.lang.Integer">
+		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
+		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
+	</parameter>	
 	<parameter name="idRol" isForPrompting="false" class="java.lang.Integer">
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
@@ -58,12 +62,13 @@
 
 			FROM Activity a,Organization o,User u,Project p,ProjectRole r
 
-			WHERE 	u.id=a.userId and
+			where 	u.id=$P{idUser} and
+					u.id=a.userId and
 					r.id=a.roleId and
 					p.organizationId=o.id and
 					p.id=r.projectId and
 					p.id=$P{idProyecto} and
-                				r.id=$P{idRol} and
+                    r.id=$P{idRol} and
 					a.startDate between $P{Fecha inicio} and $P{Fecha fin}
 
 			GROUP BY a.id

@@ -67,22 +67,23 @@
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT		    o.name as OrgName,
-		    u.name as userName,
-		    p.name as projectName,
-		    r.name as roleName,
+	<queryString><![CDATA[SELECT  o.name as OrgName,
+		    		u.name as userName,
+		    		p.name as projectName,
+		    		r.name as roleName,
                     p.id as idProyecto,
                     r.id as idRol
-FROM Activity a,Organization o,User u,Project p,ProjectRole r
-where
-u.id=a.userId and
-r.id=a.roleId and
-p.organizationId=$P{Organizacion} and
-p.id=r.projectId and
-u.id=$P{Usuario} and
-a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-group by a.roleId
-order by o.name,a.startDate,u.name,p.name;]]></queryString>
+			FROM Activity a,Organization o,User u,Project p,ProjectRole r
+			where
+					u.id=a.userId and
+					r.id=a.roleId and
+					p.organizationId=$P{Organizacion} and
+					o.id=p.organizationId and
+					p.id=r.projectId and
+					u.id=$P{Usuario} and
+					a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+			group by a.roleId
+			order by o.name,a.startDate,u.name,p.name;]]></queryString>
 
 	<field name="OrgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
@@ -403,6 +404,9 @@ order by o.name,a.startDate,u.name,p.name;]]></queryString>
 					</subreportParameter>
 					<subreportParameter  name="Fecha fin">
 						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="idUser">
+						<subreportParameterExpression><![CDATA[$P{Usuario}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="idRol">
 						<subreportParameterExpression><![CDATA[$F{idRol}]]></subreportParameterExpression>
