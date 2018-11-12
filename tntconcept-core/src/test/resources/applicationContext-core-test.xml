@@ -130,7 +130,7 @@
 	<bean id="managerUserCategory" class="com.autentia.tnt.manager.admin.UserCategoryManager">
 		<constructor-arg ref="daoUserCategory" />
 	</bean>
-	<bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
+	<bean id="userManager" class="com.autentia.tnt.manager.admin.UserManager">
 		<constructor-arg ref="daoUser" />
 	</bean>
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">

@@ -201,15 +201,6 @@
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   
-  <!--  Bean para enviar correo de restablecimiento de password -->
-  <managed-bean>
-    <managed-bean-name>linkBean</managed-bean-name>
-    <managed-bean-class>
-      com.autentia.tnt.bean.LinkBean
-    </managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-  </managed-bean>
-  
   <!--  Bean for activities (bitacore) screen -->
   <managed-bean>
     <managed-bean-name>activityBean</managed-bean-name>
