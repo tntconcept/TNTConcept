@@ -20,20 +20,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.ModificationItem;
-
 import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.ldap.InitialDirContextFactory;
-import org.acegisecurity.ldap.LdapCallback;
-import org.acegisecurity.ldap.LdapTemplate;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
@@ -291,4 +281,5 @@ public abstract class AuthenticationManager implements UserDetailsService {
 
         return ret;
     }
+    
 }

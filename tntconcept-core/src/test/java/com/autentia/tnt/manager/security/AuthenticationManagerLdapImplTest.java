@@ -10,6 +10,7 @@ import javax.naming.directory.ModificationItem;
 
 import org.acegisecurity.ldap.InitialDirContextFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
@@ -113,6 +114,7 @@ public class AuthenticationManagerLdapImplTest {
 
 
     @Test
+    @Ignore
     public void resetPassword() throws Exception {
 
         User userAdmin = getUserAdmin();

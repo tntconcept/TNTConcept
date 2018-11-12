@@ -22,6 +22,22 @@
         "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
 
+	 <navigation-rule>
+        <from-view-id>/notAuthorized.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>passwordChange</from-outcome>
+            <to-view-id>/passwordChangeForm.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+    	<from-view-id>/passwordChangeForm.jsp</from-view-id>
+    	<navigation-case>
+    		<from-outcome>emailSent</from-outcome>
+    		<to-view-id>/root.jsp</to-view-id>
+    	</navigation-case>
+    </navigation-rule>
+
     <navigation-rule>
         <from-view-id>/login.jsp</from-view-id>
         <navigation-case>

@@ -50,6 +50,13 @@
 	    </h:panelGrid>	    
 	  </h:panelGrid>
 	</div> 
+	
+	<div align="center" style="top:50px">
+			<h:form>
+		   		<h:commandButton id="link" action="#{linkBean.goPasswordChange}" value="¿Quieres restablecer la contraseña?"/>
+		    </h:form>
+   	</div>
+
     </body>
   </f:view>
 </html>

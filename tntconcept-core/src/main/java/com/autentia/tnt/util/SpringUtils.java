@@ -33,7 +33,11 @@ import org.acegisecurity.acls.sid.SidRetrievalStrategyImpl;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.context.ApplicationContext;
 
+import com.autentia.tnt.businessobject.Department;
+import com.autentia.tnt.businessobject.Role;
+import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.ITransferObject;
+import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.manager.security.Principal;
 
 /**
@@ -138,8 +142,17 @@ public class SpringUtils
 	 * @return the current principal as reported by ACEGI
 	 */
 	public static Principal getPrincipal()
-	{
+	{ 
 		return (Principal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
+
+	/**
+	 * Get current principal
+	 * @return the current principal as reported by ACEGI
+	 */
+	public static Principal getPrincipalAdmin()
+	{ 		
+		return (Principal) AuthenticationManager.getDefault().loadUserByUsername("admin");
 	}
 	
 	/**

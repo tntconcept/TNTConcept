@@ -92,6 +92,7 @@
   <bean id="daoPosition" class="com.autentia.tnt.dao.hibernate.PositionDAO" />
   <bean id="daoTag" class="com.autentia.tnt.dao.hibernate.TagDAO" />
   <bean id="daoEntityChange" class="com.autentia.tnt.tracking.hibernate.dao.EntityChangeDAO" />
+  <bean id="daoLink" class="com.autentia.tnt.dao.hibernate.LinkDAO" />
 
 	<!-- Managers -->
 	<bean id="managerAccountEntry" class="com.autentia.tnt.manager.account.AccountEntryManager">
@@ -130,7 +131,7 @@
 	<bean id="managerUserCategory" class="com.autentia.tnt.manager.admin.UserCategoryManager">
 		<constructor-arg ref="daoUserCategory" />
 	</bean>
-	<bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
+	<bean id="userManager" class="com.autentia.tnt.manager.admin.UserManager">
 		<constructor-arg ref="daoUser" />
 	</bean>
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
@@ -309,6 +310,9 @@
 		<constructor-arg ref="daoTag" />
         <property name="contactDAO" ref="daoContact"></property>
         <property name="entityChangeDAO" ref="daoEntityChange"></property>
+	</bean>
+	<bean id="linkManager" class="com.autentia.tnt.manager.admin.LinkManager">
+		<constructor-arg ref="daoLink" />
 	</bean>
 
 	<!-- Mail Service  -->

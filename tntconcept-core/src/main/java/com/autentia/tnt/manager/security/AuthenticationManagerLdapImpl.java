@@ -23,9 +23,13 @@ public class AuthenticationManagerLdapImpl extends AuthenticationManager {
     }
 
     public String resetPassword(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
-
         String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
-        final User userAdmin = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
+        
+        Principal principal = SpringUtils.getPrincipalAdmin();
+        final User userAdmin = principal.getUser();
+        userAdmin.setDn(ConfigurationUtil.getDefault().getLdapAdminDn());
+        userAdmin.setLdapPassword(ConfigurationUtil.getDefault().getLdapAdminPassword());
+        
         changePassword(user, changedPassword, userAdmin);
         activateLdapUserPasswordResetFlag(user, userAdmin);
         return changedPassword;

@@ -58,15 +58,9 @@ public class UserManager
    */
   public static UserManager getDefault()
   {
-    return (UserManager)SpringUtils.getSpringBean("managerUser");
+    return (UserManager)SpringUtils.getSpringBean("userManager");
   }
 
-  /** 
-   * Empty constructor needed by CGLIB (Spring AOP)
-   */
-  protected UserManager()
-  {
-  }
 	
   /** 
    * Default constructor 

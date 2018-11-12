@@ -37,6 +37,7 @@ import com.autentia.tnt.dao.IDataAccessObject;
 import com.autentia.tnt.dao.ITransferObject;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
+import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
 
@@ -270,16 +271,32 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
    */
   public void insert(T obj) throws DataAccException
   {
+      Principal principal = SpringUtils.getPrincipal();
+      insert(obj, principal);
+  }
+  
+  public void insertWithoutUser(T obj) throws DataAccException
+  {
+      Principal principal = SpringUtils.getPrincipalAdmin();
+      insert(obj, principal);
+  }
+  
+  private void insert(T obj, Principal principal) throws DataAccException
+  {
     log.debug("insert");
     Session session = null;
     try
     {
       
       session = HibernateUtil.getSessionFactory().getCurrentSession();
-      obj.setOwnerId(SpringUtils.getPrincipal().getId());
-      obj.setDepartmentId(SpringUtils.getPrincipal().getDepartmentId());
+      
+      obj.setOwnerId(principal.getId());
+      obj.setDepartmentId(principal.getDepartmentId());
+
       Date d = new Date();
-      obj.setInsertDate(d);      obj.setUpdateDate(d);
+      
+      obj.setInsertDate(d);
+      obj.setUpdateDate(d);
       session.save(obj);
       log.debug("objeto correctamente insertado");
       if(this.cacheable)

@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -479,6 +480,14 @@ public class ConfigurationUtil {
 
     public Boolean isLdapProviderEnabled() {
         return Boolean.valueOf(getProperty("ldapAuthentication", "false"));
+    }
+    
+    public String getLdapAdminDn() {
+    	return getProperty("ldapAdminDn","cn=reset,dc=autentia,dc=com");
+    }
+    
+    public String getLdapAdminPassword() {
+    	return getProperty("ldapAdminPassword", null);
     }
 
     public Collection<String> getMailSendToHolidayApprovers(){
