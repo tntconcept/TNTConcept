@@ -175,6 +175,16 @@ public abstract class AuthenticationManager implements UserDetailsService {
      */
     public abstract String resetPassword(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3,
             String[] rnd4);
+    
+    /**
+     * Reset user password from an external context.
+     *
+     * @param user the user
+     * @return the new password
+     */
+    public abstract String resetPasswordExternal(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3,
+            String[] rnd4);
+
 
     /**
      * Generate a new random password

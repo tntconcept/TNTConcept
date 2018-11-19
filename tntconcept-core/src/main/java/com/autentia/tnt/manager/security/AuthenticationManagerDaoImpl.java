@@ -36,5 +36,11 @@ public class AuthenticationManagerDaoImpl extends AuthenticationManager {
         changePassword(user, changedPassword);
         return changedPassword;
     }
+    
+    public String resetPasswordExternal(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
+        String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
+        changePassword(user, changedPassword);
+        return changedPassword;
+    }
 
 }

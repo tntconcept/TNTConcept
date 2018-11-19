@@ -81,6 +81,7 @@
 	<bean id="daoPosition" class="com.autentia.tnt.dao.hibernate.PositionDAO" />
 	<bean id="daoTag" class="com.autentia.tnt.dao.hibernate.TagDAO" />
 	<bean id="daoEntityChange" class="com.autentia.tnt.tracking.hibernate.dao.EntityChangeDAO" />
+	<bean id="daoLink" class="com.autentia.tnt.dao.hibernate.LinkDAO" />
 
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
 		<constructor-arg ref="daoBill" />
@@ -128,6 +129,9 @@
     <bean id="userManager" class="com.autentia.tnt.manager.admin.UserManager">
         <constructor-arg ref="daoUser" />
     </bean>
+    <bean id="linkManager" class="com.autentia.tnt.manager.admin.LinkManager">
+		<constructor-arg ref="daoLink" />
+	</bean>
 
     <!-- Mail Service  -->
     <bean id="mailService" class="com.autentia.tnt.mail.DefaultMailService" init-method="init">

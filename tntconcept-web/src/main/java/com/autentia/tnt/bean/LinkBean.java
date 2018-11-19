@@ -1,3 +1,21 @@
+/**
+ * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+ * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 package com.autentia.tnt.bean;
 
 import java.util.Calendar;
@@ -5,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +41,8 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.SpringUtils;
 
 public class LinkBean extends BaseBean {
+	
+	private static final String LINK_ENTRYPOINT_PATH = "/linkEmailVerification.jsf";
 
 	/** Manager */
 	private static LinkManager manager = LinkManager.getDefault();
@@ -88,35 +109,50 @@ public class LinkBean extends BaseBean {
 	}
 	
 	public void sendMail(Link link, String mailAddress) {
-		DefaultMailService mailService = (DefaultMailService) SpringUtils.getSpringBean("mailService");
+		DefaultMailService mailService = getMailService();
 		try {
-			HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			String url = req.getRequestURL().toString();
+			ExternalContext externalContext = getFacesExternalContext();
+			HttpServletRequest req = (HttpServletRequest) externalContext.getRequest();
+			String verificationLink =buildResetPasswordVerificationLink(req, link);
 			
 			mailService.send(mailAddress, "[RESETEO DE CONTRASEÑA] Email de verificación",
-					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: "+url.substring(0, url.length() - req.getRequestURI().length()) + req.getContextPath() + "/"+"linkEmailVerification.jsf?link="
-							+ link.getLink());
+					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: "+verificationLink);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String buildResetPasswordVerificationLink(HttpServletRequest req, Link link) {
+		String url = req.getRequestURL().toString();
+		int requestPathIndex = url.length() - req.getRequestURI().length();
+		String appPath = url.substring(0, requestPathIndex) + req.getContextPath();
+		
+		String entryPoint = appPath+LINK_ENTRYPOINT_PATH;
+		
+		return entryPoint+"?link="+link.getLink();
+	}
+
+	protected ExternalContext getFacesExternalContext() {
+		return FacesContext.getCurrentInstance().getExternalContext();
+	}
+
+	protected DefaultMailService getMailService() {
+		return (DefaultMailService) SpringUtils.getSpringBean("mailService");
 	}
 
 	public String passwordResetRequest() {
 		
 		// Check if user exists or is active
-
 		List<User> users = getUserWithName(this.name);
 		
 		if (!users.isEmpty() && users.get(0).isActive()) {
 			
 			// send mail and store link
-
 			Link link = generateLink(this.name);
 			
 			manager.insertEntityWithoutUser(link);
 			
-			sendMail(link, users.get(0).getEmail());
-			
+			sendMail(link, users.get(0).getEmail());		
 		} else {
 			// do nothing, user doesn't exist
 			System.out.println("ignore restablishment");
@@ -141,7 +177,6 @@ public class LinkBean extends BaseBean {
 	
 	public String checkLinkAndResetPassword(String link) {
 
-
 		List<Link> links = getLinksWithLink(link);
 		
 		if (!links.isEmpty() && isOnTime(links.get(0))) {
@@ -150,31 +185,33 @@ public class LinkBean extends BaseBean {
 
 			if (!users.isEmpty() && users.get(0).isActive()) {
 				
-				
 				deleteLinkFromBD(links.get(0));
 				String resetPassword = resetPassword(users.get(0));
 				
 				return "Tu nueva contraseña es: <b>"+resetPassword+"</b></br> <p>Se te pedirá que la modifiques al entrar por primera vez.</p>";
 			}
-
 		}
 		return "<p>El enlace no existe o ha caducado</p>";
 	}
 	
 	public String resetPassword(User user) {
 		// get random words from properties, depending on locale
-		String[] rnd0 = FacesUtils.formatMessage("AuthenticationManager.randomWords0").split(",");
-		String[] rnd1 = FacesUtils.formatMessage("AuthenticationManager.randomWords1").split(",");
-		String[] rnd2 = FacesUtils.formatMessage("AuthenticationManager.randomWords2").split(",");
-		String[] rnd3 = FacesUtils.formatMessage("AuthenticationManager.randomWords3").split(",");
-		String[] rnd4 = FacesUtils.formatMessage("AuthenticationManager.randomWords4").split(",");
-
+		String[] rnd0 = callFacesUtilsFormatMessage("AuthenticationManager.randomWords0");
+		String[] rnd1 = callFacesUtilsFormatMessage("AuthenticationManager.randomWords1");
+		String[] rnd2 = callFacesUtilsFormatMessage("AuthenticationManager.randomWords2");
+		String[] rnd3 = callFacesUtilsFormatMessage("AuthenticationManager.randomWords3");
+		String[] rnd4 = callFacesUtilsFormatMessage("AuthenticationManager.randomWords4");
+		
 		// Change user password
-		String changedPassword = authManager.resetPassword(user, rnd0, rnd1, rnd2, rnd3, rnd4);
+		String changedPassword = authManager.resetPasswordExternal(user, rnd0, rnd1, rnd2, rnd3, rnd4);
 		if (!ConfigurationUtil.getDefault().isLdapProviderEnabled()) {
 			userManager.updateEntity(user, true);
 		}
 		return changedPassword;
+	}
+	
+	protected String [] callFacesUtilsFormatMessage(String randomWords) {
+		return FacesUtils.formatMessage(randomWords).split(",");
 	}
 
 	public boolean isOnTime(Link link) {

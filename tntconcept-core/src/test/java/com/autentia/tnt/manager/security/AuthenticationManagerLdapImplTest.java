@@ -114,7 +114,6 @@ public class AuthenticationManagerLdapImplTest {
 
 
     @Test
-    @Ignore
     public void resetPassword() throws Exception {
 
         User userAdmin = getUserAdmin();

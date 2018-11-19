@@ -24,6 +24,16 @@ public class AuthenticationManagerLdapImpl extends AuthenticationManager {
 
     public String resetPassword(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
         String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
+        final User userAdmin = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
+        
+        changePassword(user, changedPassword, userAdmin);
+        activateLdapUserPasswordResetFlag(user, userAdmin);
+        return changedPassword;
+
+    }
+    
+    public String resetPasswordExternal(User user, String[] rnd0, String[] rnd1, String[] rnd2, String[] rnd3, String[] rnd4) {
+    	String changedPassword = generateRandomPassword(rnd0, rnd1, rnd2, rnd3, rnd4);
         
         Principal principal = SpringUtils.getPrincipalAdmin();
         final User userAdmin = principal.getUser();
@@ -34,6 +44,7 @@ public class AuthenticationManagerLdapImpl extends AuthenticationManager {
         activateLdapUserPasswordResetFlag(user, userAdmin);
         return changedPassword;
     }
+    
 
     private void activateLdapUserPasswordResetFlag(final User user,final User userAdmin) {
         authenticationManagerLdapTemplate.activateLdapUserPasswordResetFlag(user, userAdmin);
