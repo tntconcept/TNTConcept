@@ -18,22 +18,30 @@
 --%>
 
 <%@page language="java" contentType="text/html; charset=UTF-8"%>
+<%@page import="com.autentia.tnt.util.*,com.autentia.tnt.manager.security.*"%>
 <%@include file="/inc/tlibs.jsp" %>
 <f:loadBundle basename="com.autentia.tnt.resources.messages" var="msg" />
 <html>
-    <head>
-        <%@include file="/inc/uiCore.jsp" %>
-        <meta HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=iso-8859-1">
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/estilos.css" />
-    </head>
-    <body>    	
-        <f:view>
-			<div id="expirePassword">
-			      <h1><h:outputText value="#{msg['passwordUpdatedOk']}" /> </h1>
+	<f:view>
+	    <head>
+	        <%@include file="/inc/uiCore.jsp" %>
+	        <meta HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=iso-8859-1">
+	        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/estilos.css" />
+	        <%@include file="/inc/publicHeader.jsp"%>
+	    </head>
+    	<body>    
+        
+			<div id="expirePassword" align="center">
+				<h:panelGrid cellpadding="5" cellspacing="20">
+			      <h:outputText value="#{msg['passwordUpdatedOk']}" />
+			    </h:panelGrid>
+				<h:panelGrid cellpadding="5" cellspacing="20">
 			      <h:form>
 	        		  <h:commandLink action="ok" title="#{msg.bot_aceptar}"><h:outputText value="#{msg['bot_aceptar']}" /></h:commandLink>
 	          	  </h:form>
+	        	</h:panelGrid>
 			</div>
-        </f:view>
-  </body>
+        
+		</body>
+	</f:view>
 </html>  
