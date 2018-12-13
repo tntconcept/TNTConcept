@@ -1,0 +1,31 @@
+Versión de TNTConcept: 0.30
+
+Se ha hecho un cambio en la base de datos para crear la tabla que almacena los enlaces de restablecimiento de contraseña.
+Por ello, se modifica el fichero upgrade.sql de la carpeta tntconcept-core/src/main/resources/com/autentia/tnt/sql/mysql/0.29 y se añade el número de la nueva versión junto con los cambios hechos.
+
+En LDAP se ha crea un usuario "reset" con permisos para cambiar las contraseñas de los usuarios. El LDIF con la estructura de este usuario sería el siguiente:
+
+dn: cn=reset,dc=autentia,dc=com
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: reset
+userPassword: resetadmin
+
+Para que la aplicación utilice este usuario para realizar el cambio de contraseña, se debe modificar el fichero autentia.properties, añadiendo las siguientes líneas en la configuración de LDAP:
+
+ldapAdminDn=cn=reset\\,dc=autentia\\,dc=com
+ldapAdminPassword=resetadmin
+
+Para darle al usuario "reset" permisos para cambiar la contraseña, se modifican las listas de accesso (ACL) de LDAP, añadiendo los siguientes permisos:
+
+olcAccess: {0} to dn.one="ou=People,dc=autentia,dc=com" attrs=userPassword
+  by self write
+  by dn.exact="cn=reset,dc=autentia,dc=com" write
+  by anonymous auth
+  by * none
+
+olcAccess: {2}to dn.one="ou=People,dc=autentia,dc=com" attrs=pwdReset
+  by self read
+  by dn.exact="cn=reset,dc=autentia,dc=com" write
+
+

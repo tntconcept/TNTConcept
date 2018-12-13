@@ -24,7 +24,7 @@ With TNTConcept you can manage, in an integrated way, your customers, providers,
 
 ## Configure docker OpenLDAP container for authentication
 
-The [docker](https://github.com/autentia/TNTConcept/tree/master/docker) folder contains the Dockerfile for the image and a docker-compose.yml file already configured and ready to build the OpenLDAP container. This image is inspired by [dinkel/docker-openldap](https://github.com/dinkel/docker-openldap), so please check that README file in case you need to change any startup configuration.
+The [ldapTools/docker](https://github.com/autentia/TNTConcept/tree/master/ldapTools/docker) folder contains the Dockerfile for the image and a docker-compose.yml file already configured and ready to build the OpenLDAP container. This image is inspired by [dinkel/docker-openldap](https://github.com/dinkel/docker-openldap), so please check that README file in case you need to change any startup configuration.
 
 The directory domain is autentia.com, so the actual base/root of the directory tree would be `dc=autentia,dc=com`. The rootdn (LDAP's admin) is `cn=admin,dc=autentia,dc=com`and its password is `adminadmin`. As it uses OLC (Online Configuration), we have the `cn=config` entry, which is the root user able to make configuration changes. It also comes with an existing structure, having the `groups`and `people` organizational units (parent groups).
 
