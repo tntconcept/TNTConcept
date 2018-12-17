@@ -22,6 +22,7 @@ import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -58,6 +59,11 @@ public class LinkBeanTest {
 		when(ctx.getBean("configuration")).thenReturn(configurationUtil);
 		
 		SpringUtils.configureTest(ctx);
+	}
+	
+	@Before
+	public void setExternalContext() {
+		doReturn(externalContext).when(sutMock).getFacesExternalContext();
 	}
 	
 	@Test
@@ -101,7 +107,6 @@ public class LinkBeanTest {
 	@Test
 	public void shouldSendMail() throws MessagingException {
 		
-		doReturn(externalContext).when(sutMock).getFacesExternalContext();
 		HttpServletRequest req = mock(HttpServletRequest.class);
 		doReturn(req).when(externalContext).getRequest();
 		StringBuffer url = new StringBuffer("http://localhost:8080/tntconcept/passwordChangeForm.jsf");
