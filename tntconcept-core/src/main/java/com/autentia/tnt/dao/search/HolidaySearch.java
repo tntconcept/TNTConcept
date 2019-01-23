@@ -75,6 +75,15 @@ public class HolidaySearch extends SearchCriteria
       }
     }
 
+    if( isCompensationSet()) {
+    	ret.append((ret.length()==0) ? "WHERE" : "AND");
+    	if( getCompensation() == null) {
+    		ret.append( "description is NULL");
+    	}
+    	else {
+    		ret.append( "description like :arg"+(iArgNum++));
+    	}
+    }
               
       if( isStartDateSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
@@ -165,6 +174,9 @@ public class HolidaySearch extends SearchCriteria
         ret.add( description );
     }
 
+      if( isCompensationSet() && getCompensation() != null) {
+    	  ret.add(compensation);
+      }
             
       if( isStartDateSet() ){
         ret.add( startDate );
@@ -208,7 +220,8 @@ public class HolidaySearch extends SearchCriteria
           
       unsetDescription();
   
-            
+      unsetCompensation();      
+      
       unsetStartDate();
     unsetEndDate();
 
@@ -241,7 +254,11 @@ public class HolidaySearch extends SearchCriteria
           ret.append( ")" );
       }
 
-    
+    if(isCompensationSet()) {
+    	ret.append( "(compensation");
+    	ret.append( "="+compensation);
+    	ret.append( ")");
+    }
             
   
     if( isStartDateSet() ){
@@ -323,6 +340,19 @@ public class HolidaySearch extends SearchCriteria
         this.descriptionSet = false;
     }
         
+    public Boolean isCompensationSet() {
+    	return compensationSet;
+    }
+    public Boolean getCompensation() {
+    	return compensation;
+    }
+    public void setCompensation(Boolean compensation) {
+    	this.compensation = compensation;
+    	this.compensationSet = true;
+    }
+    public void unsetCompensation() {
+    	this.compensationSet = false;
+    }
   
     public boolean isStartDateSet(){
         return startDateSet;
@@ -449,6 +479,8 @@ public class HolidaySearch extends SearchCriteria
       private boolean descriptionSet;
         private String description;
 
+      private boolean compensationSet;
+      	private Boolean compensation;
         
       private boolean startDateSet;
         private Date startDate;

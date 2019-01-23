@@ -302,7 +302,24 @@ public class HolidayBean extends BaseBean {
         }
     }
         
-    
+    public Boolean getSearchCompensation() {
+    	return search.getCompensation();
+    }  
+    public void setSearchCompensation( Boolean val) {
+    	if( search.isCompensationSet() ) {
+    		search.setCompensation(val);
+    	}
+    }
+    public boolean isSearchCompensationValid() {
+    	return search.isCompensationSet();
+    }
+    public void setSearchCompensationValid ( boolean val) {
+    	if ( val ) {
+    		search.setCompensation( search.getCompensation() );
+    	} else {
+    		search.unsetCompensation();
+    	}
+    }
         
       
     public Date getSearchStartDate(){
@@ -523,7 +540,12 @@ public class HolidayBean extends BaseBean {
     holiday.setDescription( description );
   }
         
-    
+    public Boolean getCompensation() {
+    	return holiday.isCompensation();
+    }
+    public void setCompensation( Boolean compensation) {
+    	holiday.setCompensation(compensation);
+    }
     
     public Date getDate() {
     return holiday.getDate();

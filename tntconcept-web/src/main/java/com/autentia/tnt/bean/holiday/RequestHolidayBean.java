@@ -255,7 +255,7 @@ public class RequestHolidayBean extends BaseBean {
 
     private boolean validateHasEnoughAvaliableFreeHoliday() {
         User user = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
-        int requestedDays = UserHolidaysStateManager.getDefault().getWorkingDays(this.getBeginDate(), this.getFinalDate());
+        int requestedDays = UserHolidaysStateManager.getDefault().getWorkingDays(user, this.getBeginDate(), this.getFinalDate());
         int freeDays = UserHolidaysStateManager.getDefault().getFreeDays(user, this.getChargeYear());
 
         if (log.isDebugEnabled()) {

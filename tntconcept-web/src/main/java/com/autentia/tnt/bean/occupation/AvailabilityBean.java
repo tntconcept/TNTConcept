@@ -37,6 +37,7 @@ import com.autentia.tnt.dao.search.RequestHolidaySearch;
 import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.manager.activity.OccupationManager;
 import com.autentia.tnt.manager.admin.UserManager;
+import com.autentia.tnt.manager.holiday.CorrespondingHolidayManager;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.util.DateUtils;
@@ -52,6 +53,7 @@ public class AvailabilityBean extends BaseBean {
 	private final UserManager userMgr = UserManager.getDefault();
 	private Date selectedDate = null;
 	
+	private static final CorrespondingHolidayManager correspondingHolidayManager = CorrespondingHolidayManager.getDefault();
 	
 	public AvailabilityBean() {
 		Calendar cal = Calendar.getInstance();
@@ -188,9 +190,12 @@ public class AvailabilityBean extends BaseBean {
 		
 		monthSearch.setStartDate(calMin.getTime());
 		monthSearch.setEndDate(calMax.getTime());
-		List<Holiday> listaHolidays = holidayManager.getAllEntities(monthSearch, null);
+		
+		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
+		
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, user);
 
-		for (Holiday holiday : listaHolidays) {
+		for (Holiday holiday : correspondingHolidays) {
 			OcupationEntryImpl oc = new OcupationEntryImpl();
 				oc.setStart(DateUtils.minHourInDate(holiday.getDate()));
 				oc.setEnd(DateUtils.maxHourInDate(holiday.getDate()));

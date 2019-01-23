@@ -97,6 +97,7 @@ import com.autentia.tnt.manager.admin.SettingManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
 import com.autentia.tnt.manager.document.DocumentCategoryManager;
 import com.autentia.tnt.manager.document.DocumentManager;
+import com.autentia.tnt.manager.holiday.CorrespondingHolidayManager;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
@@ -232,7 +233,10 @@ public class ActivityBean extends BaseBean {
 
 	private HolidayManager				holidayManager			= HolidayManager
 																				.getDefault();
-
+	
+	private static final CorrespondingHolidayManager correspondingHolidayManager = CorrespondingHolidayManager
+																				.getDefault();
+							
 	/** Settings manager */
 	private static final SettingManager			settings				= SettingManager
 																				.getDefault();
@@ -1626,9 +1630,13 @@ public class ActivityBean extends BaseBean {
 		HolidaySearch monthSearch = new HolidaySearch();
 		monthSearch.setStartDate(beginOfMonth);
 		monthSearch.setEndDate(endOfMonth);
-		List<Holiday> listaHolidays = holidayManager.getAllEntities(monthSearch, null);
+		
+		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
+	
+		List<Holiday> correspondingHolidaysToUser = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser());
+		
 		int holidays = 0;
-		for (Holiday holiday : listaHolidays) {
+		for (Holiday holiday : correspondingHolidaysToUser) {
 			LocalDateTime holidayValue = LocalDateTime.ofInstant(holiday.getDate().toInstant(), ZoneId.systemDefault());
 			int day = holidayValue.getDayOfMonth();
 			if (!nonWorkingDays.contains(day)) {
@@ -1795,9 +1803,12 @@ public class ActivityBean extends BaseBean {
 
 		monthSearch.setStartDate(calMin.getTime());
 		monthSearch.setEndDate(calMax.getTime());
-		List<Holiday> listaHolidays = holidayManager.getAllEntities(monthSearch, null);
+		
+		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
+		
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser());
 
-		for (Holiday holiday : listaHolidays) {
+		for (Holiday holiday : correspondingHolidays) {
 			model.setHoliday(holiday.getDate(), holiday.getDescription());
 		}
 

@@ -96,6 +96,21 @@
 
               </td>
     </tr>
+    
+    <%-- Field: compensation --%>
+    <tr>
+    	    		<td class="editLabelRW">*${msg['holiday.compensation']}:</td>
+    	      
+      <td class="editFieldCell">
+
+                  <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="compensation" />
+            <h:selectBooleanCheckbox id="compensation" value="#{holidayBean.compensation}" required="true" styleClass="requiredFieldClass"/>
+          </h:panelGroup>
+
+              </td>
+    </tr>
+    	
                               
   
       <%-- Ignored field: ownerId --%>

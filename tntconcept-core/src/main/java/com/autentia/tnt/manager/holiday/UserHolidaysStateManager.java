@@ -99,7 +99,7 @@ public class UserHolidaysStateManager {
   	/**
   	 * @return Devuelve el número de días laborables que hay entre dos fechas
   	 */
-	public int getWorkingDays(Date fromDate, Date toDate) {
+	public int getWorkingDays(User user, Date fromDate, Date toDate) {
 		int			  total			= 0;
 
 		// Evitamos un bucle infinito en el bucle que viene a continuación
@@ -109,11 +109,15 @@ public class UserHolidaysStateManager {
 			
 			fiestaSearch.setStartDate(fromDate);
 			fiestaSearch.setEndDate(toDate);
-			List<Holiday> fiestas = HolidayManager.getDefault().getAllEntities(fiestaSearch, null);
-		 
+			
+			CorrespondingHolidayManager correspondingFiestasManager = CorrespondingHolidayManager.getDefault();
+			
+			List<Holiday> allFiestas = HolidayManager.getDefault().getAllEntities(fiestaSearch, null);
+			
+			List<Holiday> correspondingFiestas = correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, user);
 			
 			while (current.before(toDate) || DateUtils.isSameDay(current, toDate)){
-				if (! this.isHoliday(fiestas, current)){
+				if (! this.isHoliday(correspondingFiestas, current)){
 					total++;
 				}
 				current = DateUtils.addDays(current, 1);
@@ -170,8 +174,12 @@ public class UserHolidaysStateManager {
 				fiestaSearch.setStartDate(calMin.getTime());
 				fiestaSearch.setEndDate(calMax.getTime());
 				
-			 List<Holiday> listFiestas = fiestasManager.getAllEntities(fiestaSearch, null);
+				
+				CorrespondingHolidayManager correspondingFiestasManager = CorrespondingHolidayManager.getDefault();
 			
+				List<Holiday> allFiestas = fiestasManager.getAllEntities(fiestaSearch, null);
+				
+			 List<Holiday> correspondingFiestasToUser = correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, usuario);			
 			 
 			 calMin.setTime(chargeYear);
 				calMin.set(Calendar.MONTH, calMin.getMinimum(Calendar.MONTH));
@@ -208,7 +216,7 @@ public class UserHolidaysStateManager {
 					if (cActual.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && cActual.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 						boolean isFiesta = false;
 						
-						for(Holiday fiest: listFiestas) {					
+						for(Holiday fiest: correspondingFiestasToUser) {					
 							Calendar cFiesta = Calendar.getInstance();
 							cFiesta.setTime(fiest.getDate());
 							if(cFiesta.get(Calendar.YEAR) == cActual.get(Calendar.YEAR) &&  
