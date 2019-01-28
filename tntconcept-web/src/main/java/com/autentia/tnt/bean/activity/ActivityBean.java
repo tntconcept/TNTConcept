@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -1633,7 +1635,7 @@ public class ActivityBean extends BaseBean {
 		
 		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 	
-		List<Holiday> correspondingHolidaysToUser = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser());
+		List<Holiday> correspondingHolidaysToUser = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser(), selectedDay.getYear());
 		
 		int holidays = 0;
 		for (Holiday holiday : correspondingHolidaysToUser) {
@@ -1806,7 +1808,16 @@ public class ActivityBean extends BaseBean {
 		
 		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 		
-		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser());
+		List<Holiday> correspondingHolidays = new ArrayList<Holiday>();
+		
+		if(calMax.get(Calendar.YEAR) - calMin.get(Calendar.YEAR) > 0) {
+			for(int i = calMin.get(Calendar.YEAR); i <= calMax.get(Calendar.YEAR); i++) {
+				correspondingHolidays = Stream.concat(correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser(), i).stream(), correspondingHolidays.stream()).collect(Collectors.toList());
+			}
+		}
+		else {
+			correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, authManager.getCurrentPrincipal().getUser(), calMax.get(Calendar.YEAR));
+		}
 
 		for (Holiday holiday : correspondingHolidays) {
 			model.setHoliday(holiday.getDate(), holiday.getDescription());

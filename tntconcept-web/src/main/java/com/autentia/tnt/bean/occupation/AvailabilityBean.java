@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.autentia.jsf.component.ocupation.OcupationEntry;
 import com.autentia.jsf.component.ocupation.OcupationModel;
@@ -193,7 +195,16 @@ public class AvailabilityBean extends BaseBean {
 		
 		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 		
-		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, user);
+		List<Holiday> correspondingHolidays = new ArrayList<Holiday>();
+		
+		if(calMax.get(Calendar.YEAR) - calMin.get(Calendar.YEAR) > 0) {
+			for(int i = calMin.get(Calendar.YEAR); i <= calMax.get(Calendar.YEAR); i++) {
+				correspondingHolidays = Stream.concat(correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, user, i).stream(), correspondingHolidays.stream()).collect(Collectors.toList());
+			}
+		}
+		else {
+			correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(allHolidays, user, calMax.get(Calendar.YEAR));
+		}
 
 		for (Holiday holiday : correspondingHolidays) {
 			OcupationEntryImpl oc = new OcupationEntryImpl();

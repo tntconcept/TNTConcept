@@ -17,10 +17,14 @@
 
 package com.autentia.tnt.manager.holiday;
 
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
@@ -113,8 +117,19 @@ public class UserHolidaysStateManager {
 			CorrespondingHolidayManager correspondingFiestasManager = CorrespondingHolidayManager.getDefault();
 			
 			List<Holiday> allFiestas = HolidayManager.getDefault().getAllEntities(fiestaSearch, null);
+			List<Holiday> correspondingFiestas = new ArrayList<Holiday>();
+
+			int fromYear = fromDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+			int toYear = toDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
 			
-			List<Holiday> correspondingFiestas = correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, user);
+			if(fromYear - toYear > 0) {
+				for(int i = fromYear; i <= toYear; i++) {
+					correspondingFiestas = Stream.concat(correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, user, i).stream(), correspondingFiestas.stream()).collect(Collectors.toList());
+				}
+			}
+			else {
+				correspondingFiestas = correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, user, toYear);
+			}
 			
 			while (current.before(toDate) || DateUtils.isSameDay(current, toDate)){
 				if (! this.isHoliday(correspondingFiestas, current)){
@@ -179,7 +194,7 @@ public class UserHolidaysStateManager {
 			
 				List<Holiday> allFiestas = fiestasManager.getAllEntities(fiestaSearch, null);
 				
-			 List<Holiday> correspondingFiestasToUser = correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, usuario);			
+			 			
 			 
 			 calMin.setTime(chargeYear);
 				calMin.set(Calendar.MONTH, calMin.getMinimum(Calendar.MONTH));
@@ -198,7 +213,18 @@ public class UserHolidaysStateManager {
 				calMax.set(Calendar.SECOND, calMax.getMaximum(Calendar.SECOND));
 				calMax.set(Calendar.MILLISECOND, calMax.getMaximum(Calendar.MILLISECOND));
 			 
-			
+				
+				List<Holiday> correspondingFiestasToUser = new ArrayList<Holiday>();
+				
+				if(calMax.get(Calendar.YEAR) - calMin.get(Calendar.YEAR) > 0) {
+					for(int i = calMin.get(Calendar.YEAR); i <= calMax.get(Calendar.YEAR); i++) {
+						correspondingFiestasToUser = Stream.concat(correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, usuario, i).stream(), correspondingFiestasToUser.stream()).collect(Collectors.toList());
+					}
+				}
+				else {
+					correspondingFiestasToUser = correspondingFiestasManager.calcCorrespondingHolidays(allFiestas, usuario, calMax.get(Calendar.YEAR));
+				}
+				
 			RequestHolidayManager holyManager = RequestHolidayManager.getDefault();
 			RequestHolidaySearch holSearch = new RequestHolidaySearch();			
 			holSearch.setUserRequest(uhs.getUser());			
@@ -246,12 +272,12 @@ public class UserHolidaysStateManager {
 			int yearContract = calAuxCont.get(Calendar.YEAR);
 			
 			if(yearCharge == yearContract) {
-				// Dividimos los días de cada usuario entre los meses del año.
-				double ratio = uhs.getUser().getAgreement().getHolidays() / 12.0;
-				int monthContract = calAuxCont.get(Calendar.MONTH);
-				int meses = (Calendar.DECEMBER - monthContract);
-				double diasVacaciones = meses * ratio; 
-				double aux=Math.ceil(diasVacaciones);
+				// Dividimos los días de cada usuario entre los dias del año.
+				double ratio = uhs.getUser().getAgreement().getHolidays() / 360;
+				int dayContract = calAuxCont.get(Calendar.DAY_OF_YEAR);
+				int workedDays = (360 - dayContract);
+				double holidayDays = workedDays * ratio; 
+				double aux=Math.ceil(holidayDays);
 				uhs.setTotalYear((int)aux);
 			}
 		}
