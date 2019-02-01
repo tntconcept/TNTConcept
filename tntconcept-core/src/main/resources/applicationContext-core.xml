@@ -269,7 +269,6 @@
 
 	<bean id="managerUserHolidaysState"
 		class="com.autentia.tnt.manager.holiday.UserHolidaysStateManager" >
-        <constructor-arg ref="daoUser" />
     </bean>
 
 	<bean id="managerCollaborator" class="com.autentia.tnt.manager.contacts.CollaboratorManager">
@@ -313,6 +312,8 @@
 	</bean>
 	<bean id="linkManager" class="com.autentia.tnt.manager.admin.LinkManager">
 		<constructor-arg ref="daoLink" />
+	</bean>
+	<bean id="managerCorrespondingHoliday" class="com.autentia.tnt.manager.holiday.CorrespondingHolidayManager">
 	</bean>
 
 	<!-- Mail Service  -->

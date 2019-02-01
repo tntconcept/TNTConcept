@@ -17,8 +17,6 @@
 
 package com.autentia.tnt.bean.activity;
 
-
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,6 +32,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -97,6 +97,7 @@ import com.autentia.tnt.manager.admin.SettingManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
 import com.autentia.tnt.manager.document.DocumentCategoryManager;
 import com.autentia.tnt.manager.document.DocumentManager;
+import com.autentia.tnt.manager.holiday.CorrespondingHolidayManager;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
@@ -118,10 +119,9 @@ public class ActivityBean extends BaseBean {
 
 	private boolean defaultBillable = false;
 
-
-
 	/**
-	 * inner comparator class. comparares activities to order a list for start and duration
+	 * inner comparator class. comparares activities to order a list for start and
+	 * duration
 	 *
 	 * @author german
 	 *
@@ -139,13 +139,14 @@ public class ActivityBean extends BaseBean {
 			calInst1.add(Calendar.MINUTE, a1.getDuration());
 			calInst2.add(Calendar.MINUTE, a2.getDuration());
 
-			return (int)(calInst2.getTimeInMillis() - calInst1.getTimeInMillis());
+			return (int) (calInst2.getTimeInMillis() - calInst1.getTimeInMillis());
 		}
 
 	}
 
 	/**
-	 * inner comparator class. comparares externalActivities to order a list for start and duration
+	 * inner comparator class. comparares externalActivities to order a list for
+	 * start and duration
 	 *
 	 * @author daniel
 	 *
@@ -160,125 +161,113 @@ public class ActivityBean extends BaseBean {
 			calInst1.setTime(a1.getEndDate());
 			calInst2.setTime(a2.getEndDate());
 
-			return (int)(calInst2.getTimeInMillis() - calInst1.getTimeInMillis());
+			return (int) (calInst2.getTimeInMillis() - calInst1.getTimeInMillis());
 		}
 
 	}
 
 	/**
-	 * inner comparator class. comparares two SelectItem objects  to order a SelectItem list
-	 *   in order to use collections.sort in getOrganizations
+	 * inner comparator class. comparares two SelectItem objects to order a
+	 * SelectItem list in order to use collections.sort in getOrganizations
 	 *
 	 *
 	 */
-	public class OperacionesComparator implements Comparator{
+	public class OperacionesComparator implements Comparator {
 
-
-		public int compare(Object arg0,Object arg1) {
+		public int compare(Object arg0, Object arg1) {
 			try {
 				SelectItem p = (SelectItem) arg0;
 				SelectItem q = (SelectItem) arg1;
 				return p.getLabel().compareTo(q.getLabel());
 
-			} catch (Exception ex){
+			} catch (Exception ex) {
 				return -1;
 			}
 		}
 
-
 	}
 
-
 	/** Manager */
-	private static ActivityManager				manager					= ActivityManager
-																				.getDefault();
-	private static ExternalActivityManager		externalActivityManager	= ExternalActivityManager
-																				.getDefault();
+	private static ActivityManager manager = ActivityManager.getDefault();
+	private static ExternalActivityManager externalActivityManager = ExternalActivityManager.getDefault();
 
-	private static ActivityFileManager			activityFileManager		= ActivityFileManager
-																			.getDefault();
+	private static ActivityFileManager activityFileManager = ActivityFileManager.getDefault();
 
 	/** Serial version field */
-	private static final long					serialVersionUID		= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** Selected date in bitacore window */
-	private Date								selectedDate			= new Date();
+	private Date selectedDate = new Date();
 
 	/** Project DAO * */
-	private static final ProjectManager			projectManager			= ProjectManager
-																				.getDefault();
+	private static final ProjectManager projectManager = ProjectManager.getDefault();
 
 	/** Organization DAO * */
-	private static final OrganizationManager	organizationManager		= OrganizationManager
-																				.getDefault();
+	private static final OrganizationManager organizationManager = OrganizationManager.getDefault();
 
 	/** Default DocumentCategory manager */
-	private static final DocumentCategoryManager	dcManager			= DocumentCategoryManager
-																				.getDefault();
+	private static final DocumentCategoryManager dcManager = DocumentCategoryManager.getDefault();
 
 	/** Active search object */
-	private OrganizationSearch					organizationSearch		= new OrganizationSearch();
+	private OrganizationSearch organizationSearch = new OrganizationSearch();
 
 	/** Selected organization * */
-	private Organization						selectedOrganization	= null;
+	private Organization selectedOrganization = null;
 
-	private List<Organization>					organizations			= new ArrayList<Organization>();
+	private List<Organization> organizations = new ArrayList<Organization>();
 
 	/** List of projects */
-	private List<Project>						projects				= new ArrayList<Project>();
+	private List<Project> projects = new ArrayList<Project>();
 
-	private AuthenticationManager		authManager				= AuthenticationManager
-																				.getDefault();
+	private AuthenticationManager authManager = AuthenticationManager.getDefault();
 
-	private HolidayManager				holidayManager			= HolidayManager
-																				.getDefault();
+	private HolidayManager holidayManager = HolidayManager.getDefault();
+
+	private static final CorrespondingHolidayManager correspondingHolidayManager = CorrespondingHolidayManager
+			.getDefault();
 
 	/** Settings manager */
-	private static final SettingManager			settings				= SettingManager
-																				.getDefault();
+	private static final SettingManager settings = SettingManager.getDefault();
 
 	/** Role manager */
-	private static final ProjectRoleManager		projectRoleMgr			= ProjectRoleManager
-																				.getDefault();
+	private static final ProjectRoleManager projectRoleMgr = ProjectRoleManager.getDefault();
 
 	/** Selected project */
-	private Project								selectedProject;
+	private Project selectedProject;
 
 	/** data model */
-	private SimpleScheduleModel					scheduleModel			= new SimpleScheduleModel();
+	private SimpleScheduleModel scheduleModel = new SimpleScheduleModel();
 
 	/** to reload model */
-	private boolean								reloadModel				= true;
+	private boolean reloadModel = true;
 
-	private String								method					= null;
+	private String method = null;
 
-	private final ScheduleEntryRenderer			entryRenderer			= new BitacoreScheduleEntryRenderer();
+	private final ScheduleEntryRenderer entryRenderer = new BitacoreScheduleEntryRenderer();
 
+	private final Calendar cal = Calendar.getInstance();
 
+	private static final int NO_EDIT_SELECTED = -1;
+	private static final int EDIT_ACTIVITY = 0;
+	private static final int EDIT_EXTERNAL_ACTIVITY = 1;
 
-	private final Calendar						cal						= Calendar.getInstance();
-
-	private static final int					NO_EDIT_SELECTED		= -1;
-	private static final int					EDIT_ACTIVITY			= 0;
-	private static final int					EDIT_EXTERNAL_ACTIVITY	= 1;
-
-	private int 								tabsRendered			= NO_EDIT_SELECTED;
+	private int tabsRendered = NO_EDIT_SELECTED;
 
 	/** Uploaded file object */
 	private UploadedFile uploadFile;
 
 	/** Active search object */
-	private DocumentSearch			docSearch				= new DocumentSearch();
+	private DocumentSearch docSearch = new DocumentSearch();
 
 	/** Manager */
-	private static DocumentManager	docManager				= DocumentManager.getDefault();
-
+	private static DocumentManager docManager = DocumentManager.getDefault();
 
 	private List<Document> documents;
 
 	private BitacoreTabChangeListener listener = new BitacoreTabChangeListener();
 
 	private int selectedTab;
+
 	/**
 	 * Constructor
 	 */
@@ -301,8 +290,7 @@ public class ActivityBean extends BaseBean {
 	/**
 	 * Set date selected in bitacore page
 	 *
-	 * @param date
-	 *            date selected in bitacore page
+	 * @param date date selected in bitacore page
 	 */
 	public void setSelectedDate(Date date) {
 		if (date != null) {
@@ -347,20 +335,24 @@ public class ActivityBean extends BaseBean {
 	}
 
 	public List<SelectItem> getRolesBySelectedProject() {
-		ArrayList<SelectItem>	ret 		 = new ArrayList<SelectItem>();
-		ProjectRoleSearch		prjRolSearch = new ProjectRoleSearch();
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+		ProjectRoleSearch prjRolSearch = new ProjectRoleSearch();
 		prjRolSearch.setProject(getSelectedProject());
 
-		List<ProjectRole> refs = ProjectRoleManager.getDefault().getAllEntities(prjRolSearch, new SortCriteria("name", false));
-		if (refs != null){
+		List<ProjectRole> refs = ProjectRoleManager.getDefault().getAllEntities(prjRolSearch,
+				new SortCriteria("name", false));
+		if (refs != null) {
 			for (ProjectRole ref : refs) {
 				ret.add(new SelectItem(ref, ref.getName()));
 			}
 
-			// Sólo preseleccionamos el primer ProjectRole del proyecto cuando haya cambiado el
+			// Sólo preseleccionamos el primer ProjectRole del proyecto cuando haya cambiado
+			// el
 			// proyecto, por que sino borrariamos y creariamos una situación inconsistente
-			if (this.getRole() != null && this.getRole().getProject() != null && ! this.getRole().getProject().equals(this.getSelectedProject())){
-				HtmlSelectOneRadio optRole = (HtmlSelectOneRadio) FacesUtils.getComponent("activity").findComponent("tabActivity").findComponent("role");
+			if (this.getRole() != null && this.getRole().getProject() != null
+					&& !this.getRole().getProject().equals(this.getSelectedProject())) {
+				HtmlSelectOneRadio optRole = (HtmlSelectOneRadio) FacesUtils.getComponent("activity")
+						.findComponent("tabActivity").findComponent("role");
 				this.setRole(refs.get(0));
 				optRole.setValue(this.getRole());
 			}
@@ -382,7 +374,8 @@ public class ActivityBean extends BaseBean {
 		setSelectedOrganization((Organization) event.getNewValue());
 
 		// Project
-		List<Project> projectsByOrganization = ProjectManager.getDefault().getOpenProjectsByOrganization(selectedOrganization);
+		List<Project> projectsByOrganization = ProjectManager.getDefault()
+				.getOpenProjectsByOrganization(selectedOrganization);
 		if (projectsByOrganization != null && projectsByOrganization.size() != 0) {
 			this.selectedProject = (Project) projectsByOrganization.get(0);
 			FacesContext.getCurrentInstance().getViewRoot().getAttributes();
@@ -390,22 +383,22 @@ public class ActivityBean extends BaseBean {
 			this.selectedProject = null;
 		}
 
-		HtmlSelectOneListbox projects = (HtmlSelectOneListbox) FacesUtils.getComponent("activity").findComponent("tabActivity")
-				.findComponent("projects");
+		HtmlSelectOneListbox projects = (HtmlSelectOneListbox) FacesUtils.getComponent("activity")
+				.findComponent("tabActivity").findComponent("projects");
 		projects.setValue(selectedProject);
 
-		if (selectedProject!=null) {
-			HtmlSelectBooleanCheckbox billHtml = (HtmlSelectBooleanCheckbox)FacesUtils.getComponent("activity").findComponent("tabActivity").findComponent("billable");
+		if (selectedProject != null) {
+			HtmlSelectBooleanCheckbox billHtml = (HtmlSelectBooleanCheckbox) FacesUtils.getComponent("activity")
+					.findComponent("tabActivity").findComponent("billable");
 			billHtml.setValue(selectedProject.getBillable());
 			setBillable(selectedProject.getBillable());
 
-
-			HtmlInputHidden hiddenHtml = (HtmlInputHidden)FacesUtils.getComponent("activity").findComponent("tabActivity").findComponent("defaultBillable");
+			HtmlInputHidden hiddenHtml = (HtmlInputHidden) FacesUtils.getComponent("activity")
+					.findComponent("tabActivity").findComponent("defaultBillable");
 			hiddenHtml.setValue(selectedProject.getBillable());
 
 			setDefaultBillable(selectedProject.getBillable());
 		}
-
 
 		FacesUtils.renderResponse();
 	}
@@ -418,15 +411,16 @@ public class ActivityBean extends BaseBean {
 	public void onSelectedProjectChanged(ValueChangeEvent event) {
 		setSelectedProject((Project) event.getNewValue());
 
-		if(selectedProject!=null) {
-			HtmlSelectBooleanCheckbox billHtml = (HtmlSelectBooleanCheckbox)FacesUtils.getComponent("activity").findComponent("tabActivity").findComponent("billable");
-				billHtml.setValue(selectedProject.getBillable());
-				setBillable(selectedProject.getBillable());
+		if (selectedProject != null) {
+			HtmlSelectBooleanCheckbox billHtml = (HtmlSelectBooleanCheckbox) FacesUtils.getComponent("activity")
+					.findComponent("tabActivity").findComponent("billable");
+			billHtml.setValue(selectedProject.getBillable());
+			setBillable(selectedProject.getBillable());
 
-
-			HtmlInputHidden hiddenHtml = (HtmlInputHidden)FacesUtils.getComponent("activity").findComponent("tabActivity").findComponent("defaultBillable");
-				hiddenHtml.setValue(selectedProject.getBillable());
-				setDefaultBillable(selectedProject.getBillable());
+			HtmlInputHidden hiddenHtml = (HtmlInputHidden) FacesUtils.getComponent("activity")
+					.findComponent("tabActivity").findComponent("defaultBillable");
+			hiddenHtml.setValue(selectedProject.getBillable());
+			setDefaultBillable(selectedProject.getBillable());
 		}
 
 		FacesUtils.renderResponse();
@@ -438,11 +432,11 @@ public class ActivityBean extends BaseBean {
 	 * @return the list of all projects
 	 */
 	public List<SelectItem> getProjectsVisiblesBySelectedOrganization() {
-		Organization  companySelected = this.getSelectedOrganization();
-		List<Project> openProjects 	  = ProjectManager.getDefault().getOpenProjectsByOrganization(companySelected);
-		ArrayList<SelectItem> ret  = new ArrayList<SelectItem>();
+		Organization companySelected = this.getSelectedOrganization();
+		List<Project> openProjects = ProjectManager.getDefault().getOpenProjectsByOrganization(companySelected);
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
 
-		if(selectedProject !=null && selectedProject.isFinished()){
+		if (selectedProject != null && selectedProject.isFinished()) {
 			ret.add(new SelectItem(selectedProject, selectedProject.getName() + " (*)"));
 		}
 
@@ -464,8 +458,7 @@ public class ActivityBean extends BaseBean {
 	}
 
 	/**
-	 * @param selectedOrganization
-	 *            the selectedOrganization to set
+	 * @param selectedOrganization the selectedOrganization to set
 	 */
 	public void setSelectedOrganization(Organization selectedOrganization) {
 		// Organization
@@ -476,7 +469,7 @@ public class ActivityBean extends BaseBean {
 	public void setSelectedProject(Project project) {
 		// Project
 		this.selectedProject = project;
- 	}
+	}
 
 	/**
 	 * Get the selectedOrganization value
@@ -485,8 +478,8 @@ public class ActivityBean extends BaseBean {
 	 */
 	public Organization getSelectedOrganization() {
 		if (selectedOrganization == null) {
-			organizations =  organizationManager.getAllEntities(null, new SortCriteria("name"));
-			if (! CollectionUtils.isEmpty(organizations)){
+			organizations = organizationManager.getAllEntities(null, new SortCriteria("name"));
+			if (!CollectionUtils.isEmpty(organizations)) {
 				selectedOrganization = organizations.get(0);
 			}
 		}
@@ -498,17 +491,17 @@ public class ActivityBean extends BaseBean {
 	 * @return Organizaciones con proyectos abiertos que ademas tengan ROLES creados
 	 */
 	public List<SelectItem> getOrganizations() {
-		ArrayList<SelectItem> 		  ret	    = new ArrayList<SelectItem>(32);
-		List<Project>		  		  projects  = projectManager.getDefault().getOpenProjects(new SortCriteria("name"));
+		ArrayList<SelectItem> ret = new ArrayList<SelectItem>(32);
+		List<Project> projects = projectManager.getDefault().getOpenProjects(new SortCriteria("name"));
 		HashMap<Integer, Organization> companies = new HashMap<Integer, Organization>(32);
 
-		if (! CollectionUtils.isEmpty(projects)){
-			for (Project project: projects){
-				if ( (! project.isFinished()) && (project.getOpen())){
-					Set <ProjectRole> roles = project.getRoles();
-					if (! CollectionUtils.isEmpty(roles)){
+		if (!CollectionUtils.isEmpty(projects)) {
+			for (Project project : projects) {
+				if ((!project.isFinished()) && (project.getOpen())) {
+					Set<ProjectRole> roles = project.getRoles();
+					if (!CollectionUtils.isEmpty(roles)) {
 						Organization company = project.getClient();
-						if (! companies.containsKey(company.getId())){
+						if (!companies.containsKey(company.getId())) {
 							companies.put(company.getId(), company);
 							ret.add(new SelectItem(company, company.getName()));
 						}
@@ -518,14 +511,12 @@ public class ActivityBean extends BaseBean {
 		}
 
 		Collections.sort(ret, new OperacionesComparator());
-		if((this.selectedOrganization == null) && (ret.size() > 0)) {
+		if ((this.selectedOrganization == null) && (ret.size() > 0)) {
 			this.setSelectedOrganization((Organization) ret.get(0).getValue());
 		}
 
 		return ret;
 	}
-
-
 
 	@Override
 	public String doAfterSave(String result) {
@@ -543,7 +534,6 @@ public class ActivityBean extends BaseBean {
 
 		return super.doAfterSave(result);
 	}
-
 
 	public String doBeforeSaveExternalActivity() {
 		String result = super.doBeforeSave();
@@ -568,37 +558,36 @@ public class ActivityBean extends BaseBean {
 	/* activity - generated by stajanov (do not edit/delete) */
 
 	/** Logger */
-	private static final Log			log					= LogFactory.getLog(ActivityBean.class);
+	private static final Log log = LogFactory.getLog(ActivityBean.class);
 
 	// External entities' DAOs
 
 	/** User DAO * */
-	private static final UserDAO		userDAO				= new UserDAO();
+	private static final UserDAO userDAO = new UserDAO();
 
 	/** ProjectRole DAO * */
-	private static final ProjectRoleDAO	roleDAO				= new ProjectRoleDAO();
+	private static final ProjectRoleDAO roleDAO = new ProjectRoleDAO();
 
 	/** Upload service */
-	private static final Uploader		uploader			= UploaderFactory
-																	.getInstance("externalActivity");
+	private static final Uploader uploader = UploaderFactory.getInstance("externalActivity");
 
 	/** Active Activity object */
-	private Activity					activity;
+	private Activity activity;
 
 	/** Active Activity object */
-	private ExternalActivity			externalActivity;
+	private ExternalActivity externalActivity;
 
 	/** Active search object */
-	private ActivitySearch				search				= new ActivitySearch();
+	private ActivitySearch search = new ActivitySearch();
 
 	/** Default sort column */
-	private String						sortColumn			= "startDate";
+	private String sortColumn = "startDate";
 
 	/** Default sort order */
-	private boolean						sortAscending		= false;
+	private boolean sortAscending = false;
 
-	private float						monthPerformedHours	= 0;
-	private static final String 		EXT_ACT_DOC_VERSION = "1.0";
+	private float monthPerformedHours = 0;
+	private static final String EXT_ACT_DOC_VERSION = "1.0";
 
 	/**
 	 * List activitys. Order depends on Faces parameter sort.
@@ -671,8 +660,7 @@ public class ActivityBean extends BaseBean {
 	 * @return true if user can delete current object
 	 */
 	public boolean isDeleteAvailable() {
-		return (activity.getId() != null)
-				&& SpringUtils.isAclPermissionGranted(activity, BasePermission.DELETE);
+		return (activity.getId() != null) && SpringUtils.isAclPermissionGranted(activity, BasePermission.DELETE);
 	}
 
 	/**
@@ -701,20 +689,19 @@ public class ActivityBean extends BaseBean {
 		cal.setTime(scheduleModel.getSelectedDate());
 
 		if (scheduleModel.getMode() == ScheduleModel.MONTH || scheduleModel.getMode() == ScheduleModel.WEEK) {
-			cal.set(Calendar.HOUR_OF_DAY, ((SettingBean)FacesUtils.getBean("settingBean")).getMySettings().getWorkingDayHourStarts());
+			cal.set(Calendar.HOUR_OF_DAY,
+					((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getWorkingDayHourStarts());
 		}
 
 		activity.setStartDate(cal.getTime());
 		activity.setDescription(FacesUtils.getMessage("activity.description"));
 		activity.setUser(authManager.getCurrentPrincipal().getUser());
 
-
 		externalActivity.setStartDate(cal.getTime());
-		externalActivity.setEndDate(cal.getTime()); //it is going to end in the same day
+		externalActivity.setEndDate(cal.getTime()); // it is going to end in the same day
 		externalActivity.setComments(FacesUtils.getMessage("offer.observations"));
 		externalActivity.setOwnerId(authManager.getCurrentPrincipal().getUser().getId());
 		externalActivity.setDepartmentId(authManager.getCurrentPrincipal().getUser().getDepartmentId());
-
 
 		DocumentCategory padre = dcManager.getDocumentCategoryParent();
 		// User category
@@ -732,20 +719,21 @@ public class ActivityBean extends BaseBean {
 
 		if (projectRoleId != -1) {
 			ProjectRole projectRole;
-			try{
+			try {
 				projectRole = projectRoleMgr.getEntityById(projectRoleId);
-				if(!projectRole.getProject().isFinished()) {
+				if (!projectRole.getProject().isFinished()) {
 					setRole(projectRole);
 					setSelectedProject(projectRole.getProject());
 					setSelectedOrganization(getSelectedProject().getClient());
-					pr=projectRole.getProject();
+					pr = projectRole.getProject();
 				}
-			}catch(ObjectNotFoundException onfex){
-				// Caso especial. Si no se  localiza el anterior rol, continuamos con la ejecucion.
+			} catch (ObjectNotFoundException onfex) {
+				// Caso especial. Si no se localiza el anterior rol, continuamos con la
+				// ejecucion.
 			}
 		}
 
-		if(pr!=null) {
+		if (pr != null) {
 			setBillable(pr.getBillable());
 			setDefaultBillable(pr.getBillable());
 		} else {
@@ -759,19 +747,9 @@ public class ActivityBean extends BaseBean {
 			ExternalActivitySearch extActivitySearchToday = new ExternalActivitySearch();
 
 			Calendar initToday = Calendar.getInstance();
-			initToday.setTime(scheduleModel.getSelectedDate());
+			initToday.setTime(DateUtils.minHourInDate(scheduleModel.getSelectedDate()));
 			Calendar lastToday = Calendar.getInstance();
-			lastToday.setTime(scheduleModel.getSelectedDate());
-
-			initToday.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-			initToday.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-			initToday.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-			initToday.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
-
-			lastToday.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY));
-			lastToday.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE));
-			lastToday.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND));
-			lastToday.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND));
+			lastToday.setTime(DateUtils.maxHourInDate(scheduleModel.getSelectedDate()));
 
 			searchToday.setStartStartDate(initToday.getTime());
 			searchToday.setEndStartDate(lastToday.getTime());
@@ -784,21 +762,21 @@ public class ActivityBean extends BaseBean {
 			searchToday.setUser(authManager.getCurrentPrincipal().getUser());
 			extActivitySearchToday.setOwner(authManager.getCurrentPrincipal().getUser());
 
-			List<Activity> activities = manager.getAllEntities(searchToday, new SortCriteria(
-					sortColumn, sortAscending));
+			List<Activity> activities = manager.getAllEntities(searchToday,
+					new SortCriteria(sortColumn, sortAscending));
 
 			List<ExternalActivity> extActivities = externalActivityManager.getAllEntities(extActivitySearchToday,
-																					  new SortCriteria(sortColumn, sortAscending));
+					new SortCriteria(sortColumn, sortAscending));
 
 			if (activities.size() > 0 && extActivities.size() <= 0) {
-				//No externalActivities
-				//sort is descendent
+				// No externalActivities
+				// sort is descendent
 				Collections.sort(activities, new compareActivitiesByStartAndDuration());
 				activity.setStartDate(activities.get(0).getEndDate());
 				externalActivity.setStartDate(activities.get(0).getEndDate());
 				externalActivity.setEndDate(activities.get(0).getEndDate());
 			} else if (activities.size() <= 0 && extActivities.size() > 0) {
-				//No activities
+				// No activities
 				Collections.sort(extActivities, new compareExternalActivitiesActivitiesByStartAndDuration());
 				activity.setStartDate(extActivities.get(0).getEndDate());
 				externalActivity.setStartDate(extActivities.get(0).getEndDate());
@@ -811,7 +789,8 @@ public class ActivityBean extends BaseBean {
 				Date lastActivityEndDate = activities.get(0).getEndDate();
 				Date lastExtActivityEndDate = extActivities.get(0).getEndDate();
 
-				Date startDate = (lastActivityEndDate.compareTo(lastExtActivityEndDate) > 0) ? lastActivityEndDate : lastExtActivityEndDate;
+				Date startDate = (lastActivityEndDate.compareTo(lastExtActivityEndDate) > 0) ? lastActivityEndDate
+						: lastExtActivityEndDate;
 				activity.setStartDate(startDate);
 				externalActivity.setStartDate(startDate);
 				externalActivity.setEndDate(startDate);
@@ -849,7 +828,6 @@ public class ActivityBean extends BaseBean {
 //		doc.getVersions().add(docVersion);
 		documents.add(doc);
 
-
 		return null;
 	}
 
@@ -865,7 +843,7 @@ public class ActivityBean extends BaseBean {
 		String tmpId = entry.getId();
 		String[] tmpIdParts = tmpId.split("_");
 
-		Integer id = Integer.parseInt(tmpIdParts[tmpIdParts.length-1]);
+		Integer id = Integer.parseInt(tmpIdParts[tmpIdParts.length - 1]);
 		// activity = activityDAO.getById(id);
 
 		if (entry instanceof ActivityScheduleEntry) {
@@ -894,8 +872,6 @@ public class ActivityBean extends BaseBean {
 
 		return NavigationResults.EDIT;
 	}
-
-
 
 	/**
 	 * Save bean and stay on it
@@ -942,13 +918,13 @@ public class ActivityBean extends BaseBean {
 		return NavigationResults.LIST;
 	}
 
-	public String saveExternalActivity () {
+	public String saveExternalActivity() {
 
 		doBeforeSaveExternalActivity();
 
 		try {
 
-			String fileName=null;
+			String fileName = null;
 
 			if (uploadFile != null) {
 				fileName = FileUtil.getFileName(uploadFile.getName());
@@ -969,16 +945,12 @@ public class ActivityBean extends BaseBean {
 
 			if (uploadFile != null) {
 
-
-
 				if (uploader.exists(Integer.toString(externalActivity.getId()), fileName)) {
 					// el fichero ya existe y lo versionamos
 					uploader.version(Integer.toString(externalActivity.getId()), fileName, uploadFile);
 				} else {
 					uploader.store(Integer.toString(externalActivity.getId()), uploadFile);
 				}
-
-
 
 			}
 
@@ -989,13 +961,11 @@ public class ActivityBean extends BaseBean {
 
 		} catch (IOException e) {
 			log.error("save - exception uploading field file", e);
-			FacesUtils.addErrorMessage("file", "error.fileTransfer", e
-					.getMessage());
+			FacesUtils.addErrorMessage("file", "error.fileTransfer", e.getMessage());
 			return null;
 		}
 
 	}
-
 
 	public String deleteExternalActivity() {
 		// activityDAO.delete(activity);
@@ -1417,8 +1387,6 @@ public class ActivityBean extends BaseBean {
 		activity.setDuration(duration);
 	}
 
-
-
 	public String getDescription() {
 		return activity.getDescription();
 	}
@@ -1463,8 +1431,8 @@ public class ActivityBean extends BaseBean {
 	}
 
 	/**
-	 * Load data from persistence tier to model for efficiency purposes only
-	 * load a month of data
+	 * Load data from persistence tier to model for efficiency purposes only load a
+	 * month of data
 	 */
 	/**
 	 *
@@ -1483,7 +1451,7 @@ public class ActivityBean extends BaseBean {
 			fillExternalActivities(scheduleModel);
 			fillHolidays(scheduleModel);
 
-			scheduleModel.setMode(((SettingBean)FacesUtils.getBean("settingBean")).getMySettings().getMode());
+			scheduleModel.setMode(((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getMode());
 			scheduleModel.setSelectedDate(selectedDate);
 			scheduleModel.refresh();
 
@@ -1496,7 +1464,6 @@ public class ActivityBean extends BaseBean {
 	 * @param event
 	 */
 	public void activityClicked(ScheduleMouseEvent event) {
-
 
 		setSelectedDate(event.getClickedDate());
 
@@ -1560,8 +1527,6 @@ public class ActivityBean extends BaseBean {
 		scheduleModel.refresh();
 	}
 
-
-
 	/**
 	 * @return
 	 */
@@ -1569,10 +1534,6 @@ public class ActivityBean extends BaseBean {
 
 		return NavigationResults.SETTINGS;
 	}
-
-
-
-
 
 	/**
 	 * @return
@@ -1626,9 +1587,19 @@ public class ActivityBean extends BaseBean {
 		HolidaySearch monthSearch = new HolidaySearch();
 		monthSearch.setStartDate(beginOfMonth);
 		monthSearch.setEndDate(endOfMonth);
-		List<Holiday> listaHolidays = holidayManager.getAllEntities(monthSearch, null);
+
+		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
+
+		Calendar calMin = Calendar.getInstance();
+		Calendar calMax = Calendar.getInstance();
+		calMin.setTime(beginOfMonth);
+		calMax.setTime(endOfMonth);
+
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calMin, calMax,
+				allHolidays, authManager.getCurrentPrincipal().getUser().getStartDate());
+
 		int holidays = 0;
-		for (Holiday holiday : listaHolidays) {
+		for (Holiday holiday : correspondingHolidays) {
 			LocalDateTime holidayValue = LocalDateTime.ofInstant(holiday.getDate().toInstant(), ZoneId.systemDefault());
 			int day = holidayValue.getDayOfMonth();
 			if (!nonWorkingDays.contains(day)) {
@@ -1679,14 +1650,14 @@ public class ActivityBean extends BaseBean {
 						nonWorkingDays.add(day);
 					}
 				}
-			    iter = iter.plusDays(1);
+				iter = iter.plusDays(1);
 			}
 		}
 		return requestedHolidays;
 	}
 
 	protected float getHoursPerDay() {
-		return ((SettingBean)FacesUtils.getBean("settingBean")).getMySettings().getWorkingHours();
+		return ((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getWorkingHours();
 	}
 
 	public void validateHoursExternalActivity(FacesContext context, UIComponent toValidate, Object value) {
@@ -1712,17 +1683,14 @@ public class ActivityBean extends BaseBean {
 		HtmlInputText duration = (HtmlInputText) FacesUtils.getComponent("activity").findComponent(tabName)
 				.findComponent("duration");
 
-		if (startTimeHour.getSubmittedValue() != null
-				&& startTimeMinute.getSubmittedValue() != null
-				&& endTimeHour.getSubmittedValue() != null
-				&& endTimeMinute.getSubmittedValue() != null) {
+		if (startTimeHour.getSubmittedValue() != null && startTimeMinute.getSubmittedValue() != null
+				&& endTimeHour.getSubmittedValue() != null && endTimeMinute.getSubmittedValue() != null) {
 
-			Date startTime = DateUtils.timeToDate(Integer.valueOf(
-					startTimeHour.getSubmittedValue().toString()).intValue(), Integer.valueOf(
-					startTimeMinute.getSubmittedValue().toString()).intValue());
-			Date endTime = DateUtils.timeToDate(Integer.valueOf(
-					endTimeHour.getSubmittedValue().toString()).intValue(), Integer.valueOf(
-					endTimeMinute.getSubmittedValue().toString()).intValue());
+			Date startTime = DateUtils.timeToDate(
+					Integer.valueOf(startTimeHour.getSubmittedValue().toString()).intValue(),
+					Integer.valueOf(startTimeMinute.getSubmittedValue().toString()).intValue());
+			Date endTime = DateUtils.timeToDate(Integer.valueOf(endTimeHour.getSubmittedValue().toString()).intValue(),
+					Integer.valueOf(endTimeMinute.getSubmittedValue().toString()).intValue());
 
 			if (toValidate.equals(startTimeHour) || toValidate.equals(startTimeMinute)) {
 
@@ -1740,8 +1708,7 @@ public class ActivityBean extends BaseBean {
 				if (startTime.before(endTime)) {
 
 					((UIInput) toValidate).setValid(false);
-					FacesMessage message = new FacesMessage(
-							"La hora de fin no puede ser anterior a la hora inicial");
+					FacesMessage message = new FacesMessage("La hora de fin no puede ser anterior a la hora inicial");
 					context.addMessage(toValidate.getClientId(context), message);
 				}
 			}
@@ -1783,8 +1750,7 @@ public class ActivityBean extends BaseBean {
 			while (!cActual.getTime().after(rH.getFinalDate())) {
 				if (cActual.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
 						&& cActual.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-					model.setHoliday(cActual.getTime(), FacesUtils
-							.getMessage("activity.acceptedHolidays"));
+					model.setHoliday(cActual.getTime(), FacesUtils.getMessage("activity.acceptedHolidays"));
 				}
 				cActual.add(Calendar.DAY_OF_MONTH, 1);
 			}
@@ -1795,9 +1761,13 @@ public class ActivityBean extends BaseBean {
 
 		monthSearch.setStartDate(calMin.getTime());
 		monthSearch.setEndDate(calMax.getTime());
-		List<Holiday> listaHolidays = holidayManager.getAllEntities(monthSearch, null);
 
-		for (Holiday holiday : listaHolidays) {
+		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
+
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calMin, calMax,
+				allHolidays, authManager.getCurrentPrincipal().getUser().getStartDate());
+
+		for (Holiday holiday : correspondingHolidays) {
 			model.setHoliday(holiday.getDate(), holiday.getDescription());
 		}
 
@@ -1821,8 +1791,8 @@ public class ActivityBean extends BaseBean {
 
 		search.setOwner(authManager.getCurrentPrincipal().getUser());
 
-		List<ExternalActivity> extActivities = externalActivityManager.getAllEntities(search,new SortCriteria(
-				sortColumn, sortAscending));
+		List<ExternalActivity> extActivities = externalActivityManager.getAllEntities(search,
+				new SortCriteria(sortColumn, sortAscending));
 
 		for (ExternalActivity extActivity : extActivities) {
 
@@ -1843,17 +1813,14 @@ public class ActivityBean extends BaseBean {
 		calMin = getMinimumSearchTime(selectedDate);
 		calMax = getMaximumSearchTime(selectedDate);
 
-
 		searchMonth.setStartStartDate(calMin.getTime());
 		searchMonth.setEndStartDate(calMax.getTime());
 		searchMonth.setUser(authManager.getCurrentPrincipal().getUser());
 		/* search data in persistence layer */
-		List<Activity> activities = manager.getAllEntities(searchMonth, new SortCriteria(
-				sortColumn, sortAscending));
+		List<Activity> activities = manager.getAllEntities(searchMonth, new SortCriteria(sortColumn, sortAscending));
 
 		/*
-		 * activityDAO.search(searchMonth, new SortCriteria(sortColumn,
-		 * sortAscending));
+		 * activityDAO.search(searchMonth, new SortCriteria(sortColumn, sortAscending));
 		 */
 
 		monthPerformedHours = 0;
@@ -1875,21 +1842,15 @@ public class ActivityBean extends BaseBean {
 
 		monthPerformedHours /= 60;
 
-
 	}
 
 	private Calendar getMaximumSearchTime(Date date) {
 
 		Calendar calMax = Calendar.getInstance();
 
-		calMax.setTime(date);
-		calMax.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
-		calMax.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY));
-		calMax.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE));
-		calMax.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND));
-		calMax.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND));
+		calMax.setTime(DateUtils.getLastDayOfMonth(date));
 
-		if (((SettingBean)FacesUtils.getBean("settingBean")).getMySettings().getLoadExtraDays()) {
+		if (((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getLoadExtraDays()) {
 			calMax.add(Calendar.MONTH, 1);
 		}
 
@@ -1901,14 +1862,9 @@ public class ActivityBean extends BaseBean {
 
 		Calendar calMin = Calendar.getInstance();
 
-		calMin.setTime(date);
-		calMin.set(Calendar.DAY_OF_MONTH, cal.getMinimum(Calendar.DAY_OF_MONTH));
-		calMin.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-		calMin.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-		calMin.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-		calMin.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+		calMin.setTime(DateUtils.getFirstDayOfMonth(date));
 
-		if (((SettingBean)FacesUtils.getBean("settingBean")).getMySettings().getLoadExtraDays()) {
+		if (((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getLoadExtraDays()) {
 			calMin.add(Calendar.MONTH, -1);
 		}
 
@@ -2004,7 +1960,9 @@ public class ActivityBean extends BaseBean {
 	}
 
 	/**
-	 * retrieves the duration of the external activity, calculated as the difference between start time and end time
+	 * retrieves the duration of the external activity, calculated as the difference
+	 * between start time and end time
+	 * 
 	 * @return
 	 */
 	public int getExternalActivityDuration() {
@@ -2014,13 +1972,14 @@ public class ActivityBean extends BaseBean {
 		startCal.setTime(getExternalActivityStartDate());
 		endCal.setTime(getExternalActivityEndDate());
 
-		int duration = (int) (endCal.getTimeInMillis() - startCal.getTimeInMillis())/(60*1000);
+		int duration = (int) (endCal.getTimeInMillis() - startCal.getTimeInMillis()) / (60 * 1000);
 
 		return duration;
 	}
 
 	/**
 	 * sets the end time using the duration (in minutes) of the external activity
+	 * 
 	 * @param minutes
 	 */
 	public void setExternalActivityDuration(int minutes) {
@@ -2056,7 +2015,7 @@ public class ActivityBean extends BaseBean {
 	 * @param uploadFile the uploadFile to set
 	 */
 	public void setUploadFile(UploadedFile uploadFile) {
-			this.uploadFile = uploadFile;
+		this.uploadFile = uploadFile;
 	}
 
 	/**
@@ -2099,31 +2058,31 @@ public class ActivityBean extends BaseBean {
 		return null;
 	}
 
-	public boolean isProjectsRendered(){
+	public boolean isProjectsRendered() {
 		boolean has = true;
 
-		if (this.selectedOrganization == null){
+		if (this.selectedOrganization == null) {
 			has = false;
 		} else {
 			List<Project> projects = ProjectManager.getDefault().getProjectsByOrganization(selectedOrganization);
-			has = ! ((projects == null) || projects.isEmpty());
+			has = !((projects == null) || projects.isEmpty());
 		}
 
-		return  has;
+		return has;
 	}
 
-	public boolean isRolesRendered(){
+	public boolean isRolesRendered() {
 		boolean has = true;
 
-		if (this.selectedOrganization == null){
+		if (this.selectedOrganization == null) {
 			has = false;
 		} else if (this.selectedProject == null) {
 			has = false;
 		} else {
 			Set<ProjectRole> roles = this.selectedProject.getRoles();
-			has = ! ((roles == null) || roles.isEmpty());
+			has = !((roles == null) || roles.isEmpty());
 		}
 
-		return  has;
+		return has;
 	}
 }

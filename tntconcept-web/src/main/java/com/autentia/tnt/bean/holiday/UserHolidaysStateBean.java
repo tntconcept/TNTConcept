@@ -63,7 +63,7 @@ public class UserHolidaysStateBean extends BaseBean {
 	public void changeDate(ValueChangeEvent event) {
 		Date d = (Date) event.getNewValue();
 		setChargeYear(d);
-		setUserState(manager.calcUserHolidaysState(AuthenticationManager.getDefault().getCurrentPrincipal().getUser(), this.getChargeYear()));
+		setUserState(manager.calculateUserHolidaysState(AuthenticationManager.getDefault().getCurrentPrincipal().getUser(), this.getChargeYear()));
 	}
 	
 	UserHolidaysState userState = null;
@@ -84,7 +84,7 @@ public class UserHolidaysStateBean extends BaseBean {
 		List <User> users = userManager.getAllEntities(searchUser, new SortCriteria(sortColumn,sortAscending));					
 		
 		for(User us:users) {			
-			ret.add(manager.calcUserHolidaysState(us, this.getChargeYear()));
+			ret.add(manager.calculateUserHolidaysState(us, this.getChargeYear()));
 		}
 				
 		return ret;
@@ -96,7 +96,7 @@ public class UserHolidaysStateBean extends BaseBean {
 	
 	
 	public String myHolidays() {
-		setUserState(manager.calcUserHolidaysState(AuthenticationManager.getDefault().getCurrentPrincipal().getUser(), this.getChargeYear()));
+		setUserState(manager.calculateUserHolidaysState(AuthenticationManager.getDefault().getCurrentPrincipal().getUser(), this.getChargeYear()));
 		return "myHolidays";
 	}
 	
