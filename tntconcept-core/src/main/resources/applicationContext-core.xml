@@ -269,7 +269,6 @@
 
 	<bean id="managerUserHolidaysState"
 		class="com.autentia.tnt.manager.holiday.UserHolidaysStateManager" >
-        <constructor-arg ref="daoUser" />
     </bean>
 
 	<bean id="managerCollaborator" class="com.autentia.tnt.manager.contacts.CollaboratorManager">

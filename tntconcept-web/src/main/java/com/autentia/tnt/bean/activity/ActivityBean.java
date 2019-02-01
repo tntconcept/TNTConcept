@@ -747,19 +747,9 @@ public class ActivityBean extends BaseBean {
 			ExternalActivitySearch extActivitySearchToday = new ExternalActivitySearch();
 
 			Calendar initToday = Calendar.getInstance();
-			initToday.setTime(scheduleModel.getSelectedDate());
+			initToday.setTime(DateUtils.minHourInDate(scheduleModel.getSelectedDate()));
 			Calendar lastToday = Calendar.getInstance();
-			lastToday.setTime(scheduleModel.getSelectedDate());
-
-			initToday.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-			initToday.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-			initToday.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-			initToday.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
-
-			lastToday.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY));
-			lastToday.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE));
-			lastToday.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND));
-			lastToday.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND));
+			lastToday.setTime(DateUtils.maxHourInDate(scheduleModel.getSelectedDate()));
 
 			searchToday.setStartStartDate(initToday.getTime());
 			searchToday.setEndStartDate(lastToday.getTime());
@@ -1605,7 +1595,7 @@ public class ActivityBean extends BaseBean {
 		calMin.setTime(beginOfMonth);
 		calMax.setTime(endOfMonth);
 
-		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(calMin, calMax,
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calMin, calMax,
 				allHolidays, authManager.getCurrentPrincipal().getUser().getStartDate());
 
 		int holidays = 0;
@@ -1774,7 +1764,7 @@ public class ActivityBean extends BaseBean {
 
 		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 
-		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(calMin, calMax,
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calMin, calMax,
 				allHolidays, authManager.getCurrentPrincipal().getUser().getStartDate());
 
 		for (Holiday holiday : correspondingHolidays) {
@@ -1858,12 +1848,7 @@ public class ActivityBean extends BaseBean {
 
 		Calendar calMax = Calendar.getInstance();
 
-		calMax.setTime(date);
-		calMax.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
-		calMax.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY));
-		calMax.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE));
-		calMax.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND));
-		calMax.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND));
+		calMax.setTime(DateUtils.getLastDayOfMonth(date));
 
 		if (((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getLoadExtraDays()) {
 			calMax.add(Calendar.MONTH, 1);
@@ -1877,12 +1862,7 @@ public class ActivityBean extends BaseBean {
 
 		Calendar calMin = Calendar.getInstance();
 
-		calMin.setTime(date);
-		calMin.set(Calendar.DAY_OF_MONTH, cal.getMinimum(Calendar.DAY_OF_MONTH));
-		calMin.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
-		calMin.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
-		calMin.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
-		calMin.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+		calMin.setTime(DateUtils.getFirstDayOfMonth(date));
 
 		if (((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getLoadExtraDays()) {
 			calMin.add(Calendar.MONTH, -1);

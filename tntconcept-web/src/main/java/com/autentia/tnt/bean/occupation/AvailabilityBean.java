@@ -95,30 +95,22 @@ public class AvailabilityBean extends BaseBean {
 	}
 
 	private void fillAvailability(User user, OcupationModel model) {
-		Calendar calMin = Calendar.getInstance();
-		Calendar calMax = Calendar.getInstance();
+		Calendar calendarFirstDayOfMonth = Calendar.getInstance();
+		Calendar calendarLastDayOfMonth = Calendar.getInstance();
+		
+		Date firstDayOfMonth = DateUtils.getFirstDayOfMonth(selectedDate);
+		Date lastDayOfMonth = DateUtils.getLastDayOfMonth(selectedDate);
+		
+		calendarFirstDayOfMonth.setTime(firstDayOfMonth);
+		calendarLastDayOfMonth.setTime(lastDayOfMonth);
 
-		calMin.setTime(selectedDate);
-		calMin.set(Calendar.DAY_OF_MONTH, calMin.getMinimum(Calendar.DAY_OF_MONTH));
-		calMin.set(Calendar.HOUR_OF_DAY, calMin.getMinimum(Calendar.HOUR_OF_DAY));
-		calMin.set(Calendar.MINUTE, calMin.getMinimum(Calendar.MINUTE));
-		calMin.set(Calendar.SECOND, calMin.getMinimum(Calendar.SECOND));
-		calMin.set(Calendar.MILLISECOND, calMin.getMinimum(Calendar.MILLISECOND));
-
-		calMax.setTime(selectedDate);
-		calMax.set(Calendar.DAY_OF_MONTH, calMax.getMaximum(Calendar.DAY_OF_MONTH));
-		calMax.set(Calendar.HOUR_OF_DAY, calMax.getMaximum(Calendar.HOUR_OF_DAY));
-		calMax.set(Calendar.MINUTE, calMax.getMaximum(Calendar.MINUTE));
-		calMax.set(Calendar.SECOND, calMax.getMaximum(Calendar.SECOND));
-		calMax.set(Calendar.MILLISECOND, calMax.getMaximum(Calendar.MILLISECOND));
-
-		calMin.add(Calendar.MONTH, -1);
-		calMax.add(Calendar.MONTH, 1);
+		calendarFirstDayOfMonth.add(Calendar.MONTH, -1);
+		calendarLastDayOfMonth.add(Calendar.MONTH, 1);
 
 		OccupationManager ocManager = OccupationManager.getDefault();
 		OccupationSearch ocSearch = new OccupationSearch();
-		ocSearch.setStartOccupationDate(calMin.getTime());
-		ocSearch.setEndOccupationDate(calMax.getTime());
+		ocSearch.setStartOccupationDate(calendarFirstDayOfMonth.getTime());
+		ocSearch.setEndOccupationDate(calendarLastDayOfMonth.getTime());
 		ocSearch.setUser(user);
 
 		for (Occupation oc : ocManager.getAllEntities(ocSearch, null)) {
@@ -141,34 +133,26 @@ public class AvailabilityBean extends BaseBean {
 	 */
 
 	private void fillModelHolidays(User user, OcupationModel model) {
-		Calendar calMin = Calendar.getInstance();
-		Calendar calMax = Calendar.getInstance();
+		Calendar calendarFirstDayOfMonth = Calendar.getInstance();
+		Calendar calendarLastDayOfMonth = Calendar.getInstance();
 
-		calMin.setTime(selectedDate);
-		calMin.set(Calendar.DAY_OF_MONTH, calMin.getMinimum(Calendar.DAY_OF_MONTH));
-		calMin.set(Calendar.HOUR_OF_DAY, calMin.getMinimum(Calendar.HOUR_OF_DAY));
-		calMin.set(Calendar.MINUTE, calMin.getMinimum(Calendar.MINUTE));
-		calMin.set(Calendar.SECOND, calMin.getMinimum(Calendar.SECOND));
-		calMin.set(Calendar.MILLISECOND, calMin.getMinimum(Calendar.MILLISECOND));
+		Date firstDayOfMonth = DateUtils.getFirstDayOfMonth(selectedDate);
+		Date lastDayOfMonth = DateUtils.getLastDayOfMonth(selectedDate);
+		
+		calendarFirstDayOfMonth.setTime(firstDayOfMonth);
+		calendarLastDayOfMonth.setTime(lastDayOfMonth);
 
-		calMax.setTime(selectedDate);
-		calMax.set(Calendar.DAY_OF_MONTH, calMax.getMaximum(Calendar.DAY_OF_MONTH));
-		calMax.set(Calendar.HOUR_OF_DAY, calMax.getMaximum(Calendar.HOUR_OF_DAY));
-		calMax.set(Calendar.MINUTE, calMax.getMaximum(Calendar.MINUTE));
-		calMax.set(Calendar.SECOND, calMax.getMaximum(Calendar.SECOND));
-		calMax.set(Calendar.MILLISECOND, calMax.getMaximum(Calendar.MILLISECOND));
-
-		calMin.add(Calendar.MONTH, -1);
-		calMax.add(Calendar.MONTH, 1);
+		calendarFirstDayOfMonth.add(Calendar.MONTH, -1);
+		calendarLastDayOfMonth.add(Calendar.MONTH, 1);
 
 		RequestHolidayManager rhManager = RequestHolidayManager.getDefault();
 		RequestHolidaySearch rhSearch = new RequestHolidaySearch();
 		rhSearch.setUserRequest(user);
 		rhSearch.setState(HolidayState.ACCEPT);
-		rhSearch.setStartBeginDate(calMin.getTime());
-		rhSearch.setEndBeginDate(calMax.getTime());
-		rhSearch.setStartFinalDate(calMin.getTime());
-		rhSearch.setEndFinalDate(calMax.getTime());
+		rhSearch.setStartBeginDate(calendarFirstDayOfMonth.getTime());
+		rhSearch.setEndBeginDate(calendarLastDayOfMonth.getTime());
+		rhSearch.setStartFinalDate(calendarFirstDayOfMonth.getTime());
+		rhSearch.setEndFinalDate(calendarLastDayOfMonth.getTime());
 
 		List<RequestHoliday> listH = rhManager.getAllEntities(rhSearch, null);
 
@@ -185,12 +169,12 @@ public class AvailabilityBean extends BaseBean {
 		HolidaySearch monthSearch = new HolidaySearch();
 		HolidayManager holidayManager = HolidayManager.getDefault();
 
-		monthSearch.setStartDate(calMin.getTime());
-		monthSearch.setEndDate(calMax.getTime());
+		monthSearch.setStartDate(calendarFirstDayOfMonth.getTime());
+		monthSearch.setEndDate(calendarLastDayOfMonth.getTime());
 
 		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 
-		List<Holiday> correspondingHolidays = correspondingHolidayManager.calcCorrespondingHolidays(calMin, calMax,
+		List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calendarFirstDayOfMonth, calendarLastDayOfMonth,
 				allHolidays, user.getStartDate());
 
 		for (Holiday holiday : correspondingHolidays) {

@@ -38,7 +38,7 @@ public class CorrespondingHolidayManager {
 	protected CorrespondingHolidayManager() {
 	}
 
-	public List<Holiday> calcCorrespondingHolidays(Calendar calMin, Calendar calMax, List<Holiday> allHolidays,
+	public List<Holiday> calculateCorrespondingHolidays(Calendar calMin, Calendar calMax, List<Holiday> allHolidays,
 			Date hiringDate) {
 		List<Holiday> correspondingHolidays = new ArrayList<Holiday>();
 

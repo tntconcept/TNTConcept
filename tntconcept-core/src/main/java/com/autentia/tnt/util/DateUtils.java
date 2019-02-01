@@ -99,4 +99,42 @@ public class DateUtils {
 		return calendar.getTime();
 		
 	}
+
+	public static Date getFirstDayOfMonth(Date date) {
+		
+		Calendar firstDayOfMonth = Calendar.getInstance();
+		firstDayOfMonth.setTime(DateUtils.minHourInDate(date));
+		firstDayOfMonth.set(Calendar.DAY_OF_MONTH, firstDayOfMonth.getMinimum(Calendar.DAY_OF_MONTH));
+		
+		return firstDayOfMonth.getTime();
+	}
+	
+	public static Date getLastDayOfMonth(Date date) {
+
+		Calendar lastDayOfMonth = Calendar.getInstance();
+		lastDayOfMonth.setTime(DateUtils.maxHourInDate(date));
+		lastDayOfMonth.set(Calendar.DAY_OF_MONTH, lastDayOfMonth.getMaximum(Calendar.DAY_OF_MONTH));
+		
+		return lastDayOfMonth.getTime();
+	}
+
+	public static Date getFirstDayOfYear(Date date) {
+		
+		Calendar firstDayOfYear = Calendar.getInstance();
+		firstDayOfYear.setTime(DateUtils.getFirstDayOfMonth(date));
+		firstDayOfYear.set(Calendar.MONTH, firstDayOfYear.getMinimum(Calendar.MONTH));
+		
+		return firstDayOfYear.getTime();
+	}
+
+
+	public static Date getLastDayOfYear(Date date) {
+		
+		Calendar lastDayOfYear = Calendar.getInstance();
+		lastDayOfYear.setTime(DateUtils.getLastDayOfMonth(date));
+		lastDayOfYear.set(Calendar.MONTH, lastDayOfYear.getMaximum(Calendar.MONTH));
+		
+		return lastDayOfYear.getTime();
+	}
+	
 }

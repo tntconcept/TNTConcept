@@ -50,8 +50,6 @@ public class UserHolidaysStateManager {
 	/** Logger */
 	private static final Log log = LogFactory.getLog(UserHolidaysStateManager.class);
 
-	private UserDAO userDAO;
-
 	public static UserHolidaysStateManager getDefault() {
 		return (UserHolidaysStateManager) SpringUtils.getSpringBean("managerUserHolidaysState");
 	}
@@ -60,15 +58,6 @@ public class UserHolidaysStateManager {
 	 * Empty constructor needed by CGLIB (Spring AOP)
 	 */
 	protected UserHolidaysStateManager() {
-	}
-
-	/**
-	 * Default constructor
-	 * 
-	 * @deprecated do not construct managers alone: use Spring's declared beans
-	 */
-	public UserHolidaysStateManager(UserDAO userDAO) {
-		this.userDAO = userDAO;
 	}
 
 	/**
@@ -119,7 +108,7 @@ public class UserHolidaysStateManager {
 			fromYear.setTime(fromDate);
 			toYear.setTime(toDate);
 
-			List<Holiday> correspondingFiestas = correspondingFiestasManager.calcCorrespondingHolidays(fromYear, toYear,
+			List<Holiday> correspondingFiestas = correspondingFiestasManager.calculateCorrespondingHolidays(fromYear, toYear,
 					allFiestas, user.getStartDate());
 
 			while (current.before(toDate) || DateUtils.isSameDay(current, toDate)) {
@@ -133,7 +122,7 @@ public class UserHolidaysStateManager {
 		return total;
 	}
 
-	public UserHolidaysState calcUserHolidaysState(User usuario, Date chargeYear) {
+	public UserHolidaysState calculateUserHolidaysState(User usuario, Date year) {
 		UserHolidaysState uhs = new UserHolidaysState();
 		uhs.setUser(usuario);
 		// WorkingAgreement attribute is an HB proxy not initialized, we need to get it
@@ -147,66 +136,46 @@ public class UserHolidaysStateManager {
 
 		int acceptedHolidays = 0;
 
-		if (chargeYear != null) {
+		if (year != null) {
 
 			HolidayManager fiestasManager = HolidayManager.getDefault();
 
 			// We must take in account previous year holidays and next year holidays
 
-			Calendar calMin = Calendar.getInstance();
-			calMin.setTime(chargeYear);
-			calMin.set(Calendar.MONTH, calMin.getMinimum(Calendar.MONTH));
-			calMin.set(Calendar.DAY_OF_MONTH, calMin.getMinimum(Calendar.DAY_OF_MONTH));
-			calMin.set(Calendar.HOUR_OF_DAY, calMin.getMinimum(Calendar.HOUR_OF_DAY));
-			calMin.set(Calendar.MINUTE, calMin.getMinimum(Calendar.MINUTE));
-			calMin.set(Calendar.SECOND, calMin.getMinimum(Calendar.SECOND));
-			calMin.set(Calendar.MILLISECOND, calMin.getMinimum(Calendar.MILLISECOND));
-
-			Calendar calMax = Calendar.getInstance();
-			calMax.setTime(chargeYear);
-			calMax.set(Calendar.MONTH, calMax.getMaximum(Calendar.MONTH));
-			calMax.set(Calendar.DAY_OF_MONTH, calMax.getMaximum(Calendar.DAY_OF_MONTH));
-			calMax.set(Calendar.HOUR_OF_DAY, calMax.getMaximum(Calendar.HOUR_OF_DAY));
-			calMax.set(Calendar.MINUTE, calMax.getMaximum(Calendar.MINUTE));
-			calMax.set(Calendar.SECOND, calMax.getMaximum(Calendar.SECOND));
-			calMax.set(Calendar.MILLISECOND, calMax.getMaximum(Calendar.MILLISECOND));
-
-			calMin.add(Calendar.YEAR, -1);
-			calMax.add(Calendar.YEAR, 1);
-
+			Date firstDayOfYear = com.autentia.tnt.util.DateUtils.getFirstDayOfYear(year);
+			Date lastDayOfYear = com.autentia.tnt.util.DateUtils.getLastDayOfYear(year);
+			
+			Calendar calendarFirstDayOfYear = Calendar.getInstance();
+			calendarFirstDayOfYear.setTime(firstDayOfYear);
+			calendarFirstDayOfYear.add(Calendar.YEAR, -1);
+			
+			Calendar calendarLastDayOfYear = Calendar.getInstance();
+			calendarLastDayOfYear.setTime(lastDayOfYear);
+			calendarLastDayOfYear.add(Calendar.YEAR, 1);
+			
 			HolidaySearch fiestaSearch = new HolidaySearch();
-			fiestaSearch.setStartDate(calMin.getTime());
-			fiestaSearch.setEndDate(calMax.getTime());
+			fiestaSearch.setStartDate(calendarFirstDayOfYear.getTime());
+			fiestaSearch.setEndDate(calendarLastDayOfYear.getTime());
 
 			CorrespondingHolidayManager correspondingFiestasManager = CorrespondingHolidayManager.getDefault();
 
 			List<Holiday> allFiestas = fiestasManager.getAllEntities(fiestaSearch, null);
 
-			calMin.setTime(chargeYear);
-			calMin.set(Calendar.MONTH, calMin.getMinimum(Calendar.MONTH));
-			calMin.set(Calendar.DAY_OF_MONTH, calMin.getMinimum(Calendar.DAY_OF_MONTH));
-			calMin.set(Calendar.HOUR_OF_DAY, calMin.getMinimum(Calendar.HOUR_OF_DAY));
-			calMin.set(Calendar.MINUTE, calMin.getMinimum(Calendar.MINUTE));
-			calMin.set(Calendar.SECOND, calMin.getMinimum(Calendar.SECOND));
-			calMin.set(Calendar.MILLISECOND, calMin.getMinimum(Calendar.MILLISECOND));
+			firstDayOfYear = com.autentia.tnt.util.DateUtils.getFirstDayOfYear(year);
+			calendarFirstDayOfYear.setTime(firstDayOfYear);
+	
+			lastDayOfYear = com.autentia.tnt.util.DateUtils.getLastDayOfYear(year);
+			calendarLastDayOfYear.setTime(lastDayOfYear);
 
-			calMax.setTime(chargeYear);
-			calMax.set(Calendar.MONTH, calMax.getMaximum(Calendar.MONTH));
-			calMax.set(Calendar.DAY_OF_MONTH, calMax.getMaximum(Calendar.DAY_OF_MONTH));
-			calMax.set(Calendar.HOUR_OF_DAY, calMax.getMaximum(Calendar.HOUR_OF_DAY));
-			calMax.set(Calendar.MINUTE, calMax.getMaximum(Calendar.MINUTE));
-			calMax.set(Calendar.SECOND, calMax.getMaximum(Calendar.SECOND));
-			calMax.set(Calendar.MILLISECOND, calMax.getMaximum(Calendar.MILLISECOND));
-
-			List<Holiday> correspondingFiestasToUser = correspondingFiestasManager.calcCorrespondingHolidays(calMin,
-					calMax, allFiestas, usuario.getStartDate());
+			List<Holiday> correspondingFiestasToUser = correspondingFiestasManager.calculateCorrespondingHolidays(calendarFirstDayOfYear,
+					calendarLastDayOfYear, allFiestas, usuario.getStartDate());
 
 			RequestHolidayManager holyManager = RequestHolidayManager.getDefault();
 			RequestHolidaySearch holSearch = new RequestHolidaySearch();
 			holSearch.setUserRequest(uhs.getUser());
 			holSearch.setState(HolidayState.ACCEPT);
-			holSearch.setStartChargeYear(calMin.getTime());
-			holSearch.setEndChargeYear(calMax.getTime());
+			holSearch.setStartChargeYear(calendarFirstDayOfYear.getTime());
+			holSearch.setEndChargeYear(calendarLastDayOfYear.getTime());
 
 			List<RequestHoliday> listH = holyManager.getAllEntities(holSearch, null);
 
@@ -243,7 +212,7 @@ public class UserHolidaysStateManager {
 			calAuxCont.setTime(uhs.getUser().getStartDate());
 
 			Calendar calAux = Calendar.getInstance();
-			calAux.setTime(chargeYear);
+			calAux.setTime(year);
 			int yearCharge = calAux.get(Calendar.YEAR);
 			int yearContract = calAuxCont.get(Calendar.YEAR);
 
@@ -266,7 +235,7 @@ public class UserHolidaysStateManager {
 	 *         en un año
 	 */
 	public int getFreeDays(User user, Date year) {
-		UserHolidaysState state = this.calcUserHolidaysState(user, year);
+		UserHolidaysState state = this.calculateUserHolidaysState(user, year);
 		return state.getTotalYear() - state.getTotalAccepted();
 	}
 }
