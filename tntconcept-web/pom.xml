@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.autentia.tnt</groupId>
 		<artifactId>tntconcept-parent</artifactId>
-		<version>0.31.01-SNAPSHOT</version>
+		<version>0.32.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tntconcept-web</artifactId>
@@ -298,9 +298,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>eclipse</groupId>
-			<artifactId>jdtcore</artifactId>
-			<version>3.1.0</version>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>core</artifactId>
+			<version>3.1.1</version>
 		</dependency>
 <!-- Solucion JRJdtCompiler - Compilation error -->
 		<dependency>

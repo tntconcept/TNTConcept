@@ -17,11 +17,8 @@
 
 package com.autentia.tnt.bean.admin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.apache.myfaces.custom.schedule.model.ScheduleModel;
@@ -84,12 +81,16 @@ public class GeneralSettingsBean extends BaseBean {
 	private String	locale = SettingManager.getString(settings.get(SettingPath.GENERAL_PREFERRED_LOCALE, false), FacesUtils.getViewLocale().getLanguage());
 	
 	private boolean loadExtraDays = true;
-	
-	
+
 	/** Number of items in list */
 	private int	listSize = SettingManager.getInt(settings.get(SettingPath.GENERAL_PREFERRED_LIST_SIZE, false), 12);
-	
-	
+
+	/** Show legal warning in reports */
+	private boolean showLegalWarning = SettingManager.getBoolean(settings.get(SettingPath.REPORTS_PREFERRED_SHOW_LEGAL_WARNING, false), false);
+
+	/** Legal warning in reports */
+	private String legalWarning = SettingManager.getString(settings.get(SettingPath.REPORTS_PREFERRED_LEGAL_WARNING, false), "");
+
 	public GeneralSettingsBean() {
 		generateSelectItems();
 	}
@@ -181,7 +182,6 @@ public class GeneralSettingsBean extends BaseBean {
 	public int getWorkingDayHourEnds() {
 		return workingDayHourStarts + workingHours;
 	}
-	
 
 	public int getListSize() {
 		return listSize;
@@ -189,6 +189,22 @@ public class GeneralSettingsBean extends BaseBean {
 
 	public void setListSize(int listSize) {
 		this.listSize = listSize;
+	}
+
+	public boolean isShowLegalWarning() {
+		return showLegalWarning;
+	}
+
+	public void setShowLegalWarning(boolean showLegalWarning) {
+		this.showLegalWarning = showLegalWarning;
+	}
+
+	public String getLegalWarning() {
+		return legalWarning;
+	}
+
+	public void setLegalWarning(String legalWarning) {
+		this.legalWarning = legalWarning;
 	}
 
 	public void save() {
@@ -219,14 +235,21 @@ public class GeneralSettingsBean extends BaseBean {
 		val = settings.get(SettingPath.BITACORE_PREFERRED_HEADER_FORMAT, true);		
 		SettingManager.setValue(val, headerFormat);
 		settings.save(val);
-		
-		
+
 		val = settings.get(SettingPath.GENERAL_PREFERRED_LIST_SIZE, true);		
 		SettingManager.setValue(val, listSize);
 		settings.save(val);
 		
 		val = settings.get(SettingPath.GENERAL_PREFERRED_LOCALE, true);		
 		SettingManager.setValue(val, locale);
+		settings.save(val);
+
+		val = settings.get(SettingPath.REPORTS_PREFERRED_SHOW_LEGAL_WARNING, true);
+		SettingManager.setValue(val, showLegalWarning);
+		settings.save((val));
+
+		val = settings.get(SettingPath.REPORTS_PREFERRED_LEGAL_WARNING, true);
+		SettingManager.setValue(val, legalWarning);
 		settings.save(val);
 		
 		Locale local = new Locale(locale);

@@ -91,7 +91,7 @@
                             <h:outputText value="#{category.name}" />
                             <f:verbatim>&nbsp;&nbsp;(</f:verbatim>
                             <h:outputText value="#{category.numMessages}" />
-                            <f:verbatim><h:outputText value="#{msg['entry.boardMessage']}:" />)</f:verbatim>
+                            <f:verbatim><h:outputText value=" #{msg['entry.boardMessage']}" />)</f:verbatim>
                           </t:commandLink>
                         </h:panelGroup>
                       </h:column>

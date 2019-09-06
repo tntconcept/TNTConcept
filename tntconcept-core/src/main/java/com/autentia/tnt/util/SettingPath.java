@@ -36,6 +36,8 @@ public final class SettingPath {
 	public static final String	OBJECTIVE_LAST_PROJECTID				= "objective.last.projectId";
 	public static final String  GENERAL_PREFERRED_LIST_SIZE 			= "general.preferred.listSize";
 	public static final String  GENERAL_PREFERRED_LOCALE		 		= "general.preferred.locale";
+	public static final String  REPORTS_PREFERRED_SHOW_LEGAL_WARNING    = "reports.preferred.showLegalWarning";
+	public static final String  REPORTS_PREFERRED_LEGAL_WARNING	 		= "reports.preferred.legalWarning";
 	
 	/** Nobody should construct objects of this type */
 	private SettingPath() {

@@ -25,8 +25,9 @@
   <head>
     <%@include file="/inc/uiCore.jsp" %>
      <script type="text/javascript">
-     function openPDF(id,idOrg,showSubreportRole,showSubreportCost) {
-     	openReportParameters("document/oferta.pdf","?offerId="+id+"&idOrg="+idOrg+"&showSubreportRole="+showSubreportRole+"&showSubreportCost="+showSubreportCost+"&SUBREPORT_BILLHEADER=factura_subreport&SUBREPORT_BILLFOOTERINFO=footerInfo_subreport&SUBREPORT_OFFERCOST=subreport_offerCost&SUBREPORT_OFFERROLE=subreport_offerRole&SUBREPORT_OFFERHEADER=factura_subreport&SUBREPORT_IVAAPLICADO_OFERTA=iva_aplicado_oferta","");
+     function openPDF(id,idOrg,showSubreportRole,showSubreportCost,showLegalWarning) {
+         var showLegalWarningString = (showLegalWarning ? 'YES' : 'NO');
+         openReportParameters("document/oferta.pdf","?offerId="+id+"&idOrg="+idOrg+"&showSubreportRole="+showSubreportRole+"&showSubreportCost="+showSubreportCost+"&showLegalWarning="+showLegalWarningString+"&SUBREPORT_BILLHEADER=factura_subreport&SUBREPORT_BILLFOOTERINFO=footerInfo_subreport&SUBREPORT_OFFERCOST=subreport_offerCost&SUBREPORT_OFFERROLE=subreport_offerRole&SUBREPORT_OFFERHEADER=factura_subreport&SUBREPORT_IVAAPLICADO_OFERTA=iva_aplicado_oferta","");
      }
     </script>
   </head>	
@@ -56,7 +57,7 @@
               <f:param name="rowid" value="#{offerBean.id}" />
               <h:outputText value="#{msg['offer.copy']}" />
           </t:commandLink>
-          <h:commandLink rendered="#{offerBean.puedoImprimirOferta}" action="#" onclick="openPDF('#{offerBean.id}','#{offerBean.idSelectedOrganization}','#{offerBean.showSubreportRole}','#{offerBean.showSubreportCost}')" immediate="true">
+          <h:commandLink rendered="#{offerBean.puedoImprimirOferta}" action="#" onclick="openPDF('#{offerBean.id}','#{offerBean.idSelectedOrganization}','#{offerBean.showSubreportRole}','#{offerBean.showSubreportCost}',#{settingBean.mySettings.showLegalWarning})" immediate="true">
             <h:graphicImage title="#{msg['offer.print']}" value="/img/page_white_acrobat.png" styleClass="titleImg" />
           </h:commandLink>
 		  <h:commandLink action="#{offerBean.convertFromOfferToBill}" onclick="if( !confirm('#{msg['question.confirmBillConversion']}') ) return false;" immediate="true" rendered="#{offerBean.savedEntity}">

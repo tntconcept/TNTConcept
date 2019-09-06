@@ -24,12 +24,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import com.autentia.tnt.businessobject.Setting;
+import com.autentia.tnt.manager.admin.SettingManager;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
@@ -344,6 +345,16 @@ public class ConfigurationUtil {
             return null;
         }
 
+    }
+
+    /**
+     * Return the legal advice text
+     *
+     * @return Legal advice text
+     */
+    public String getLegalWarning() {
+        Setting setting = SettingManager.getDefault().get(SettingPath.REPORTS_PREFERRED_LEGAL_WARNING, false);
+        return SettingManager.getString(setting, "");
     }
 
     /**

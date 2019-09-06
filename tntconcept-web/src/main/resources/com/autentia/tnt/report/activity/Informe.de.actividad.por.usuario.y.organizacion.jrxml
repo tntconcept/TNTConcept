@@ -1,23 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"  ?>
-<!--
-
-    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
-    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
--->
-
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
@@ -25,9 +6,9 @@
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Portrait"
-		 pageWidth="595"
+		 pageWidth="594"
 		 pageHeight="842"
-		 columnWidth="535"
+		 columnWidth="534"
 		 columnSpacing="0"
 		 leftMargin="30"
 		 rightMargin="30"
@@ -41,7 +22,8 @@
 	<import value="java.util.*" />
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
-    <import value="com.autentia.tnt.util.ConfigurationUtil" />
+	<import value="com.autentia.tnt.util.ConfigurationUtil" />
+
 	<parameter name="descripcion" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.de.actividad.por.usuario.organizacion.description"]]></defaultValueExpression>
@@ -70,10 +52,13 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select orgName,userName,startDate,duration,description, COALESCE(fact,0) as fact, COALESCE(noFact,0) as noFact from (SELECT o.name as orgName,u.name as userName,a.startDate,duration,a.description,sum(CASE WHEN a.billable=1
-   					       then duration end) as 'fact',
-				      sum(CASE WHEN a.billable=0
-				      then duration end) as 'noFact' 
+	<queryString><![CDATA[select orgName,proName,roleName,userName,startDate,duration,description,
+       COALESCE(fact/60,0) as fact,
+       COALESCE(noFact/60,0) as noFact,
+       COALESCE(fact/60,0)+COALESCE(noFact/60,0) as total
+from (SELECT o.name as orgName,u.name as userName,p.name as proName, r.name as roleName, a.startDate,duration,a.description,
+     sum(CASE WHEN a.billable=1 then duration end) as 'fact',
+     sum(CASE WHEN a.billable=0 then duration end) as 'noFact'
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
 and u.id=$P{Usuario} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
@@ -81,18 +66,24 @@ group by o.name
 order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
+	<field name="proName" class="java.lang.String"/>
+	<field name="roleName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
 	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
 
-	<variable name="sumHorasFact" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[new java.lang.Double(($F{fact}.doubleValue())/60.0)]]></variableExpression>
+	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
 	</variable>
-	<variable name="sumHorasNoFact" class="java.lang.Double" resetType="Report" calculation="Sum">
-		<variableExpression><![CDATA[new java.lang.Double(($F{noFact}.doubleValue())/60.0)]]></variableExpression>
+	<variable name="sumHorasNoFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{noFact}]]></variableExpression>
+	</variable>
+	<variable name="sumHorasTotal" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -106,55 +97,49 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="35"
 						width="400"
 						height="0"
-						key="line-6"/>
+						key="line-4"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
 						y="52"
 						width="530"
 						height="28"
-						key="staticText-4"/>
+						key="staticText-17"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
 						<font pdfFontName="Helvetica-Oblique" size="10" isItalic="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.description}]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.description}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="12"
 						y="35"
 						width="67"
 						height="17"
-						key="staticText-19"/>
+						key="staticText-18"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font fontName="Verdana"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{comun.periodo} + " "]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{comun.periodo} + " "]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="120"
 						y="35"
 						width="17"
 						height="17"
-						key="staticText-20"/>
+						key="staticText-19"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{comun.al}]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{comun.al}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
 						x="277"
@@ -163,14 +148,12 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						height="12"
 						forecolor="#9999FF"
 						backcolor="#FFFFFF"
-						key="staticText-21"/>
+						key="staticText-20"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{comun.al}]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{comun.al}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -179,7 +162,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						width="40"
 						height="12"
 						forecolor="#9999FF"
-						key="textField-4"/>
+						key="textField-19"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
 						<font fontName="Verdana" size="8"/>
@@ -193,7 +176,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						width="64"
 						height="12"
 						forecolor="#9999FF"
-						key="textField-5"/>
+						key="textField-20"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
 						<font fontName="Verdana" size="8"/>
@@ -207,7 +190,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="35"
 						width="59"
 						height="17"
-						key="textField-6"/>
+						key="textField-21"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
@@ -220,7 +203,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="35"
 						width="86"
 						height="17"
-						key="textField-7"/>
+						key="textField-22"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" isBold="true"/>
@@ -233,14 +216,14 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="14"
 						width="402"
 						height="18"
-						key="textField"/>
+						key="textField-23"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="14"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text1} + " " + $F{userName}]]></textFieldExpression>
 				</textField>
-				<image  onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="412"
 						y="6"
@@ -276,139 +259,105 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 					<reportElement
 						x="4"
 						y="2"
-						width="379"
+						width="210"
 						height="14"
 						backcolor="#CCCCFF"
 						key="rectangle-1"/>
 					<graphicElement stretchType="NoStretch" pen="None"/>
 				</rectangle>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="8"
 						y="4"
-						width="100"
-						height="10"
-						key="staticText-5"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text2}]]>
-					</textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement
-						x="178"
-						y="4"
-						width="100"
+						width="84"
 						height="12"
-						key="staticText-14"/>
+						key="staticText-9"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text3}]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text3}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="280"
+						x="92"
 						y="1"
-						width="48"
+						width="55"
 						height="16"
-						key="staticText-23"/>
+						key="staticText-10"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text4}]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.text6}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="329"
+						x="147"
 						y="1"
-						width="48"
+						width="60"
 						height="16"
-						key="staticText-24"/>
+						key="staticText-11"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text5}]]>
-					</textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.text7}]]></textFieldExpression>
 				</textField>
 			</band>
 		</columnHeader>
 		<detail>
 			<band height="22"  isSplitAllowed="true" >
-				<line direction="TopDown">
-					<reportElement
-						x="11"
-						y="21"
-						width="365"
-						height="0"
-						forecolor="#CCCCCC"
-						key="line-7"
-						positionType="Float"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="178"
+						x="8"
 						y="4"
-						width="100"
+						width="84"
 						height="12"
-						key="textField"/>
+						key="textField-7"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgName}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="8"
+						x="92"
 						y="4"
-						width="100"
-						height="12"
-						key="textField"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{userName}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="325"
-						y="4"
-						width="39"
-						height="12"
-						key="textField-8"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[new java.lang.Double(($F{noFact}.doubleValue())/60.0)]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="285"
-						y="4"
-						width="40"
+						width="55"
 						height="12"
 						key="textField-9"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[new java.lang.Double(($F{fact}.doubleValue())/60.0)]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{fact}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="147"
+						y="4"
+						width="60"
+						height="12"
+						key="textField-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{noFact}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="11"
+						y="21"
+						width="210"
+						height="0"
+						forecolor="#CCCCCC"
+						key="line-6"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
 			</band>
 		</detail>
 		<columnFooter>
@@ -423,7 +372,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="28"
 						width="100"
 						height="18"
-						key="textField"/>
+						key="textField-24"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
 						<font fontName="Verdana" size="8"/>
@@ -436,7 +385,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="28"
 						width="10"
 						height="18"
-						key="textField"/>
+						key="textField-25"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Verdana" size="8"/>
@@ -449,7 +398,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="28"
 						width="230"
 						height="18"
-						key="textField"/>
+						key="textField-26"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
 						<font fontName="Verdana" size="8"/>
@@ -471,7 +420,7 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						y="13"
 						width="531"
 						height="16"
-						key="subreport-1"/>
+						key="subreport-4"/>
 					<subreportParameter  name="idOrg">
 						<subreportParameterExpression><![CDATA[$P{idOrg}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -480,134 +429,13 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 				</subreport>
 			</band>
 		</pageFooter>
-		<lastPageFooter>
-			<band height="50"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="15"
-						y="28"
-						width="230"
-						height="18"
-						key="textField-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="419"
-						y="30"
-						width="100"
-						height="18"
-						key="textField-2"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Right">
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{comun.pagina} + " " + $V{PAGE_NUMBER} + " " + $R{comun.de} + " "]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="520"
-						y="30"
-						width="10"
-						height="18"
-						key="textField-3"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER} + ""]]></textFieldExpression>
-				</textField>
-				<line direction="TopDown">
-					<reportElement
-						x="12"
-						y="25"
-						width="515"
-						height="0"
-						key="line-8"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
-				<subreport  isUsingCache="true">
-					<reportElement
-						x="2"
-						y="13"
-						width="531"
-						height="16"
-						key="subreport-2"/>
-					<subreportParameter  name="idOrg">
-						<subreportParameterExpression><![CDATA[$P{idOrg}]]></subreportParameterExpression>
-					</subreportParameter>
-					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_FOOTER}]]></subreportExpression>
-				</subreport>
-			</band>
-		</lastPageFooter>
 		<summary>
-			<band height="455"  isSplitAllowed="true" >
-				<textField>
-					<reportElement
-						x="113"
-						y="15"
-						width="83"
-						height="14"
-						key="staticText-25"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Right">
-						<font fontName="Verdana" pdfFontName="Helvetica" size="8" isBold="false"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text6}]]>
-					</textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="198"
-						y="15"
-						width="318"
-						height="14"
-						key="textField-10"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Left">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sumHorasFact}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="198"
-						y="31"
-						width="321"
-						height="14"
-						key="textField-11"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sumHorasNoFact}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement
-						x="94"
-						y="31"
-						width="102"
-						height="14"
-						key="staticText-26"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Right">
-						<font fontName="Verdana" size="8"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String">
-						<![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text7}]]>
-					</textFieldExpression>
-				</textField>
+			<band height="522"  isSplitAllowed="true" >
 				<pieChart>
 					<chart  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="52"
+						y="118"
 						width="530"
 						height="403"
 						key="element-1"/>
@@ -622,8 +450,8 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						<dataset >
 						</dataset>
 						<keyExpression><![CDATA[$F{orgName}]]></keyExpression>
-						<valueExpression><![CDATA[new BigDecimal(($F{fact}.doubleValue())/60.0).setScale(2,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
-						<labelExpression><![CDATA[$F{orgName} + " = " + new BigDecimal(($F{fact}.doubleValue())/60.0).setScale(2,BigDecimal.ROUND_HALF_UP) + " h"]]></labelExpression>
+						<valueExpression><![CDATA[$F{fact}.setScale(2,BigDecimal.ROUND_HALF_UP)]]></valueExpression>
+						<labelExpression><![CDATA[$F{orgName} + " = " + $F{fact}.setScale(2,BigDecimal.ROUND_HALF_UP) + " h"]]></labelExpression>
 				<sectionHyperlink >
 				</sectionHyperlink>
 					</pieDataset>
@@ -631,6 +459,84 @@ order by o.name,a.startDate,u.name) as tabla;]]></queryString>
 						<plot />
 					</piePlot>
 				</pieChart>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="83"
+						y="29"
+						width="102"
+						height="14"
+						key="staticText-14"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Verdana" pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text6}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="83"
+						y="46"
+						width="102"
+						height="14"
+						key="staticText-15"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text7}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="188"
+						y="29"
+						width="329"
+						height="14"
+						key="textField-16"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumHorasFact}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="188"
+						y="46"
+						width="329"
+						height="14"
+						key="textField-17"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumHorasNoFact}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="188"
+						y="64"
+						width="329"
+						height="14"
+						key="textField-18"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumHorasTotal}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="83"
+						y="64"
+						width="102"
+						height="14"
+						key="staticText-16"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Verdana" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.actividad.por.usuario.organizacion.text9}]]></textFieldExpression>
+				</textField>
 			</band>
 		</summary>
 </jasperReport>

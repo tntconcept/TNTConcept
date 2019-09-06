@@ -45,7 +45,7 @@
 	<parameter name="id" isForPrompting="true" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT amount, expirationDate FROM billpayment WHERE billId=$P{id}]]></queryString>
+	<queryString><![CDATA[SELECT amount, expirationDate FROM BillPayment WHERE billId=$P{id}]]></queryString>
 
 	<field name="amount" class="java.math.BigDecimal"/>
 	<field name="expirationDate" class="java.sql.Date"/>

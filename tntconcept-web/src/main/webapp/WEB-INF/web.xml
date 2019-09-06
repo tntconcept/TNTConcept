@@ -153,10 +153,6 @@
 		<url-pattern>*.jsf</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>UTF8Filter</filter-name>
-		<url-pattern>/report/document/*</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
 		<filter-name>extensionsFilter</filter-name>
 		<url-pattern>*.jsf</url-pattern>
 	</filter-mapping>

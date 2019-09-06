@@ -180,7 +180,7 @@
 						</h:panelGroup>
 					</f:facet>
 				</t:popup>
-				<h:outputText value="#{msg['activitys.settings.displayHourFrom']}" />
+				<h:outputText value="#{msg['activitys.settings.displayHourFrom']}:" />
 			</h:column>
 			<h:column>
 				<h:panelGroup>
@@ -291,6 +291,53 @@
 					<h:inputText id="headerFormat"
 						value="#{settingBean.mySettings.headerFormat}" size="10" />
 				</h:panelGroup>
+			</h:column>
+
+			<h:column>
+				<h:outputText value="#{msg['reports.settings']}" />
+			</h:column>
+			<h:column>
+				<h:outputText value="#{msg['reports.settings.help']}" />
+			</h:column>
+
+			<%-- Field: show legal warning --%>
+			<h:column>
+				<t:popup styleClass="settingActivityPopup"
+						 displayAtDistanceX="25"
+						 displayAtDistanceY="25">
+					<h:graphicImage value="/img/help.gif" />
+					<f:facet name="popup">
+						<h:panelGroup>
+							<h:panelGrid columns="1">
+								<h:outputText value="#{msg['reports.settings.help.showLegalWarning']}" />
+							</h:panelGrid>
+						</h:panelGroup>
+					</f:facet>
+				</t:popup>
+				<h:outputText value="#{msg['reports.settings.showLegalWarning']}:" />
+			</h:column>
+			<h:column>
+				<h:selectBooleanCheckbox id="showLegalWarning" value="#{settingBean.mySettings.showLegalWarning}" />
+			</h:column>
+
+			<%-- Field: legal warning --%>
+			<h:column>
+				<t:popup styleClass="settingActivityPopup"
+						 displayAtDistanceX="25"
+						 displayAtDistanceY="25">
+					<h:graphicImage value="/img/help.gif" />
+					<f:facet name="popup">
+						<h:panelGroup>
+							<h:panelGrid columns="1">
+								<h:outputText value="#{msg['reports.settings.help.legalWarning']}" />
+							</h:panelGrid>
+						</h:panelGroup>
+					</f:facet>
+				</t:popup>
+				<h:outputText value="#{msg['reports.settings.legalWarning']}:" />
+			</h:column>
+			<h:column>
+				<h:inputTextarea id="legalWarning" value="#{settingBean.mySettings.legalWarning}" rows="7" cols="68"/>
 			</h:column>
 		</h:panelGrid>
 		<h:messages errorClass="error" warnClass="warning" infoClass="info" layout="table"/>
