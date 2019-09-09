@@ -52,26 +52,23 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select orgName,userName,roleName,proName,startDate,duration,description,
+	<queryString><![CDATA[select userName,orgName,proName,roleName,
        COALESCE(fact/60,0) as fact,
        COALESCE(noFact/60,0) as noFact,
        COALESCE(fact/60,0)+COALESCE(noFact/60,0) as total
-from (SELECT o.name as orgName,u.name as userName, p.name as proName,r.name as roleName,a.startDate,duration,a.description,
+from (SELECT o.name as orgName,u.name as userName,p.name as proName,r.name as roleName,
       sum(CASE WHEN a.billable=1 then duration end) as 'fact',
       sum(CASE WHEN a.billable=0 then duration end) as 'noFact' 
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
 and u.id=$P{Usuario} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
 group by a.roleId
-order by o.name,a.startDate,u.name) as tabla;]]></queryString>
+order by o.name, p.name, r.name) as tabla;]]></queryString>
 
-	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
-	<field name="roleName" class="java.lang.String"/>
+	<field name="orgName" class="java.lang.String"/>
 	<field name="proName" class="java.lang.String"/>
-	<field name="startDate" class="java.sql.Timestamp"/>
-	<field name="duration" class="java.lang.Integer"/>
-	<field name="description" class="java.lang.String"/>
+	<field name="roleName" class="java.lang.String"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
 	<field name="total" class="java.math.BigDecimal"/>
