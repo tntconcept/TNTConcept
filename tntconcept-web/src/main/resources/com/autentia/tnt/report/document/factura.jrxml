@@ -1203,7 +1203,7 @@ WHERE b.projectId = p.id and p.organizationId = o.id and pv.id = o.provinceId
 						key="textField-31"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[($P{showLegalWarning}.equals("YES"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[ConfigurationUtil.getDefault().isShowLegalWarning()]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Justified">

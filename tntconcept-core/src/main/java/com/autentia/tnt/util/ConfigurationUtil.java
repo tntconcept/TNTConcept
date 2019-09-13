@@ -348,9 +348,19 @@ public class ConfigurationUtil {
     }
 
     /**
-     * Return the legal advice text
+     * Return the show legal warning property
      *
-     * @return Legal advice text
+     * @return Show legal warning property
+     */
+    public boolean isShowLegalWarning() {
+        Setting setting = SettingManager.getDefault().get(SettingPath.REPORTS_PREFERRED_SHOW_LEGAL_WARNING, false);
+        return SettingManager.getBoolean(setting, false);
+    }
+
+    /**
+     * Return the legal warning text
+     *
+     * @return Legal warning text
      */
     public String getLegalWarning() {
         Setting setting = SettingManager.getDefault().get(SettingPath.REPORTS_PREFERRED_LEGAL_WARNING, false);

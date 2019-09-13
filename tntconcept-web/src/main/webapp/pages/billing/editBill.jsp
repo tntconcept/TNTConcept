@@ -25,11 +25,10 @@
   <head>
     <%@include file="/inc/uiCore.jsp" %>
     <script type="text/javascript">
-     function openPDF(id,idOrg,showLegalWarning) {
+     function openPDF(id,idOrg) {
      	var account = document.getElementById("bill:account").value;
      	var expiration = document.getElementById("bill:expiration").value;
-     	var showLegalWarningString = (showLegalWarning ? 'YES' : 'NO');
-     	openReportParameters("document/factura.pdf","?id="+id+"&idOrg="+idOrg+"&idAccount="+account+"&expiration="+expiration+"&showLegalWarning="+showLegalWarningString+"&SUBREPORT_BILLHEADER=factura_subreport&SUBREPORT_BILLFOOTERINFO=footerInfo_subreport&SUBREPORT_BILLFOOTERACCOUNT=account_subreport&SUBREPORT_IVAAPLICADO=iva_aplicado&SUBREPORT_VENCIMIENTO=vencimiento_subreport","");
+     	openReportParameters("document/factura.pdf","?id="+id+"&idOrg="+idOrg+"&idAccount="+account+"&expiration="+expiration+"&SUBREPORT_BILLHEADER=factura_subreport&SUBREPORT_BILLFOOTERINFO=footerInfo_subreport&SUBREPORT_BILLFOOTERACCOUNT=account_subreport&SUBREPORT_IVAAPLICADO=iva_aplicado&SUBREPORT_VENCIMIENTO=vencimiento_subreport","");
      }
     
     </script>
@@ -55,7 +54,7 @@
           <h:commandLink action="#{billBean.list}" immediate="true">
             <h:graphicImage title="#{msg.entityActions_back}" value="/img/back.gif" styleClass="titleImg" />
           </h:commandLink>
-           <h:commandLink rendered="#{billBean.puedoImprimir}" action="#" onclick="openPDF('#{billBean.id}','#{billBean.idSelectedOrganization}',#{settingBean.mySettings.showLegalWarning})" immediate="true">
+           <h:commandLink rendered="#{billBean.puedoImprimir}" action="#" onclick="openPDF('#{billBean.id}','#{billBean.idSelectedOrganization}')" immediate="true">
             <h:graphicImage title="#{msg['bill.print']}" value="/img/page_white_acrobat.png" styleClass="titleImg" />
           </h:commandLink>
         </i:titleBar>

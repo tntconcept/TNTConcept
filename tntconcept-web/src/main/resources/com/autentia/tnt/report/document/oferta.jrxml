@@ -618,7 +618,7 @@ FROM (SELECT org.name as orgName, org.cif as cif, org.street as street, org.numb
 						key="textField-130"
 						positionType="Float"
 						isRemoveLineWhenBlank="true">
-							<printWhenExpression><![CDATA[($P{showLegalWarning}.equals("YES"))]]></printWhenExpression>
+							<printWhenExpression><![CDATA[ConfigurationUtil.getDefault().isShowLegalWarning()]]></printWhenExpression>
 						</reportElement>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Justified" verticalAlignment="Top">
