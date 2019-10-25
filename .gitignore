@@ -22,3 +22,4 @@ tntconcept-web-tomcat/bin/.gitignore
 tntconcept-web/.gitignore
 #
 bin/
+tntconcept-web-tomcat/overlays
