@@ -32,7 +32,7 @@
     <many-to-one name="user" class="com.autentia.tnt.businessobject.User"
               column="userId"  />
     <many-to-one name="organization" class="com.autentia.tnt.businessobject.Organization"
-              column="organizationId"  not-null="true"/>    
+              column="organizationId"  not-null="true" lazy="false"/>
     <many-to-one name="contact" class="com.autentia.tnt.businessobject.Contact"
               column="contactId"  not-null="true"/>
     <property name="creationDate" not-null="true" type="java.util.Date"/>
@@ -48,7 +48,7 @@
       		<type name="com.autentia.tnt.util.GenericEnumUserType">
        			 <param name="enumClassName">com.autentia.tnt.businessobject.OfferPotential</param>
       		</type>
-    </property>    
+    </property>
     <many-to-one name="offerRejectReason" class="com.autentia.tnt.businessobject.OfferRejectReason"
               column="offerRejectReasonId"  />    
     <set name="interactions" cascade="all-delete-orphan" inverse="true"  order-by="creationDate" >
@@ -70,5 +70,6 @@
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+    <many-to-one name="project" class="com.autentia.tnt.businessobject.Project" column="projectId"/>
   </class>
 </hibernate-mapping>
