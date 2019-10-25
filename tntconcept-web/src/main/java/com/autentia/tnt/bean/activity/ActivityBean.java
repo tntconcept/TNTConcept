@@ -18,6 +18,9 @@
 package com.autentia.tnt.bean.activity;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -49,6 +52,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import com.autentia.tnt.dao.search.*;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,13 +84,6 @@ import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.ProjectRoleDAO;
 import com.autentia.tnt.dao.hibernate.UserDAO;
-import com.autentia.tnt.dao.search.ActivitySearch;
-import com.autentia.tnt.dao.search.DocumentSearch;
-import com.autentia.tnt.dao.search.ExternalActivitySearch;
-import com.autentia.tnt.dao.search.HolidaySearch;
-import com.autentia.tnt.dao.search.OrganizationSearch;
-import com.autentia.tnt.dao.search.ProjectRoleSearch;
-import com.autentia.tnt.dao.search.RequestHolidaySearch;
 import com.autentia.tnt.jsf.schedule.renderer.BitacoreScheduleEntryRenderer;
 import com.autentia.tnt.manager.activity.ActivityFileManager;
 import com.autentia.tnt.manager.activity.ActivityManager;
@@ -109,6 +106,8 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.SettingPath;
 import com.autentia.tnt.util.SpringUtils;
+
+import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 
 /**
  * UI bean for Activity objects.
@@ -358,6 +357,8 @@ public class ActivityBean extends BaseBean {
 			}
 		}
 
+		setRole( refs.get(0) );
+
 		return ret;
 	}
 
@@ -582,6 +583,9 @@ public class ActivityBean extends BaseBean {
 
 	/** Default sort column */
 	private String sortColumn = "startDate";
+
+	private int yearTotalHours;
+	private int workTotalHours;
 
 	/** Default sort order */
 	private boolean sortAscending = false;
@@ -1561,6 +1565,68 @@ public class ActivityBean extends BaseBean {
 
 		int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
+		weekendsInMonth = getWeekendsInMonth(nonWorkingDays, weekendsInMonth, daysInMonth);
+
+		int holidays = calculateHolidays(nonWorkingDays, daysInMonth);
+		int requestedHolidays = calculateRequestedHolidays(nonWorkingDays, daysInMonth);
+
+		return (daysInMonth - weekendsInMonth - holidays - requestedHolidays) * hoursPerDay;
+	}
+
+	public float getWorkHours() {
+		ActivitySearch activitySearch = new ActivitySearch();
+		float workHours = 0;
+
+		activitySearch.setUser( authManager.getCurrentPrincipal().getUser() );
+
+		List<Activity> activities = manager.getAllEntities(activitySearch, new SortCriteria("startDate", true));
+
+		for ( Activity activity : activities ) {
+			workHours += activity.getDuration();
+		}
+
+		return Math.round( workHours / 60 );
+	}
+
+	public float getTotalHours() {
+		float suma = 0;
+		float hoursPerDay = getHoursPerDay();
+        int daysInMonth;
+        Calendar today = Calendar.getInstance();
+
+		LocalDate now = LocalDate.now();
+		LocalDate firstDay = now.with(firstDayOfYear());
+		Date date = java.sql.Date.valueOf( firstDay );
+
+		cal.clear();
+		cal.setTime( date );
+
+		int month = today.get(Calendar.MONTH);
+
+		for( int i = 0; i <= month; i++) {
+			date = cal.getTime();
+            daysInMonth = ( i == month ) ? today.get(Calendar.DAY_OF_MONTH) : cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+			suma += getMonthTotalHours( hoursPerDay, date , daysInMonth);
+			cal.add(Calendar.MONTH, 1);
+		}
+
+		return Math.round( suma );
+	}
+
+	private float getMonthTotalHours( float hoursPerDay, Date date, int daysInMonth ) {
+		List<Integer> nonWorkingDays = new ArrayList<>();
+
+		int weekendsInMonth = 0;
+
+		weekendsInMonth = getWeekendsInMonth(nonWorkingDays, weekendsInMonth, daysInMonth);
+
+		int holidays = calculateHolidays(nonWorkingDays, date, daysInMonth);
+		int requestedHolidays = calculateRequestedHolidays(nonWorkingDays, date, daysInMonth);
+
+		return (daysInMonth - weekendsInMonth - holidays - requestedHolidays) * hoursPerDay;
+	}
+
+	private int getWeekendsInMonth(List<Integer> nonWorkingDays, int weekendsInMonth, int daysInMonth) {
 		for (int i = 1; i <= daysInMonth; i++) {
 			cal.set(Calendar.DAY_OF_MONTH, i);
 			if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
@@ -1569,16 +1635,16 @@ public class ActivityBean extends BaseBean {
 				nonWorkingDays.add(i);
 			}
 		}
-
-		int holidays = calculateHolidays(nonWorkingDays);
-		int requestedHolidays = calculateRequestedHolidays(nonWorkingDays);
-
-		return (daysInMonth - weekendsInMonth - holidays - requestedHolidays) * hoursPerDay;
+		return weekendsInMonth;
 	}
 
-	private int calculateHolidays(List<Integer> nonWorkingDays) {
+	private int calculateHolidays(List<Integer> nonWorkingDays, int daysInMonth) {
+		return calculateHolidays( nonWorkingDays, selectedDate, daysInMonth );
+	}
 
-		LocalDate selectedDay = LocalDateTime.ofInstant(selectedDate.toInstant(), ZoneId.systemDefault()).toLocalDate();
+	private int calculateHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth) {
+
+		LocalDate selectedDay = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
 		LocalDate firstDaySelectedMonth = selectedDay.withDayOfMonth(1);
 		LocalDate lastDaySelectedMonth = selectedDay.with(TemporalAdjusters.lastDayOfMonth());
 		Date beginOfMonth = Date.from(firstDaySelectedMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -1602,7 +1668,7 @@ public class ActivityBean extends BaseBean {
 		for (Holiday holiday : correspondingHolidays) {
 			LocalDateTime holidayValue = LocalDateTime.ofInstant(holiday.getDate().toInstant(), ZoneId.systemDefault());
 			int day = holidayValue.getDayOfMonth();
-			if (!nonWorkingDays.contains(day)) {
+			if (!nonWorkingDays.contains(day) && day <= daysInMonth) {
 				holidays++;
 				nonWorkingDays.add(day);
 			}
@@ -1610,9 +1676,13 @@ public class ActivityBean extends BaseBean {
 		return holidays;
 	}
 
-	private int calculateRequestedHolidays(List<Integer> nonWorkingDays) {
+	private int calculateRequestedHolidays(List<Integer> nonWorkingDays, int daysInMonth) {
+		return calculateRequestedHolidays( nonWorkingDays, selectedDate, daysInMonth );
+	}
 
-		LocalDate selectedDay = LocalDateTime.ofInstant(selectedDate.toInstant(), ZoneId.systemDefault()).toLocalDate();
+	private int calculateRequestedHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth) {
+
+		LocalDate selectedDay = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
 		LocalDate firstDaySelectedMonth = selectedDay.withDayOfMonth(1);
 		LocalDate lastDaySelectedMonth = selectedDay.with(TemporalAdjusters.lastDayOfMonth());
 		Date beginOfMonth = Date.from(firstDaySelectedMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -1645,7 +1715,7 @@ public class ActivityBean extends BaseBean {
 			while (iter.compareTo(endOfRequest) < 1) {
 				if (iter.getMonthValue() == selectedDay.getMonthValue()) {
 					int day = iter.getDayOfMonth();
-					if (!nonWorkingDays.contains(day)) {
+					if (!nonWorkingDays.contains(day) && day <= daysInMonth) {
 						requestedHolidays++;
 						nonWorkingDays.add(day);
 					}
@@ -2084,5 +2154,24 @@ public class ActivityBean extends BaseBean {
 		}
 
 		return has;
+	}
+
+	public int getYearTotalHours() {
+
+        this.yearTotalHours = Math.round( getTotalHours() );
+        return yearTotalHours;
+	}
+
+	public void setYearTotalHours(int yearTotalHours) {
+		this.yearTotalHours = yearTotalHours;
+	}
+
+	public int getWorkTotalHours() {
+        this.workTotalHours = Math.round( getWorkHours() );
+	    return workTotalHours;
+	}
+
+	public void setWorkTotalHours(int workTotalHours) {
+		this.workTotalHours = workTotalHours;
 	}
 }

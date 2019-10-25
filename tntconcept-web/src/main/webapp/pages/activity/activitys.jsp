@@ -54,15 +54,31 @@
 		</i:titleBar>
 
 		<%-- progress bar --%>
-		<t:div styleClass="progressBar" style="background-position: #{250 * (-2 + activityBean.monthPerformedHours / activityBean.monthTotalHours)}px center;z-index:0;" 
-			rendered="#{(activityBean.scheduleModel.mode == 3)}">
-			<h:outputFormat value="[{0}h. / {1}h.] - " styleClass="progressBarText">
-				<f:param value="#{activityBean.monthPerformedHours}"/>
-				<f:param value="#{activityBean.monthTotalHours}"/>
-			</h:outputFormat>
-			<h:outputText value="#{activityBean.monthPerformedHours / activityBean.monthTotalHours}" styleClass="progressBarText">
+		<t:div style="display: flex;">
+			<t:div styleClass="progressBar" style="background-position: #{250 * (-2 + activityBean.monthPerformedHours / activityBean.monthTotalHours)}px center;z-index:0;"
+				rendered="#{(activityBean.scheduleModel.mode == 3)}">
+				<h:outputFormat value="[{0}h. / {1}h.] - " styleClass="progressBarText">
+					<f:param value="#{activityBean.monthPerformedHours}"/>
+					<f:param value="#{activityBean.monthTotalHours}"/>
+				</h:outputFormat>
+				<h:outputText value="#{activityBean.monthPerformedHours / activityBean.monthTotalHours}" styleClass="progressBarText">
+						<f:convertNumber type="percent" maxFractionDigits="1"/>
+				</h:outputText>
+			</t:div>
+
+			<t:div styleClass="progressBar"
+				   style="background-position: #{250 * ( -2 + activityBean.workTotalHours / activityBean.yearTotalHours )}px center;
+				   z-index:0; margin-left: 30px"
+				   rendered="#{(activityBean.scheduleModel.mode == 3)}">
+				<h:outputFormat value="[{0}h. / {1}h.] - [{2}h.] - " styleClass="progressBarText">
+					<f:param value="#{activityBean.workTotalHours}"/>
+					<f:param value="#{activityBean.yearTotalHours}"/>
+					<f:param value="#{activityBean.yearTotalHours - activityBean.workTotalHours}"/>
+				</h:outputFormat>
+				<h:outputText value="#{ activityBean.workTotalHours / activityBean.yearTotalHours }" styleClass="progressBarText">
 					<f:convertNumber type="percent" maxFractionDigits="1"/>
-			</h:outputText>
+				</h:outputText>
+			</t:div>
 		</t:div>
 
 		<%-- Main grid --%>
