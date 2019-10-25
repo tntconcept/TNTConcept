@@ -83,7 +83,7 @@ public class DocumentVersionManager {
    * @return documentVersion selected by id.
    */
   public DocumentVersion getEntityById(int id){
-    return documentVersionDAO.getById(id);	    
+    return documentVersionDAO.loadById(id);
   }
 	
   /**

@@ -82,7 +82,7 @@ public class OccupationManager {
    * @return occupation selected by id.
    */
   public Occupation getEntityById(int id){
-    return occupationDAO.getById(id);	    
+    return occupationDAO.loadById(id);
   }
 	
   /**

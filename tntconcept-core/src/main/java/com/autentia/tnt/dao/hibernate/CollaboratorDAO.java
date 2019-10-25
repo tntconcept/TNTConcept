@@ -60,9 +60,13 @@ public class CollaboratorDAO extends HibernateManagerBase<Collaborator>
    * @return the Collaborator object identified by the id
    * @throws DataAccException on error
    */
-  public Collaborator getById( int id ) throws DataAccException {
-    return super.getByPk(Collaborator.class,id);
+  public Collaborator loadById(int id ) throws DataAccException {
+    return super.loadByPk(Collaborator.class,id);
   }
+
+    public Collaborator getById(int id ) throws DataAccException {
+        return super.getByPk(Collaborator.class,id);
+    }
 
   /** 
    * Get all Collaborator objects from database sorted by the given criteria

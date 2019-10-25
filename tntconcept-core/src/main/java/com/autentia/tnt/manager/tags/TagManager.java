@@ -96,7 +96,7 @@ public class TagManager {
      * @return tag selected by id.
      */
     public Tag getEntityById(int id) {
-        final Tag tag = tagDAO.getById(id);
+        final Tag tag = tagDAO.loadById(id);
         //tag.initChanges();
         return tag;
     }

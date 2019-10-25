@@ -92,7 +92,7 @@ public class ContactPositionManager {
 
         for (EntityChange entityChange: changes) {
             final ContactPosition contactPosition = new ContactPosition();
-            final Contact contact = contactDAO.getById(entityChange.getEntityId());
+            final Contact contact = contactDAO.loadById(entityChange.getEntityId());
             contactPosition.setName(contact.getName());
 
             // recovers the text to show in the description of the change

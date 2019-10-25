@@ -57,9 +57,13 @@ public class ProvinceDAO extends HibernateManagerBase<Province>
    * @return the Province object identified by the id
    * @throws DataAccException on error
    */
-  public Province getById( int id ) throws DataAccException {
-    return super.getByPk(Province.class,id);
+  public Province loadById(int id ) throws DataAccException {
+    return super.loadByPk(Province.class,id);
   }
+
+    public Province getById(int id ) throws DataAccException {
+        return super.getByPk(Province.class,id);
+    }
 
   /** 
    * Get all Province objects from database sorted by the given criteria

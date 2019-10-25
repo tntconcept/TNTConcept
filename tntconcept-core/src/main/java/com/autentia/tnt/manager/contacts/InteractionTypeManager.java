@@ -82,7 +82,7 @@ public class InteractionTypeManager {
    * @return interactionType selected by id.
    */
   public InteractionType getEntityById(int id){
-    return interactionTypeDAO.getById(id);	    
+    return interactionTypeDAO.loadById(id);
   }
 	
   /**

@@ -82,7 +82,7 @@ public class MagazineManager {
    * @return magazine selected by id.
    */
   public Magazine getEntityById(int id){
-    return magazineDAO.getById(id);	    
+    return magazineDAO.loadById(id);
   }
 	
   /**

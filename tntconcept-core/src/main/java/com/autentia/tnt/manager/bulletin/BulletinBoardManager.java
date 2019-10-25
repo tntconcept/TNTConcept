@@ -86,7 +86,7 @@ public class BulletinBoardManager {
    * @return bulletinBoard selected by id.
    */
   public BulletinBoard getEntityById(int id){
-    return bulletinBoardDAO.getById(id);	    
+    return bulletinBoardDAO.loadById(id);
   }
 	
   /**
@@ -128,7 +128,7 @@ public List<BulletinBoard> getPublic( SortCriteria sort ){
  * @return bulletinBoard selected by id.
  */
 public BulletinBoard getEntityByIdPublic(int id){
-  return bulletinBoardDAO.getById(id);	    
+  return bulletinBoardDAO.loadById(id);
 }
 
 

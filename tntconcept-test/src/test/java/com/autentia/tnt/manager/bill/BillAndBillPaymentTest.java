@@ -132,7 +132,7 @@ public class BillAndBillPaymentTest {
 		sessionFactory.getCurrentSession().beginTransaction();
 		
 		// se recupera la factura y con ello se recalcula el campo de tipo formula
-		bill = billDAO.getById(bill.getId());
+		bill = billDAO.loadById(bill.getId());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		String fechaFactura = sdf.format(bill.getExpiration());

@@ -60,9 +60,12 @@ public class ProjectDAO extends HibernateManagerBase<Project>
    * @return the Project object identified by the id
    * @throws DataAccException on error
    */
-  public Project getById( int id ) throws DataAccException {
-    return super.getByPk(Project.class,id);
+  public Project loadById(int id ) throws DataAccException {
+      return super.loadByPk(Project.class,id);
   }
+    public Project getById(int id ) throws DataAccException {
+        return super.getByPk(Project.class,id);
+    }
 
   /** 
    * Get all Project objects from database sorted by the given criteria

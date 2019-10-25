@@ -132,7 +132,7 @@ public class OfferManager {
    * @return offer selected by id.
    */
   public Offer getEntityById(int id){
-    return offerDAO.getById(id);	    
+    return offerDAO.loadById(id);
   }
 	
   /**

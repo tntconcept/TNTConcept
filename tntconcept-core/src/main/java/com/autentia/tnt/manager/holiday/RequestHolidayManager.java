@@ -84,7 +84,7 @@ public class RequestHolidayManager
    * @return requestHoliday selected by id.
    */
   public RequestHoliday getEntityById(int id){
-    return requestHolidayDAO.getById(id);	    
+    return requestHolidayDAO.loadById(id);
   }
 	
   /**

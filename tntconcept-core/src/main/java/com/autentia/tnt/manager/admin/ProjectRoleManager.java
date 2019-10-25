@@ -81,7 +81,7 @@ public class ProjectRoleManager
    * @return projectRole selected by id.
    */
   public ProjectRole getEntityById(int id){
-    return projectRoleDAO.getById(id);	    
+    return projectRoleDAO.loadById(id);
   }
 	
   /**

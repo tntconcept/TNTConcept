@@ -66,7 +66,11 @@ public class OrganizationDAO extends HibernateManagerBase<Organization>
    * @return the Organization object identified by the id
    * @throws DataAccException on error
    */
-  public Organization getById( int id ) throws DataAccException {
+  public Organization loadById( int id ) throws DataAccException {
+    return super.loadByPk(Organization.class,id);
+  }
+
+  public Organization getById(int id ) throws DataAccException {
     return super.getByPk(Organization.class,id);
   }
 

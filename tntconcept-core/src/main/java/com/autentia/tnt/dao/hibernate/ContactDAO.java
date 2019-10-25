@@ -20,7 +20,6 @@ package com.autentia.tnt.dao.hibernate;
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.*;
 import com.autentia.tnt.dao.search.AdvancedSearchContactSearch;
-import com.autentia.tnt.manager.contacts.advancedsearch.ContactPosition;
 import com.autentia.tnt.tracking.EntityChange;
 import com.autentia.tnt.util.SpringUtils;
 
@@ -65,8 +64,12 @@ public class ContactDAO extends HibernateManagerBase<Contact> {
 	 * @throws DataAccException
 	 *             on error
 	 */
-	public Contact getById(int id) throws DataAccException {
-		return super.getByPk(Contact.class, id);
+	public Contact loadById(int id) throws DataAccException {
+		return super.loadByPk(Contact.class, id);
+	}
+
+	public Contact getById(int id ) throws DataAccException {
+		return super.getByPk(Contact.class,id);
 	}
 
 	/**

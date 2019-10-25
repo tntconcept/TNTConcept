@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.autentia.tnt.businessobject.Activity;
 import com.autentia.tnt.businessobject.ExternalActivity;
 import com.autentia.tnt.dao.DataAccException;
 import com.autentia.tnt.dao.SearchCriteria;
@@ -59,8 +58,12 @@ public class ExternalActivityDAO extends HibernateManagerBase<ExternalActivity> 
 	 * @return the ExternalActivity object with the specified ID
 	 * @throws DataAccExceptio on error 
 	 */
-	public ExternalActivity getById(int id) throws DataAccException {
+	public ExternalActivity loadById(int id) throws DataAccException {
 		
+		return super.loadByPk(ExternalActivity.class,id);
+	}
+
+	public ExternalActivity getById(int id ) throws DataAccException {
 		return super.getByPk(ExternalActivity.class,id);
 	}
 

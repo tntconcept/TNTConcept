@@ -99,7 +99,7 @@ public class ProjectManager {
    * @return project selected by id.
    */
   public Project getEntityById(int id){
-    return projectDAO.getById(id);	    
+    return projectDAO.loadById(id);
   }
 	
   /**
@@ -144,7 +144,7 @@ public class ProjectManager {
 	  }
 
 	  public Offer copyFromOffer(Integer id) {				  
-			Offer oferta = OfferDAO.getDefault().getById(id);			
+			Offer oferta = OfferDAO.getDefault().getById(id);
 			return oferta;
 		}
 

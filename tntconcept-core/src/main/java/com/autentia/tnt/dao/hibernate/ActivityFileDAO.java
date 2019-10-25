@@ -60,9 +60,13 @@ public class ActivityFileDAO extends HibernateManagerBase<ActivityFile>
    * @return the ActivityFile object identified by the id
    * @throws DataAccException on error
    */
-  public ActivityFile getById( int id ) throws DataAccException {
-    return super.getByPk(ActivityFile.class,id);
+  public ActivityFile loadById(int id ) throws DataAccException {
+    return super.loadByPk(ActivityFile.class,id);
   }
+
+    public ActivityFile getById(int id ) throws DataAccException {
+        return super.getByPk(ActivityFile.class,id);
+    }
 
   /** 
    * Get all ActivityFile objects from database sorted by the given criteria

@@ -45,8 +45,12 @@ public class LinkDAO extends HibernateManagerBase<Link> {
 		super(false);
 	}
 	
-	public Link getById(int id) throws DataAccException {
-		return super.getByPk(Link.class, id);
+	public Link loadById(int id) throws DataAccException {
+		return super.loadByPk(Link.class, id);
+	}
+
+	public Link getById(int id ) throws DataAccException {
+		return super.getByPk(Link.class,id);
 	}
 
 	public List<Link> search(SortCriteria crit) throws DataAccException {

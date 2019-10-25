@@ -60,8 +60,12 @@ public class UserCategoryDAO extends HibernateManagerBase<UserCategory>
    * @return the UserCategory object identified by the id
    * @throws DataAccException on error
    */
-  public UserCategory getById( int id ) throws DataAccException {
-    return super.getByPk(UserCategory.class,id);
+  public UserCategory loadById(int id ) throws DataAccException {
+    return super.loadByPk(UserCategory.class,id);
+  }
+
+  public UserCategory getById(int id ) throws DataAccException {
+      return super.getByPk(UserCategory.class,id);
   }
 
   /** 

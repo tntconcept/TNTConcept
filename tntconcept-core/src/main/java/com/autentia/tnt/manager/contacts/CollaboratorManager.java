@@ -82,7 +82,7 @@ public class CollaboratorManager {
    * @return collaborator selected by id.
    */
   public Collaborator getEntityById(int id){
-    return collaboratorDAO.getById(id);	    
+    return collaboratorDAO.loadById(id);
   }
 	
   /**

@@ -77,7 +77,7 @@ public class CommissioningPaymentDataManager {
    * @return commissioningPaymentData selected by id.
    */
   public CommissioningPaymentData getEntityById(int id){
-    return commissioningPaymentDataDAO.getById(id);	    
+    return commissioningPaymentDataDAO.loadById(id);
   }
 	
   /**

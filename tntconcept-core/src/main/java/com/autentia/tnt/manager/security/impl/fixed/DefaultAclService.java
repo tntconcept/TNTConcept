@@ -222,6 +222,6 @@ public class DefaultAclService implements AclService
 			throw new IllegalStateException("No DAO for "+objid.getJavaType().getName()+" objects defined. "+
 																			"Please fix your ACEGI configuration file.");
 		}
-		return dao.getById(id);
+		return dao.loadById(id);
 	}
 }

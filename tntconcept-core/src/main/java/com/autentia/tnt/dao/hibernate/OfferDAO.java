@@ -23,9 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.autentia.tnt.businessobject.Offer;
-import com.autentia.tnt.businessobject.OfferRejectReason;
 import com.autentia.tnt.dao.DataAccException;
-import com.autentia.tnt.dao.IDataAccessObject;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.util.SpringUtils;
@@ -64,9 +62,13 @@ public class OfferDAO extends HibernateManagerBase<Offer>
    * @return the Offer object identified by the id
    * @throws DataAccException on error
    */
-  public Offer getById( int id ) throws DataAccException {
-    return super.getByPk(Offer.class,id);
+  public Offer loadById(int id ) throws DataAccException {
+    return super.loadByPk(Offer.class,id);
   }
+
+    public Offer getById(int id ) throws DataAccException {
+        return super.getByPk(Offer.class,id);
+    }
 
   /** 
    * Get all Offer objects from database sorted by the given criteria

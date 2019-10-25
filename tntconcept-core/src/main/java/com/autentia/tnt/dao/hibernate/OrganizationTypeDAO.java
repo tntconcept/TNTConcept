@@ -23,10 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-import com.autentia.tnt.businessobject.InteractionType;
 import com.autentia.tnt.businessobject.OrganizationType;
 import com.autentia.tnt.dao.DataAccException;
-import com.autentia.tnt.dao.IDataAccessObject;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.util.SpringUtils;
@@ -68,9 +66,13 @@ public class OrganizationTypeDAO extends HibernateManagerBase<OrganizationType>
    * @return the OrganizationType object identified by the id
    * @throws DataAccException on error
    */
-  public OrganizationType getById( int id ) throws DataAccException {
-    return super.getByPk(OrganizationType.class,id);
+  public OrganizationType loadById(int id ) throws DataAccException {
+    return super.loadByPk(OrganizationType.class,id);
   }
+
+    public OrganizationType getById(int id ) throws DataAccException {
+        return super.getByPk(OrganizationType.class,id);
+    }
 
   /** 
    * Get all OrganizationType objects from database sorted by the given criteria

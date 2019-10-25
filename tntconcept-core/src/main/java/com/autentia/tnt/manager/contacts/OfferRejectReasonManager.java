@@ -83,7 +83,7 @@ public class OfferRejectReasonManager {
    * @return offerRejectReason selected by id.
    */
   public OfferRejectReason getEntityById(int id){
-    return offerRejectReasonDAO.getById(id);	    
+    return offerRejectReasonDAO.loadById(id);
   }
 	
   /**

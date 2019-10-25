@@ -97,7 +97,7 @@ public class OrganizationManager
    * @return organization selected by id.
    */
   public Organization getEntityById(int id){
-		final Organization organization = organizationDAO.getById(id);
+		final Organization organization = organizationDAO.loadById(id);
 		organization.initChanges();
 		return organization;
   }
@@ -128,7 +128,7 @@ public class OrganizationManager
 	
 	public Organization getMyOrganization()
 	{
-		return organizationDAO.getById(ConfigurationUtil.getDefault().getIdOurCompany());
+		return organizationDAO.loadById(ConfigurationUtil.getDefault().getIdOurCompany());
 	}
 	
 	
@@ -136,8 +136,8 @@ public class OrganizationManager
 	{
 		OrganizationTypeDAO orgTypeDao = OrganizationTypeDAO.getDefault();
 		
-		OrganizationType provider = orgTypeDao.getById(ConfigurationUtil.getDefault().getOrganizationTypeProvider());
-		OrganizationType providerCient = orgTypeDao.getById(ConfigurationUtil.getDefault().getOrganizationTypeProviderAndClient());
+		OrganizationType provider = orgTypeDao.loadById(ConfigurationUtil.getDefault().getOrganizationTypeProvider());
+		OrganizationType providerCient = orgTypeDao.loadById(ConfigurationUtil.getDefault().getOrganizationTypeProviderAndClient());
 		
 		List<Organization> lista = new ArrayList<Organization>();
 		List<Organization> orgs = organizationDAO.searchByOrganizationTypes(new SortCriteria("name"), provider, providerCient );

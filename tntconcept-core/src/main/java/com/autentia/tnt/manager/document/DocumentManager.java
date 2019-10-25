@@ -88,7 +88,7 @@ public class DocumentManager {
    * @return document selected by id.
    */
   public Document getEntityById(int id){
-    return documentDAO.getById(id);	    
+    return documentDAO.loadById(id);
   }
 	
   /**

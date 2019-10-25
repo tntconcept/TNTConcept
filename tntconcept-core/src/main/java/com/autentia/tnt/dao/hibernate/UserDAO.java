@@ -26,7 +26,6 @@ import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.DataAccException;
 import com.autentia.tnt.dao.DataIntegrityException;
 import com.autentia.tnt.dao.DataNotFoundException;
-import com.autentia.tnt.dao.IDataAccessObject;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.UserSearch;
@@ -68,8 +67,12 @@ public class UserDAO extends HibernateManagerBase<User>
    * @return the User object identified by the id
    * @throws DataAccException on error
    */
+  public User loadById(int id ) throws DataAccException {
+    return super.loadByPk(User.class,id);
+  }
+
   public User getById( int id ) throws DataAccException {
-    return super.getByPk(User.class,id);
+      return super.loadByPk(User.class,id);
   }
 
   /** 

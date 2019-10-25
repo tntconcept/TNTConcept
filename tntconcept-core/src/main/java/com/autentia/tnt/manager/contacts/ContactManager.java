@@ -107,7 +107,7 @@ public class ContactManager {
    * @return contact selected by id.
    */
   public Contact getEntityById(int id){
-    final Contact contact = contactDAO.getById(id);
+    final Contact contact = contactDAO.loadById(id);
 		// contact.initChanges();
     return contact;
   }

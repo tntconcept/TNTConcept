@@ -130,7 +130,7 @@ public class PositionManager {
 	 * @return position selected by id.
 	 */
 	public Position getEntityById(int id) {
-		Position position = positionDAO.getById(id);
+		Position position = positionDAO.loadById(id);
 		position.initChanges();
 		return position;
 	}
@@ -153,7 +153,7 @@ public class PositionManager {
 		positionDAO.update(position);
 		
 		// tracking entity changes
-		Position positionHibSession = positionDAO.getById(position.getId());
+		Position positionHibSession = positionDAO.loadById(position.getId());
 		positionHibSession.setChanges(changes);
 		this.trackEntityChanges(positionHibSession);
 	}

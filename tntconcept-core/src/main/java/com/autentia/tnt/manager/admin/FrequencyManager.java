@@ -81,7 +81,7 @@ public class FrequencyManager
    * @return frequency selected by id.
    */
   public Frequency getEntityById(int id){
-    return frequencyDAO.getById(id);	    
+    return frequencyDAO.loadById(id);
   }
 	
   /**

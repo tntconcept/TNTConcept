@@ -81,7 +81,7 @@ public class ProvinceManager
    * @return province selected by id.
    */
   public Province getEntityById(int id){
-    return provinceDAO.getById(id);	    
+    return provinceDAO.loadById(id);
   }
 	
   /**

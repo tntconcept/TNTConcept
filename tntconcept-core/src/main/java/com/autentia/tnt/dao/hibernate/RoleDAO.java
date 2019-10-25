@@ -58,11 +58,16 @@ public class RoleDAO extends HibernateManagerBase<Role>
    * @return the Role object identified by the id
    * @throws DataAccException on error
    */
-  public Role getById( int id ) throws DataAccException {
-    return super.getByPk(Role.class,id);
+  public Role loadById(int id ) throws DataAccException {
+    return super.loadByPk(Role.class,id);
   }
 
-  /** 
+    public Role getById(int id) throws DataAccException {
+        return super.getByPk(Role.class,id);
+    }
+
+
+    /**
    * Get all Role objects from database sorted by the given criteria
    * @param crit the sorting criteria
    * @return a list with all existing Role objects

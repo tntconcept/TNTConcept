@@ -61,6 +61,8 @@ public class Bill implements Serializable, ITransferObject
 	private String bookNumber;
 	
 	private Set<CreditTitle> creditTitles;
+
+	private Integer submitted;
 	
 	public Set<CreditTitle> getCreditTitles() {
 		return creditTitles;
@@ -184,9 +186,16 @@ public class Bill implements Serializable, ITransferObject
 	{
 		this.endBillDate = endBillDate;
 	}
-	
-	
-	// Fields
+
+	public Integer getSubmitted() {
+		return submitted;
+	}
+
+	public void setSubmitted(Integer submitted) {
+		this.submitted = submitted;
+	}
+
+// Fields
 	
 	private Date startBillDate;
 	
@@ -425,7 +434,6 @@ public class Bill implements Serializable, ITransferObject
 		valor = valor.setScale(2,RoundingMode.HALF_EVEN);
 		return valor;
 	}
-	
 	
 	public BigDecimal getBillPaymentTotal()
 	{

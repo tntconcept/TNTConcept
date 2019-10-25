@@ -61,11 +61,15 @@ public class TagDAO extends HibernateManagerBase<Tag> {
    * @return the Tag object identified by the id
    * @throws DataAccException on error
    */
-  public Tag getById( int id ) throws DataAccException {
+  public Tag loadById(int id ) throws DataAccException {
     return super.getByPk(Tag.class,id);
   }
 
-  /** 
+    public Tag getById(int id) throws DataAccException {
+        return super.loadByPk(Tag.class,id);
+    }
+
+    /**
    * Get all Tag objects from database sorted by the given criteria
    * @param crit the sorting criteria
    * @return a list with all existing Tag objects

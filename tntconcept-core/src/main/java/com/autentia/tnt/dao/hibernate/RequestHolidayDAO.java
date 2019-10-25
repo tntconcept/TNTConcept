@@ -54,16 +54,18 @@ public class RequestHolidayDAO extends HibernateManagerBase<RequestHoliday>
     super(false);
   }
 
-  /** 
+    /**
    * Retrieve a RequestHoliday object from database given its id
    * @param id primary key of RequestHoliday object
    * @return the RequestHoliday object identified by the id
    * @throws DataAccException on error
    */
-  public RequestHoliday getById( int id ) throws DataAccException {
-    return super.getByPk(RequestHoliday.class,id);
+  public RequestHoliday loadById(int id ) throws DataAccException {
+      return super.loadByPk(RequestHoliday.class,id);
   }
-
+    public RequestHoliday getById(int id) throws DataAccException {
+        return super.getByPk(RequestHoliday.class,id);
+    }
   /** 
    * Get all RequestHoliday objects from database sorted by the given criteria
    * @param crit the sorting criteria

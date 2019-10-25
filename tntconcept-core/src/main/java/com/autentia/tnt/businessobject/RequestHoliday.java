@@ -196,7 +196,7 @@ public class RequestHoliday implements Serializable, ITransferObject
     
     
       public void setOwnerId(Integer ownerId) {
-      userRequest = UserDAO.getDefault().getById(ownerId);
+      userRequest = UserDAO.getDefault().loadById(ownerId);
     }
     
   

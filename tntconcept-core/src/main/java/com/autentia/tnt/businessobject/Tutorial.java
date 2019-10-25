@@ -186,7 +186,7 @@ public class Tutorial implements Serializable, ITransferObject
     
     
       public void setOwnerId(Integer ownerId) {
-      user = UserDAO.getDefault().getById(ownerId);
+      user = UserDAO.getDefault().loadById(ownerId);
     }
     
   

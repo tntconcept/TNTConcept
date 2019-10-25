@@ -61,9 +61,13 @@ public class DocumentDAO extends HibernateManagerBase<Document>
    * @return the Document object identified by the id
    * @throws DataAccException on error
    */
-  public Document getById( int id ) throws DataAccException {
-    return super.getByPk(Document.class,id);
+  public Document loadById(int id ) throws DataAccException {
+    return super.loadByPk(Document.class,id);
   }
+
+    public Document getById(int id ) throws DataAccException {
+        return super.getByPk(Document.class,id);
+    }
 
   /** 
    * Get all Document objects from database sorted by the given criteria

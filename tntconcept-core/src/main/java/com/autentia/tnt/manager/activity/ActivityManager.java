@@ -80,7 +80,7 @@ public class ActivityManager {
    * @return activity selected by id.
    */
   public Activity getEntityById(int id){
-    return activityDAO.getById(id);	    
+    return activityDAO.loadById(id);
   }
 	
   /**

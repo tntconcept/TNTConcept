@@ -33,7 +33,8 @@ public interface IDataAccessObject<T extends ITransferObject>
 	 * @throws DataAccException
 	 */
 	public T getById(int id) throws DataAccException;
-	
+	public T loadById(int id) throws DataAccException;
+
 	/**
 	 * List all DAOs
 	 * @param crit sorting criteria (can be null for no sorting criteria)

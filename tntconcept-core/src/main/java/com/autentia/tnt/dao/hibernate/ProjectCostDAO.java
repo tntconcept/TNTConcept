@@ -19,7 +19,6 @@ package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.*;
-import com.autentia.tnt.dao.search.ProjectSearch;
 import com.autentia.tnt.util.SpringUtils;
 
 import java.util.*;
@@ -58,9 +57,13 @@ public class ProjectCostDAO extends HibernateManagerBase<ProjectCost>
    * @return the ProjectCost object identified by the id
    * @throws DataAccException on error
    */
-  public ProjectCost getById( int id ) throws DataAccException {
-    return super.getByPk(ProjectCost.class,id);
+  public ProjectCost loadById(int id ) throws DataAccException {
+    return super.loadByPk(ProjectCost.class,id);
   }
+
+    public ProjectCost getById(int id ) throws DataAccException {
+        return super.getByPk(ProjectCost.class,id);
+    }
 
   /** 
    * Get all ProjectCost objects from database sorted by the given criteria

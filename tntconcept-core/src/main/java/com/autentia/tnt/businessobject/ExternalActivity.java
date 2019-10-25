@@ -101,7 +101,7 @@ public class ExternalActivity implements Serializable, ITransferObject {
 	}
 
 	public void setOwnerId(Integer ownerId) {
-		this.owner = UserDAO.getDefault().getById(ownerId);
+		this.owner = UserDAO.getDefault().loadById(ownerId);
 	}
 
 	public void setUpdateDate(Date updateDate) {

@@ -330,7 +330,7 @@ public class BillManager {
    * @return bill selected by id.
    */
   public Bill getEntityById(int id){
-    return billDAO.getById(id);	    
+    return billDAO.loadById(id);
   }
 	
   /**

@@ -65,6 +65,10 @@ public class PositionDAO extends HibernateManagerBase<Position> {
 	 * @throws DataAccException
 	 *             on error
 	 */
+	public Position loadById(int id) throws DataAccException {
+		return super.loadByPk(Position.class, id);
+	}
+
 	public Position getById(int id) throws DataAccException {
 		return super.getByPk(Position.class, id);
 	}

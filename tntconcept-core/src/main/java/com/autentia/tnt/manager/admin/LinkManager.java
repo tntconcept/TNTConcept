@@ -70,7 +70,7 @@ public class LinkManager {
 	   * @return link selected by id.
 	   */
 	  public Link getEntityById(int id){
-	    return linkDAO.getById(id);	    
+	    return linkDAO.loadById(id);
 	  }
 		
 	  /**

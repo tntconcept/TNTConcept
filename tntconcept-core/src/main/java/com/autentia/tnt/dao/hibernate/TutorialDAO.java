@@ -61,10 +61,13 @@ public class TutorialDAO extends HibernateManagerBase<Tutorial>
    * @return the Tutorial object identified by the id
    * @throws DataAccException on error
    */
-  public Tutorial getById( int id ) throws DataAccException {
-    return super.getByPk(Tutorial.class,id);
+  public Tutorial loadById(int id ) throws DataAccException {
+    return super.loadByPk(Tutorial.class,id);
   }
 
+  public Tutorial getById(int id ) throws DataAccException {
+      return super.getByPk(Tutorial.class,id);
+  }
   /** 
    * Get all Tutorial objects from database sorted by the given criteria
    * @param crit the sorting criteria

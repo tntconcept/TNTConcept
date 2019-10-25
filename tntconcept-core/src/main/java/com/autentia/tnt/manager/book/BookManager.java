@@ -83,7 +83,7 @@ public class BookManager {
    * @return book selected by id.
    */
   public Book getEntityById(int id){
-    return bookDAO.getById(id);	    
+    return bookDAO.loadById(id);
   }
 	
   /**

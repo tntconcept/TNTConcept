@@ -58,9 +58,13 @@ public class CommissioningFileDAO extends HibernateManagerBase<CommissioningFile
    * @return the CommissioningFile object identified by the id
    * @throws DataAccException on error
    */
-  public CommissioningFile getById( int id ) throws DataAccException {
-    return super.getByPk(CommissioningFile.class,id);
+  public CommissioningFile loadById(int id ) throws DataAccException {
+    return super.loadByPk(CommissioningFile.class,id);
   }
+
+    public CommissioningFile getById(int id ) throws DataAccException {
+        return super.getByPk(CommissioningFile.class,id);
+    }
 
   /** 
    * Get all CommissioningFile objects from database sorted by the given criteria

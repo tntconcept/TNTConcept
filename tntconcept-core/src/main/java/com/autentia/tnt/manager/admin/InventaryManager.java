@@ -86,7 +86,7 @@ public class InventaryManager {
    * @return inventary selected by id.
    */
   public Inventary getEntityById(int id){
-    return inventaryDAO.getById(id);	    
+    return inventaryDAO.loadById(id);
   }
 	
   /**

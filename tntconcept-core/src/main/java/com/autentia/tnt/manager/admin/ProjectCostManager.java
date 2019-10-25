@@ -81,7 +81,7 @@ public class ProjectCostManager
    * @return projectCost selected by id.
    */
   public ProjectCost getEntityById(int id){
-    return projectCostDAO.getById(id);	    
+    return projectCostDAO.loadById(id);
   }
 	
   /**

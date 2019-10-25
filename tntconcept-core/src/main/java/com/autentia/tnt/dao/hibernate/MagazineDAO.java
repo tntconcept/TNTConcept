@@ -60,9 +60,13 @@ public class MagazineDAO extends HibernateManagerBase<Magazine>
    * @return the Magazine object identified by the id
    * @throws DataAccException on error
    */
-  public Magazine getById( int id ) throws DataAccException {
-    return super.getByPk(Magazine.class,id);
+  public Magazine loadById(int id ) throws DataAccException {
+    return super.loadByPk(Magazine.class,id);
   }
+
+    public Magazine getById(int id ) throws DataAccException {
+        return super.getByPk(Magazine.class,id);
+    }
 
   /** 
    * Get all Magazine objects from database sorted by the given criteria

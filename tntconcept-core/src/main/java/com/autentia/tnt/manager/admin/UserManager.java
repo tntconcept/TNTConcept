@@ -86,7 +86,7 @@ public class UserManager
    * @return user selected by id.
    */
   public User getEntityById(int id){
-    return userDAO.getById(id);	    
+    return userDAO.loadById(id);
   }
 	
   /**

@@ -83,7 +83,7 @@ public class DocumentCategoryManager {
    * @return documentCategory selected by id.
    */
   public DocumentCategory getEntityById(int id){
-    return documentCategoryDAO.getById(id);	    
+    return documentCategoryDAO.loadById(id);
   }
 	
   /**
@@ -111,7 +111,7 @@ public class DocumentCategoryManager {
 	
   public DocumentCategory getDocumentCategoryParent()
   {
-    return (DocumentCategory) documentCategoryDAO.getById( ConfigurationUtil.getDefault().getUserDocumentCategoryId() );
+    return (DocumentCategory) documentCategoryDAO.loadById( ConfigurationUtil.getDefault().getUserDocumentCategoryId() );
   }
 	
 }

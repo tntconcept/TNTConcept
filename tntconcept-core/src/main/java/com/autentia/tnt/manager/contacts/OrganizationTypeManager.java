@@ -82,7 +82,7 @@ public class OrganizationTypeManager {
    * @return organizationType selected by id.
    */
   public OrganizationType getEntityById(int id){
-    return organizationTypeDAO.getById(id);	    
+    return organizationTypeDAO.loadById(id);
   }
 	
   /**

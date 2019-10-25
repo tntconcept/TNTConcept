@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.autentia.tnt.businessobject.Frequency;
 import com.autentia.tnt.dao.DataAccException;
-import com.autentia.tnt.dao.IDataAccessObject;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.util.SpringUtils;
@@ -60,10 +59,14 @@ public class FrequencyDAO extends HibernateManagerBase<Frequency> {
    * @return the Frequency object identified by the id
    * @throws DataAccException on error
    */
-  public Frequency getById( int id ) throws DataAccException {
+  public Frequency getById(int id ) throws DataAccException {
     return super.getByPk(Frequency.class,id);
   }
 
+    @Override
+    public Frequency loadById(int id) throws DataAccException {
+        return super.loadByPk(Frequency.class,id);
+    }
   /** 
    * Get all Frequency objects from database sorted by the given criteria
    * @param crit the sorting criteria

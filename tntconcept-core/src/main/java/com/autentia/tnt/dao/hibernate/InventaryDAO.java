@@ -60,9 +60,13 @@ public class InventaryDAO extends HibernateManagerBase<Inventary>
    * @return the Inventary object identified by the id
    * @throws DataAccException on error
    */
-  public Inventary getById( int id ) throws DataAccException {
-    return super.getByPk(Inventary.class,id);
+  public Inventary loadById(int id ) throws DataAccException {
+    return super.loadByPk(Inventary.class,id);
   }
+
+    public Inventary getById(int id ) throws DataAccException {
+        return super.getByPk(Inventary.class,id);
+    }
 
   /** 
    * Get all Inventary objects from database sorted by the given criteria

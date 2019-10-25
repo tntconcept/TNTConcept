@@ -238,7 +238,7 @@ public class SettingManager {
 	 * @return setting selected by id.
 	 */
 	public Setting getEntityById(int id) {
-		return settingDAO.getById(id);
+		return settingDAO.loadById(id);
 	}
 
 	/**

@@ -128,7 +128,7 @@ public class UserHolidaysStateManager {
 		// WorkingAgreement attribute is an HB proxy not initialized, we need to get it
 		// from DB
 		WorkingAgreementDAO workingAgreementDao = WorkingAgreementDAO.getDefault();
-		WorkingAgreement agreement = workingAgreementDao.getById(usuario.getAgreement().getId());
+		WorkingAgreement agreement = workingAgreementDao.loadById(usuario.getAgreement().getId());
 		// and refresh the user instance agreement attribute
 		usuario.setAgreement(agreement);
 

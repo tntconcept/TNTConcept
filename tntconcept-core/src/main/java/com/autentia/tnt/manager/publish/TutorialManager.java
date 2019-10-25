@@ -86,7 +86,7 @@ public class TutorialManager {
    * @return tutorial selected by id.
    */
   public Tutorial getEntityById(int id){
-    return tutorialDAO.getById(id);	    
+    return tutorialDAO.loadById(id);
   }
 	
   /**

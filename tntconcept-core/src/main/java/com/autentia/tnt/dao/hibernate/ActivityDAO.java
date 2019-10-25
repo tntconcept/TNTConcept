@@ -60,9 +60,13 @@ public class ActivityDAO extends HibernateManagerBase<Activity>
    * @return the Activity object identified by the id
    * @throws DataAccException on error
    */
-  public Activity getById( int id ) throws DataAccException {
-    return super.getByPk(Activity.class,id);
+  public Activity loadById(int id ) throws DataAccException {
+    return super.loadByPk(Activity.class,id);
   }
+
+    public Activity getById(int id ) throws DataAccException {
+        return super.getByPk(Activity.class,id);
+    }
 
   /** 
    * Get all Activity objects from database sorted by the given criteria

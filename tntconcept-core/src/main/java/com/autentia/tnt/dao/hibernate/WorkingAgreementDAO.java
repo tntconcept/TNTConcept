@@ -22,10 +22,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.businessobject.WorkingAgreement;
 import com.autentia.tnt.dao.DataAccException;
-import com.autentia.tnt.dao.IDataAccessObject;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.util.SpringUtils;
@@ -63,8 +61,12 @@ public class WorkingAgreementDAO extends HibernateManagerBase<WorkingAgreement>
    * @return the WorkingAgreement object identified by the id
    * @throws DataAccException on error
    */
-  public WorkingAgreement getById( int id ) throws DataAccException {
-    return super.getByPk(WorkingAgreement.class,id);
+  public WorkingAgreement loadById(int id ) throws DataAccException {
+    return super.loadByPk(WorkingAgreement.class,id);
+  }
+
+  public WorkingAgreement getById(int id ) throws DataAccException {
+      return super.getByPk(WorkingAgreement.class,id);
   }
 
   /** 

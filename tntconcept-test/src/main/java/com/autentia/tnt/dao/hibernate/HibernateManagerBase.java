@@ -205,11 +205,11 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
    * @return Una instancia del objeto recuperado de base de datos o null en el caso de no
    *         encontrar ning�n objeto con la clave primaria especificada
    */
-  protected <T extends Object> T getByPk(Class<T> theClass, Serializable pk) throws DataAccException
+  protected <T extends Object> T loadByPk(Class<T> theClass, Serializable pk) throws DataAccException
   {
     T objResult = null;
     Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-    objResult = getByPk(theClass,pk,session);
+    objResult = loadByPk(theClass,pk,session);
     return objResult;
   }
 
@@ -222,9 +222,9 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
    * @return Una instancia del objeto recuperado de base de datos o null en el caso de no
    *         encontrar ning�n objeto con la clave primaria especificada
    */
-  protected <T extends Object> T getByPk(Class<T> theClass, Serializable pk, Session session) throws DataAccException
+  protected <T extends Object> T loadByPk(Class<T> theClass, Serializable pk, Session session) throws DataAccException
   {
-    log.debug("getByPk");
+    log.debug("loadByPk");
     T objResult = null;
     try
     {

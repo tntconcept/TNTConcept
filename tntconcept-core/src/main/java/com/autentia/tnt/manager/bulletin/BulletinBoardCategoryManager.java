@@ -85,7 +85,7 @@ public class BulletinBoardCategoryManager {
    * @return bulletinBoardCategory selected by id.
    */
   public BulletinBoardCategory getEntityById(int id){
-    return bulletinBoardCategoryDAO.getById(id);	    
+    return bulletinBoardCategoryDAO.loadById(id);
   }
 	
   /**

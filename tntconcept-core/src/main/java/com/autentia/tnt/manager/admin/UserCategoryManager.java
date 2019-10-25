@@ -82,7 +82,7 @@ public class UserCategoryManager {
    * @return userCategory selected by id.
    */
   public UserCategory getEntityById(int id){
-    return userCategoryDAO.getById(id);	    
+    return userCategoryDAO.loadById(id);
   }
 	
   /**

@@ -80,7 +80,7 @@ public class WorkingAgreementManager {
    * @return workingAgreement selected by id.
    */
   public WorkingAgreement getEntityById(int id){
-    return workingAgreementDAO.getById(id);	    
+    return workingAgreementDAO.loadById(id);
   }
 	
   /**

@@ -87,7 +87,7 @@ public class ObjectiveManager {
    * @return objective selected by id.
    */
   public Objective getEntityById(int id){
-    return objectiveDAO.getById(id);	    
+    return objectiveDAO.loadById(id);
   }
 	
   /**

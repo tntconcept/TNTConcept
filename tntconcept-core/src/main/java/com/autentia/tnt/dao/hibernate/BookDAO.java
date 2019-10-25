@@ -60,9 +60,13 @@ public class BookDAO extends HibernateManagerBase<Book>
    * @return the Book object identified by the id
    * @throws DataAccException on error
    */
-  public Book getById( int id ) throws DataAccException {
-    return super.getByPk(Book.class,id);
+  public Book loadById(int id ) throws DataAccException {
+    return super.loadByPk(Book.class,id);
   }
+
+    public Book getById(int id ) throws DataAccException {
+        return super.getByPk(Book.class,id);
+    }
 
   /** 
    * Get all Book objects from database sorted by the given criteria

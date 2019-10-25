@@ -82,7 +82,7 @@ public class OrganizationISOCategoryManager {
    * @return organizationISOCategory selected by id.
    */
   public OrganizationISOCategory getEntityById(int id){
-    return organizationISOCategoryDAO.getById(id);	    
+    return organizationISOCategoryDAO.loadById(id);
   }
 	
   /**

@@ -81,7 +81,7 @@ public class AccountTypeManager
    * @return accountType selected by id.
    */
   public AccountType getEntityById(int id){
-    return accountTypeDAO.getById(id);	    
+    return accountTypeDAO.loadById(id);
   }
 	
   /**

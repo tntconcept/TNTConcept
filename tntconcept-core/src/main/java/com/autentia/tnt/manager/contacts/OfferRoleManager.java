@@ -80,7 +80,7 @@ public class OfferRoleManager {
    * @return offerRole selected by id.
    */
   public OfferRole getEntityById(int id){
-    return offerRoleDAO.getById(id);	    
+    return offerRoleDAO.loadById(id);
   }
 	
   /**

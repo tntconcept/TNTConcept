@@ -19,7 +19,6 @@ package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.*;
-import com.autentia.tnt.dao.search.ProjectSearch;
 import com.autentia.tnt.util.SpringUtils;
 
 import java.util.*;
@@ -58,11 +57,14 @@ public class ProjectRoleDAO extends HibernateManagerBase<ProjectRole>
    * @return the ProjectRole object identified by the id
    * @throws DataAccException on error
    */
-  public ProjectRole getById( int id ) throws DataAccException {
-    return super.getByPk(ProjectRole.class,id);
+  public ProjectRole loadById(int id ) throws DataAccException {
+      return super.loadByPk(ProjectRole.class,id);
   }
+    public ProjectRole getById(int id ) throws DataAccException {
+        return super.getByPk(ProjectRole.class,id);
+    }
 
-  /** 
+  /**
    * Get all ProjectRole objects from database sorted by the given criteria
    * @param crit the sorting criteria
    * @return a list with all existing ProjectRole objects

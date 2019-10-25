@@ -83,7 +83,7 @@ public class BillBreakDownManager
    * @return billBreakDown selected by id.
    */
   public BillBreakDown getEntityById(int id){
-    return billBreakDownDAO.getById(id);	    
+    return billBreakDownDAO.loadById(id);
   }
 	
   /**

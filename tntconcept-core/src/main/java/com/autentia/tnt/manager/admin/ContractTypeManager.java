@@ -84,7 +84,7 @@ public class ContractTypeManager {
    * @return contractType selected by id.
    */
   public ContractType getEntityById(int id){
-    return contractTypeDAO.getById(id);	    
+    return contractTypeDAO.loadById(id);
   }
 	
   /**

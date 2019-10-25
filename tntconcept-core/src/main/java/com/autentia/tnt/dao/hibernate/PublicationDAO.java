@@ -54,15 +54,19 @@ public class PublicationDAO extends HibernateManagerBase<Publication>
     super(false);
   }
 
-  /** 
+    /**
    * Retrieve a Publication object from database given its id
    * @param id primary key of Publication object
    * @return the Publication object identified by the id
    * @throws DataAccException on error
    */
-  public Publication getById( int id ) throws DataAccException {
-    return super.getByPk(Publication.class,id);
-  }
+    public Publication loadById(int id ) throws DataAccException {
+        return super.loadByPk(Publication.class,id);
+    }
+
+    public Publication getById(int id ) throws DataAccException {
+        return super.getByPk(Publication.class,id);
+    }
 
   /** 
    * Get all Publication objects from database sorted by the given criteria

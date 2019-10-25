@@ -80,7 +80,7 @@ public class OfferCostManager {
    * @return offerCost selected by id.
    */
   public OfferCost getEntityById(int id){
-    return offerCostDAO.getById(id);	    
+    return offerCostDAO.loadById(id);
   }
 	
   /**

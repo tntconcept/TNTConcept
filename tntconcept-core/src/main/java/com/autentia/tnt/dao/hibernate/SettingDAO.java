@@ -61,11 +61,15 @@ public class SettingDAO extends HibernateManagerBase<Setting>
    * @return the Setting object identified by the id
    * @throws DataAccException on error
    */
-  public Setting getById( int id ) throws DataAccException {
-    return super.getByPk(Setting.class,id);
+  public Setting loadById(int id ) throws DataAccException {
+    return super.loadByPk(Setting.class,id);
   }
 
-  /** 
+    public Setting getById(int id) throws DataAccException {
+        return super.getByPk(Setting.class,id);
+    }
+
+    /**
    * Get all Setting objects from database sorted by the given criteria
    * @param crit the sorting criteria
    * @return a list with all existing Setting objects

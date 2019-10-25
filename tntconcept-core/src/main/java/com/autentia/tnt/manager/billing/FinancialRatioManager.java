@@ -82,7 +82,7 @@ public class FinancialRatioManager {
    * @return financialRatio selected by id.
    */
   public FinancialRatio getEntityById(int id){
-    return financialRatioDAO.getById(id);	    
+    return financialRatioDAO.loadById(id);
   }
 	
   /**

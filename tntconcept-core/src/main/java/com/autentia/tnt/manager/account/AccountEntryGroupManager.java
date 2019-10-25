@@ -81,7 +81,7 @@ public class AccountEntryGroupManager
    * @return accountEntryGroup selected by id.
    */
   public AccountEntryGroup getEntityById(int id){
-    return accountEntryGroupDAO.getById(id);	    
+    return accountEntryGroupDAO.loadById(id);
   }
 	
   /**

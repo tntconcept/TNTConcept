@@ -60,9 +60,13 @@ public class CompanyStateDAO extends HibernateManagerBase<CompanyState>
    * @return the CompanyState object identified by the id
    * @throws DataAccException on error
    */
-  public CompanyState getById( int id ) throws DataAccException {
-    return super.getByPk(CompanyState.class,id);
+  public CompanyState loadById(int id ) throws DataAccException {
+    return super.loadByPk(CompanyState.class,id);
   }
+
+    public CompanyState getById(int id ) throws DataAccException {
+        return super.getByPk(CompanyState.class,id);
+    }
 
   /** 
    * Get all CompanyState objects from database sorted by the given criteria

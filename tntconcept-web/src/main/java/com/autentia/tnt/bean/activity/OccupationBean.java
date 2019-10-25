@@ -81,7 +81,7 @@ public class OccupationBean extends BaseBean {
 	  	
 	  	if(selectedOrganization==null) {
 	  		OrganizationDAO organizationDAO = new OrganizationDAO();
-	  		selectedOrganization = organizationDAO.getById(ConfigurationUtil.getDefault().getIdOurCompany());    		
+	  		selectedOrganization = organizationDAO.loadById(ConfigurationUtil.getDefault().getIdOurCompany());
 	  	}
 	  	
 	      return selectedOrganization;

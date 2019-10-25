@@ -90,7 +90,7 @@ public class CreditTitleManager {
    * @return creditTitle selected by id.
    */
   public CreditTitle getEntityById(int id){
-    return creditTitleDAO.getById(id);	    
+    return creditTitleDAO.loadById(id);
   }
 	
   /**

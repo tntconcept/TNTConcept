@@ -87,7 +87,7 @@ public class CompanyStateManager {
    * @return companyState selected by id.
    */
   public CompanyState getEntityById(int id){
-    return companyStateDAO.getById(id);	    
+    return companyStateDAO.loadById(id);
   }
 	
   /**

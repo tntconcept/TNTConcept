@@ -60,9 +60,13 @@ public class IdeaDAO extends HibernateManagerBase<Idea>
    * @return the Idea object identified by the id
    * @throws DataAccException on error
    */
-  public Idea getById( int id ) throws DataAccException {
-    return super.getByPk(Idea.class,id);
+  public Idea loadById(int id ) throws DataAccException {
+    return super.loadByPk(Idea.class,id);
   }
+
+    public Idea getById(int id ) throws DataAccException {
+        return super.getByPk(Idea.class,id);
+    }
 
   /** 
    * Get all Idea objects from database sorted by the given criteria

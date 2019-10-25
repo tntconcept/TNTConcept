@@ -39,7 +39,7 @@ public class PeriodicalAccountEntryManager {
 	public PeriodicalAccountEntry copy(int id) {		
 		PeriodicalAccountEntry periodicalAccountEntry = new PeriodicalAccountEntry();
 		AccountEntryDAO accountEntryDAO = new AccountEntryDAO();	   
-		AccountEntry copyAccountEntry = accountEntryDAO.getById(id);
+		AccountEntry copyAccountEntry = accountEntryDAO.loadById(id);
 /*
 		 	periodicalAccountEntry.setConcept(copyAccountEntry.getConcept());
 		   	periodicalAccountEntry.setAccount(copyAccountEntry.getAccount());
@@ -182,7 +182,7 @@ public class PeriodicalAccountEntryManager {
    * @return periodicalAccountEntry selected by id.
    */
   public PeriodicalAccountEntry getEntityById(int id){
-    return periodicalAccountEntryDAO.getById(id);	    
+    return periodicalAccountEntryDAO.loadById(id);
   }
 	
   /**

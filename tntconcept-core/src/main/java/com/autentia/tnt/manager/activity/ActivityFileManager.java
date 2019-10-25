@@ -80,7 +80,7 @@ public class ActivityFileManager {
    * @return activityFile selected by id.
    */
   public ActivityFile getEntityById(int id){
-    return activityFileDAO.getById(id);	    
+    return activityFileDAO.loadById(id);
   }
 	
   /**

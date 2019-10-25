@@ -111,7 +111,7 @@ public class CommissioningManager {
 	 * @return commissioning selected by id.
 	 */
 	public Commissioning getEntityById(int id) {
-		Commissioning commissioning = commissioningDAO.getById(id);
+		Commissioning commissioning = commissioningDAO.loadById(id);
 		commissioning.initChanges();
 		return commissioning;
 	}
@@ -150,7 +150,7 @@ public class CommissioningManager {
 		commissioningDAO.update(commissioning);
 		
 		// tracking entity changes
-		Commissioning commissioningHibSession = commissioningDAO.getById(commissioning.getId());
+		Commissioning commissioningHibSession = commissioningDAO.loadById(commissioning.getId());
 		Commissioning changesHibSession = commissioningHibSession.getChanges();
 		commissioningHibSession.setChanges(changes);
 		trackEntityChanges(commissioningHibSession);

@@ -28,6 +28,10 @@ import java.util.List;
 
 public class EntityChangeDAO extends HibernateManagerBase<EntityChange> {
 
+    public EntityChange loadById(int id) throws DataAccException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public EntityChange getById(int id) throws DataAccException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

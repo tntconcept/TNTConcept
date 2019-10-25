@@ -57,9 +57,13 @@ public class InteractionDAO extends HibernateManagerBase<Interaction>
    * @return the Interaction object identified by the id
    * @throws DataAccException on error
    */
-  public Interaction getById( int id ) throws DataAccException {
-    return super.getByPk(Interaction.class,id);
+  public Interaction loadById(int id ) throws DataAccException {
+    return super.loadByPk(Interaction.class,id);
   }
+
+    public Interaction getById(int id ) throws DataAccException {
+        return super.getByPk(Interaction.class,id);
+    }
 
   /** 
    * Get all Interaction objects from database sorted by the given criteria

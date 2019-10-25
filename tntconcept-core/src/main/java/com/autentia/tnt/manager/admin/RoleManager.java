@@ -81,7 +81,7 @@ public class RoleManager
    * @return role selected by id.
    */
   public Role getEntityById(int id){
-    return roleDAO.getById(id);	    
+    return roleDAO.loadById(id);
   }
 	
   /**

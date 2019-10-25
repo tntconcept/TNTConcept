@@ -57,10 +57,13 @@ public class ObjectiveDAO extends HibernateManagerBase<Objective>
    * @return the Objective object identified by the id
    * @throws DataAccException on error
    */
-  public Objective getById( int id ) throws DataAccException {
-    return super.getByPk(Objective.class,id);
+  public Objective loadById(int id ) throws DataAccException {
+    return super.loadByPk(Objective.class,id);
   }
 
+    public Objective getById(int id ) throws DataAccException {
+        return super.getByPk(Objective.class,id);
+    }
   /** 
    * Get all Objective objects from database sorted by the given criteria
    * @param crit the sorting criteria

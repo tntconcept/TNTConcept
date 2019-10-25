@@ -87,7 +87,7 @@ public class PublicationManager {
    * @return publication selected by id.
    */
   public Publication getEntityById(int id){
-    return publicationDAO.getById(id);	    
+    return publicationDAO.loadById(id);
   }
 	
   /**

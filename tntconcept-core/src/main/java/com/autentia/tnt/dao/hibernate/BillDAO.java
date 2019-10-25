@@ -58,9 +58,13 @@ public class BillDAO extends HibernateManagerBase<Bill>
    * @return the Bill object identified by the id
    * @throws DataAccException on error
    */
-  public Bill getById( int id ) throws DataAccException {
-    return super.getByPk(Bill.class,id);
+  public Bill loadById(int id ) throws DataAccException {
+    return super.loadByPk(Bill.class,id);
   }
+
+    public Bill getById(int id ) throws DataAccException {
+        return super.getByPk(Bill.class,id);
+    }
 
   /** 
    * Get all Bill objects from database sorted by the given criteria

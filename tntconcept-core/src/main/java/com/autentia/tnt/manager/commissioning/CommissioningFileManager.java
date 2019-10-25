@@ -77,7 +77,7 @@ public class CommissioningFileManager {
    * @return commissioningFile selected by id.
    */
   public CommissioningFile getEntityById(int id){
-    return commissioningFileDAO.getById(id);	    
+    return commissioningFileDAO.loadById(id);
   }
 	
   /**

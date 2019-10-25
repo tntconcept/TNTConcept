@@ -91,7 +91,7 @@ public class InteractionManager {
    * @return interaction selected by id.
    */
   public Interaction getEntityById(int id){
-    return interactionDAO.getById(id);	    
+    return interactionDAO.loadById(id);
   }
 	
   /**

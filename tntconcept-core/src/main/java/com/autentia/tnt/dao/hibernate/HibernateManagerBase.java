@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
@@ -216,6 +215,14 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
    * @return Una instancia del objeto recuperado de base de datos o null en el caso de no
    *         encontrar ning�n objeto con la clave primaria especificada
    */
+  protected <T extends Object> T loadByPk(Class<T> theClass, Serializable pk) throws DataAccException
+  {
+    T objResult = null;
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    objResult = loadByPk(theClass,pk,session);
+    return objResult;
+  }
+
   protected <T extends Object> T getByPk(Class<T> theClass, Serializable pk) throws DataAccException
   {
     T objResult = null;
@@ -233,7 +240,7 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
    * @return Una instancia del objeto recuperado de base de datos o null en el caso de no
    *         encontrar ning�n objeto con la clave primaria especificada
    */
-  protected <T extends Object> T getByPk(Class<T> theClass, Serializable pk, Session session) throws DataAccException
+  protected <T extends Object> T loadByPk(Class<T> theClass, Serializable pk, Session session) throws DataAccException
   {
     log.debug("getByPk");
     T objResult = null;
@@ -252,6 +259,26 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
       throw new DataAccException(msg, ex);
     }
   }
+
+  protected <T extends Object> T getByPk(Class<T> theClass, Serializable pk, Session session) throws DataAccException
+  {
+    log.debug("getByPk");
+    T objResult = null;
+    try
+    {
+      objResult = (T)session.get(theClass, pk);
+      if (log.isDebugEnabled()){
+        log.debug("Objeto con clave '"+ pk + "' recuperado");
+      }
+      return (T)objResult;
+    }
+    catch(Exception ex)
+    {
+      String msg = "Error recuperando el objeto de tipo '" + theClass + "' con clave primaria '" + pk + "': ";
+      log.error("Error recuperando el objeto con clave '" + pk + "': "+ msg);
+      throw new DataAccException(msg, ex);
+    }
+  }
   
   /**
    * Devuelve un objeto de negocio por clave primaria
@@ -259,7 +286,7 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
    * @param pk Una instancia de la clave primaria
    * @return Una instancia del objeto recuperado de base de datos
    */
-  protected Object getByPk(Serializable pk) throws DataAccException
+  protected Object loadByPk(Serializable pk) throws DataAccException
   {
     throw new DataAccException("HibernateManagerBase.getByPk. M�todo no soportado por esta clase");
   }

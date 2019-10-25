@@ -82,7 +82,7 @@ public class AccountEntryManager {
    * @return accountEntry selected by id.
    */
   public AccountEntry getEntityById(int id){
-    return accountEntryDAO.getById(id);	    
+    return accountEntryDAO.loadById(id);
   }
 	
   /**

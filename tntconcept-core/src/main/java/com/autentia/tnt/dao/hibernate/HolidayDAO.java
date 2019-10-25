@@ -57,9 +57,13 @@ public class HolidayDAO extends HibernateManagerBase<Holiday>
    * @return the Holiday object identified by the id
    * @throws DataAccException on error
    */
-  public Holiday getById( int id ) throws DataAccException {
-    return super.getByPk(Holiday.class,id);
+  public Holiday loadById(int id ) throws DataAccException {
+    return super.loadByPk(Holiday.class,id);
   }
+
+    public Holiday getById(int id ) throws DataAccException {
+        return super.getByPk(Holiday.class,id);
+    }
 
   /** 
    * Get all Holiday objects from database sorted by the given criteria

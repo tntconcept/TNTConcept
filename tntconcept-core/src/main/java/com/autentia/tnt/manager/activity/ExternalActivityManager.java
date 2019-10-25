@@ -75,7 +75,7 @@ public class ExternalActivityManager {
 	   * @return externalActivity selected by id.
 	   */
 	  public ExternalActivity getEntityById(int id){
-	    return externalActivityDAO.getById(id);	    
+	    return externalActivityDAO.loadById(id);
 	  }
 		
 	  /**

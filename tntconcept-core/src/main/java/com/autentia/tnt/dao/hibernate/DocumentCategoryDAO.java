@@ -57,9 +57,13 @@ public class DocumentCategoryDAO extends HibernateManagerBase<DocumentCategory>
    * @return the DocumentCategory object identified by the id
    * @throws DataAccException on error
    */
-  public DocumentCategory getById( int id ) throws DataAccException {
-    return super.getByPk(DocumentCategory.class,id);
+  public DocumentCategory loadById(int id ) throws DataAccException {
+    return super.loadByPk(DocumentCategory.class,id);
   }
+
+    public DocumentCategory getById(int id ) throws DataAccException {
+        return super.getByPk(DocumentCategory.class,id);
+    }
 
   /** 
    * Get all DocumentCategory objects from database sorted by the given criteria

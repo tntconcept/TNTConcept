@@ -90,7 +90,7 @@ public class IdeaManager {
    * @return idea selected by id.
    */
   public Idea getEntityById(int id){
-    return ideaDAO.getById(id);	    
+    return ideaDAO.loadById(id);
   }
 	
   /**

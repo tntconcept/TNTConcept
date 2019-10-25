@@ -61,11 +61,17 @@ public class AdminHolidayDAO extends HibernateManagerBase<AdminHoliday>
    * @return the AdminHoliday object identified by the id
    * @throws DataAccException on error
    */
-  public AdminHoliday getById( int id ) throws DataAccException {
-      AdminHoliday holiday = super.getByPk(AdminHoliday.class,id);
+  public AdminHoliday loadById(int id ) throws DataAccException {
+      AdminHoliday holiday = super.loadByPk(AdminHoliday.class,id);
       Hibernate.initialize(holiday.getUserRequest());
     return holiday;
   }
+
+    public AdminHoliday getById(int id ) throws DataAccException {
+        AdminHoliday holiday = super.getByPk(AdminHoliday.class,id);
+        Hibernate.initialize(holiday.getUserRequest());
+        return holiday;
+    }
 
   /** 
    * Get all AdminHoliday objects from database sorted by the given criteria

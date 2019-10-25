@@ -58,9 +58,13 @@ public class CommissioningPaymentDataDAO extends HibernateManagerBase<Commission
    * @return the CommissioningPaymentData object identified by the id
    * @throws DataAccException on error
    */
-  public CommissioningPaymentData getById( int id ) throws DataAccException {
-    return super.getByPk(CommissioningPaymentData.class,id);
+  public CommissioningPaymentData loadById(int id ) throws DataAccException {
+    return super.loadByPk(CommissioningPaymentData.class,id);
   }
+
+    public CommissioningPaymentData getById(int id ) throws DataAccException {
+        return super.getByPk(CommissioningPaymentData.class,id);
+    }
 
   /** 
    * Get all CommissioningPaymentData objects from database sorted by the given criteria

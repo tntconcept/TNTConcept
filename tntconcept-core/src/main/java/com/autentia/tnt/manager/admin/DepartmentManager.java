@@ -101,7 +101,7 @@ public class DepartmentManager {
    * @return department selected by id.
    */
   public Department getEntityById(int id){
-		final Department department = departmentDAO.getById(id);
+		final Department department = departmentDAO.loadById(id);
 		department.initChanges();
 		return department;
   }
