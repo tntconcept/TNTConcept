@@ -40,6 +40,8 @@ public interface MailService {
 	/**
 	 * Send messages with virtual files as attachments
 	 */
-    public void sendOutputStreams(String to, String subject, String text, Map<InputStream, String> attachments) throws MessagingException;
+	public void sendOutputStreams(String to, String subject, String text, Map<InputStream, String> attachments) throws MessagingException;
+
+	public void sendOutputStreams(String[] to, String subject, String text, Map<InputStream, String> attachments) throws MessagingException;
 
 }

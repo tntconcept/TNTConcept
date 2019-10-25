@@ -124,40 +124,76 @@ public class DefaultMailService implements MailService,Runnable {
 
             message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject(subject);
-            message.setSentDate(new Date());
-            if (attachments == null || attachments.size() < 1) {
-                message.setText(text);
-            } else {
-                // create the message part
-                MimeBodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText(text);
-                Multipart multipart = new MimeMultipart();
-                multipart.addBodyPart(messageBodyPart);
-                try {
-                    for (InputStream attachment : attachments.keySet()) {
-                        messageBodyPart = new MimeBodyPart();
-                        DataSource source = new ByteArrayDataSource(attachment, "application/octet-stream");
-
-                        messageBodyPart.setDataHandler(new DataHandler(source));
-                        messageBodyPart.setFileName(attachments.get(attachment)); //NOSONAR
-                        multipart.addBodyPart(messageBodyPart);                      //Se emplea keyset y no valueset porque se emplea tanto la key como el val
-                    }
-                } catch (IOException e) {
-                    throw new MessagingException("cannot add an attachment to mail", e);
-                }
-                message.setContent(multipart);
-            }
-
-            t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
-
-            t.sendMessage(message, message.getAllRecipients());
-        } finally {
+            sendMail(subject, text, attachments, t, message);
+        } catch (Exception e) {
+            System.err.println("sendOutputStreams ERROR: " + e.getStackTrace().toString());
+        }
+        finally {
             if (t != null) {
                 t.close();
             }
         }
 
+    }
+
+    public void sendOutputStreams(String[] recipients, String subject, String text, Map<InputStream, String> attachments) throws MessagingException {
+        Transport t = null;
+        InternetAddress[] addresses = new InternetAddress[ recipients.length ];
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+
+            t = session.getTransport("smtp");
+
+            message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
+
+            for( int i = 0; i < recipients.length; i++) {
+                addresses[ i ] = new InternetAddress( recipients[ i ] );
+            }
+
+            message.addRecipients(Message.RecipientType.BCC, addresses);
+
+            sendMail(subject, text, attachments, t, message);
+        } catch (Exception e) {
+            System.err.println("sendOutputStreams ERROR: " + e.getStackTrace().toString());
+        }
+        finally {
+            if (t != null) {
+                t.close();
+            }
+        }
+
+    }
+
+    private void sendMail(String subject, String text, Map<InputStream, String> attachments, Transport t, MimeMessage message) throws MessagingException {
+        message.setSubject(subject);
+        message.setSentDate(new Date());
+        if (attachments == null || attachments.size() < 1) {
+            message.setText(text);
+        } else {
+            // create the message part
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(text);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            try {
+                for (InputStream attachment : attachments.keySet()) {
+                    messageBodyPart = new MimeBodyPart();
+                    DataSource source = new ByteArrayDataSource(attachment, "application/octet-stream");
+
+                    messageBodyPart.setDataHandler(new DataHandler(source));
+                    messageBodyPart.setFileName(attachments.get(attachment)); //NOSONAR
+                    multipart.addBodyPart(messageBodyPart);                      //Se emplea keyset y no valueset porque se emplea tanto la key como el val
+                }
+            } catch (IOException e) {
+                throw new MessagingException("cannot add an attachment to mail", e);
+            }
+            message.setContent(multipart);
+        }
+
+        t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
+
+        t.sendMessage(message, message.getAllRecipients());
     }
 
     public void send(String to, String subject, String text) throws MessagingException {
@@ -178,6 +214,7 @@ public class DefaultMailService implements MailService,Runnable {
 		this.text = text;
 	}
 
+	@Override
 	public void run() {
 
 		String particularTo = to;

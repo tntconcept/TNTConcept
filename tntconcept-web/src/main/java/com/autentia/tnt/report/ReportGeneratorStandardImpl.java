@@ -125,8 +125,7 @@ public class ReportGeneratorStandardImpl implements ReportGenerator {
 			con = session.connection();
 
 			debug("ReportGenerator - generación del informe en función del formato");
-			GeneratorFactory.getFactory().getGeneratorByFormat(parameters.format).generate(outputStream, report, args,
-					con);
+			GeneratorFactory.getFactory().getGeneratorByFormat(parameters.format).generate(outputStream, report, args, con);
 
 			debug("ReportGenerator - finalización del informe");
 

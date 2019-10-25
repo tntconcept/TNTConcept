@@ -453,4 +453,25 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 			return 365; // Por defecto cada 90 dias
 		}
 	}
+
+	/**
+	 * Return the username of an smtp user
+	 *
+	 * @return
+	 */
+	public String getSiiRecipients() {
+		return getProperty("sii.recipients", "");
+	}
+
+	public String getWebdavHost() {
+		return getProperty("sii.webdav.host", "");
+	}
+
+	public String getWebdavUser() {
+		return getProperty("sii.webdav.user", "");
+	}
+
+	public String getWebdavPassword() {
+		return getProperty("sii.webdav.password", "");
+	}
 }

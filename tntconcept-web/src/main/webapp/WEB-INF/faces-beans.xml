@@ -66,8 +66,17 @@
     </managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
-  
-  
+
+
+  <!-- Bean for sii screen -->
+  <managed-bean>
+    <managed-bean-name>siiBean</managed-bean-name>
+    <managed-bean-class>
+      com.autentia.tnt.bean.billing.SiiBean
+    </managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+
   <!-- Bean for bills screen -->
   <managed-bean>
     <managed-bean-name>billBean</managed-bean-name>

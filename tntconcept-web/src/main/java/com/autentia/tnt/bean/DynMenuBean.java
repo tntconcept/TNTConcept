@@ -215,6 +215,8 @@ public class DynMenuBean extends BaseBean implements Serializable {
 
 				// billing
 				if ((item = createMenuItem(creds, null, "billing", null)) != null) {
+					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(Bill.class), "sii",
+							null)));
 					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(Bill.class), "bills",
 							null)));
 					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(CreditTitle.class), "creditTitles",
@@ -223,9 +225,8 @@ public class DynMenuBean extends BaseBean implements Serializable {
 							"accounts", null)));
 					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(AccountEntry.class),
 							"accountEntrys", null)));
-					addItem2Item(item,(createMenuItem(creds, Permission
-							.Entity_Menu(PeriodicalAccountEntry.class), "periodicalAccountEntrys",
-							null)));
+					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(PeriodicalAccountEntry.class),
+							"periodicalAccountEntrys", null)));
 					addItem2Item(item,(createMenuItem(creds, Permission.Action_NOF, "nof", null)));
 					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(FinancialRatio.class),
 							"financialRatios", null)));

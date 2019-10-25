@@ -152,6 +152,10 @@
 
         <!-- Section: billing -->
         <navigation-case>
+            <from-outcome>sii</from-outcome>
+            <to-view-id>/pages/billing/sii.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>bills</from-outcome>
             <to-view-id>/pages/billing/bills.jsp</to-view-id>
         </navigation-case>

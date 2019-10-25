@@ -85,7 +85,8 @@
             </f:facet>
             <t:commandLink action="#{billBean.detail}" immediate="true">
               <f:param name="rowid" value="#{bill.id}" />
-              <h:graphicImage title="#{msg.entityActions_detail}"  value="/img/detail.gif" styleClass="cmdImg" />
+              <h:graphicImage rendered="#{ bill.submitted == 1 }" title="#{msg.entityActions_detail}"  value="/img/detail.gif" styleClass="cmdImg" />
+              <h:graphicImage rendered="#{ bill.submitted == 0 }" title="#{msg.entityActions_detail}"  value="/img/edit.gif" styleClass="cmdImg" />
             </t:commandLink>
           </h:column>
 

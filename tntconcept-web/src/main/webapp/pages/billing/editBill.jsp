@@ -45,10 +45,12 @@
         
         <%-- Header --%>
         <i:titleBar name="${billBean.number}" msg="${msg}">
-          <h:commandLink action="#{billBean.save}" onclick="if(!askSave('#{billBean.id}','#{msg['question.confirmSave']}')) return false;">
+          <h:commandLink rendered="#{billBean.bill.submitted == 0 }" action="#{billBean.save}"
+                         onclick="if(!askSave('#{billBean.id}','#{msg['question.confirmSave']}')) return false;">
             <h:graphicImage title="#{msg.entityActions_save}" value="/img/save.gif" styleClass="titleImg" />
           </h:commandLink>
-          <h:commandLink action="#{billBean.delete}" onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
+          <h:commandLink rendered="#{billBean.bill.submitted == 0 }" action="#{billBean.delete}"
+                         onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
             <h:graphicImage title="#{msg.entityActions_delete}" value="/img/delete.gif" styleClass="titleImg" />
           </h:commandLink>
           <h:commandLink action="#{billBean.list}" immediate="true">
@@ -68,20 +70,32 @@
 
            <%-- Field: billType --%>
     	<tr>
-    	    		<td class="warning2">${msg['bill.selectType']}</td>    	    		
-    	      
-      <td class="editFieldCell">
+            <td class="warning2">${msg['bill.selectType']}</td>
 
-                  <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="billType" />
-            <h:selectOneMenu id="billType" value="#{billBean.billType}" disabled="true">
-              <f:converter converterId="autentia.EnumConverter"/>
-              <f:selectItems value="#{billBean.billTypes}" />
-            </h:selectOneMenu>
-          </h:panelGroup>
+            <td class="editFieldCell">
 
+                <h:panelGroup>
+                    <h:message styleClass="error" showSummary="true" showDetail="false" for="billType" />
+                    <h:selectOneMenu id="billType" value="#{billBean.billType}" disabled="true">
+                        <f:converter converterId="autentia.EnumConverter"/>
+                        <f:selectItems value="#{billBean.billTypes}" />
+                    </h:selectOneMenu>
+                </h:panelGroup>
+
+            </td>
+        </tr>
+
+          <%-- Field: sii --%>
+          <tr>
+              <td class="editLabelRW">${msg['menu.sii']} del Iva</td>
+
+              <td class="editFieldCell">
+                  <h:outputText rendered="#{ billBean.bill.submitted == 1 }" value="#{msg['editBill.sii.sended']}"
+                                styleClass="requiredFieldClass"/>
+                  <h:outputText rendered="#{ billBean.bill.submitted == 0 }" value="#{msg['editBill.sii.notSended']}"
+                                styleClass="requiredFieldClass"/>
               </td>
-    </tr>
+          </tr>
 		  
 		  <%-- Field: number --%>
           <tr>
@@ -89,7 +103,7 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="number" />
-                <h:inputText id="number" value="#{billBean.number}" required="true" styleClass="requiredFieldClass" maxlength="64"/>
+                <h:inputText id="number" readonly="#{billBean.bill.submitted == 1}" value="#{billBean.number}" required="true" styleClass="requiredFieldClass" maxlength="64"/>
               </h:panelGroup>
             </td>
           </tr>
@@ -99,7 +113,7 @@
 	      <td class="editLabelRW">${msg['bill.bookNumber']}:</td>      
 	      <td class="editFieldCell">
 	           <h:panelGroup rendered="#{billBean.receivedBillType}">
-	             <h:inputText id="bookNumber" value="#{billBean.bookNumber}" maxlength="64" />
+	             <h:inputText id="bookNumber" readonly="#{billBean.bill.submitted == 1}" value="#{billBean.bookNumber}" maxlength="64" />
 	           </h:panelGroup>
 	      </td>
 	    </tr>
@@ -110,7 +124,7 @@
 		    <td class="editFieldCell">
 	           <h:panelGroup rendered="#{billBean.puedoPintarProvider}">
 	            <h:message styleClass="error" showSummary="true" showDetail="false" for="provider" />
-	            <h:selectOneMenu id="provider" value="#{billBean.provider}"  required="true" styleClass="requiredFieldClass">
+	            <h:selectOneMenu id="provider" disabled="#{billBean.bill.submitted == 1}" value="#{billBean.provider}"  required="true" styleClass="requiredFieldClass">
 	              <f:selectItems value="#{billBean.providers}" />
 	              <f:converter converterId="autentia.EntityConverter"/>
 	            </h:selectOneMenu>
@@ -125,7 +139,7 @@
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="organization" />
                 <h:selectOneMenu id="organization" value="#{billBean.selectedOrganization}" immediate="true" onchange="submit()"
-                     valueChangeListener="#{billBean.onSelectedOrganizationChanged}">
+                     valueChangeListener="#{billBean.onSelectedOrganizationChanged}" disabled="#{billBean.bill.submitted == 1}">
                   <f:selectItems value="#{billBean.organizations}" />
                   <f:converter converterId="autentia.EntityConverter"/>
                 </h:selectOneMenu>
@@ -139,7 +153,8 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="project" />
-                <h:selectOneMenu id="project" value="#{billBean.project}" required="true" styleClass="requiredFieldClass">
+                <h:selectOneMenu id="project" value="#{billBean.project}" required="true" styleClass="requiredFieldClass"
+                                 disabled="#{billBean.bill.submitted == 1}">
                   <f:selectItems value="#{billBean.projectsOpenBySelectedOrganization}" />
                   <f:converter converterId="autentia.EntityConverter"/>
                 </h:selectOneMenu>
@@ -153,7 +168,8 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="name" />
-                <h:inputTextarea id="name" value="#{billBean.name}" rows="7" cols="68" required="true" styleClass="requiredFieldClass"/> 
+                <h:inputTextarea id="name" value="#{billBean.name}" rows="7" cols="68" required="true" styleClass="requiredFieldClass"
+                                 readonly="#{billBean.bill.submitted == 1}"/>
               </h:panelGroup>
             </td>
           </tr>	
@@ -166,7 +182,8 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="orderNumber" />
-            <h:inputText id="orderNumber" value="#{billBean.orderNumber}"  maxlength="64" styleClass="requiredFieldClass"/>
+            <h:inputText id="orderNumber" value="#{billBean.orderNumber}"  maxlength="64" styleClass="requiredFieldClass"
+                         readonly="#{billBean.bill.submitted == 1}"/>
           </h:panelGroup>
 
               </td>
@@ -180,7 +197,7 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="contact" />
-            <h:selectOneMenu id="contact" value="#{billBean.contact}" >
+            <h:selectOneMenu id="contact" value="#{billBean.contact}" disabled="#{billBean.bill.submitted == 1}">
               <f:selectItems value="#{billBean.contactsBySelectedOrganization}" />
               <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
@@ -194,7 +211,8 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="account" />
-                <h:selectOneMenu id="account" value="#{billBean.selectedAccount}" required="true" styleClass="requiredFieldClass">
+                <h:selectOneMenu id="account" value="#{billBean.selectedAccount}" required="true" styleClass="requiredFieldClass"
+                                 disabled="#{billBean.bill.submitted == 1}">
                   <f:selectItems value="#{billBean.accounts}" />
                   <f:converter converterId="autentia.EntityConverter"/>
                 </h:selectOneMenu>
@@ -220,7 +238,7 @@
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="totalNoTaxes" />
                 <h:outputText id="totalNoTaxes" value="#{billBean.totalNoTaxes}  " styleClass="requiredFieldClass"/>
-                <h:commandLink action="#{billBean.reloadTotal}">
+                <h:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.reloadTotal}">
             		<h:graphicImage title="#{msg['bill.action.reload']}" value="/img/refresh.png" />
           		</h:commandLink>
               </h:panelGroup>
@@ -256,7 +274,8 @@
                 <t:inputCalendar id="creationDate" value="#{billBean.creationDate}"
 				                 required="true" styleClass="requiredFieldClass"
                                  renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
-                                 popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}">
+                                 popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
+                                 readonly="#{billBean.bill.submitted == 1}" disabled="#{billBean.bill.submitted == 1}">
 				  <f:validator validatorId="autentia.dateValidator"/>
 			    </t:inputCalendar>
               </h:panelGroup>
@@ -274,7 +293,7 @@
             <t:inputCalendar id="startBillDate" value="#{billBean.startBillDate}"  required="true" styleClass="requiredFieldClass"
                              renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
                              popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
-                             >
+                             readonly="#{billBean.bill.submitted == 1}" disabled="#{billBean.bill.submitted == 1}">
 				<f:validator validatorId="autentia.dateValidator"/>
 			</t:inputCalendar>
           </h:panelGroup>
@@ -295,7 +314,7 @@
             <t:inputCalendar id="endBillDate" value="#{billBean.endBillDate}"  required="true" styleClass="requiredFieldClass"
                              renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true" 
                              popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
-                             >
+                             readonly="#{billBean.bill.submitted == 1}" disabled="#{billBean.bill.submitted == 1}">
 				<f:validator validatorId="autentia.dateValidator"/>
 			</t:inputCalendar>
           </h:panelGroup>
@@ -319,7 +338,7 @@
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="billPaymentTotal" />
                 <h:outputText id="billPaymentTotal" value="#{billBean.billPaymentTotal}" styleClass="requiredFieldClass"/>
-                <h:commandLink action="#{billBean.reloadTotal}">
+                <h:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.reloadTotal}">
             		<h:graphicImage title="#{msg['bill.action.reload']}" value="/img/refresh.png" />
           		</h:commandLink>
           		
@@ -339,7 +358,8 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="paymentMode" />
-                <h:selectOneMenu id="paymentMode" value="#{billBean.paymentMode}" required="true" styleClass="requiredFieldClass" >
+                <h:selectOneMenu id="paymentMode" value="#{billBean.paymentMode}" required="true" styleClass="requiredFieldClass"
+                                 disabled="#{billBean.bill.submitted == 1}">
                   <f:converter converterId="autentia.EnumConverter"/>
                   <f:selectItems value="#{billBean.paymentModes}" />
                 </h:selectOneMenu>
@@ -353,7 +373,8 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="state" />
-                <h:selectOneMenu id="state" value="#{billBean.state}" required="true" styleClass="requiredFieldClass" >
+                <h:selectOneMenu id="state" value="#{billBean.state}" required="true" styleClass="requiredFieldClass"
+                                 disabled="#{billBean.bill.submitted == 1}">
                   <f:converter converterId="autentia.EnumConverter"/>
                   <f:selectItems value="#{billBean.states}" />
                 </h:selectOneMenu>
@@ -374,7 +395,8 @@
               <i:fileLink type="bill" objectId="${billBean.id}" file="${billBean.file}" mime="${billBean.fileMime}" /> 
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="file" />
-                <t:inputFileUpload id="file" size="58" value="#{billBean.uploadFile}" storage="file" />
+                <t:inputFileUpload id="file" size="58" value="#{billBean.uploadFile}" storage="file"
+                                   disabled="#{billBean.bill.submitted == 1}"/>
               </h:panelGroup>
             </td>
           </tr>
@@ -387,7 +409,8 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="observations" />
-                 <h:inputTextarea id="observations" value="#{billBean.observations}" rows="7" cols="68"/>               
+                 <h:inputTextarea id="observations" value="#{billBean.observations}" rows="7" cols="68"
+                                  readonly="#{billBean.bill.submitted == 1}"/>
               </h:panelGroup>
             </td>
           </tr>

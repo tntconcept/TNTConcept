@@ -424,7 +424,7 @@ public class ConfigurationUtil {
 
     /**
      * Return the username of an smtp user
-     * 
+     *
      * @return
      */
     public String getMailPassword() {
@@ -514,6 +514,27 @@ public class ConfigurationUtil {
     public Collection<String> getMailSendToHolidayApprovers(){
         final String mailSendTo = getProperty("mail.sendto.holiday.approvers", "admin@admin.com");
         return Arrays.asList(mailSendTo.split(" "));
+    }
+
+    /**
+     * Return the recipients
+     *
+     * @return
+     */
+    public String getSiiRecipients() {
+        return getProperty("sii.recipients", "word@word.com");
+    }
+
+    public String getWebdavHost() {
+        return getProperty("sii.webdav.host", "");
+    }
+
+    public String getWebdavUser() {
+        return getProperty("sii.webdav.user", "");
+    }
+
+    public String getWebdavPassword() {
+        return getProperty("sii.webdav.password", "");
     }
 
 }

@@ -5,7 +5,6 @@
 	<parent>
 		<groupId>com.autentia.tnt</groupId>
 		<artifactId>tntconcept-parent</artifactId>
-		<version>0.32.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tntconcept-web</artifactId>
@@ -456,5 +455,19 @@
             <version>4.2.0</version>
             <scope>test</scope>
         </dependency>
+
+		<!-- WebDav -->
+		<dependency>
+			<groupId>com.github.lookfirst</groupId>
+			<artifactId>sardine</artifactId>
+			<version>5.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.7</version>
+		</dependency>
+
 	</dependencies>
 </project>
