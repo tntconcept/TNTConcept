@@ -23,13 +23,14 @@
 -- Bill
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Bill ADD COLUMN submitted INT NULL DEFAULT 0 AFTER accountId;
+ALTER TABLE Bill ADD COLUMN submitted INT NULL DEFAULT 0;
 
 -- -----------------------------------------------------------------------------
 -- Offer
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Offer ADD INDEX ndx_offer_number (`number` ASC);
+-- ALTER TABLE Offer ADD INDEX ndx_offer_number (`number` ASC); (no funciona con sintaxis para hsqldb:mem)
+CREATE INDEX ndx_offer_number on Offer (number ASC);
 ALTER TABLE Offer ADD COLUMN projectId INT(11) NULL;
 
 -- -----------------------------------------------------------------------------
