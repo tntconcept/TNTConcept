@@ -62,21 +62,21 @@
                 <h:outputText styleClass="info" value="Destinatario/s"/>
                 <h:inputText style="width: 312px" value="#{siiBean.to}"/>
 
-                <h:commandButton actionListener="#{siiBean.sendReport}" title="Enviar informe por correo"
+                <h:commandButton actionListener="#{siiBean.sendReport()}" title="Enviar informe por correo"
                                  value="Enviar informe por correo" />
             </h:panelGrid>
 
             <h:panelGrid columns="2" cellpadding="5" cellspacing="5" >
                 <h:outputText styleClass="info" value="Descargar informe para comprobar que todo está correcto"/>
 
-                <h:commandButton actionListener="#{siiBean.downloadReport}"
+                <h:commandButton actionListener="#{siiBean.downloadReport()}"
                                  title="Comprobar informe" value="Comprobar informe" />
             </h:panelGrid>
 
             <h:panelGrid columns="2" cellpadding="5" cellspacing="5" >
                 <h:outputText styleClass="warning2" value="Al enviar el informe a la gestoría, las facturas quedarán como emitidas"/>
 
-                <h:commandButton actionListener="#{siiBean.sendReportWebDav}"
+                <h:commandButton actionListener="#{siiBean.sendReportWebDav()}"
                                  onclick="return confirm('#{msg['question.confirmSend']}');"
                                  title="Enviar informe" value="Enviar informe" />
             </h:panelGrid>
