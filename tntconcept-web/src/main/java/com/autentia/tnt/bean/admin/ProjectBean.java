@@ -169,15 +169,14 @@ public class ProjectBean extends BaseBean {
     public List<SelectItem> getClients() {
 
         ArrayList<SelectItem> ret = new ArrayList<>();
-
-        if(project.getClient() != null ) {
+        if(project != null && project.getClient() != null ){
             ret.add(new SelectItem(project.getClient(), project.getClient().getName()));
-        }
-        else {
+        } else {
             for (Organization ref : clients) {
                 ret.add(new SelectItem(ref, ref.getName()));
             }
         }
+
 
         return ret;
     }
