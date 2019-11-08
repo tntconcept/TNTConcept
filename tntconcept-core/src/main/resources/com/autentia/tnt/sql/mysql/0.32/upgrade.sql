@@ -23,7 +23,7 @@
 -- Bill
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Bill ADD COLUMN submitted INT NULL DEFAULT 0 AFTER accountId;
+ALTER TABLE Bill ADD COLUMN submitted INT NOT NULL DEFAULT 0 AFTER accountId;
 UPDATE Bill SET submitted = 1 WHERE 1 = 1;
 
 -- -----------------------------------------------------------------------------
