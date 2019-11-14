@@ -20,6 +20,7 @@ package com.autentia.tnt.bean.billing;
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.businessobject.Bill;
 import com.autentia.tnt.businessobject.BillType;
+import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.BillSearch;
 import com.autentia.tnt.mail.DefaultMailService;
@@ -45,6 +46,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 
 /**
  * UI bean for Bill objects.
@@ -89,6 +91,9 @@ public class SiiBean extends BaseBean {
                         manager.updateEntity( bill );
                     }
                 }
+
+                context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informe enviado correctamente",null));
             }
             catch (IOException ioe) {
                 context = FacesContext.getCurrentInstance();
@@ -365,24 +370,27 @@ public class SiiBean extends BaseBean {
         Calendar calendar = Calendar.getInstance();
 
         String expirationDate = "";
+        Organization organization = null;
 
         switch (selectedType) {
             case ISSUED:  // ventas
                 calendar.setTime( bill.getCreationDate() );
                 expirationDate = simpleDateFormat.format( bill.getCreationDate() );
-            break;
+                organization = bill.getProject().getClient();
+                break;
             case RECIEVED:  // compras
                 calendar.setTime( bill.getInsertDate() );
                 expirationDate = simpleDateFormat.format( bill.getInsertDate() );
+                organization = bill.getProvider();
         }
 
-        boolean foreignOrganitation = !bill.getProvider().getCountry().isEmpty();
+        boolean nationalOrganitation = Pattern.matches("(ES)?([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])", organization.getCif());
 
-        String cif = ( !foreignOrganitation ) ? bill.getProvider().getCif()  : "";
-        String providerName = bill.getProvider().getName();
-        String documentType = ( foreignOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
-        String europeCif = ( foreignOrganitation ) ? bill.getProvider().getCif()  : ""; // Cuando la empresa sea extranjera
-        String country = bill.getProvider().getCountry();
+        String cif = ( nationalOrganitation ) ? organization.getCif()  : "";
+        String providerName = organization.getName();
+        String documentType = ( !nationalOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
+        String europeCif = ( !nationalOrganitation ) ? organization.getCif()  : ""; // Cuando la empresa sea extranjera
+        String country = ( !nationalOrganitation ) ? organization.getCountry() : "";
         String orderNumber = bill.getOrderNumber();
         String creacionDate = simpleDateFormat.format( bill.getCreationDate() );
         String year = Integer.toString(calendar.get(Calendar.YEAR));
