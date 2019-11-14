@@ -18,25 +18,9 @@
 package com.autentia.tnt.bean.activity;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -106,8 +90,6 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.SettingPath;
 import com.autentia.tnt.util.SpringUtils;
-
-import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 
 /**
  * UI bean for Activity objects.
@@ -274,7 +256,6 @@ public class ActivityBean extends BaseBean {
 
 		// Only show entries for current user
 		search.setUser(authManager.getCurrentPrincipal().getUser());
-
 	}
 
 	/**
@@ -1573,11 +1554,16 @@ public class ActivityBean extends BaseBean {
 		return (daysInMonth - weekendsInMonth - holidays - requestedHolidays) * hoursPerDay;
 	}
 
-	public float getWorkHours() {
+	private float getYearWorkHours() {
 		ActivitySearch activitySearch = new ActivitySearch();
 		float workHours = 0;
 
+		Date startStartDate = new GregorianCalendar(getSelectedYear(), 0, 1).getTime();
+		Date endStartDate = new GregorianCalendar(getSelectedYear(), 11, 31).getTime();
+
 		activitySearch.setUser( authManager.getCurrentPrincipal().getUser() );
+		activitySearch.setStartStartDate(startStartDate);
+		activitySearch.setEndStartDate(endStartDate);
 
 		List<Activity> activities = manager.getAllEntities(activitySearch, new SortCriteria("startDate", true));
 
@@ -1588,14 +1574,24 @@ public class ActivityBean extends BaseBean {
 		return Math.round( workHours / 60 );
 	}
 
-	public float getTotalHours() {
+	private int getSelectedYear() {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		if (selectedDate == null) {
+			cal.setTime(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		} else {
+			cal.setTime(selectedDate);
+		}
+
+		return cal.get(Calendar.YEAR);
+	}
+
+	private float getTotalHoursOfYear() {
 		float suma = 0;
 		float hoursPerDay = getHoursPerDay();
         int daysInMonth;
         Calendar today = Calendar.getInstance();
 
-		LocalDate now = LocalDate.now();
-		LocalDate firstDay = now.with(firstDayOfYear());
+		LocalDate firstDay = LocalDate.of(getSelectedYear(), 1 , 1);
 		Date date = java.sql.Date.valueOf( firstDay );
 
 		cal.clear();
@@ -2158,7 +2154,7 @@ public class ActivityBean extends BaseBean {
 
 	public int getYearTotalHours() {
 
-        this.yearTotalHours = Math.round( getTotalHours() );
+        this.yearTotalHours = Math.round( getTotalHoursOfYear() );
         return yearTotalHours;
 	}
 
@@ -2167,7 +2163,7 @@ public class ActivityBean extends BaseBean {
 	}
 
 	public int getWorkTotalHours() {
-        this.workTotalHours = Math.round( getWorkHours() );
+        this.workTotalHours = Math.round( getYearWorkHours() );
 	    return workTotalHours;
 	}
 
