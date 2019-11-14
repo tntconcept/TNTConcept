@@ -374,8 +374,10 @@ public class ProjectBean extends BaseBean {
             manager.updateEntity(project);
         }
 
-        offer.setProject(project);
-        OfferManager.getDefault().updateEntity(offer);
+        if(offer != null){
+            offer.setProject(project);
+            OfferManager.getDefault().updateEntity(offer);
+        }
 
         // Unselect object
         project = null;
