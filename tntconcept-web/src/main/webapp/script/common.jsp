@@ -67,6 +67,18 @@ function openFile( type, id, file, mime )
    }
 }
 
+function openFile(year, month, fileName, mime) {
+	var url = '<%=request.getContextPath()%>/doc/activity/images/'+year+'/'+month+'/'+fileName+'?'+'mime='+escape(mime);
+	try {
+		var v = window.open( url, "", "left=20,top=20,width=800,height=600,"+
+				"scrollbars=yes,resizable=yes,menubar=yes,status=yes,toolbar=yes" );
+		v.focus();
+
+	} catch(e) {
+		alert("Se ha impedido abrir la ventana por algún programa de bloqueo de ventanas emergentes...");
+	}
+}
+
 // Function to open attached files
 function openDocumentFile( file )
 {

@@ -100,7 +100,7 @@
 	  <%-- Field: startTime --%>
 	  	<h:outputText value="*#{msg['activity.startTime']}:" />
 	      <h:panelGroup>
-	        <h:message styleClass="error" showSummary="true" showDetail="true" for="startDate" />
+	        <h:message styleClass="error" showSummary="true" showDetail="true" for="startTimeHour" />
 	        <t:inputText id="startTimeHour" value="#{activityBean.startTimeHour}" size="2" maxlength="2" validator="#{activityBean.validateHours}">
 	        	<t:jsValueChangeListener for="endTimeHour" property="value" expressionValue="actualizeTimeFields($srcElem, 'tabActivity');" />
 	        	<f:validateDoubleRange minimum="0" maximum="23"/>
@@ -114,7 +114,7 @@
 	  <%-- Field: endTime --%>
 	  	<h:outputText value="*#{msg['activity.finishTime']}:" />
           <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="true" for="endDate" />
+            <h:message styleClass="error" showSummary="true" showDetail="true" for="endTimeHour" />
             <t:inputText id="endTimeHour" value="#{activityBean.endTimeHour}" size="2" maxlength="2" validator="#{activityBean.validateHours}">
 	        	<t:jsValueChangeListener for="duration" property="value" expressionValue="actualizeTimeFields($srcElem, 'tabActivity');" />
 	        	<f:validateDoubleRange minimum="0" maximum="23"/>
@@ -191,6 +191,22 @@
               	<f:converter converterId="autentia.EntityConverter"/>
             </t:selectOneRadio>
           </h:panelGroup>
+
+		<%-- Field: image --%>
+		<h:outputText value="*#{msg['activity.image']}:"/>
+		<h:panelGroup>
+			<i:activityImageFileLink insertionDate="${activityBean.insertDate}" fileName="${activityBean.imageFileName}"/>
+			<h:commandLink action="#{activityBean.deleteImageFile}" rendered="#{activityBean.deleteImageAvailable}"
+						   onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
+				<h:graphicImage value="/img/delete.gif" styleClass="image-inline" />
+			</h:commandLink>
+			<h:message styleClass="error" showSummary="true" showDetail="false" for="activityImage" />
+			<t:inputFileUpload id="activityImage" size="58" value="#{activityBean.uploadedImage}" storage="file" accept="image/*"/>
+			<div class="detailForm">
+				<i:imgActivity insertionDate="${activityBean.insertDate}" fileName="${activityBean.imageFileName}"/>
+			</div>
+		</h:panelGroup>
+
           
   </h:panelGrid>
   
@@ -228,7 +244,7 @@
 	  <%-- Field: startTime --%>
 	  	<h:outputText value="*#{msg['externalActivity.startTime']}:" />
 	      <h:panelGroup>
-	        <h:message styleClass="error" showSummary="true" showDetail="true" for="startDate" />
+	        <h:message styleClass="error" showSummary="true" showDetail="true" for="startTimeHour" />
 	        <t:inputText id="startTimeHour" value="#{activityBean.externalActivityStartTimeHour}" size="2" maxlength="2" validator="#{activityBean.validateHours}" required="#{activityBean.selectedTab == 1}" immediate="true">
 	        	<t:jsValueChangeListener for="endTimeHour" property="value" expressionValue="actualizeTimeFields($srcElem, 'tabExternalActivity');" />
 	        	<f:validateDoubleRange minimum="0" maximum="23"/>
@@ -242,7 +258,7 @@
 	  <%-- Field: endTime --%>
 	  	<h:outputText value="*#{msg['externalActivity.finishTime']}:" />
           <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="true" for="endDate" />
+            <h:message styleClass="error" showSummary="true" showDetail="true" for="endTimeHour" />
             <t:inputText id="endTimeHour" value="#{activityBean.externalActivityEndTimeHour}" size="2" maxlength="2" validator="#{activityBean.validateHours}" required="#{activityBean.selectedTab == 1}" immediate="true">
             	<t:jsValueChangeListener for="duration" property="value" expressionValue="actualizeTimeFields($srcElem, 'tabExternalActivity');" />
 	        	<f:validateDoubleRange minimum="0" maximum="23"/>
@@ -256,7 +272,7 @@
      <%-- Field: duration --%>
         <h:outputText value="#{msg['externalActivity.duration']}"/>
           <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="externalActivityDuration" />
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="duration" />
             <h:inputText id="duration" value="#{activityBean.externalActivityDuration}" required="false" size="3" validator="#{activityBean.validateHours}"  >
               <t:jsValueChangeListener for="endTimeHour" property="value" expressionValue="actualizeTimeFields($srcElem, 'tabExternalActivity');" />
               <f:converter converterId="autentia.MinuteToHourConverter"/>
@@ -353,7 +369,7 @@
 				</t:dataTable>
               
             </h:panelGroup>
-          
+
 						
    
   </h:panelGrid>
@@ -361,5 +377,6 @@
 </t:panelTabbedPane>
 	</h:form>
 </f:view>
+
 </body>
 </html>

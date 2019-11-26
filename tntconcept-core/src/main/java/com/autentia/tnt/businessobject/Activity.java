@@ -86,10 +86,21 @@ public class Activity implements Serializable, ITransferObject {
     
   private ProjectRole role;
 
-        	 	
 
-  // Setters and getters
-  
+
+  private String imageFileName;
+
+
+
+    // Setters and getters
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
   
   
   public Integer getId() {

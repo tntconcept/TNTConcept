@@ -37,6 +37,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.dao.search.*;
+import com.autentia.tnt.upload.impl.ActivityImageUploader;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -248,6 +249,10 @@ public class ActivityBean extends BaseBean {
 	private BitacoreTabChangeListener listener = new BitacoreTabChangeListener();
 
 	private int selectedTab;
+
+	private UploadedFile uploadedImage;
+
+	private String imageFileName;
 
 	/**
 	 * Constructor
@@ -867,12 +872,30 @@ public class ActivityBean extends BaseBean {
 
 		doBeforeSave();
 
+//		activity.setHasImage(uploadedImage != null);
+
 		if (activity.getId() == null) {
+			if (uploadedImage != null) {
+				activity.setImageFileName(ActivityImageUploader.store(uploadedImage, new Date()));
+			}
 			manager.insertEntity(activity);
 		} else {
+			if (uploadedImage != null) {
+				boolean canUploadNewImage = false;
+
+				if (activity.getImageFileName() != null) {
+					canUploadNewImage = ActivityImageUploader.remove(activity);
+				} else {
+					canUploadNewImage = true;
+				}
+
+				if (canUploadNewImage) {
+					activity.setImageFileName(ActivityImageUploader.store(uploadedImage, new Date()));
+				}
+			}
+
 			manager.updateEntity(activity);
 		}
-
 		// Calls an after save action
 		String result = doAfterSave(NavigationResults.LIST);
 
@@ -892,6 +915,8 @@ public class ActivityBean extends BaseBean {
 		// activityDAO.delete(activity);
 
 		Activity act = manager.getEntityById(activity.getId());
+
+		ActivityImageUploader.remove(act);
 		manager.deleteEntity(act);
 		// manager.deleteEntity(activity);
 		act = null;
@@ -2169,5 +2194,36 @@ public class ActivityBean extends BaseBean {
 
 	public void setWorkTotalHours(int workTotalHours) {
 		this.workTotalHours = workTotalHours;
+	}
+
+	public UploadedFile getUploadedImage() {
+		return uploadedImage;
+	}
+
+	public void setUploadedImage(UploadedFile uploadedImage) {
+		this.uploadedImage = uploadedImage;
+	}
+
+	public String getImageFileName() {
+		return activity.getImageFileName();
+	}
+
+	public void setImageFileName(String imageFileName) {
+		activity.setImageFileName(imageFileName);
+	}
+
+	public String deleteImageFile() {
+		if (ActivityImageUploader.remove(activity)) {
+			activity.setImageFileName(null);
+		}
+		return save();
+	}
+
+	public boolean isDeleteImageAvailable() {
+		return activity.getImageFileName() != null;
+	}
+
+	public Date getInsertDate() {
+		return activity.getInsertDate();
 	}
 }

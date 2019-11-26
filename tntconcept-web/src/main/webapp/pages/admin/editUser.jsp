@@ -536,19 +536,19 @@
                                   
   
       <%-- Field: photo --%>
-    <tr>
-    	    		<td class="editLabelRW">${msg['user.photo']}:</td>
-    	      
-      <td class="editFieldCell">
+            <tr>
+                <td class="editLabelRW">${msg['user.photo']}:</td>
 
-        	  	    <i:fileLink type="user" objectId="${userBean.id}" file="${userBean.photo}" /> 
-	            <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="photo" />
-            <t:inputFileUpload id="photo" size="58" value="#{userBean.uploadPhoto}" storage="file"  />
-          </h:panelGroup>
+                <td class="editFieldCell">
 
-              </td>
-    </tr>
+                    <i:fileLink type="user" objectId="${userBean.id}" file="${userBean.photo}"/>
+                    <h:panelGroup>
+                        <h:message styleClass="error" showSummary="true" showDetail="false" for="photo"/>
+                        <t:inputFileUpload id="photo" size="58" value="#{userBean.uploadPhoto}" storage="file"/>
+                    </h:panelGroup>
+
+                </td>
+            </tr>
                                   
   
       <%-- Field: endTestPeriodDate --%>

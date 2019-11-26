@@ -63,6 +63,34 @@
     </attribute>
   </tag>
 
+    <tag>
+        <description>
+            Tag to render a link to an attached image from activity imputation. If the file is empty
+            nothing is rendered.
+        </description>
+        <name>activityImageFileLink</name>
+        <tag-class>com.autentia.tnt.tag.ActivityImageFileLinkTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Activity insert date to know directories to search</description>
+            <name>insertionDate</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Image file name with extension</description>
+            <name>fileName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Mime type of file.</description>
+            <name>mime</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
   <tag>
     <description>
     		Tag to render a standard page header. Relies on title, titleText and titleImg
@@ -147,5 +175,27 @@
         <rtexprvalue>true</rtexprvalue>
     </attribute>    
   </tag>
+
+    <tag>
+        <description>
+            Tag to render a img to an attached file. If the file is empty
+            nothing is rendered.
+        </description>
+        <name>imgActivity</name>
+        <tag-class>com.autentia.tnt.tag.ActivityImageTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Activity insertion date</description>
+            <name>insertionDate</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of the activity image</description>
+            <name>fileName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 
 </taglib>
