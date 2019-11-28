@@ -47,6 +47,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * UI bean for Bill objects.
@@ -74,12 +75,12 @@ public class SiiBean extends BaseBean {
     private static BillManager manager = BillManager.getDefault();
 
     public void sendReportWebDav() {
-        String url = configurationUtil.getWebdavHost();
-        String username = configurationUtil.getWebdavUser();
-        String password = configurationUtil.getWebdavPassword();
         String report = getReport();
 
         if( report != null) {
+            String url = configurationUtil.getWebdavHost();
+            String username = configurationUtil.getWebdavUser();
+            String password = configurationUtil.getWebdavPassword();
             Sardine sardine = SardineFactory.begin( username, password );
             InputStream file =  getStreamReport( report );
             try{
@@ -94,21 +95,23 @@ public class SiiBean extends BaseBean {
 
                 context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informe enviado correctamente",null));
+                
             }
             catch (IOException ioe) {
                 context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se ha producido un error al enviar el informe",null));
+                
             }
         }
     }
 
     public void sendReport() {
-        Map<InputStream, String> attachments = new ConcurrentHashMap<>();
-
-        String filename = reportName();
         String report = getReport();
 
         if( report != null) {
+            Map<InputStream, String> attachments = new ConcurrentHashMap<>();
+            String filename = reportName();
+
             attachments.put( getStreamReport( report ), filename );
 
             String subject = "SII_" + filename.split(".csv")[0];
@@ -121,6 +124,10 @@ public class SiiBean extends BaseBean {
 
                     MailService mailService = (DefaultMailService) SpringUtils.getSpringBean("mailService");
                     mailService.sendOutputStreams(recipients, subject, "", attachments);
+
+                    context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Email enviado correctamente",null));
+
                 }
                 catch ( MessagingException e ) {
                     System.err.println( e.getMessage() );
@@ -136,6 +143,7 @@ public class SiiBean extends BaseBean {
 
         if( report != null) {
             context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Informe descargado correctamente",null));
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
             response.reset();
@@ -173,7 +181,8 @@ public class SiiBean extends BaseBean {
         
         if (bills.isEmpty()) {
             context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"No hay facturas para enviar",null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No hay facturas para enviar",null));
+            
             return null;
         }
 
@@ -195,8 +204,16 @@ public class SiiBean extends BaseBean {
     private String generateCSVBody (final List<Bill> bills) {
         final StringBuilder body = new StringBuilder();
         body.append(this.generateCSVHeader());
-        for (Bill bill: bills)
+        for (Bill bill: bills) {
+            if (areRequiredFieldsNull(bill)) {
+                context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "No se ha podido generar el informe porque algunos campos están vacios",null));
+                
+                return null;
+            }
             body.append(this.generateCSVItem(bill));
+        }
 
         return body.toString();
     }
@@ -364,6 +381,7 @@ public class SiiBean extends BaseBean {
      * @return the different lines of the CSV document
      */
     private String generateCSVItem (final Bill bill) {
+
         final StringBuilder item = new StringBuilder();
         Map<String, BigDecimal> costData = new HashMap<>();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy");
@@ -425,6 +443,31 @@ public class SiiBean extends BaseBean {
         item.append( this.returnLine());
 
         return item.toString();
+    }
+
+    private boolean areRequiredFieldsNull(Bill bill) {
+
+        Organization organization = (selectedType.compareTo(BillType.ISSUED) == 0) ?
+                bill.getProject().getClient() :
+                bill.getProvider();
+
+        List<Object> fields = Arrays.asList(
+                bill.getCreationDate(),
+                bill.getInsertDate(),
+                organization,
+                organization.getName(),
+                organization.getCif(),
+                organization.getCountry(),
+                bill.getOrderNumber(),
+                bill.getCreationDate(),
+                bill.getTotal(),
+                bill.getBreakDown().iterator().next().getIva(),
+                bill.getTotalNoTaxes(),
+                bill.getTotal()
+        );
+
+        return fields.stream().anyMatch(field -> (field == null || field.toString().trim().isEmpty()));
+
     }
 
     private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item, String description) {
@@ -590,6 +633,7 @@ public class SiiBean extends BaseBean {
         selectedType = BillType.ISSUED;
         configurationUtil = ConfigurationUtil.getDefault();
         to = configurationUtil.getSiiRecipients();
+        
     }
     
     public Date getStartDate() {
