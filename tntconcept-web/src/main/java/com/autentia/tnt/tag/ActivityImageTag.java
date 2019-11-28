@@ -14,11 +14,14 @@ public class ActivityImageTag extends TagSupport {
 
     private String fileName;
 
+    private boolean rendered;
+
     @Override
     public void release() {
         super.release();
         insertionDate = null;
         fileName = null;
+        rendered = false;
     }
 
     @Override
@@ -34,7 +37,9 @@ public class ActivityImageTag extends TagSupport {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH) + 1;
 
-                out.print("<img src=\"" + request.getContextPath() + "/doc/activity/images/" + year + "/" + month + "/" + fileName + "\">");
+                if (rendered) {
+                    out.print("<img src=\"" + request.getContextPath() + "/doc/activity/images/" + year + "/" + month + "/" + fileName + ".jpg" + "\">");
+                }
             }
         } catch (IOException e) {
             throw new JspException("Error rendering imgTag");
@@ -57,5 +62,13 @@ public class ActivityImageTag extends TagSupport {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public boolean isRendered() {
+        return rendered;
+    }
+
+    public void setRendered(boolean rendered) {
+        this.rendered = rendered;
     }
 }

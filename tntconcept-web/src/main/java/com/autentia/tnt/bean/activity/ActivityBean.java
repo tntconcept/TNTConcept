@@ -252,7 +252,6 @@ public class ActivityBean extends BaseBean {
 
 	private UploadedFile uploadedImage;
 
-	private String imageFileName;
 
 	/**
 	 * Constructor
@@ -874,28 +873,17 @@ public class ActivityBean extends BaseBean {
 
 //		activity.setHasImage(uploadedImage != null);
 
+		if (uploadedImage != null) {
+			activity.setHasImage(ActivityImageUploader.store(uploadedImage, activity));
+		}
+
 		if (activity.getId() == null) {
-			if (uploadedImage != null) {
-				activity.setImageFileName(ActivityImageUploader.store(uploadedImage, new Date()));
-			}
+			//activity.setHasImage(uploadedImage != null);
 			manager.insertEntity(activity);
 		} else {
-			if (uploadedImage != null) {
-				boolean canUploadNewImage = false;
-
-				if (activity.getImageFileName() != null) {
-					canUploadNewImage = ActivityImageUploader.remove(activity);
-				} else {
-					canUploadNewImage = true;
-				}
-
-				if (canUploadNewImage) {
-					activity.setImageFileName(ActivityImageUploader.store(uploadedImage, new Date()));
-				}
-			}
-
 			manager.updateEntity(activity);
 		}
+
 		// Calls an after save action
 		String result = doAfterSave(NavigationResults.LIST);
 
@@ -2204,23 +2192,15 @@ public class ActivityBean extends BaseBean {
 		this.uploadedImage = uploadedImage;
 	}
 
-	public String getImageFileName() {
-		return activity.getImageFileName();
-	}
-
-	public void setImageFileName(String imageFileName) {
-		activity.setImageFileName(imageFileName);
-	}
-
 	public String deleteImageFile() {
 		if (ActivityImageUploader.remove(activity)) {
-			activity.setImageFileName(null);
+			activity.setHasImage(false);
 		}
 		return save();
 	}
 
-	public boolean isDeleteImageAvailable() {
-		return activity.getImageFileName() != null;
+	public boolean isImageAvailable() {
+		return activity.isHasImage();
 	}
 
 	public Date getInsertDate() {

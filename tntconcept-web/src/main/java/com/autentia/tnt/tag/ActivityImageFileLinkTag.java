@@ -42,6 +42,8 @@ public class ActivityImageFileLinkTag extends TagSupport {
 	private String fileName;
 
 	private String mime;
+
+	private boolean rendered;
 	
 	@Override
 	public void release() {
@@ -49,6 +51,7 @@ public class ActivityImageFileLinkTag extends TagSupport {
 		insertionDate = null;
 		fileName = null;
 		mime = null;
+		rendered = false;
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class ActivityImageFileLinkTag extends TagSupport {
 		
 		try
 		{
-			if( fileName!=null && !fileName.equals("") )
+			if(rendered && fileName!=null && !fileName.equals(""))
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(insertionDate);
@@ -69,13 +72,13 @@ public class ActivityImageFileLinkTag extends TagSupport {
 				out.print("<a href=\"#\" onclick=\"openFile(");
 				out.print("'"+year+"',");
 				out.print(month+",");
-				out.print("'"+fileName+"',");
+				out.print("'"+fileName + ".jpg"+"',");
 				out.println("'"+mime+"');return false;\">");
 				
 				out.print("<img src='"+request.getContextPath()+"/img/yellow-folder-open.png'"); 
 				out.println(" style='border:0; vertical-align:middle;'>");
 
-				out.print(" "+fileName);
+				out.print("Imagen.jpg");
 				out.print("</a>");
 				out.print("<br/>"); 
 			}
@@ -110,5 +113,13 @@ public class ActivityImageFileLinkTag extends TagSupport {
 
 	public void setMime(String mime) {
 		this.mime = mime;
+	}
+
+	public boolean isRendered() {
+		return rendered;
+	}
+
+	public void setRendered(boolean rendered) {
+		this.rendered = rendered;
 	}
 }

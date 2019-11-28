@@ -23,7 +23,7 @@
 -- Activity
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Activity ADD imageFileName char(255);
+ALTER TABLE Activity ADD hasImage BOOLEAN DEFAULT FALSE;
 
 -- -----------------------------------------------------------------------------
 -- Version
