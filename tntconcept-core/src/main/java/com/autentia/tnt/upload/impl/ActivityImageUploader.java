@@ -11,8 +11,10 @@ import java.util.Date;
 
 public class ActivityImageUploader {
 
-    public static String store(UploadedFile file, Date date) {
-        String fileName = generateFileName(date, FilenameUtils.getExtension(file.getName()));
+    private static final String EXTENSION = ".jpg";
+
+    public static boolean store(UploadedFile file, Activity activity) {
+        String fileName = generateFileName(activity.getInsertDate(),activity.getId());
         File destinationFile = new File(fileName);
 
         InputStream in = null;
@@ -30,6 +32,7 @@ public class ActivityImageUploader {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         } finally {
             if (in != null) {
                 try {
@@ -48,11 +51,11 @@ public class ActivityImageUploader {
             }
         }
 
-        return destinationFile.getName();
+        return true;
     }
 
     public static boolean remove(Activity activity) {
-        String filename = generateAbsolutePath(activity.getInsertDate(), activity.getImageFileName());
+        String filename = generateAbsolutePath(activity.getInsertDate(), activity.getId().toString());
         File fileToDelete = new File(filename);
         return fileToDelete.delete();
     }
@@ -61,26 +64,26 @@ public class ActivityImageUploader {
 
     }
 
-    private static String generateFileName(Date date, String extension) {
+    private static String generateFileName(Date date, long id) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
         String fileName = getBasePath() +
                 calendar.get(Calendar.YEAR) + "/" +
                 (calendar.get(Calendar.MONTH) + 1) + "/" +
-                date.getTime() + "." + extension;
+                id + EXTENSION;
 
         return fileName;
     }
 
-    private static String generateAbsolutePath(Date date, String nameWithExtension) {
+    private static String generateAbsolutePath(Date date, String name) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
         String fileName = getBasePath() +
                 calendar.get(Calendar.YEAR) + "/" +
                 (calendar.get(Calendar.MONTH) + 1) + "/" +
-                nameWithExtension;
+                name + EXTENSION;
 
         return fileName;
     }

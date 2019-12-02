@@ -88,18 +88,18 @@ public class Activity implements Serializable, ITransferObject {
 
 
 
-  private String imageFileName;
+  private boolean hasImage;
 
 
 
     // Setters and getters
 
-    public String getImageFileName() {
-        return imageFileName;
+    public boolean isHasImage() {
+        return hasImage;
     }
 
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
     }
   
   

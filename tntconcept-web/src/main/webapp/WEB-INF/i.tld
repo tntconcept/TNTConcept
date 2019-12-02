@@ -89,6 +89,12 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <description>Flag to set if element is rendered on screen</description>
+            <name>rendered</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 
   <tag>
@@ -193,6 +199,12 @@
         <attribute>
             <description>Name of the activity image</description>
             <name>fileName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Flag to render or not render the component</description>
+            <name>rendered</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>

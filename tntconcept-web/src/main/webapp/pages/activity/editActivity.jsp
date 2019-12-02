@@ -195,15 +195,15 @@
 		<%-- Field: image --%>
 		<h:outputText value="*#{msg['activity.image']}:"/>
 		<h:panelGroup>
-			<i:activityImageFileLink insertionDate="${activityBean.insertDate}" fileName="${activityBean.imageFileName}"/>
-			<h:commandLink action="#{activityBean.deleteImageFile}" rendered="#{activityBean.deleteImageAvailable}"
+			<i:activityImageFileLink insertionDate="${activityBean.insertDate}" fileName="${activityBean.id}" rendered="${activityBean.imageAvailable}"/>
+			<h:commandLink action="#{activityBean.deleteImageFile}" rendered="#{activityBean.imageAvailable}"
 						   onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;">
 				<h:graphicImage value="/img/delete.gif" styleClass="image-inline" />
 			</h:commandLink>
 			<h:message styleClass="error" showSummary="true" showDetail="false" for="activityImage" />
-			<t:inputFileUpload id="activityImage" size="58" value="#{activityBean.uploadedImage}" storage="file" accept="image/*"/>
+			<t:inputFileUpload id="activityImage" size="58" value="#{activityBean.uploadedImage}" storage="file" accept="image/jpeg"/>
 			<div class="detailForm">
-				<i:imgActivity insertionDate="${activityBean.insertDate}" fileName="${activityBean.imageFileName}"/>
+				<i:imgActivity insertionDate="${activityBean.insertDate}" fileName="${activityBean.id}" rendered="${activityBean.imageAvailable}"/>
 			</div>
 		</h:panelGroup>
 
