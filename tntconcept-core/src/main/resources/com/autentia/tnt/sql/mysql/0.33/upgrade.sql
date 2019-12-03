@@ -35,7 +35,7 @@ ALTER TABLE Offer DROP COLUMN projectId;
 -- Project
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Project ADD COLUMN offerId INT(11) NULL DEFAULT NULL
+ALTER TABLE Project ADD COLUMN offerId INT(11) NULL DEFAULT NULL;
 
 -- -----------------------------------------------------------------------------
 -- Version
