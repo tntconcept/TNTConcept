@@ -873,14 +873,15 @@ public class ActivityBean extends BaseBean {
 
 //		activity.setHasImage(uploadedImage != null);
 
-		if (uploadedImage != null) {
-			activity.setHasImage(ActivityImageUploader.store(uploadedImage, activity));
-		}
-
 		if (activity.getId() == null) {
-			//activity.setHasImage(uploadedImage != null);
 			manager.insertEntity(activity);
+			if (uploadedImage != null) {
+				activity.setHasImage(ActivityImageUploader.store(uploadedImage, activity));
+			}
 		} else {
+			if (uploadedImage != null) {
+				activity.setHasImage(ActivityImageUploader.store(uploadedImage, activity));
+			}
 			manager.updateEntity(activity);
 		}
 
