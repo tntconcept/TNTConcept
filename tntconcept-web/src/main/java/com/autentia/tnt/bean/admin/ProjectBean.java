@@ -25,8 +25,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlSelectOneMenu;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.*;
 
@@ -66,7 +64,6 @@ public class ProjectBean extends BaseBean {
 
     public String copy() {
         int id = Integer.parseInt(FacesUtils.getRequestParameter(ROW_ID));
-        offerNumberInput.setDisabled(true);
         copy(id);
         return NavigationResults.COPY_FROM_OFFER;
     }
@@ -84,31 +81,34 @@ public class ProjectBean extends BaseBean {
             project = new Project();
         }
 
+        if(project.getId() == null) {
+            HashSet<ProjectRole> roles = new HashSet<>();
+            HashSet<ProjectCost> costs = new HashSet<>();
+
+            for (OfferRole role : offer.getRoles()) {
+                ProjectRole pr = new ProjectRole();
+                pr.setName(role.getName());
+                pr.setCostPerHour(role.getCostPerHour());
+                pr.setExpectedHours(role.getExpectedHours());
+                roles.add(pr);
+            }
+
+            for (OfferCost cost : offer.getCosts()) {
+                ProjectCost pc = new ProjectCost();
+                pc.setName(cost.getName());
+                pc.setBillable(cost.isBillable());
+                pc.setCost(cost.getCost());
+                costs.add(pc);
+            }
+
+            project.setRoles(roles);
+            project.setCosts(costs);
+        }
+
         project.setClient(offer.getOrganization());
         project.setStartDate(new Date());
         project.setOpen(true);
 
-        HashSet<ProjectRole> roles = new HashSet<>();
-        HashSet<ProjectCost> costs = new HashSet<>();
-
-        for (OfferRole role : offer.getRoles()) {
-            ProjectRole pr = new ProjectRole();
-            pr.setName(role.getName());
-            pr.setCostPerHour(role.getCostPerHour());
-            pr.setExpectedHours(role.getExpectedHours());
-            roles.add(pr);
-        }
-
-        for (OfferCost cost : offer.getCosts()) {
-            ProjectCost pc = new ProjectCost();
-            pc.setName(cost.getName());
-            pc.setBillable(cost.isBillable());
-            pc.setCost(cost.getCost());
-            costs.add(pc);
-        }
-
-        project.setRoles(roles);
-        project.setCosts(costs);
     }
 
 
@@ -349,10 +349,7 @@ public class ProjectBean extends BaseBean {
         Integer id = Integer.parseInt(FacesUtils.getRequestParameter(ROW_ID));
         project = manager.getEntityById(id);
 
-        offerSearch.setProject( project );
-
-        List<Offer> offerList = OfferManager.getDefault().getAllEntities(offerSearch, new SortCriteria("number", true));
-        String offerNumber = (!offerList.isEmpty()) ? offerList.get(0).getNumber(): "";
+        String offerNumber = (project.getOffer() != null ) ? project.getOffer().getNumber(): "";
         offerNumberInput.setValue(offerNumber);
 
         return SpringUtils.isAclPermissionGranted(project, BasePermission.WRITE)
@@ -368,15 +365,14 @@ public class ProjectBean extends BaseBean {
 
         doBeforeSave();
 
+        if(offer != null && (project.getOffer() == null || !project.getOffer().equals(offer))){
+            project.setOffer(offer);
+        }
+
         if (project.getId() == null) {
             manager.insertEntity(project);
         } else {
             manager.updateEntity(project);
-        }
-
-        if(offer != null){
-            offer.setProject(project);
-            OfferManager.getDefault().updateEntity(offer);
         }
 
         // Unselect object
@@ -392,6 +388,8 @@ public class ProjectBean extends BaseBean {
     public String delete() {
         manager.deleteEntity(project);
         project = null;
+        offerNumberInput.setValue("");
+        offerNumberList.clear();
         return NavigationResults.LIST;
     }
 
@@ -401,7 +399,7 @@ public class ProjectBean extends BaseBean {
      */
     public String list() {
         offerNumberInput.setValue("");
-        setOfferNumberList(new ArrayList<>());
+        offerNumberList.clear();
         return NavigationResults.LIST;
     }
 
@@ -1013,6 +1011,7 @@ public class ProjectBean extends BaseBean {
         }
 
         offerNumberInput.setValue("");
+        offerNumberList.clear();
 
         return null;
     }
@@ -1069,7 +1068,7 @@ public class ProjectBean extends BaseBean {
         this.offerNumberInput = offerNumberInput;
     }
 
-    public List<Offer> getOfferNumberList() {
+    private List<Offer> getOfferNumberList() {
         return offerNumberList;
     }
 
@@ -1086,7 +1085,7 @@ public class ProjectBean extends BaseBean {
     }
 
 
-    public void setOfferNumberList(List<Offer> offerNumberList) {
+    private void setOfferNumberList(List<Offer> offerNumberList) {
         this.offerNumberList = offerNumberList;
     }
 
