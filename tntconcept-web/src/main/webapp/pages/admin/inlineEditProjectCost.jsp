@@ -24,11 +24,11 @@
 <%@include file="/inc/uiCore.jsp" %>
 
 <%-- List of projectCosts --%>
-<t:dataTable id="costs" var="item" value="#{projectBean.costs}" preserveDataModel="false" 
-    cellpadding="0" cellspacing="0" styleClass="editListTable" 
-    headerClass="editListHeaderCell" footerClass="editListFooter" 
-    rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
-    columnClasses="listCmdCell,editListProjectCostName,editListProjectCostCost,editListProjectCostBillable">
+<t:dataTable id="costs" var="item" value="#{projectBean.costs}" preserveDataModel="false"
+             cellpadding="0" cellspacing="0" styleClass="editListTable"
+             headerClass="editListHeaderCell" footerClass="editListFooter"
+             rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
+             columnClasses="listCmdCell,editListProjectCostName,editListProjectCostCost,editListProjectCostBillable">
 
   <%-- Commands --%>
   <h:column>

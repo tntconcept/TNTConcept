@@ -64,8 +64,6 @@ public class Offer implements Serializable, ITransferObject {
 
 	private Organization organization;
 
-	private Project project;
-
 	private Contact contact;
 
 	private OfferRejectReason offerRejectReason;
@@ -405,13 +403,6 @@ public class Offer implements Serializable, ITransferObject {
 		this.showIvaIntoReport = showIvaIntoReport;
 	}
 
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
 
 	@Override
 	public boolean equals(Object that) {

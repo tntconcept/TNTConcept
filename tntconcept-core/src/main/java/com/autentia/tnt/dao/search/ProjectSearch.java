@@ -231,8 +231,15 @@ public class ProjectSearch extends SearchCriteria
       }
     }
 
-                      
-    
+      if( isOfferSet() ){
+          ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+          if( getOffer()==null ){
+              ret.append( "offer is NULL" );
+          } else {
+              ret.append( "offer = :arg"+(iArgNum++) );
+          }
+      }
+
       if( isRolesSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
       ret.append( "roles.id IN (:arg"+(iArgNum++)+")" );
@@ -330,7 +337,9 @@ public class ProjectSearch extends SearchCriteria
         ret.add( client );
     }
 
-                      
+      if( isOfferSet() && getOffer()!=null ){
+          ret.add( offer );
+      }
   
             
     if( isRolesSet() ){
@@ -407,7 +416,8 @@ public class ProjectSearch extends SearchCriteria
                   
   
       unsetClient();
-  
+
+      unsetOffer();
                       
   
       unsetRoles();
@@ -545,6 +555,13 @@ public class ProjectSearch extends SearchCriteria
           if( isClientSet() ){
           ret.append( "(client" );
           ret.append( "="+client );
+          ret.append( ")" );
+      }
+
+
+      if( isOfferSet() ){
+          ret.append( "(offer" );
+          ret.append( "="+offer );
           ret.append( ")" );
       }
 
@@ -825,9 +842,21 @@ public class ProjectSearch extends SearchCriteria
     public void unsetClient(){
         this.clientSet = false;
     }
-              
-  
-  
+
+
+    public boolean isOfferSet(){
+        return offerSet;
+    }
+    public Offer getOffer(){
+        return offer;
+    }
+    public void setOffer( Offer offer ){
+        this.offer = offer;
+        this.offerSet = true;
+    }
+    public void unsetOffer(){
+        this.offerSet = false;
+    }
     	    	        
     
     public boolean isRolesSet(){
@@ -925,6 +954,9 @@ public class ProjectSearch extends SearchCriteria
   
       private boolean clientSet;
         private Organization client;
+
+    private boolean offerSet;
+    private Offer offer;
   
               
   
@@ -939,7 +971,7 @@ public class ProjectSearch extends SearchCriteria
     
   // Returns if there are a search condition active
   public boolean isSearchActive() {
-    return customIsSearchActive()||startStartDateSet||endStartDateSet||startEndDateSet||endEndDateSet||openSet||nameSet||descriptionSet||billableSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||clientSet||rolesSet||costsSet;
+    return customIsSearchActive()||startStartDateSet||endStartDateSet||startEndDateSet||endEndDateSet||openSet||nameSet||descriptionSet||billableSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||clientSet||rolesSet||costsSet||offerSet;
   }
 
 

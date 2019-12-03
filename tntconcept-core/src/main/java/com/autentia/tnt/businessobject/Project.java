@@ -113,6 +113,8 @@ public class Project implements Serializable, ITransferObject
     
   private Organization client;
 
+  private Offer offer;
+
           
               
   private Set<ProjectRole> roles = new HashSet<ProjectRole>();
@@ -251,12 +253,16 @@ public class Project implements Serializable, ITransferObject
   public void setCosts( Set<ProjectCost> costs ) {
     this.costs = costs;
   }
-    
-    
-    
-    
-  
-  @Override
+
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
+    }
+
+    @Override
   public boolean equals( Object that )
   {
   	try {

@@ -44,5 +44,6 @@
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+    <many-to-one name="offer" class="com.autentia.tnt.businessobject.Offer" column="offerId" unique="true" />
   </class>
 </hibernate-mapping>

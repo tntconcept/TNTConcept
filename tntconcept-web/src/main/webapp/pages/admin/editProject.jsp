@@ -116,27 +116,13 @@
               </td>
     </tr>
 
-          <%-- Field: offer --%>
-          <tr>
-              <td class="editLabelRW">${msg['project.offer']}:</td>
-              <td class="editFieldCell">
-                  <h:panelGroup>
-                      <p:inputText disabled="#{projectBean.id != null}" id="offerNumberInput" immediate="true" binding="#{projectBean.offerNumberInput}" valueChangeListener="#{projectBean.refreshOfferList}"  onchange="submit();"/>
-                      <h:selectOneMenu rendered="#{projectBean.getFilterOffer().size() > 1}" id="offerNumberInputOneMenu" immediate="true" valueChangeListener="#{projectBean.refreshOffer}"  onchange="submit();">
-                          <f:selectItem itemDisabled="true" itemLabel="-- Selecciona una oferta --" itemValue="0"/>
-                          <f:selectItems value="#{projectBean.getFilterOffer()}" />
-                      </h:selectOneMenu>
-                  </h:panelGroup>
-              </td>
-          </tr>
-
           <%-- Field: name --%>
           <tr>
             <td class="editLabelRW">*${msg['project.name']}:</td>
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="name" />
-                <h:inputText id="name" value="#{projectBean.name}" size="70" maxlength="128" required="true" styleClass="requiredFieldClass"/>
+                <h:inputText id="name" value="#{projectBean.name}" size="70" maxlength="128" required="true" onchange="submit();" styleClass="requiredFieldClass"/>
               </h:panelGroup>
             </td>
           </tr>
@@ -151,7 +137,19 @@
               </h:panelGroup>
             </td>
           </tr>
-
+                  <%-- Field: offer --%>
+          <tr>
+              <td class="editLabelRW">${msg['project.offer']}:</td>
+              <td class="editFieldCell">
+                  <h:panelGroup>
+                      <p:inputText disabled="#{empty projectBean.name}" id="offerNumberInput" immediate="true" binding="#{projectBean.offerNumberInput}" valueChangeListener="#{projectBean.refreshOfferList}"  onchange="submit();"/>
+                      <h:selectOneMenu rendered="#{projectBean.getFilterOffer().size() > 1}" id="offerNumberInputOneMenu" immediate="true" valueChangeListener="#{projectBean.refreshOffer}"  onchange="submit();">
+                          <f:selectItem itemDisabled="true" itemLabel="-- Selecciona una oferta --" itemValue="0"/>
+                          <f:selectItems value="#{projectBean.getFilterOffer()}" />
+                      </h:selectOneMenu>
+                  </h:panelGroup>
+              </td>
+          </tr>
           <%-- Field: client --%>
           <tr>
             <td class="editLabelRW">*${msg['project.client']}:</td>
