@@ -342,8 +342,6 @@ public class ActivityBean extends BaseBean {
 			}
 		}
 
-		setRole( refs.get(0) );
-
 		return ret;
 	}
 
