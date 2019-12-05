@@ -85,6 +85,8 @@ public class BillBean extends BaseBean {
 	private int year = Calendar.getInstance().get(Calendar.YEAR);
 	
 	private boolean CREATE_BILL_PAYMENT = true;
+
+	private boolean readOnlyBill;
 	
 	private boolean DONT_CREATE_BILL_PAYMENT = false;
 	
@@ -1614,5 +1616,17 @@ public class BillBean extends BaseBean {
   	 */
   	public BigDecimal getUnpaid(){
 		return bill.getUnpaid();
-  	}      
+  	}
+
+	public BillBean() {
+		this.readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
+	}
+
+	public boolean isReadOnlyBill() {
+		return readOnlyBill;
+	}
+
+	public void setReadOnlyBill(boolean readOnlyBill) {
+		this.readOnlyBill = readOnlyBill;
+	}
 }

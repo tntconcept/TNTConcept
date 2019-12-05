@@ -35,7 +35,7 @@
             <f:facet name="header">
               <f:verbatim>-</f:verbatim>
             </f:facet>
-            <t:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.unselect}" onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;" immediate="true">
+            <t:commandLink action="#{billBean.unselect}" onclick="if( !confirm('#{msg['question.confirmDelete']}') ) return false;" immediate="true">
               <f:param name="idEntry" value="#{item.id}" />              
               <h:graphicImage title="#{msg.entityActions_delete}" value="/img/delete.gif" styleClass="cmdImg" />
             </t:commandLink>

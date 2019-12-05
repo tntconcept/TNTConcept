@@ -537,4 +537,8 @@ public class ConfigurationUtil {
         return getProperty("sii.webdav.password", "");
     }
 
+
+    public Boolean getReadOnlyBill() {
+        return Boolean.valueOf(getProperty("readOnlyBill", ""));
+    }
 }
