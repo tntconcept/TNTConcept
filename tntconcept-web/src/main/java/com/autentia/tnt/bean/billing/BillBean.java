@@ -1618,11 +1618,8 @@ public class BillBean extends BaseBean {
 		return bill.getUnpaid();
   	}
 
-	public BillBean() {
-		this.readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
-	}
-
 	public boolean isReadOnlyBill() {
+		this.readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
 		return readOnlyBill;
 	}
 
