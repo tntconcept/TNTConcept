@@ -193,7 +193,7 @@
           </h:panelGroup>
 
 		<%-- Field: image --%>
-		<h:outputText value="*#{msg['activity.image']}:"/>
+		<h:outputText value="#{msg['activity.image']}:"/>
 		<h:panelGroup>
 			<i:activityImageFileLink insertionDate="${activityBean.insertDate}" fileName="${activityBean.id}" rendered="${activityBean.imageAvailable}"/>
 			<h:commandLink action="#{activityBean.deleteImageFile}" rendered="#{activityBean.imageAvailable}"
