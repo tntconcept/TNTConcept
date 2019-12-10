@@ -477,4 +477,8 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
         return Boolean.valueOf(getProperty("enabledSendMail", "false"));
     }
 
+	public Boolean getReadOnlyBill() {
+		return Boolean.valueOf(getProperty("readOnlyBill", "true"));
+	}
+
 }

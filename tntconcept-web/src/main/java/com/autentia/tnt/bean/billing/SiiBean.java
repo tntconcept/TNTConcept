@@ -31,6 +31,7 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.SpringUtils;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
+import org.apache.commons.lang.StringUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -165,6 +166,7 @@ public class SiiBean extends BaseBean {
 
     private String getReport() {
         BillSearch search = new BillSearch();
+        context = FacesContext.getCurrentInstance();
 
         search.setBillType(selectedType);
 
@@ -180,10 +182,36 @@ public class SiiBean extends BaseBean {
         bills = manager.getAllEntities(search, new SortCriteria("startBillDate", true));
         
         if (bills.isEmpty()) {
-            context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No hay facturas para enviar",null));
-            
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No hay facturas para enviar",null));
             return null;
+        }
+
+        // Comprobamos la calidad del dato de cada factura antes de generar el informe
+        StringBuilder error = new StringBuilder();
+        for(Bill bill: bills){
+            String msg = areRequiredFieldsNull(bill);
+            if(msg != null){
+                error.append(msg).append('\n');
+            }
+        }
+
+        if( !StringUtils.isBlank(error.toString())) {
+            HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+
+            response.reset();
+            response.setContentType("text/txt");
+            response.setHeader("Content-Disposition", "attachment; filename=Fallo_en_facturas.txt");
+
+            try {
+                final PrintStream printStream = new PrintStream(response.getOutputStream());
+                printStream.print(error.toString());
+                printStream.close();
+                context.responseComplete();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                return null;
+            }
         }
 
         // se genera el contenido del csv
@@ -205,13 +233,6 @@ public class SiiBean extends BaseBean {
         final StringBuilder body = new StringBuilder();
         body.append(this.generateCSVHeader());
         for (Bill bill: bills) {
-            if (areRequiredFieldsNull(bill)) {
-                context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "No se ha podido generar el informe porque algunos campos están vacios",null));
-                
-                return null;
-            }
             body.append(this.generateCSVItem(bill));
         }
 
@@ -445,29 +466,43 @@ public class SiiBean extends BaseBean {
         return item.toString();
     }
 
-    private boolean areRequiredFieldsNull(Bill bill) {
+    private String areRequiredFieldsNull(Bill bill) {
 
         Organization organization = (selectedType.compareTo(BillType.ISSUED) == 0) ?
                 bill.getProject().getClient() :
                 bill.getProvider();
 
-        List<Object> fields = Arrays.asList(
-                bill.getCreationDate(),
-                bill.getInsertDate(),
-                organization,
-                organization.getName(),
-                organization.getCif(),
-                organization.getCountry(),
-                bill.getOrderNumber(),
-                bill.getCreationDate(),
-                bill.getTotal(),
-                bill.getBreakDown().iterator().next().getIva(),
-                bill.getTotalNoTaxes(),
-                bill.getTotal()
-        );
+        String organizationName = organization.getName();
+        StringBuilder error = new StringBuilder();
+        Map<String, String> fields = new HashMap<>();
 
-        return fields.stream().anyMatch(field -> (field == null || field.toString().trim().isEmpty()));
+        evaluateObject(bill.getCreationDate(), fields, "Fallo en la fecha de creación");
+        //evaluateObject(bill.getInsertDate(), fields, "Fallo en la fecha de inserción");
+        //evaluateObject(organization, fields, "Fallo en la organización");
+        //evaluateObject(organization.getName(), fields, "Nombre de la organización ("+organizationName+") vacío");
+        evaluateObject(organization.getCif(), fields, "CIF de la organización ("+organizationName+") vacío");
+        evaluateObject(organization.getCountry(), fields, "País de la organización ("+organizationName+") vacío");
+        evaluateObject(bill.getOrderNumber(), fields, "Número de pedido vacío");
+        evaluateObject(bill.getTotal(), fields, "Fallo en el desglose de la factura");
+        evaluateObject(bill.getBreakDown().iterator().next().getIva(), fields, "Fallo en el desglose de la factura");
+        evaluateObject(bill.getTotalNoTaxes(), fields, "Fallo en el desglose de la factura");
 
+
+        fields.forEach((k, v) -> error.append(v).append('\n'));
+
+        if(error.toString().trim().isEmpty()){
+            return null;
+        }
+
+        error.insert(0, "Fallo en la factura con numero "+bill.getNumber()+"\n");
+
+        return error.toString();
+    }
+
+    private void evaluateObject (Object object, Map<String, String> fields, String msg) {
+        if(object == null || (object instanceof String && StringUtils.isBlank((String) object))){
+            fields.put("FAILURE " + msg.hashCode(), msg);
+        }
     }
 
     private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item, String description) {

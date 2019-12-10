@@ -33,13 +33,13 @@
 	<h:column>
 		<f:facet name="header">
 			<h:panelGroup>
-				<t:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.createBillPayment}">
+				<t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" action="#{billBean.createBillPayment}">
 					<h:graphicImage title="#{msg.entityActions_new}"
 						value="/img/new.gif" styleClass="cmdImg" />
 				</t:commandLink>
 			</h:panelGroup>
 		</f:facet>
-		<t:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.deleteBillPayment}" immediate="true">
+		<t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" action="#{billBean.deleteBillPayment}" immediate="true">
 			<h:graphicImage title="#{msg.entityActions_delete}"
 				value="/img/delete.gif" styleClass="cmdImg" />
 		</t:commandLink>
@@ -58,7 +58,7 @@
 			                 required="true" styleClass="requiredFieldClass"
 							 renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true"
 							 popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
-							 readonly="#{billBean.bill.submitted == 1}" disabled="#{billBean.bill.submitted == 1}">
+							 readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
 			  <f:validator validatorId="autentia.dateValidator"/>				
 			</t:inputCalendar>
 		</h:panelGroup>
@@ -73,7 +73,7 @@
 			<h:message styleClass="error" showSummary="true" showDetail="false"
 				for="paymentAmount" />
 			<h:inputText id="paymentAmount" value="#{item.amount}" maxlength="11"
-				size="12" required="true" styleClass="requiredFieldClass" readonly="#{billBean.bill.submitted == 1}"/>
+				size="12" required="true" styleClass="requiredFieldClass" readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
 		</h:panelGroup>
 	</h:column>
 </t:dataTable>

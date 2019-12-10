@@ -34,15 +34,15 @@
   <h:column>
     <f:facet name="header">
     <h:panelGroup>
-      <t:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.createBreakDown}">
+      <t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" action="#{billBean.createBreakDown}">
         <h:graphicImage title="#{msg.entityActions_new}"  value="/img/new.gif" styleClass="cmdImg" />
       </t:commandLink>
-      <t:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.searchInBitacore}" immediate="true" rendered="#{billBean.puedoBuscarBitacore}">
+      <t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" action="#{billBean.searchInBitacore}" immediate="true" rendered="#{billBean.puedoBuscarBitacore}">
         <h:graphicImage title="#{msg['bill.useBitacore']}"  value="/img/calendar_on.gif" styleClass="cmdImg" />
       </t:commandLink>
       </h:panelGroup>
     </f:facet>
-    <t:commandLink disabled="#{billBean.bill.submitted == 1}" action="#{billBean.deleteBreakDown}" immediate="true">
+    <t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}    qº1" action="#{billBean.deleteBreakDown}" immediate="true">
       <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="cmdImg" />
     </t:commandLink>
   </h:column>
@@ -61,7 +61,7 @@
 		<h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="place" />
           <h:inputText id="place" value="#{item.place}" maxlength="3" size="3"  required="false" styleClass="requiredFieldClass"
-                       readonly="#{billBean.bill.submitted == 1}"/>
+                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
       
@@ -77,7 +77,7 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="concept" />
-          <h:inputTextarea id="concept" value="#{item.concept}" rows="3" cols="68" required="true" readonly="#{billBean.bill.submitted == 1}"/>
+          <h:inputTextarea id="concept" value="#{item.concept}" rows="3" cols="68" required="true" readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
       
@@ -96,7 +96,7 @@
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="units" />
           <h:inputText id="units" value="#{item.units}" maxlength="11" size="11"  required="true" styleClass="requiredFieldClass"
-                       readonly="#{billBean.bill.submitted == 1}"/>
+                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
       
@@ -115,7 +115,7 @@
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="amount" />
           <h:inputText id="amount" value="#{item.amount}" maxlength="11" size="12"  required="true" styleClass="requiredFieldClass"
-                       readonly="#{billBean.bill.submitted == 1}"/>
+                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
       
@@ -134,7 +134,7 @@
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="iva" />
           <h:inputText id="iva" value="#{item.iva}" maxlength="5" size="5"  required="true" styleClass="requiredFieldClass"
-                       readonly="#{billBean.bill.submitted == 1}"/>
+                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
       

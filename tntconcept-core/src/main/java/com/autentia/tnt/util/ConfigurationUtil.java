@@ -539,6 +539,6 @@ public class ConfigurationUtil {
 
 
     public Boolean getReadOnlyBill() {
-        return Boolean.valueOf(getProperty("readOnlyBill", ""));
+        return Boolean.valueOf(getProperty("readOnlyBill", "true"));
     }
 }

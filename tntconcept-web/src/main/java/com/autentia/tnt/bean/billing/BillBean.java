@@ -86,7 +86,7 @@ public class BillBean extends BaseBean {
 	
 	private boolean CREATE_BILL_PAYMENT = true;
 
-	private boolean readOnlyBill;
+	private boolean readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
 	
 	private boolean DONT_CREATE_BILL_PAYMENT = false;
 	
@@ -1619,7 +1619,6 @@ public class BillBean extends BaseBean {
   	}
 
 	public boolean isReadOnlyBill() {
-		this.readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
 		return readOnlyBill;
 	}
 
