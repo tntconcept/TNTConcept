@@ -42,7 +42,7 @@
       </t:commandLink>
       </h:panelGroup>
     </f:facet>
-    <t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}    qº1" action="#{billBean.deleteBreakDown}" immediate="true">
+    <t:commandLink disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" action="#{billBean.deleteBreakDown}" immediate="true">
       <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="cmdImg" />
     </t:commandLink>
   </h:column>
