@@ -139,6 +139,7 @@ public class ReportManager implements ContentHandler {
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.y.organizacion.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.organizacion.y.rol.jrxml");
+		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.y.horas.jrxml");
 
 		for (int i = 0; i < filesList.size(); i++) {
 			param = new ArrayList<ParameterReport>();
