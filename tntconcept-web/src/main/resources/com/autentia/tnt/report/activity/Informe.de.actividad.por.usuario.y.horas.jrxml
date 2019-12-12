@@ -91,8 +91,7 @@ from (
 		a.id
 	order by
 	    a.startDate,
-		o.name,
-		u.name
+		o.name
 ) as tabla]]></queryString>
 
     <field name="orgName" class="java.lang.String"/>
