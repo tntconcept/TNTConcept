@@ -481,4 +481,9 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 		return Boolean.valueOf(getProperty("readOnlyBill", "true"));
 	}
 
+	public int getMaxHoursByContract() {
+		return Integer.parseInt(getProperty("maxHoursByContract", ""));
+	}
+
+
 }

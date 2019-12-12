@@ -67,7 +67,7 @@
 			</t:div>
 
 			<t:div styleClass="progressBar"
-				   style="background-position: #{250 * ( -2 + activityBean.workTotalHours / activityBean.yearTotalHours )}px center;
+				   style="width: 300px;background-position: #{200 * ( -2 + activityBean.workTotalHours / activityBean.yearTotalHours )}px center;
 				   z-index:0; margin-left: 30px"
 				   rendered="#{(activityBean.scheduleModel.mode == 3)}">
 				<h:outputFormat value="[{0}h. / {1}h.] - [{2}h.] - " styleClass="progressBarText">

@@ -38,6 +38,7 @@ import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.dao.search.*;
 import com.autentia.tnt.upload.impl.ActivityImageUploader;
+import com.autentia.tnt.util.*;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,11 +87,6 @@ import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.manager.security.Permission;
 import com.autentia.tnt.upload.Uploader;
 import com.autentia.tnt.upload.UploaderFactory;
-import com.autentia.tnt.util.DateUtils;
-import com.autentia.tnt.util.FacesUtils;
-import com.autentia.tnt.util.FileUtil;
-import com.autentia.tnt.util.SettingPath;
-import com.autentia.tnt.util.SpringUtils;
 
 /**
  * UI bean for Activity objects.
@@ -568,7 +564,7 @@ public class ActivityBean extends BaseBean {
 	private String sortColumn = "startDate";
 
 	private int yearTotalHours;
-	private int workTotalHours;
+	private double workTotalHours;
 
 	/** Default sort order */
 	private boolean sortAscending = false;
@@ -1566,7 +1562,7 @@ public class ActivityBean extends BaseBean {
 		return (daysInMonth - weekendsInMonth - holidays - requestedHolidays) * hoursPerDay;
 	}
 
-	private float getYearWorkHours() {
+	private double getYearWorkHours() {
 		ActivitySearch activitySearch = new ActivitySearch();
 		float workHours = 0;
 
@@ -1583,7 +1579,7 @@ public class ActivityBean extends BaseBean {
 			workHours += activity.getDuration();
 		}
 
-		return Math.round( workHours / 60 );
+		return workHours / 60;
 	}
 
 	private int getSelectedYear() {
@@ -2166,7 +2162,12 @@ public class ActivityBean extends BaseBean {
 
 	public int getYearTotalHours() {
 
-        this.yearTotalHours = Math.round( getTotalHoursOfYear() );
+		boolean contractLowerThanLaborHours = ConfigurationUtil.getDefault().getMaxHoursByContract() < Math.round( getTotalHoursOfYear() );
+
+        this.yearTotalHours = (contractLowerThanLaborHours) ?
+				ConfigurationUtil.getDefault().getMaxHoursByContract() :
+				Math.round( getTotalHoursOfYear() );
+
         return yearTotalHours;
 	}
 
@@ -2174,12 +2175,12 @@ public class ActivityBean extends BaseBean {
 		this.yearTotalHours = yearTotalHours;
 	}
 
-	public int getWorkTotalHours() {
-        this.workTotalHours = Math.round( getYearWorkHours() );
+	public double getWorkTotalHours() {
+        this.workTotalHours = getYearWorkHours();
 	    return workTotalHours;
 	}
 
-	public void setWorkTotalHours(int workTotalHours) {
+	public void setWorkTotalHours(double workTotalHours) {
 		this.workTotalHours = workTotalHours;
 	}
 
