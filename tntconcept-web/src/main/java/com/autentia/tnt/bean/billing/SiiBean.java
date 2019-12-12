@@ -25,9 +25,11 @@ import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.BillSearch;
 import com.autentia.tnt.mail.DefaultMailService;
 import com.autentia.tnt.mail.MailService;
+import com.autentia.tnt.manager.admin.SettingManager;
 import com.autentia.tnt.manager.billing.BillManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.FacesUtils;
+import com.autentia.tnt.util.SettingPath;
 import com.autentia.tnt.util.SpringUtils;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
@@ -42,6 +44,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -404,8 +407,13 @@ public class SiiBean extends BaseBean {
     private String generateCSVItem (final Bill bill) {
 
         final StringBuilder item = new StringBuilder();
-        Map<String, BigDecimal> costData = new HashMap<>();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy");
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale(FacesUtils.getViewLocale().getLanguage()));
+        Map<String, String> costData = new HashMap<>();
+
+        String format =  SettingManager.getString(
+                SettingManager.getDefault().get(SettingPath.BITACORE_PREFERRED_HEADER_FORMAT, false),
+                "dd/MM/yy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         Calendar calendar = Calendar.getInstance();
 
         String expirationDate = "";
@@ -430,7 +438,7 @@ public class SiiBean extends BaseBean {
         String documentType = ( !nationalOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
         String europeCif = ( !nationalOrganitation ) ? organization.getCif()  : ""; // Cuando la empresa sea extranjera
         String country = ( !nationalOrganitation ) ? organization.getCountry() : "";
-        String orderNumber = bill.getOrderNumber();
+        String orderNumber = bill.getNumber();
         String creacionDate = simpleDateFormat.format( bill.getCreationDate() );
         String year = Integer.toString(calendar.get(Calendar.YEAR));
 
@@ -439,10 +447,10 @@ public class SiiBean extends BaseBean {
         String monthName =  aux.substring(0, 1).toUpperCase() + aux.substring(1);
         String period = monthNumber + " - " + monthName ;
 
-        costData.put("total", bill.getTotal());
-        costData.put("iva", bill.getBreakDown().iterator().next().getIva());
-        costData.put("basePrice", bill.getTotalNoTaxes());
-        costData.put("ivaTotal", bill.getTotal().subtract(bill.getTotalNoTaxes()));
+        costData.put("total", nf.format(bill.getTotal()));
+        costData.put("iva", nf.format(bill.getBreakDown().iterator().next().getIva()));
+        costData.put("basePrice", nf.format(bill.getTotalNoTaxes()));
+        costData.put("ivaTotal", nf.format(bill.getTotal().subtract(bill.getTotalNoTaxes())));
 
         item.append( this.populateCell( cif ) );
         item.append( this.populateCell( providerName ));
@@ -482,7 +490,7 @@ public class SiiBean extends BaseBean {
         //evaluateObject(organization.getName(), fields, "Nombre de la organización ("+organizationName+") vacío");
         evaluateObject(organization.getCif(), fields, "CIF de la organización ("+organizationName+") vacío");
         evaluateObject(organization.getCountry(), fields, "País de la organización ("+organizationName+") vacío");
-        evaluateObject(bill.getOrderNumber(), fields, "Número de pedido vacío");
+        //evaluateObject(bill.getNumber(), fields, "Número de factura vacío");
         evaluateObject(bill.getTotal(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getBreakDown().iterator().next().getIva(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getTotalNoTaxes(), fields, "Fallo en el desglose de la factura");
@@ -505,17 +513,14 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item, String description) {
+    private void generateCSVItemIssue (Map<String, String> costData, StringBuilder item, String description) {
 
-        item.append( this.populateCell( String.valueOf( costData.get("iva").intValue() ) ) );
-        item.append( this.populateCell( costData.get("basePrice").toString() ));
-        item.append( this.populateCell( costData.get("ivaTotal").toString() ));
+        item.append( this.populateCell( costData.get("iva") ) );
+        item.append( this.populateCell( costData.get("basePrice") ));
+        item.append( this.populateCell( costData.get("ivaTotal") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
-        item.append( this.populateCell( costData.get("ivaTotal").toString() ));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
+        item.append( this.populateCell( costData.get("ivaTotal") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
@@ -544,7 +549,10 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
-        item.append( this.populateCell( costData.get("total").toString() ));
+        item.append( this.populateCell(""));
+        item.append( this.populateCell(""));
+        item.append( this.populateCell(""));
+        item.append( this.populateCell( costData.get("total") ));
         item.append( this.populateCell("0"));
         item.append( this.populateCell( description ));
         item.append( this.populateCell("F1 - Factura"));
@@ -565,13 +573,13 @@ public class SiiBean extends BaseBean {
 
     }
 
-    private void generateCSVItemReceive (Map<String, BigDecimal> costData, StringBuilder item) {
+    private void generateCSVItemReceive (Map<String, String> costData, StringBuilder item) {
 
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
-        item.append( this.populateCell( String.valueOf( costData.get("iva").intValue() ) ) );
-        item.append(this.populateCell( costData.get("basePrice").toString() ));
-        item.append(this.populateCell( costData.get("ivaTotal").toString() ));
+        item.append( this.populateCell( costData.get("iva") ) );
+        item.append(this.populateCell( costData.get("basePrice") ));
+        item.append(this.populateCell( costData.get("ivaTotal") ));
         item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
         item.append(this.populateCell(""));
         item.append(this.populateCell("NO"));
@@ -614,7 +622,7 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
-        item.append(this.populateCell( costData.get("total").toString() ));
+        item.append(this.populateCell( costData.get("total") ));
         item.append(this.populateCell("0"));
         item.append(this.populateCell("Entrega de bienes"));
         item.append(this.populateCell("F1 - Factura"));
@@ -644,7 +652,7 @@ public class SiiBean extends BaseBean {
      */
     private String populateCell (final String content) {
         final StringBuilder cell = new StringBuilder();
-        cell.append("\"").append(content).append("\"").append(";");
+        cell.append(content).append(";");
         return cell.toString();
     }
 
