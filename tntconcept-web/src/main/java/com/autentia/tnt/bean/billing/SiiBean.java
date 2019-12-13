@@ -407,31 +407,27 @@ public class SiiBean extends BaseBean {
     private String generateCSVItem (final Bill bill) {
 
         final StringBuilder item = new StringBuilder();
-        NumberFormat nf = NumberFormat.getNumberInstance(new Locale(FacesUtils.getViewLocale().getLanguage()));
-        Map<String, String> costData = new HashMap<>();
+        Map<String, BigDecimal> costData = new HashMap<>();
 
-        String format =  SettingManager.getString(
-                SettingManager.getDefault().get(SettingPath.BITACORE_PREFERRED_HEADER_FORMAT, false),
-                "dd/MM/yy");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         Calendar calendar = Calendar.getInstance();
 
-        String expirationDate = "";
+        Date expirationDate = null;
         Organization organization = null;
 
         switch (selectedType) {
             case ISSUED:  // ventas
                 calendar.setTime( bill.getCreationDate() );
-                expirationDate = simpleDateFormat.format( bill.getCreationDate() );
+                expirationDate = bill.getCreationDate();
                 organization = bill.getProject().getClient();
                 break;
             case RECIEVED:  // compras
                 calendar.setTime( bill.getInsertDate() );
-                expirationDate = simpleDateFormat.format( bill.getInsertDate() );
+                expirationDate = bill.getInsertDate();
                 organization = bill.getProvider();
         }
 
         boolean nationalOrganitation = Pattern.matches("(ES)?([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])", organization.getCif());
+        nationalOrganitation = nationalOrganitation || organization.getCountry().trim().toLowerCase().equals("españa");
 
         String cif = ( nationalOrganitation ) ? organization.getCif()  : "";
         String providerName = organization.getName();
@@ -439,7 +435,7 @@ public class SiiBean extends BaseBean {
         String europeCif = ( !nationalOrganitation ) ? organization.getCif()  : ""; // Cuando la empresa sea extranjera
         String country = ( !nationalOrganitation ) ? organization.getCountry() : "";
         String orderNumber = bill.getNumber();
-        String creacionDate = simpleDateFormat.format( bill.getCreationDate() );
+        Date creacionDate = bill.getCreationDate();
         String year = Integer.toString(calendar.get(Calendar.YEAR));
 
         int monthNumber = calendar.get(Calendar.MONTH) + 1;
@@ -447,10 +443,10 @@ public class SiiBean extends BaseBean {
         String monthName =  aux.substring(0, 1).toUpperCase() + aux.substring(1);
         String period = monthNumber + " - " + monthName ;
 
-        costData.put("total", nf.format(bill.getTotal()));
-        costData.put("iva", nf.format(bill.getBreakDown().iterator().next().getIva()));
-        costData.put("basePrice", nf.format(bill.getTotalNoTaxes()));
-        costData.put("ivaTotal", nf.format(bill.getTotal().subtract(bill.getTotalNoTaxes())));
+        costData.put("total", bill.getTotal());
+        costData.put("iva", bill.getBreakDown().iterator().next().getIva());
+        costData.put("basePrice", bill.getTotalNoTaxes());
+        costData.put("ivaTotal", bill.getTotal().subtract(bill.getTotalNoTaxes()));
 
         item.append( this.populateCell( cif ) );
         item.append( this.populateCell( providerName ));
@@ -513,7 +509,7 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    private void generateCSVItemIssue (Map<String, String> costData, StringBuilder item, String description) {
+    private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item, String description) {
 
         item.append( this.populateCell( costData.get("iva") ) );
         item.append( this.populateCell( costData.get("basePrice") ));
@@ -573,7 +569,7 @@ public class SiiBean extends BaseBean {
 
     }
 
-    private void generateCSVItemReceive (Map<String, String> costData, StringBuilder item) {
+    private void generateCSVItemReceive (Map<String, BigDecimal> costData, StringBuilder item) {
 
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
@@ -652,7 +648,25 @@ public class SiiBean extends BaseBean {
      */
     private String populateCell (final String content) {
         final StringBuilder cell = new StringBuilder();
-        cell.append(content).append(";");
+        cell.append("\"").append(content).append("\"").append(";");
+        return cell.toString();
+    }
+
+    private String populateCell (final Date content) {
+        final StringBuilder cell = new StringBuilder();
+        String format =  SettingManager.getString(
+                SettingManager.getDefault().get(SettingPath.BITACORE_PREFERRED_HEADER_FORMAT, false),
+                "dd/MM/yy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+
+        cell.append(simpleDateFormat.format(content)).append(";");
+        return cell.toString();
+    }
+
+    private String populateCell (final BigDecimal content) {
+        final StringBuilder cell = new StringBuilder();
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale(FacesUtils.getViewLocale().getLanguage()));
+        cell.append(nf.format(content)).append(";");
         return cell.toString();
     }
 
