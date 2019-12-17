@@ -261,8 +261,10 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("PERIODO"));
 
         if ( selectedType.compareTo(BillType.ISSUED) == 0 )
+            //generateCSVHeaderIssue
             generateCSVHeaderIssue( header );
         else
+            //generateCSVHeaderRecieved
             generateCSVHeaderRecieved( header );
 
 
@@ -271,7 +273,8 @@ public class SiiBean extends BaseBean {
         return header.toString();
     }
 
-    private void generateCSVHeaderIssue( StringBuilder header ) {
+    //generateCSVHeaderIssue
+    private void generateCSVHeaderRecieved( StringBuilder header ) {
         header.append(this.populateCell("IVA 1"));
         header.append(this.populateCell("BASE IVA 1"));
         header.append(this.populateCell("CUOTA IVA 1"));
@@ -329,7 +332,8 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("REDEME"));
     }
 
-    private void generateCSVHeaderRecieved( StringBuilder header ) {
+    //generateCSVHeaderRecieved
+    private void generateCSVHeaderIssue( StringBuilder header ) {
         header.append(this.populateCell("SITUACION INMUEBLE"));
         header.append(this.populateCell("REF CATASTRAL"));
         header.append(this.populateCell("IVA 1"));
@@ -460,10 +464,12 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell( year ));
         item.append( this.populateCell( period ));
 
-        if ( selectedType.compareTo(BillType.ISSUED) == 0 )
-            generateCSVItemIssue( costData, item, bill.getName() );
+        if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
+            //generateCSVItemIssue
+            generateCSVItemReceive( costData, item, bill.getName() );
         else
-            generateCSVItemReceive( costData, item );
+            //generateCSVItemReceive
+            generateCSVItemIssue( costData, item );
 
         item.append( this.returnLine());
 
@@ -509,7 +515,8 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item, String description) {
+    //generateCSVItemIssue
+    private void generateCSVItemReceive (Map<String, BigDecimal> costData, StringBuilder item, String description) {
 
         item.append( this.populateCell( costData.get("iva") ) );
         item.append( this.populateCell( costData.get("basePrice") ));
@@ -569,7 +576,8 @@ public class SiiBean extends BaseBean {
 
     }
 
-    private void generateCSVItemReceive (Map<String, BigDecimal> costData, StringBuilder item) {
+    //generateCSVItemReceive
+    private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item) {
 
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
