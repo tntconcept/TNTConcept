@@ -630,7 +630,7 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell(""));
         item.append(this.populateCell( costData.get("total") ));
         item.append(this.populateCell("0"));
-        item.append(this.populateCell("Entrega de bienes"));
+        item.append(this.populateCell("Prestación de servicios"));
         item.append(this.populateCell("F1 - Factura"));
         item.append(this.populateCell(""));
         item.append(this.populateCell("01 - Operación de régimen común"));
