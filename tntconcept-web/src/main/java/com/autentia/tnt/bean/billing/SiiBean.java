@@ -463,8 +463,8 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell(""));
         item.append( this.populateCell( creacionDate ));
         item.append( this.populateCell( expirationDate ));
-        item.append( this.populateCell( year ));
-        item.append( this.populateCell( period ));
+        item.append( this.populateCell( "\"" + year + "\"" )); //La gestora quiere que el año sea texto
+        item.append( this.populateCell( "\"" + period + "\"" ));
 
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
             //generateCSVItemIssue
