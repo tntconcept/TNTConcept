@@ -248,7 +248,7 @@ public class SiiBean extends BaseBean {
      */
     private String generateCSVHeader () {
         final StringBuilder header = new StringBuilder();
-        header.append(this.populateCell("CIF"));
+        header.append(this.populateCell("NIF"));
         header.append(this.populateCell("RAZON SOCIAL"));
         header.append(this.populateCell("TIPO DOCUMENTO"));
         header.append(this.populateCell("DOCUMENTO"));
