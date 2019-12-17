@@ -248,6 +248,7 @@ public class SiiBean extends BaseBean {
      */
     private String generateCSVHeader () {
         final StringBuilder header = new StringBuilder();
+        header.append(this.populateCell(""));
         header.append(this.populateCell("NIF"));
         header.append(this.populateCell("RAZON SOCIAL"));
         header.append(this.populateCell("TIPO DOCUMENTO"));
@@ -452,6 +453,7 @@ public class SiiBean extends BaseBean {
         costData.put("basePrice", bill.getTotalNoTaxes());
         costData.put("ivaTotal", bill.getTotal().subtract(bill.getTotalNoTaxes()));
 
+        item.append( this.populateCell("") );
         item.append( this.populateCell( cif ) );
         item.append( this.populateCell( providerName ));
         item.append( this.populateCell( documentType ));
