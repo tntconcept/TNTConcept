@@ -588,7 +588,7 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell( costData.get("ivaTotal") ));
         item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
         item.append(this.populateCell(""));
-        item.append(this.populateCell("NO"));
+        item.append(this.populateCell("SI"));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
