@@ -262,10 +262,8 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("PERIODO"));
 
         if ( selectedType.compareTo(BillType.ISSUED) == 0 )
-            //generateCSVHeaderIssue
             generateCSVHeaderIssue( header );
         else
-            //generateCSVHeaderRecieved
             generateCSVHeaderRecieved( header );
 
 
@@ -274,7 +272,6 @@ public class SiiBean extends BaseBean {
         return header.toString();
     }
 
-    //generateCSVHeaderIssue
     private void generateCSVHeaderRecieved( StringBuilder header ) {
         header.append(this.populateCell("IVA 1"));
         header.append(this.populateCell("BASE IVA 1"));
@@ -333,7 +330,6 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("REDEME"));
     }
 
-    //generateCSVHeaderRecieved
     private void generateCSVHeaderIssue( StringBuilder header ) {
         header.append(this.populateCell("SITUACION INMUEBLE"));
         header.append(this.populateCell("REF CATASTRAL"));
@@ -463,8 +459,8 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell(""));
         item.append( this.populateCell( creacionDate ));
         item.append( this.populateCell( expirationDate ));
-        item.append( this.populateCell( "\"" + year + "\"" )); //La gestora quiere que el año sea texto
-        item.append( this.populateCell( "\"" + period + "\"" ));
+        item.append( this.populateCell("=\"" + year + "\"")); //La gestora quiere que el año sea texto
+        item.append( this.populateCell("=\"" + period + "\""));
 
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
             //generateCSVItemIssue
@@ -517,7 +513,6 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    //generateCSVItemIssue
     private void generateCSVItemReceive (Map<String, BigDecimal> costData, StringBuilder item, String description) {
 
         item.append( this.populateCell( costData.get("iva") ) );
@@ -578,7 +573,6 @@ public class SiiBean extends BaseBean {
 
     }
 
-    //generateCSVItemReceive
     private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item) {
 
         item.append(this.populateCell(""));
