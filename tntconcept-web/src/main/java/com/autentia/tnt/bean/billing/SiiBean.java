@@ -355,8 +355,7 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("MOTIVO 3"));
         header.append(this.populateCell("SUJETO 3"));
         header.append(this.populateCell("PRESTACION SERVICIO 3"));
-        header.append(this.populateCell("IMPORTE 3 "));
-        header.append(this.populateCell("SEGUN ART 7,14"));
+        header.append(this.populateCell("IMPORTE 3 SEGUN ART 7,14"));
         header.append(this.populateCell("IMPORTE 3 TAI"));
         header.append(this.populateCell("EXENTO"));
         header.append(this.populateCell("BASE EXENTO")); // ?
@@ -583,7 +582,6 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
         item.append(this.populateCell(""));
         item.append(this.populateCell("SI"));
-        item.append(this.populateCell(""));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
