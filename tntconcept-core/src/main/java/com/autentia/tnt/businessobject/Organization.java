@@ -86,7 +86,7 @@ public class Organization implements Serializable, ITransferObject
 
       
       
-  private String country;
+  private Country country;
 
       
       
@@ -248,10 +248,10 @@ public String getName() {
       
   
   
-  public String getCountry() {
+  public Country getCountry() {
     return country;
   }
-  public void setCountry( String country ) {
+  public void setCountry(Country country) {
     this.country = country;
   }
       

@@ -190,16 +190,24 @@
   
       <%-- Field: country --%>
     <tr>
-    	    		<td class="editLabelRW">${msg['organization.country']}:</td>
-    	      
-      <td class="editFieldCell">
+        <td class="editLabelRW">${msg['organization.country']}:</td>
 
-                  <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="country" />
-                		<h:inputText id="country" value="#{organizationBean.country}" size="70" maxlength="256"/>
-    	              </h:panelGroup>
+        <td class="editFieldCell">
 
-              </td>
+            <h:panelGroup>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="country" />
+                <h:selectOneMenu id="country" value="#{organizationBean.country}"  required="true" styleClass="requiredFieldClass">
+                    <f:selectItems value="#{organizationBean.countries}" />
+                    <f:converter converterId="autentia.EntityConverter"/>
+                </h:selectOneMenu>
+            </h:panelGroup>
+
+<%--            <h:panelGroup>--%>
+<%--                <h:message styleClass="error" showSummary="true" showDetail="false" for="country"/>--%>
+<%--                <h:inputText id="country" value="#{organizationBean.country}" size="70" maxlength="256"/>--%>
+<%--            </h:panelGroup>--%>
+
+        </td>
     </tr>
                                   
   

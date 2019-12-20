@@ -29,21 +29,14 @@ import javax.faces.component.UIData;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.model.SelectItem;
 
+import com.autentia.tnt.businessobject.*;
+import com.autentia.tnt.manager.admin.CountryManager;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.bean.NavigationResults;
-import com.autentia.tnt.businessobject.BillBreakDown;
-import com.autentia.tnt.businessobject.Department;
-import com.autentia.tnt.businessobject.EvaluationCriteria;
-import com.autentia.tnt.businessobject.OfferState;
-import com.autentia.tnt.businessobject.Organization;
-import com.autentia.tnt.businessobject.OrganizationISOCategory;
-import com.autentia.tnt.businessobject.OrganizationType;
-import com.autentia.tnt.businessobject.Province;
-import com.autentia.tnt.businessobject.Tag;
 import com.autentia.tnt.dao.DataAccException;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.DepartmentSearch;
@@ -201,6 +194,21 @@ public class OrganizationBean extends BaseBean {
     }
     return ret;	
   }
+
+    /**
+     * Get the list of all countries
+     * @return a list with all countries
+     */
+    public List<SelectItem> getCountries() {
+        List<Country> refs = CountryManager.getDefault().getAllEntities(new SortCriteria("name"));
+
+        ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+        for(Country ref : refs) {
+            ret.add(new SelectItem(ref, ref.getName()));
+        }
+
+        return ret;
+    }
         
   // Getters to list possible values of enum fields
                                                                                                                     
@@ -1057,15 +1065,15 @@ public class OrganizationBean extends BaseBean {
   public void setState( String state ) {
     organization.setState( state );
   }
-        
-    
-    
-    public String getCountry() {
-    return organization.getCountry();
-  }
-  public void setCountry( String country ) {
-    organization.setCountry( country );
-  }
+
+
+    public Country getCountry() {
+        return organization.getCountry();
+    }
+
+    public void setCountry(Country country) {
+        organization.setCountry(country);
+    }
         
     
     

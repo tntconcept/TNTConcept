@@ -427,13 +427,13 @@ public class SiiBean extends BaseBean {
         }
 
         boolean nationalOrganitation = Pattern.matches("(ES)?([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])", organization.getCif());
-        nationalOrganitation = nationalOrganitation || organization.getCountry().trim().toLowerCase().equals("españa");
+        nationalOrganitation = nationalOrganitation || organization.getCountry().getName().trim().toLowerCase().equals("españa");
 
         String cif = ( nationalOrganitation ) ? organization.getCif()  : "";
         String providerName = organization.getName();
         String documentType = ( !nationalOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
         String europeCif = ( !nationalOrganitation ) ? organization.getCif()  : ""; // Cuando la empresa sea extranjera
-        String country = ( !nationalOrganitation ) ? organization.getCountry() : "";
+        String country = ( !nationalOrganitation ) ? organization.getCountry().getName() : "";
         String orderNumber = bill.getNumber();
         Date creacionDate = bill.getCreationDate();
         String year = Integer.toString(calendar.get(Calendar.YEAR));

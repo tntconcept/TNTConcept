@@ -36,7 +36,8 @@
     <property name="city" type="java.lang.String"/>
     <many-to-one name="province" class="com.autentia.tnt.businessobject.Province" column="provinceId" />
     <property name="state" type="java.lang.String"/>
-    <property name="country" type="java.lang.String"/>
+    <many-to-one name="country" class="com.autentia.tnt.businessobject.Country" column="countryId" />
+<!--    <property name="country" type="java.lang.String"/>-->
     <property name="phone" type="java.lang.String"/>
     <property name="fax" type="java.lang.String"/>
     <property name="email" type="java.lang.String"/>
