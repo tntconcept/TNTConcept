@@ -69,7 +69,7 @@ public class ActivityImageFileLinkTag extends TagSupport {
 				int year = calendar.get(Calendar.YEAR);
 				int month = calendar.get(Calendar.MONTH) + 1;
 
-				out.print("<a href=\"#\" onclick=\"openFile(");
+				out.print("<a href=\"#\" onclick=\"openActivityFile(");
 				out.print("'"+year+"',");
 				out.print(month+",");
 				out.print("'"+fileName + ".jpg"+"',");
