@@ -281,13 +281,13 @@ INSERT INTO `Country` VALUES (240, 716, 'ZW', 'ZWE', 'Zimbabue', NULL, NULL, NUL
 -- Organization
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Organization ADD COLUMN countryId int(11) NOT NULL DEFAULT 73;
+ALTER TABLE Organization
+  ADD countryId int NULL DEFAULT 73;
 
--- UPDATE Organization as o
--- SET o.countryId = IFNULL((SELECT id FROM Country AS c WHERE c.name LIKE o.country), 73);
-
-ALTER TABLE `Organization` ADD CONSTRAINT `Organization_Country_FK` FOREIGN KEY (`countryId`) REFERENCES `Country`(`id`);
--- ALTER TABLE `Bill` ADD constraint `fk_bill_contactId` foreign key (`contactId`) references `Contact` (`id`);
+ALTER TABLE Organization
+ADD CONSTRAINT fk_organization_countryId
+FOREIGN KEY (countryId)
+REFERENCES "Country" ("id");
 
 ALTER TABLE Organization DROP COLUMN country;
 
@@ -296,7 +296,7 @@ ALTER TABLE Organization DROP COLUMN country;
 -- -----------------------------------------------------------------------------
 
 INSERT INTO Province (id,name)
-	VALUES (54,'AA - Otras (Extranjeras)');
+VALUES (54,'AA - Otras (Extranjeras)');
 
 -- -----------------------------------------------------------------------------
 -- Version

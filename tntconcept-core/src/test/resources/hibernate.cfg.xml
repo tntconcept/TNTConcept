@@ -53,6 +53,7 @@
     <mapping resource="com/autentia/tnt/businessobject/config/User.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Role.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Province.hbm.xml" />
+    <mapping resource="com/autentia/tnt/businessobject/config/Country.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/UserCategory.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Inventary.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Organization.hbm.xml" />

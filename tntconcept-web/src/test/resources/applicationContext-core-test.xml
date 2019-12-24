@@ -104,6 +104,9 @@
     <bean id="managerActivityFile" class="com.autentia.tnt.manager.activity.ActivityFileManager">
         <constructor-arg ref="daoActivityFile" />
     </bean>
+	<bean id="managerCountry" class="com.autentia.tnt.manager.admin.CountryManager">
+        <constructor-arg ref="daoCountry" />
+    </bean>
     <bean id="managerOrganization" class="com.autentia.tnt.manager.contacts.OrganizationManager">
         <constructor-arg ref="daoOrganization" />
         <property name="contactDAO" ref="daoContact"></property>

@@ -66,6 +66,7 @@
   <bean id="daoProject" class="com.autentia.tnt.dao.hibernate.ProjectDAO" />
   <bean id="daoProjectRole" class="com.autentia.tnt.dao.hibernate.ProjectRoleDAO" />
   <bean id="daoProvince" class="com.autentia.tnt.dao.hibernate.ProvinceDAO" />
+  <bean id="daoCountry" class="com.autentia.tnt.dao.hibernate.CountryDAO" />
   <bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
   <bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />
   <bean id="daoRole" class="com.autentia.tnt.dao.hibernate.RoleDAO" />
@@ -203,6 +204,8 @@
 	</bean>
 	<bean id="managerProvince" class="com.autentia.tnt.manager.admin.ProvinceManager">
 		<constructor-arg ref="daoProvince" />
+	</bean><bean id="managerCountry" class="com.autentia.tnt.manager.admin.CountryManager">
+		<constructor-arg ref="daoCountry" />
 	</bean>
 	<bean id="managerOfferRejectReason"
 		class="com.autentia.tnt.manager.contacts.OfferRejectReasonManager">

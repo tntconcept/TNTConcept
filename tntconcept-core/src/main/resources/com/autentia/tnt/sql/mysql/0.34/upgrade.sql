@@ -281,12 +281,23 @@ INSERT INTO `Country` VALUES (240, 716, 'ZW', 'ZWE', 'Zimbabue', NULL, NULL, NUL
 -- Organization
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Organization ADD COLUMN countryId int(11) NOT NULL DEFAULT 73;
+ALTER TABLE `tntconcept`.`Organization`
+ADD COLUMN `countryId` INT(11) NULL DEFAULT 73 AFTER `evaluationCriteria`,
+ADD INDEX `fk_organization_countryId_idx` (`countryId` ASC);
+
+ALTER TABLE `tntconcept`.`Organization`
+ADD CONSTRAINT `fk_organization_countryId`
+  FOREIGN KEY (`countryId`)
+  REFERENCES `tntconcept`.`Country` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+-- ALTER TABLE Organization ADD COLUMN countryId int(11) NOT NULL DEFAULT 73;
 
 UPDATE Organization as o
 SET o.countryId = IFNULL((SELECT id FROM Country AS c WHERE c.name LIKE o.country), 73);
 
-ALTER TABLE Organization ADD CONSTRAINT Organization_Country_FK FOREIGN KEY (countryId) REFERENCES Country(id);
+-- ALTER TABLE Organization ADD CONSTRAINT Organization_Country_FK FOREIGN KEY (countryId) REFERENCES Country(id);
 
 ALTER TABLE Organization DROP COLUMN country;
 
