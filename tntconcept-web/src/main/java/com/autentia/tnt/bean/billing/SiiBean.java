@@ -20,6 +20,7 @@ package com.autentia.tnt.bean.billing;
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.businessobject.Bill;
 import com.autentia.tnt.businessobject.BillType;
+import com.autentia.tnt.businessobject.Country;
 import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.BillSearch;
@@ -433,7 +434,7 @@ public class SiiBean extends BaseBean {
         String providerName = organization.getName();
         String documentType = ( !nationalOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
         String europeCif = ( !nationalOrganitation ) ? organization.getCif()  : ""; // Cuando la empresa sea extranjera
-        String country = ( !nationalOrganitation ) ? organization.getCountry().getName() : "";
+        String country = ( !nationalOrganitation ) ? (organization.getCountry().getIso3166a1() + " - " + organization.getCountry().getName()) : "";
         String orderNumber = bill.getNumber();
         Date creacionDate = bill.getCreationDate();
         String year = Integer.toString(calendar.get(Calendar.YEAR));
@@ -453,13 +454,13 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell( providerName ));
         item.append( this.populateCell( documentType ));
         item.append( this.populateCell( europeCif ));
-        item.append( this.populateCell( country ));
+        item.append( this.populateCell(country));
         item.append( this.populateCell( orderNumber ));
         item.append( this.populateCell(""));
         item.append( this.populateCell( creacionDate ));
         item.append( this.populateCell( expirationDate ));
         item.append( this.populateCell("=\"\"" + year + "\"\"")); //La gestora quiere que el año sea texto
-        item.append( this.populateCell("=\"\"" + period + "\"\""));
+        item.append( this.populateCell("=\"\"" + period + "\"\"")); //La gestora quiere que el periodo sea texto
 
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
             //generateCSVItemIssue
