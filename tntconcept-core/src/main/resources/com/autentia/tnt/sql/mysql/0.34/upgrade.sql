@@ -292,8 +292,6 @@ ADD CONSTRAINT `fk_organization_countryId`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
--- ALTER TABLE Organization ADD COLUMN countryId int(11) NOT NULL DEFAULT 73;
-
 UPDATE Organization as o
 SET o.countryId = IFNULL((SELECT id FROM Country AS c WHERE c.name LIKE o.country), 73);
 
