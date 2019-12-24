@@ -144,7 +144,7 @@
                   <h:panelGroup>
                       <p:inputText disabled="#{empty projectBean.name}" id="offerNumberInput" immediate="true" binding="#{projectBean.offerNumberInput}" valueChangeListener="#{projectBean.refreshOfferList}"  onchange="submit();"/>
                       <h:selectOneMenu rendered="#{projectBean.getFilterOffer().size() > 1}" id="offerNumberInputOneMenu" immediate="true" valueChangeListener="#{projectBean.refreshOffer}"  onchange="submit();">
-                          <f:selectItem itemDisabled="true" itemLabel="-- Selecciona una oferta --" itemValue="0"/>
+                          <f:selectItem itemLabel="-- Selecciona una oferta --" itemValue="0"/>
                           <f:selectItems value="#{projectBean.getFilterOffer()}" />
                       </h:selectOneMenu>
                   </h:panelGroup>
@@ -155,7 +155,7 @@
             <td class="editLabelRW">*${msg['project.client']}:</td>
             <td class="editFieldCell">
               <h:panelGroup>
-<%--                <h:message styleClass="error" showSummary="true" showDetail="false" for="client" />--%>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="client" />
                 <h:selectOneMenu id="client" value="#{projectBean.client}" required="true" styleClass="requiredFieldClass">
                   <f:selectItems value="#{projectBean.clients}" />
                   <f:converter converterId="autentia.EntityConverter"/>
