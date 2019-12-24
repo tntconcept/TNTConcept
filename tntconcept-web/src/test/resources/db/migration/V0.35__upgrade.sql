@@ -284,6 +284,9 @@ INSERT INTO `Country` VALUES (240, 716, 'ZW', 'ZWE', 'Zimbabue', NULL, NULL, NUL
 ALTER TABLE Organization
   ADD countryId int NULL DEFAULT 73;
 
+UPDATE Organization as o
+SET o.countryId = IFNULL((SELECT id FROM "Country" AS co WHERE co."name" LIKE o.country), 73);
+
 ALTER TABLE Organization
 ADD CONSTRAINT fk_organization_countryId
 FOREIGN KEY (countryId)
