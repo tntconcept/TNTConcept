@@ -584,10 +584,10 @@ public class OrganizationBean extends BaseBean {
     
     
     
-    public String getSearchCountry(){
+    public Country getSearchCountry(){
         return search.getCountry();
     }
-    public void setSearchCountry( String val ){
+    public void setSearchCountry(Country val ){
         if( search.isCountrySet() ) {
           search.setCountry( val );
         }

@@ -246,14 +246,16 @@
       <td class="searchLabel">${msg['organization.country']}:</td>
       <td class="searchFieldCell">
 
-        
-          
-<%--          <h:panelGroup>--%>
-<%--            <h:message styleClass="error" showSummary="true" showDetail="false" for="country" />--%>
-<%--            <h:selectBooleanCheckbox id="countryValid" value="#{organizationBean.searchCountryValid}" --%>
-<%--                                      onclick="setEnabled('search:country',this.checked)"/>--%>
-<%--            <h:inputText id="country" value="#{organizationBean.searchCountry}" size="70"/>--%>
-<%--          </h:panelGroup>--%>
+
+          <h:panelGroup>
+              <h:message styleClass="error" showSummary="true" showDetail="false" for="country" />
+              <h:selectBooleanCheckbox id="countryValid" value="#{organizationBean.searchCountryValid}"
+                                       onclick="setEnabled('search:country',this.checked)"/>
+              <h:selectOneMenu id="country" value="#{organizationBean.searchCountry}" onclick="setEnabled('search:country',true)">
+                  <f:selectItems value="#{organizationBean.countries}" />
+                  <f:converter converterId="autentia.EntityConverter"/>
+              </h:selectOneMenu>
+          </h:panelGroup>
           <script>
             setEnabled( 'search:country', ${organizationBean.searchCountryValid} )
           </script>

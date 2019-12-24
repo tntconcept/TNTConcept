@@ -1009,10 +1009,10 @@ public class OrganizationSearch extends SearchCriteria
     public boolean isCountrySet(){
         return countrySet;
     }
-    public String getCountry(){
+    public Country getCountry(){
         return country;
     }
-    public void setCountry( String country ){
+    public void setCountry(Country country){
         this.country = country;
         this.countrySet = true;
     }
@@ -1338,7 +1338,7 @@ public class OrganizationSearch extends SearchCriteria
           
   
       private boolean countrySet;
-        private String country;
+        private Country country;
 
           
   
