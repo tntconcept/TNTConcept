@@ -1098,7 +1098,7 @@ public class ProjectBean extends BaseBean {
         final List<SelectItem> ret = new ArrayList<>();
 
         for (Offer offer : getOfferNumberList()) {
-            ret.add(new SelectItem(offer.getId(), offer.getNumber()));
+            ret.add(new SelectItem(offer.getId(), offer.getNumber() +" - "+ offer.getTitle()));
         }
 
         return ret;
@@ -1128,10 +1128,6 @@ public class ProjectBean extends BaseBean {
             if(offerList.size() == 1) {
                 copy(offerList.get(0));
             }
-        }
-
-        if (project == null){
-            project = new Project();
         }
 
         this.setOfferNumberList(offerList);
