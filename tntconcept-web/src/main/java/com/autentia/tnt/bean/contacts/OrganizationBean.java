@@ -200,7 +200,7 @@ public class OrganizationBean extends BaseBean {
      * @return a list with all countries
      */
     public List<SelectItem> getCountries() {
-        List<Country> refs = CountryManager.getDefault().getAllEntities(new SortCriteria("name"));
+        List<Country> refs = CountryManager.getDefault().getAllEntities(new SortCriteria("id"));
 
         ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
         for(Country ref : refs) {

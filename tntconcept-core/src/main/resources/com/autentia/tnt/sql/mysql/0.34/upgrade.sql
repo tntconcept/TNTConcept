@@ -36,7 +36,7 @@ CREATE TABLE `Country` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Catalogo de paises';
 
-INSERT INTO `Country` VALUES (1, 4, 'AF', 'AFG', 'Afganistán', NULL, NULL, NULL, NULL);
+INSERT INTO `Country` VALUES (1, 724, 'ES', 'ESP', 'España', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (2, 248, 'AX', 'ALA', 'Islas Gland', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (3, 8, 'AL', 'ALB', 'Albania', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (4, 276, 'DE', 'DEU', 'Alemania', NULL, NULL, NULL, NULL);
@@ -108,7 +108,7 @@ INSERT INTO `Country` VALUES (69, 784, 'AE', 'ARE', 'Emiratos Árabes Unidos', N
 INSERT INTO `Country` VALUES (70, 232, 'ER', 'ERI', 'Eritrea', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (71, 703, 'SK', 'SVK', 'Eslovaquia', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (72, 705, 'SI', 'SVN', 'Eslovenia', NULL, NULL, NULL, NULL);
-INSERT INTO `Country` VALUES (73, 724, 'ES', 'ESP', 'España', NULL, NULL, NULL, NULL);
+INSERT INTO `Country` VALUES (73, 4, 'AF', 'AFG', 'Afganistán', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (74, 581, 'UM', 'UMI', 'Islas ultramarinas de Estados Unidos', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (75, 840, 'US', 'USA', 'Estados Unidos', NULL, NULL, NULL, NULL);
 INSERT INTO `Country` VALUES (76, 233, 'EE', 'EST', 'Estonia', NULL, NULL, NULL, NULL);
@@ -282,7 +282,7 @@ INSERT INTO `Country` VALUES (240, 716, 'ZW', 'ZWE', 'Zimbabue', NULL, NULL, NUL
 -- -----------------------------------------------------------------------------
 
 ALTER TABLE `tntconcept`.`Organization`
-ADD COLUMN `countryId` INT(11) NULL DEFAULT 73 AFTER `evaluationCriteria`,
+ADD COLUMN `countryId` INT(11) NULL DEFAULT 1 AFTER `evaluationCriteria`,
 ADD INDEX `fk_organization_countryId_idx` (`countryId` ASC);
 
 ALTER TABLE `tntconcept`.`Organization`
@@ -293,7 +293,7 @@ ADD CONSTRAINT `fk_organization_countryId`
   ON UPDATE NO ACTION;
 
 UPDATE Organization as o
-SET o.countryId = IFNULL((SELECT id FROM Country AS c WHERE c.name LIKE o.country), 73);
+SET o.countryId = IFNULL((SELECT id FROM Country AS c WHERE c.name LIKE o.country), 1);
 
 -- ALTER TABLE Organization ADD CONSTRAINT Organization_Country_FK FOREIGN KEY (countryId) REFERENCES Country(id);
 
