@@ -210,6 +210,9 @@
 	<bean id="managerCountry" class="com.autentia.tnt.manager.admin.CountryManager">
 		<constructor-arg ref="daoCountry" />
 	</bean>
+	<bean id="managerTaxFreeReason" class="com.autentia.tnt.manager.billing.TaxFreeReasonManager">
+		<constructor-arg ref="daoTaxFreeReason" />
+	</bean>
 	<bean id="managerOfferRejectReason"
 		class="com.autentia.tnt.manager.contacts.OfferRejectReasonManager">
 		<constructor-arg ref="daoOfferRejectReason" />

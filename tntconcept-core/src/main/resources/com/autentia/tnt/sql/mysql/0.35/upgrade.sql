@@ -40,7 +40,7 @@ INSERT INTO `IVAType` VALUES (3, 04.00, 'IVA Superreducido', NULL, NULL, NULL, N
 INSERT INTO `IVAType` VALUES (4, 00.00, 'Exento de IVA', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
--- IVAType
+-- TaxFreeReason
 -- -----------------------------------------------------------------------------
 
 CREATE TABLE `TaxFreeReason` (
@@ -59,7 +59,7 @@ INSERT INTO `taxFreeReason` VALUES (2, 'E2', 'Exenta por el artículo 21', NULL,
 INSERT INTO `taxFreeReason` VALUES (3, 'E3', 'Exenta por el artículo 22', NULL, NULL, NULL, NULL);
 INSERT INTO `taxFreeReason` VALUES (4, 'E4', 'Exenta por el artículo 23 y 24', NULL, NULL, NULL, NULL);
 INSERT INTO `taxFreeReason` VALUES (5, 'E5', 'Exenta por el artículo 25', NULL, NULL, NULL, NULL);
-INSERT INTO `taxFreeReason` VALUES (6, 'E5', 'Exenta por el otros', NULL, NULL, NULL, NULL);
+INSERT INTO `taxFreeReason` VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- Version
