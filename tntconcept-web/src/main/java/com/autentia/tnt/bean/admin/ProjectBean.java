@@ -1115,7 +1115,7 @@ public class ProjectBean extends BaseBean {
         StringBuilder query = new StringBuilder();
         List<Offer> offerList = new ArrayList<>();
 
-        if( !input.isEmpty() && input.length() > 3 && !input.equals("-- Selecciona una oferta --")) {
+        if( !input.isEmpty() && input.length() > 3) {
 
             query.append(input).append("%");
 
