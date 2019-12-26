@@ -62,6 +62,17 @@ INSERT INTO `taxFreeReason` VALUES (5, 'E5', 'Exenta por el artículo 25', NULL,
 INSERT INTO `taxFreeReason` VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
+-- BillBreakDown
+-- -----------------------------------------------------------------------------
+
+ALTER TABLE BillBreakDown ADD COLUMN taxFreeReasonId INT(11);
+
+UPDATE BillBreakDown as bbd
+SET bbd.taxFreeReasonId = 6 WHERE iva = 0;
+
+ALTER TABLE BillBreakDown ADD CONSTRAINT taxFreeReason_FK FOREIGN KEY (taxFreeReasonId) REFERENCES TaxFreeReason(id);
+
+-- -----------------------------------------------------------------------------
 -- Version
 -- -----------------------------------------------------------------------------
 --
