@@ -2,7 +2,6 @@ package com.autentia.tnt.manager.admin;
 
 import com.autentia.tnt.businessobject.Country;
 import com.autentia.tnt.dao.SortCriteria;
-import com.autentia.tnt.dao.hibernate.ProvinceDAO;
 import com.autentia.tnt.util.SpringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
