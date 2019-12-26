@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.35.1</version>
+	<version>0.35.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
@@ -76,7 +76,7 @@
 		<connection>scm:git:git://github.com/autentia/TNTConcept.git</connection>
 		<developerConnection>scm:git:git@github.com:autentia/TNTConcept.git</developerConnection>
 		<url>https://github.com/autentia/TNTConcept</url>
-		<tag>tntconcept-parent-0.35.1</tag>
+		<tag>tntconcept-parent-0.27.5</tag>
 	</scm>
 
 	<profiles>
