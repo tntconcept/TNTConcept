@@ -54,12 +54,12 @@ CREATE TABLE `TaxFreeReason` (
     PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tipos de IVA';
 
-INSERT INTO `taxFreeReason` VALUES (1, 'E1', 'Exenta por el artículo 20', NULL, NULL, NULL, NULL);
-INSERT INTO `taxFreeReason` VALUES (2, 'E2', 'Exenta por el artículo 21', NULL, NULL, NULL, NULL);
-INSERT INTO `taxFreeReason` VALUES (3, 'E3', 'Exenta por el artículo 22', NULL, NULL, NULL, NULL);
-INSERT INTO `taxFreeReason` VALUES (4, 'E4', 'Exenta por el artículo 23 y 24', NULL, NULL, NULL, NULL);
-INSERT INTO `taxFreeReason` VALUES (5, 'E5', 'Exenta por el artículo 25', NULL, NULL, NULL, NULL);
-INSERT INTO `taxFreeReason` VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
+INSERT INTO `TaxFreeReason` VALUES (1, 'E1', 'Exenta por el artículo 20', NULL, NULL, NULL, NULL);
+INSERT INTO `TaxFreeReason` VALUES (2, 'E2', 'Exenta por el artículo 21', NULL, NULL, NULL, NULL);
+INSERT INTO `TaxFreeReason` VALUES (3, 'E3', 'Exenta por el artículo 22', NULL, NULL, NULL, NULL);
+INSERT INTO `TaxFreeReason` VALUES (4, 'E4', 'Exenta por el artículo 23 y 24', NULL, NULL, NULL, NULL);
+INSERT INTO `TaxFreeReason` VALUES (5, 'E5', 'Exenta por el artículo 25', NULL, NULL, NULL, NULL);
+INSERT INTO `TaxFreeReason` VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- BillBreakDown
