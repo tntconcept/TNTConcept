@@ -96,6 +96,7 @@
     <mapping resource="com/autentia/tnt/businessobject/config/RequestHoliday.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/AdminHoliday.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/BillBreakDown.hbm.xml" />
+    <mapping resource="com/autentia/tnt/businessobject/config/IVAType.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Department.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/ContractType.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/OfferRejectReason.hbm.xml" />
