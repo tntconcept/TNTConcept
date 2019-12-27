@@ -60,7 +60,27 @@ public class TaxFreeReasonManager {
         return taxFreeReasonDAO.loadById(id);
     }
 
+    /**
+     * Insert taxFreeReason.
+     * @param taxFreeReason to be inserted
+     */
     public void insertEntity(TaxFreeReason taxFreeReason) {
         taxFreeReasonDAO.insert(taxFreeReason);
+    }
+
+    /**
+     * Update existing taxFreeReason
+     * @param taxFreeReason to be updated
+     */
+    public void updateEntity(TaxFreeReason taxFreeReason) {
+        taxFreeReasonDAO.update(taxFreeReason);
+    }
+
+    /**
+     * Delete existing taxFreeReason
+     * @param taxFreeReason to be deleted
+     */
+    public void deleteEntity(TaxFreeReason taxFreeReason) {
+        taxFreeReasonDAO.delete(taxFreeReason);
     }
 }

@@ -24,9 +24,9 @@
 <%@include file="/inc/uiCore.jsp" %>
 
 <%-- List of billBreakDowns --%>
-<t:dataTable id="breakDown" var="item" value="#{billBean.breakDown}" preserveDataModel="false" 
-    cellpadding="0" cellspacing="0" styleClass="editListTable" 
-    headerClass="editListHeaderCell" footerClass="editListFooter" 
+<t:dataTable id="breakDown" var="itemBreakDown" value="#{billBean.breakDown}" preserveDataModel="false"
+    cellpadding="0" cellspacing="0" styleClass="editListTable"
+    headerClass="editListHeaderCell" footerClass="editListFooter"
     rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
     columnClasses="listCmdCell,listCmdCell, editListBillBreakDownConcept,editListBillBreakDownUnits,editListBillBreakDownAmount,editListBillBreakDownIva">
 
@@ -48,10 +48,10 @@
   </h:column>
 
 
-    
-  
+
+
       <%-- Ignored field: id --%>
-  
+
     <h:column>
 
 		<f:facet name="header">
@@ -60,15 +60,15 @@
 
 		<h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="place" />
-          <h:inputText id="place" value="#{item.place}" maxlength="3" size="3"  required="false" styleClass="requiredFieldClass"
+          <h:inputText id="place" value="#{itemBreakDown.place}" maxlength="3" size="3"  required="false" styleClass="requiredFieldClass"
                        readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
-      
-    </h:column>  
-    
-    
-      
+
+    </h:column>
+
+
+
     <h:column>
 
       <f:facet name="header">
@@ -77,16 +77,16 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="concept" />
-          <h:inputTextarea id="concept" value="#{item.concept}" rows="3" cols="68" required="true" readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
+          <h:inputTextarea id="concept" value="#{itemBreakDown.concept}" rows="3" cols="68" required="true" readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
-      
+
     </h:column>
 
-    
-    
-    
-      
+
+
+
+
     <h:column>
 
       <f:facet name="header">
@@ -95,17 +95,17 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="units" />
-          <h:inputText id="units" value="#{item.units}" maxlength="11" size="11"  required="true" styleClass="requiredFieldClass"
+          <h:inputText id="units" value="#{itemBreakDown.units}" maxlength="11" size="11"  required="true" styleClass="requiredFieldClass"
                        readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
-      
+
     </h:column>
 
-    
-    
-    
-      
+
+
+
+
     <h:column>
 
       <f:facet name="header">
@@ -114,33 +114,35 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="amount" />
-          <h:inputText id="amount" value="#{item.amount}" maxlength="11" size="12"  required="true" styleClass="requiredFieldClass"
+          <h:inputText id="amount" value="#{itemBreakDown.amount}" maxlength="11" size="12"  required="true" styleClass="requiredFieldClass"
                        readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
         </h:panelGroup>
 
-      
+
     </h:column>
 
-    
-    
-    
-      
+
     <h:column>
 
-      <f:facet name="header">
-      	      		<h:outputText value="*#{msg['billBreakDown.iva']}" styleClass="editListHeader"/>
-      	      </f:facet>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['billBreakDown.iva']}" styleClass="editListHeader"/>
+        </f:facet>
 
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="iva" />
-          <h:inputText id="iva" value="#{item.iva}" maxlength="5" size="5"  required="true" styleClass="requiredFieldClass"
-                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="iva"/>
+            <h:inputText id="iva" value="#{itemBreakDown.iva}" maxlength="5" size="5" required="true"
+                         styleClass="requiredFieldClass"
+                         readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
+
+            <h:selectOneMenu id="taxFree" value="#{itemBreakDown.taxFreeReason}" required="false">
+                <f:selectItems value="#{billBean.taxFreeReasons}"/>
+                <f:converter converterId="autentia.EntityConverter"/>
+            </h:selectOneMenu>
         </h:panelGroup>
 
-      
     </h:column>
 
-  <h:column>
+    <h:column>
 
       <f:facet name="header">
       	      		<h:outputText value="#{msg['billBreakDown.total']}" styleClass="editListHeader"/>
@@ -148,7 +150,7 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="total" />
-          <h:outputText id="total" value="#{item.total}"    styleClass="requiredFieldClass"/>
+          <h:outputText id="total" value="#{itemBreakDown.total}"    styleClass="requiredFieldClass"/>
         </h:panelGroup>
 
       

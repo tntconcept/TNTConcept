@@ -37,6 +37,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import com.autentia.tnt.businessobject.*;
+import com.autentia.tnt.manager.billing.TaxFreeReasonManager;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,18 +47,6 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.bean.NavigationResults;
 import com.autentia.tnt.bean.account.AccountEntryBean;
-import com.autentia.tnt.businessobject.Account;
-import com.autentia.tnt.businessobject.AccountEntry;
-import com.autentia.tnt.businessobject.Bill;
-import com.autentia.tnt.businessobject.BillBreakDown;
-import com.autentia.tnt.businessobject.BillPayment;
-import com.autentia.tnt.businessobject.BillPaymentMode;
-import com.autentia.tnt.businessobject.BillState;
-import com.autentia.tnt.businessobject.BillType;
-import com.autentia.tnt.businessobject.Contact;
-import com.autentia.tnt.businessobject.CreditTitle;
-import com.autentia.tnt.businessobject.Organization;
-import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.BillSearch;
 import com.autentia.tnt.dao.search.ContactSearch;
@@ -126,7 +116,17 @@ public class BillBean extends BaseBean {
 
 		return ret;
 	}
-	
+
+	public List<SelectItem> getTaxFreeReasons() {
+		ArrayList<SelectItem> ret = new ArrayList<>();
+		List<TaxFreeReason> refs = TaxFreeReasonManager.getDefault().getAllEntities(new SortCriteria("id"));
+
+		for (TaxFreeReason ref : refs) {
+			ret.add(new SelectItem(ref, (ref.getCode() + " - " + ref.getReason())));
+		}
+
+		return ret;
+	}
 	
 	public Organization getProvider() {
 	    return bill.getProvider();
