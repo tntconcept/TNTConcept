@@ -38,6 +38,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.businessobject.*;
+import com.autentia.tnt.manager.billing.IVATypeManager;
 import com.autentia.tnt.manager.billing.TaxFreeReasonManager;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
@@ -1301,6 +1302,15 @@ public class BillBean extends BaseBean {
 		List<BillBreakDown> refs = BillBreakDownManager.getDefault().getAllEntities(null,new SortCriteria("concept"));
 		for (BillBreakDown ref : refs) {
 			ret.add(new SelectItem(ref, ref.getConcept()));
+		}
+		return ret;
+	}
+
+	public List<SelectItem> getIVAType(){
+		ArrayList<SelectItem> ret = new ArrayList<>();
+		List<IVAType> refs = IVATypeManager.getDefault().getAllEntities(new SortCriteria("id"));
+		for (IVAType ref : refs) {
+			ret.add(new SelectItem(ref.getIva(), ref.getIva().toString() +" - "+ ref.getName()));
 		}
 		return ret;
 	}

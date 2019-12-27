@@ -23,43 +23,43 @@
 -- IVAType
 -- -----------------------------------------------------------------------------
 
-CREATE TABLE `IVAType` (
-    `id` int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
-    `iva` decimal(4,2) default 21.00,
-    `name` varchar(30) default 'IVA General',
-    `ownerId` int(11) DEFAULT NULL,
-    `departmentId` int(10) unsigned DEFAULT NULL,
-    `insertDate` datetime DEFAULT NULL,
-    `updateDate` datetime DEFAULT NULL,
-    PRIMARY KEY  (`id`)
+CREATE TABLE IVAType (
+    id int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
+    iva decimal(4,2) default 21.00,
+    name varchar(30) default 'IVA General',
+    ownerId int(11) DEFAULT NULL,
+    departmentId int(10) DEFAULT NULL,
+    insertDate datetime DEFAULT NULL,
+    updateDate datetime DEFAULT NULL,
+    PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tipos de IVA';
 
-INSERT INTO `IVAType` VALUES (1, 21.00, 'IVA General', NULL, NULL, NULL, NULL);
-INSERT INTO `IVAType` VALUES (2, 10.00, 'IVA Reducido', NULL, NULL, NULL, NULL);
-INSERT INTO `IVAType` VALUES (3, 04.00, 'IVA Superreducido', NULL, NULL, NULL, NULL);
-INSERT INTO `IVAType` VALUES (4, 00.00, 'Exento de IVA', NULL, NULL, NULL, NULL);
+INSERT INTO IVAType VALUES (1, 21.00, 'IVA General', NULL, NULL, NULL, NULL);
+INSERT INTO IVAType VALUES (2, 10.00, 'IVA Reducido', NULL, NULL, NULL, NULL);
+INSERT INTO IVAType VALUES (3, 04.00, 'IVA Superreducido', NULL, NULL, NULL, NULL);
+INSERT INTO IVAType VALUES (4, 00.00, 'Exento de IVA', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- TaxFreeReason
 -- -----------------------------------------------------------------------------
 
-CREATE TABLE `TaxFreeReason` (
-    `id` int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
-    `code` varchar(2) NOT NULL,
-    `reason` varchar(30) NOT NULL,
-    `ownerId` int(11) DEFAULT NULL,
-    `departmentId` int(10) unsigned DEFAULT NULL,
-    `insertDate` datetime DEFAULT NULL,
-    `updateDate` datetime DEFAULT NULL,
-    PRIMARY KEY  (`id`)
+CREATE TABLE TaxFreeReason (
+    id int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
+    code varchar(2) NOT NULL,
+    reason varchar(30) NOT NULL,
+    ownerId int(11) DEFAULT NULL,
+    departmentId int(10) unsigned DEFAULT NULL,
+    insertDate datetime DEFAULT NULL,
+    updateDate datetime DEFAULT NULL,
+    PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tipos de IVA';
 
-INSERT INTO `TaxFreeReason` VALUES (1, 'E1', 'Exenta por el artículo 20', NULL, NULL, NULL, NULL);
-INSERT INTO `TaxFreeReason` VALUES (2, 'E2', 'Exenta por el artículo 21', NULL, NULL, NULL, NULL);
-INSERT INTO `TaxFreeReason` VALUES (3, 'E3', 'Exenta por el artículo 22', NULL, NULL, NULL, NULL);
-INSERT INTO `TaxFreeReason` VALUES (4, 'E4', 'Exenta por el artículo 23 y 24', NULL, NULL, NULL, NULL);
-INSERT INTO `TaxFreeReason` VALUES (5, 'E5', 'Exenta por el artículo 25', NULL, NULL, NULL, NULL);
-INSERT INTO `TaxFreeReason` VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
+INSERT INTO TaxFreeReason VALUES (1, 'E1', 'Exenta por el artículo 20', NULL, NULL, NULL, NULL);
+INSERT INTO TaxFreeReason VALUES (2, 'E2', 'Exenta por el artículo 21', NULL, NULL, NULL, NULL);
+INSERT INTO TaxFreeReason VALUES (3, 'E3', 'Exenta por el artículo 22', NULL, NULL, NULL, NULL);
+INSERT INTO TaxFreeReason VALUES (4, 'E4', 'Exenta por el artículo 23 y 24', NULL, NULL, NULL, NULL);
+INSERT INTO TaxFreeReason VALUES (5, 'E5', 'Exenta por el artículo 25', NULL, NULL, NULL, NULL);
+INSERT INTO TaxFreeReason VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- BillBreakDown
@@ -67,10 +67,9 @@ INSERT INTO `TaxFreeReason` VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NUL
 
 ALTER TABLE BillBreakDown ADD COLUMN taxFreeReasonId INT(11);
 
-UPDATE BillBreakDown as bbd
-SET bbd.taxFreeReasonId = 6 WHERE iva = 0;
+UPDATE BillBreakDown as bbd SET bbd.taxFreeReasonId = 6 WHERE bbd.iva = 0;
 
-ALTER TABLE BillBreakDown ADD CONSTRAINT taxFreeReason_FK FOREIGN KEY (taxFreeReasonId) REFERENCES TaxFreeReason(id);
+ALTER TABLE BillBreakDown ADD CONSTRAINT taxFreeReason_FK FOREIGN KEY (taxFreeReasonId) REFERENCES "TaxFreeReason"("id");
 
 -- -----------------------------------------------------------------------------
 -- Version
