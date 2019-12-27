@@ -56,6 +56,7 @@
 	<bean id="daoProjectRole" class="com.autentia.tnt.dao.hibernate.ProjectRoleDAO" />
 	<bean id="daoProvince" class="com.autentia.tnt.dao.hibernate.ProvinceDAO" />
 	<bean id="daoCountry" class="com.autentia.tnt.dao.hibernate.CountryDAO" />
+	<bean id="daoTaxFreeReason" class="com.autentia.tnt.dao.hibernate.TaxFreeReasonDAO" />
 	<bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
 	<bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />
 	<bean id="daoRole" class="com.autentia.tnt.dao.hibernate.RoleDAO" />
