@@ -34,6 +34,7 @@
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>	
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>  
+	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+    <many-to-one name="taxFreeReason" class="com.autentia.tnt.businessobject.TaxFreeReason" column="taxFreeReasonId"/>
   </class>
 </hibernate-mapping>
