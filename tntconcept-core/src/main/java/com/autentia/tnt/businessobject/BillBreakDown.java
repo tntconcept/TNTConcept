@@ -89,7 +89,7 @@ public class BillBreakDown implements Serializable, ITransferObject, TaxableObje
 
   private Integer place = 1;
 
-  private TaxFreeReason taxFreeReason;
+  private IVAReason IVAReason;
 
   // Setters and getters
   
@@ -241,11 +241,11 @@ public void setSelected(boolean selected) {
 	}
 
 
-    public TaxFreeReason getTaxFreeReason() {
-        return taxFreeReason;
+    public IVAReason getIVAReason() {
+        return IVAReason;
     }
 
-    public void setTaxFreeReason(TaxFreeReason taxFreeReason) {
-        this.taxFreeReason = taxFreeReason;
+    public void setIVAReason(IVAReason IVAReason) {
+        this.IVAReason = IVAReason;
     }
 }

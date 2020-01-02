@@ -137,9 +137,9 @@
                 <f:selectItems value="#{billBean.IVAType}"/>
             </h:selectOneMenu>
 
-            <h:selectOneMenu rendered="#{billBean.renderTaxFreeReasonsList(itemBreakDown.iva)}" id="taxFree" value="#{itemBreakDown.taxFreeReason}" required="false"
+            <h:selectOneMenu rendered="#{billBean.renderIvaReasonsList(itemBreakDown.iva)}" id="ivaReason" value="#{itemBreakDown.IVAReason}" required="false"
                              readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
-                <f:selectItems value="#{billBean.taxFreeReasons}"/>
+                <f:selectItems value="#{billBean.getIVAReasons(itemBreakDown.iva)}"/>
                 <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
         </h:panelGroup>
