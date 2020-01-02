@@ -160,7 +160,7 @@
 			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
 		</entity>
 
-		<entity name="TaxFreeReason">
+		<entity name="IVAReason">
 			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
 			<operation name="write"  admin="all"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
 			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="all" projectManager="all"/>

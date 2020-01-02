@@ -6,11 +6,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class TaxFreeReason implements Serializable, ITransferObject {
+public class IVAReason implements Serializable, ITransferObject {
 
     private Integer id;
     private String code;
     private String reason;
+    private boolean exempt;
 
     private Integer ownerId;
     private Integer departmentId;
@@ -35,6 +36,14 @@ public class TaxFreeReason implements Serializable, ITransferObject {
 
     public String getReason() {
         return reason;
+    }
+
+    public boolean isExempt() {
+        return exempt;
+    }
+
+    public void setExempt(boolean exempt) {
+        this.exempt = exempt;
     }
 
     public void setReason(String reason) {

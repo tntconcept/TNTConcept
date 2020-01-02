@@ -39,7 +39,7 @@ import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.manager.billing.IVATypeManager;
-import com.autentia.tnt.manager.billing.TaxFreeReasonManager;
+import com.autentia.tnt.manager.billing.IVAReasonManager;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -118,15 +118,28 @@ public class BillBean extends BaseBean {
 		return ret;
 	}
 
-	public List<SelectItem> getTaxFreeReasons() {
+	public List<SelectItem> getIVAReasons(BigDecimal iva) {
 		ArrayList<SelectItem> ret = new ArrayList<>();
-		List<TaxFreeReason> refs = TaxFreeReasonManager.getDefault().getAllEntities(new SortCriteria("id"));
+		List<IVAReason> refs = IVAReasonManager.getDefault().getAllEntities(new SortCriteria("id"));
 
-		for (TaxFreeReason ref : refs) {
-			ret.add(new SelectItem(ref, (ref.getCode() + " - " + ref.getReason())));
+		for (IVAReason ref : refs) {
+			if (iva.compareTo(BigDecimal.ZERO) == 0) {
+				if (ref.isExempt()) {
+					ret.add(new SelectItem(ref, (ref.getCode() + " - " + ref.getReason())));
+				}
+			} else {
+				if (!ref.isExempt()) {
+					ret.add(new SelectItem(ref, (ref.getCode() + " - " + ref.getReason())));
+				}
+			}
 		}
 
 		return ret;
+	}
+
+	public boolean renderIvaReasonsList(BigDecimal iva) {
+//		return iva.compareTo(BigDecimal.ZERO) == 0;
+		return true;
 	}
 	
 	public Organization getProvider() {
@@ -140,7 +153,7 @@ public class BillBean extends BaseBean {
 	        return search.getProvider();
 	    }
 	    public void setSearchProvider( Organization val ){
-	        if( search.isProviderSet() ) {
+	        if(search.isProviderSet()) {
 	          search.setProvider( val );
 	        }
 	    }

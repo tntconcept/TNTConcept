@@ -21,12 +21,13 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.autentia.tnt.businessobject.TaxFreeReason" table="TaxFreeReason">
+    <class name="com.autentia.tnt.businessobject.IVAReason" table="IVAReason">
         <id name="id" type="java.lang.Integer">
             <generator class="native" />
         </id>
         <property name="code" type="java.lang.String" column="code"/>
         <property name="reason" type="java.lang.String" column="reason"/>
+        <property name="exempt" type="java.lang.Boolean" column="exempt"/>
 
         <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
         <property name="departmentId" type="java.lang.Integer" column="departmentId"/>

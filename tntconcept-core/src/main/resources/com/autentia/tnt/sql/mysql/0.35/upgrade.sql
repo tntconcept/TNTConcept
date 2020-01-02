@@ -40,13 +40,14 @@ INSERT INTO IVAType VALUES (3, 04.00, 'IVA Superreducido', NULL, NULL, NULL, NUL
 INSERT INTO IVAType VALUES (4, 00.00, 'Exento de IVA', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
--- TaxFreeReason
+-- IVAReason
 -- -----------------------------------------------------------------------------
 
-CREATE TABLE TaxFreeReason (
+CREATE TABLE IVAReason (
     id int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
     code varchar(2) NOT NULL,
-    reason varchar(30) NOT NULL,
+    reason varchar(70) NOT NULL,
+    exempt bool NOT NULL,
     ownerId int(11) DEFAULT NULL,
     departmentId int(10) unsigned DEFAULT NULL,
     insertDate datetime DEFAULT NULL,
@@ -54,22 +55,27 @@ CREATE TABLE TaxFreeReason (
     PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tipos de IVA';
 
-INSERT INTO TaxFreeReason VALUES (1, 'E1', 'Exenta por el artículo 20', NULL, NULL, NULL, NULL);
-INSERT INTO TaxFreeReason VALUES (2, 'E2', 'Exenta por el artículo 21', NULL, NULL, NULL, NULL);
-INSERT INTO TaxFreeReason VALUES (3, 'E3', 'Exenta por el artículo 22', NULL, NULL, NULL, NULL);
-INSERT INTO TaxFreeReason VALUES (4, 'E4', 'Exenta por el artículo 23 y 24', NULL, NULL, NULL, NULL);
-INSERT INTO TaxFreeReason VALUES (5, 'E5', 'Exenta por el artículo 25', NULL, NULL, NULL, NULL);
-INSERT INTO TaxFreeReason VALUES (6, 'E5', 'Exenta por otros', NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (1, 'E1', 'Exenta por el articulo 20', true, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (2, 'E2', 'Exenta por el articulo 21', true, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (3, 'E3', 'Exenta por el articulo 22', true, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (4, 'E4', 'Exenta por el articulo 23 y 24', true, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (5, 'E5', 'Exenta por el articulo 25', true, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (6, 'E5', 'Exenta por otros', true, NULL, NULL, NULL, NULL);
+
+INSERT INTO IVAReason VALUES (7, 'S1', 'No exenta - Sin inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (8, 'S2', 'No exenta - Con inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (9, 'S3', 'No exenta - Sin inversion sujeto pasivo y con inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- BillBreakDown
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE BillBreakDown ADD COLUMN taxFreeReasonId INT(11);
+ALTER TABLE BillBreakDown ADD COLUMN IVAReasonId INT(11);
 
-UPDATE BillBreakDown as bbd SET bbd.taxFreeReasonId = 6 WHERE bbd.iva = 0;
+UPDATE BillBreakDown as bbd SET bbd.IVAReasonId = 6 WHERE bbd.iva = 0;
+UPDATE BillBreakDown as bbd SET bbd.IVAReasonId = 7 WHERE bbd.iva != 0;
 
-ALTER TABLE BillBreakDown ADD CONSTRAINT taxFreeReason_FK FOREIGN KEY (taxFreeReasonId) REFERENCES "TaxFreeReason"("id");
+ALTER TABLE BillBreakDown ADD CONSTRAINT IVAReason_FK FOREIGN KEY (IVAReasonId) REFERENCES IVAReason(id);
 
 -- -----------------------------------------------------------------------------
 -- Version
