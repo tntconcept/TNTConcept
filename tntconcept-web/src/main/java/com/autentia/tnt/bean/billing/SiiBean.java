@@ -18,10 +18,7 @@
 package com.autentia.tnt.bean.billing;
 
 import com.autentia.tnt.bean.BaseBean;
-import com.autentia.tnt.businessobject.Bill;
-import com.autentia.tnt.businessobject.BillType;
-import com.autentia.tnt.businessobject.Country;
-import com.autentia.tnt.businessobject.Organization;
+import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.BillSearch;
 import com.autentia.tnt.mail.DefaultMailService;
@@ -43,6 +40,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -444,10 +442,27 @@ public class SiiBean extends BaseBean {
         String monthName =  aux.substring(0, 1).toUpperCase() + aux.substring(1);
         String period = monthNumber + " - " + monthName ;
 
-        costData.put("total", bill.getTotal());
-        costData.put("iva", bill.getBreakDown().iterator().next().getIva());
-        costData.put("basePrice", bill.getTotalNoTaxes());
-        costData.put("ivaTotal", bill.getTotal().subtract(bill.getTotalNoTaxes()));
+        costData.put("total", new BigDecimal(0));
+        costData.put("iva21", new BigDecimal(21));
+        costData.put("iva10", new BigDecimal(10));
+        costData.put("iva4", new BigDecimal(4));
+        costData.put("basePrice21", new BigDecimal(0));
+        costData.put("basePrice10", new BigDecimal(0));
+        costData.put("basePrice4", new BigDecimal(0));
+        costData.put("basePrice0", new BigDecimal(0));
+        costData.put("ivaTotal21", new BigDecimal(0));
+        costData.put("ivaTotal10", new BigDecimal(0));
+        costData.put("ivaTotal4", new BigDecimal(0));
+        costData.put("ivaTotal0", new BigDecimal(0));
+
+        for(BillBreakDown bbd: bill.getBreakDown()){
+            switch (bbd.getIva().toString()){
+                case "21.00": fillOutCostData(costData, "21", bbd); break;
+                case "10.00": fillOutCostData(costData, "10", bbd); break;
+                case "4.00": fillOutCostData(costData, "4", bbd); break;
+                case "0.00": fillOutCostData(costData, "0", bbd);
+            }
+        }
 
         item.append( this.populateCell("") );
         item.append( this.populateCell( cif ) );
@@ -472,6 +487,15 @@ public class SiiBean extends BaseBean {
         item.append( this.returnLine());
 
         return item.toString();
+    }
+
+    private void fillOutCostData(Map<String, BigDecimal> costData, String key, BillBreakDown bbd){
+        BigDecimal total = costData.get("total").add(bbd.getTotal());
+        BigDecimal basePrice = costData.get("basePrice"+key).add(bbd.getAmount().multiply(bbd.getUnits()));
+        BigDecimal ivaTotal = costData.get("ivaTotal"+key).add(bbd.getTotal().subtract(bbd.getAmount().multiply(bbd.getUnits())));
+        costData.put("total", total.setScale(2, RoundingMode.HALF_EVEN));
+        costData.put("basePrice"+key, basePrice.setScale(2,RoundingMode.HALF_EVEN));
+        costData.put("ivaTotal"+key, ivaTotal.setScale(2,RoundingMode.HALF_EVEN));
     }
 
     private String areRequiredFieldsNull(Bill bill) {
@@ -577,33 +601,33 @@ public class SiiBean extends BaseBean {
 
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
-        item.append( this.populateCell( costData.get("iva") ) );
-        item.append(this.populateCell( costData.get("basePrice") ));
-        item.append(this.populateCell( costData.get("ivaTotal") ));
+        item.append( this.populateCell( costData.get("iva21") ) );
+        item.append(this.populateCell( costData.get("basePrice21") ));
+        item.append(this.populateCell( costData.get("ivaTotal21") ));
         item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
         item.append(this.populateCell(""));
         item.append(this.populateCell("SI"));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
+        item.append(this.populateCell("")); // IMPORTE 1 SEGUN ART 7,14
+        item.append(this.populateCell("")); // IMPORTE 1 TAI
+        item.append( this.populateCell( costData.get("iva10") ) );
+        item.append(this.populateCell( costData.get("basePrice10") ));
+        item.append(this.populateCell( costData.get("ivaTotal10") ));
+        item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
         item.append(this.populateCell(""));
         item.append(this.populateCell("SI"));
-        item.append(this.populateCell("")); // Que va en este campo?
-        item.append(this.populateCell("0"));
+        item.append(this.populateCell("")); // IMPORTE 2 SEGUN ART 7,14
+        item.append(this.populateCell("")); // IMPORTE 2 TAI
+        item.append( this.populateCell( costData.get("iva4") ) );
+        item.append(this.populateCell( costData.get("basePrice4") ));
+        item.append(this.populateCell( costData.get("ivaTotal4") ));
+        item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
+        item.append(this.populateCell(""));
+        item.append(this.populateCell("SI"));
+        item.append(this.populateCell("")); // IMPORTE 3 SEGUN ART 7,14
+        item.append(this.populateCell("")); // IMPORTE 3 TAI
+        item.append(this.populateCell((costData.get("basePrice0").compareTo(BigDecimal.ZERO) != 0) ? "SI" : "NO"));
+        item.append(this.populateCell( costData.get("basePrice0") ));
+        item.append(this.populateCell( costData.get("ivaTotal0") ));
         item.append(this.populateCell(""));
         item.append(this.populateCell("E5 - Exenta por el artículo 25"));
         item.append(this.populateCell(""));

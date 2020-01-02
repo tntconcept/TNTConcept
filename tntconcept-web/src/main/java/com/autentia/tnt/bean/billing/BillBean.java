@@ -128,6 +128,10 @@ public class BillBean extends BaseBean {
 
 		return ret;
 	}
+
+	public boolean renderTaxFreeReasonsList(BigDecimal iva) {
+		return iva.compareTo(BigDecimal.ZERO) == 0;
+	}
 	
 	public Organization getProvider() {
 	    return bill.getProvider();

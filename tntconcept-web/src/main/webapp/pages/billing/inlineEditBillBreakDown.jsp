@@ -128,15 +128,16 @@
             <h:outputText value="*#{msg['billBreakDown.iva']}" styleClass="editListHeader"/>
         </f:facet>
 
-        <h:panelGroup>
+        <h:panelGroup style="display: flex">
             <h:message styleClass="error" showSummary="true" showDetail="false" for="iva"/>
             <h:selectOneMenu id="iva" value="#{itemBreakDown.iva}" required="true"
                              styleClass="requiredFieldClass"
+                             onchange="submit();"
                              readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
                 <f:selectItems value="#{billBean.IVAType}"/>
             </h:selectOneMenu>
 
-            <h:selectOneMenu id="taxFree" value="#{itemBreakDown.taxFreeReason}" required="false"
+            <h:selectOneMenu rendered="#{billBean.renderTaxFreeReasonsList(itemBreakDown.iva)}" id="taxFree" value="#{itemBreakDown.taxFreeReason}" required="false"
                              readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
                 <f:selectItems value="#{billBean.taxFreeReasons}"/>
                 <f:converter converterId="autentia.EntityConverter"/>
