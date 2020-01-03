@@ -66,7 +66,6 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
-import sun.tools.java.BinaryAttribute;
 
 /**
  * UI bean for Bill objects.

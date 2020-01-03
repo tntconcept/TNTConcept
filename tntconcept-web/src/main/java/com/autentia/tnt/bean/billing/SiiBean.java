@@ -406,7 +406,7 @@ public class SiiBean extends BaseBean {
     private String generateCSVItem (final Bill bill) {
 
         final StringBuilder item = new StringBuilder();
-        Map<String, BigDecimal> costData = new HashMap<>();
+        Map<String, Object> costData = new HashMap<>();
 
         Calendar calendar = Calendar.getInstance();
 
@@ -454,13 +454,32 @@ public class SiiBean extends BaseBean {
         costData.put("ivaTotal10", new BigDecimal(0));
         costData.put("ivaTotal4", new BigDecimal(0));
         costData.put("ivaTotal0", new BigDecimal(0));
+        costData.put("reason21", null);
+        costData.put("reason10", null);
+        costData.put("reason4", null);
+        costData.put("reason0", null);
 
         for(BillBreakDown bbd: bill.getBreakDown()){
+
+            StringBuilder reason = new StringBuilder( bbd.getIVAReason().getCode() );
+            reason.append(" - ").append( bbd.getIVAReason().getReason());
+
             switch (bbd.getIva().toString()){
-                case "21.00": fillOutCostData(costData, "21", bbd); break;
-                case "10.00": fillOutCostData(costData, "10", bbd); break;
-                case "4.00": fillOutCostData(costData, "4", bbd); break;
-                case "0.00": fillOutCostData(costData, "0", bbd);
+                case "21.00":
+                    fillOutCostData(costData, "21", bbd);
+                    costData.put("reason21", reason.toString());
+                    break;
+                case "10.00":
+                    fillOutCostData(costData, "10", bbd);
+                    costData.put("reason10", reason.toString());
+                    break;
+                case "4.00":
+                    fillOutCostData(costData, "4", bbd);
+                    costData.put("reason4", reason.toString());
+                    break;
+                case "0.00":
+                    fillOutCostData(costData, "0", bbd);
+                    costData.put("reason0", reason.toString());
             }
         }
 
@@ -489,10 +508,10 @@ public class SiiBean extends BaseBean {
         return item.toString();
     }
 
-    private void fillOutCostData(Map<String, BigDecimal> costData, String key, BillBreakDown bbd){
-        BigDecimal total = costData.get("total").add(bbd.getTotal());
-        BigDecimal basePrice = costData.get("basePrice"+key).add(bbd.getAmount().multiply(bbd.getUnits()));
-        BigDecimal ivaTotal = costData.get("ivaTotal"+key).add(bbd.getTotal().subtract(bbd.getAmount().multiply(bbd.getUnits())));
+    private void fillOutCostData(Map<String, Object> costData, String key, BillBreakDown bbd){
+        BigDecimal total = ((BigDecimal) costData.get("total")).add(bbd.getTotal());
+        BigDecimal basePrice = ((BigDecimal) costData.get("basePrice"+key)).add(bbd.getAmount().multiply(bbd.getUnits()));
+        BigDecimal ivaTotal = ((BigDecimal) costData.get("ivaTotal"+key)).add(bbd.getTotal().subtract(bbd.getAmount().multiply(bbd.getUnits())));
         costData.put("total", total.setScale(2, RoundingMode.HALF_EVEN));
         costData.put("basePrice"+key, basePrice.setScale(2,RoundingMode.HALF_EVEN));
         costData.put("ivaTotal"+key, ivaTotal.setScale(2,RoundingMode.HALF_EVEN));
@@ -537,17 +556,14 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    private void generateCSVItemReceive (Map<String, BigDecimal> costData, StringBuilder item, String description) {
+    private void generateCSVItemReceive (Map<String, Object> costData, StringBuilder item, String description) {
 
-        item.append( this.populateCell( costData.get("iva") ) );
-        item.append( this.populateCell( costData.get("basePrice") ));
-        item.append( this.populateCell( costData.get("ivaTotal") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("iva") ) );
+        item.append( this.populateCell( (BigDecimal) costData.get("basePrice") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
-        item.append( this.populateCell( costData.get("ivaTotal") ));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
@@ -576,7 +592,10 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
-        item.append( this.populateCell( costData.get("total") ));
+        item.append( this.populateCell(""));
+        item.append( this.populateCell(""));
+        item.append( this.populateCell(""));
+        item.append( this.populateCell((BigDecimal) costData.get("total") ));
         item.append( this.populateCell("0"));
         item.append( this.populateCell( description ));
         item.append( this.populateCell("F1 - Factura"));
@@ -597,41 +616,39 @@ public class SiiBean extends BaseBean {
 
     }
 
-    private void generateCSVItemIssue (Map<String, BigDecimal> costData, StringBuilder item) {
+    private void generateCSVItemIssue (Map<String, Object> costData, StringBuilder item) {
 
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
-        item.append( this.populateCell( costData.get("iva21") ) );
-        item.append(this.populateCell( costData.get("basePrice21") ));
-        item.append(this.populateCell( costData.get("ivaTotal21") ));
-        item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
+        item.append( this.populateCell((BigDecimal) costData.get("iva21")));
+        item.append(this.populateCell((BigDecimal) costData.get("basePrice21")));
+        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal21")));
+        item.append(this.populateCell((String) costData.get("reason21")));
         item.append(this.populateCell(""));
         item.append(this.populateCell("SI"));
         item.append(this.populateCell("")); // IMPORTE 1 SEGUN ART 7,14
         item.append(this.populateCell("")); // IMPORTE 1 TAI
-        item.append( this.populateCell( costData.get("iva10") ) );
-        item.append(this.populateCell( costData.get("basePrice10") ));
-        item.append(this.populateCell( costData.get("ivaTotal10") ));
-        item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
+        item.append( this.populateCell((BigDecimal) costData.get("iva10")));
+        item.append(this.populateCell((BigDecimal) costData.get("basePrice10")));
+        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal10")));
+        item.append(this.populateCell((String) costData.get("reason10")));
         item.append(this.populateCell(""));
         item.append(this.populateCell("SI"));
         item.append(this.populateCell("")); // IMPORTE 2 SEGUN ART 7,14
         item.append(this.populateCell("")); // IMPORTE 2 TAI
-        item.append( this.populateCell( costData.get("iva4") ) );
-        item.append(this.populateCell( costData.get("basePrice4") ));
-        item.append(this.populateCell( costData.get("ivaTotal4") ));
-        item.append(this.populateCell("S1 - No exenta- Sin inversion sujeto pasivo"));
+        item.append( this.populateCell((BigDecimal) costData.get("iva4")));
+        item.append(this.populateCell((BigDecimal) costData.get("basePrice4")));
+        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal4")));
+        item.append(this.populateCell((String) costData.get("reason4")));
         item.append(this.populateCell(""));
         item.append(this.populateCell("SI"));
         item.append(this.populateCell("")); // IMPORTE 3 SEGUN ART 7,14
         item.append(this.populateCell("")); // IMPORTE 3 TAI
-        item.append(this.populateCell((costData.get("basePrice0").compareTo(BigDecimal.ZERO) != 0) ? "SI" : "NO"));
-        item.append(this.populateCell( costData.get("basePrice0") ));
-        item.append(this.populateCell( costData.get("ivaTotal0") ));
+        item.append(this.populateCell((((BigDecimal) costData.get("basePrice0")).compareTo(BigDecimal.ZERO) != 0) ? "SI" : "NO"));
+        item.append(this.populateCell((BigDecimal) costData.get("basePrice0") ));
+        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal0") ));
         item.append(this.populateCell(""));
-        item.append(this.populateCell("E5 - Exenta por el artículo 25"));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
+        item.append(this.populateCell((String) costData.get("reason0")));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
@@ -645,7 +662,9 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
         item.append(this.populateCell(""));
-        item.append(this.populateCell( costData.get("total") ));
+        item.append(this.populateCell(""));
+        item.append(this.populateCell(""));
+        item.append(this.populateCell((BigDecimal) costData.get("total") ));
         item.append(this.populateCell("0"));
         item.append(this.populateCell("Prestación de servicios"));
         item.append(this.populateCell("F1 - Factura"));
