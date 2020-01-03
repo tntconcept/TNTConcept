@@ -128,17 +128,20 @@
             <h:outputText value="*#{msg['billBreakDown.iva']}" styleClass="editListHeader"/>
         </f:facet>
 
-        <h:panelGroup style="display: flex">
+        <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="iva"/>
             <h:selectOneMenu id="iva" value="#{itemBreakDown.iva}" required="true"
                              styleClass="requiredFieldClass"
                              onchange="submit();"
-                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
+                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                             style="width: 90%;">
                 <f:selectItems value="#{billBean.IVAType}"/>
             </h:selectOneMenu>
 
-            <h:selectOneMenu id="ivaReason" value="#{itemBreakDown.IVAReason}" required="false"
-                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
+            <h:selectOneMenu id="ivaReason" value="#{itemBreakDown.IVAReason}" required="true"
+                             styleClass="requiredFieldClass"
+                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                             style="width: 90%;">
                 <f:selectItems value="#{billBean.getIVAReasons(itemBreakDown.iva)}"/>
                 <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
