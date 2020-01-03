@@ -6301,7 +6301,8 @@ vertical-align: top;
 .editListBillBreakDownAmount {
 vertical-align: top;
 padding: 2px 0 0 2px;
-width: 10%;
+
+  width: 15%;
  }
  
 .detailListBillBreakDownAmount {
@@ -6323,7 +6324,7 @@ vertical-align: top;
 vertical-align: top;
 padding: 2px 0 0 2px;
 
-  width: 15%;
+  width: 20%;
  }
  
 .detailListBillBreakDownIva {

@@ -66,6 +66,8 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
+import sun.tools.java.BinaryAttribute;
+
 /**
  * UI bean for Bill objects.
  * 
@@ -82,7 +84,10 @@ public class BillBean extends BaseBean {
 	private boolean DONT_CREATE_BILL_PAYMENT = false;
 	
 	private static int ALL_YEARS = 0;
-	
+
+	private List<SelectItem> exemptReasons;
+	private List<SelectItem> noExemptReasons;
+
 	public int getYear() {
 		return year;
 	}
@@ -119,29 +124,33 @@ public class BillBean extends BaseBean {
 	}
 
 	public List<SelectItem> getIVAReasons(BigDecimal iva) {
-		ArrayList<SelectItem> ret = new ArrayList<>();
-		List<IVAReason> refs = IVAReasonManager.getDefault().getAllEntities(new SortCriteria("id"));
+		loadIVAReasons();
 
-		for (IVAReason ref : refs) {
-			if (iva.compareTo(BigDecimal.ZERO) == 0) {
-				if (ref.isExempt()) {
-					ret.add(new SelectItem(ref, (ref.getCode() + " - " + ref.getReason())));
-				}
-			} else {
-				if (!ref.isExempt()) {
-					ret.add(new SelectItem(ref, (ref.getCode() + " - " + ref.getReason())));
-				}
-			}
+		if (iva.compareTo(BigDecimal.ZERO) == 0) {
+			return this.exemptReasons;
 		}
 
-		return ret;
+		return this.noExemptReasons;
 	}
 
-	public boolean renderIvaReasonsList(BigDecimal iva) {
-//		return iva.compareTo(BigDecimal.ZERO) == 0;
-		return true;
+	private void loadIVAReasons() {
+		List<IVAReason> refs = IVAReasonManager.getDefault().getAllEntities(new SortCriteria("id"));
+
+		exemptReasons = new ArrayList<>();
+		noExemptReasons = new ArrayList<>();
+
+		for (IVAReason ref : refs) {
+
+			SelectItem selectItem = new SelectItem(ref, ref.getCode() + " - " + ref.getReason());
+
+			if (ref.isExempt()) {
+				this.exemptReasons.add(selectItem);
+			} else {
+				this.noExemptReasons.add(selectItem);
+			}
+		}
 	}
-	
+
 	public Organization getProvider() {
 	    return bill.getProvider();
 	  }
@@ -1635,6 +1644,7 @@ public class BillBean extends BaseBean {
 
 	public BillBean() {
 		this.readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
+
 	}
 
 	/**
