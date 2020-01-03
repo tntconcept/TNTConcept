@@ -136,11 +136,6 @@ public class BillBean extends BaseBean {
 
 		return ret;
 	}
-
-	public boolean renderIvaReasonsList(BigDecimal iva) {
-//		return iva.compareTo(BigDecimal.ZERO) == 0;
-		return true;
-	}
 	
 	public Organization getProvider() {
 	    return bill.getProvider();
