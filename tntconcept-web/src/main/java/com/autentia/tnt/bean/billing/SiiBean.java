@@ -497,10 +497,8 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell("=\"\"" + period + "\"\"")); //La gestora quiere que el periodo sea texto
 
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
-            //generateCSVItemIssue
             generateCSVItemReceive( costData, item, bill.getName() );
         else
-            //generateCSVItemReceive
             generateCSVItemIssue( costData, item );
 
         item.append( this.returnLine());
@@ -558,28 +556,28 @@ public class SiiBean extends BaseBean {
 
     private void generateCSVItemReceive (Map<String, Object> costData, StringBuilder item, String description) {
 
-        item.append( this.populateCell( (BigDecimal) costData.get("iva") ) );
-        item.append( this.populateCell( (BigDecimal) costData.get("basePrice") ));
-        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("iva21") ) );
+        item.append( this.populateCell( (BigDecimal) costData.get("basePrice21") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal21") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
-        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal21") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("iva10") ) );
+        item.append( this.populateCell( (BigDecimal) costData.get("basePrice10") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal10") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal10") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("iva4") ) );
+        item.append( this.populateCell( (BigDecimal) costData.get("basePrice4") ));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal4") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
+        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal4") ));
+        item.append(this.populateCell((((BigDecimal) costData.get("basePrice0")).compareTo(BigDecimal.ZERO) != 0) ? "SI" : "NO"));
+        item.append(this.populateCell((BigDecimal) costData.get("basePrice0") ));
+        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal0") ));
+        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal0") ));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
         item.append( this.populateCell(""));
