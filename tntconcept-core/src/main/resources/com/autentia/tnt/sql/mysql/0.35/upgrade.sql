@@ -64,7 +64,7 @@ INSERT INTO IVAReason VALUES (6, 'E5', 'Exenta por otros', true, NULL, NULL, NUL
 
 INSERT INTO IVAReason VALUES (7, 'S1', 'No exenta - Sin inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
 INSERT INTO IVAReason VALUES (8, 'S2', 'No exenta - Con inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
-INSERT INTO IVAReason VALUES (9, 'S3', 'No exenta - Sin inversion sujeto pasivo y con inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
+INSERT INTO IVAReason VALUES (9, 'S3', 'No exenta - Con y sin inversion sujeto pasivo', false, NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- BillBreakDown
@@ -72,8 +72,8 @@ INSERT INTO IVAReason VALUES (9, 'S3', 'No exenta - Sin inversion sujeto pasivo 
 
 ALTER TABLE BillBreakDown ADD COLUMN IVAReasonId INT(11);
 
-UPDATE BillBreakDown as bbd SET bbd.IVAReasonId = 6 WHERE bbd.iva = 0;
-UPDATE BillBreakDown as bbd SET bbd.IVAReasonId = 7 WHERE bbd.iva != 0;
+UPDATE BillBreakDown AS bbd SET bbd.IVAReasonId = 6 WHERE bbd.iva = 0;
+UPDATE BillBreakDown AS bbd SET bbd.IVAReasonId = 7 WHERE bbd.iva != 0;
 
 ALTER TABLE BillBreakDown ADD CONSTRAINT IVAReason_FK FOREIGN KEY (IVAReasonId) REFERENCES IVAReason(id);
 
@@ -82,4 +82,4 @@ ALTER TABLE BillBreakDown ADD CONSTRAINT IVAReason_FK FOREIGN KEY (IVAReasonId) 
 -- -----------------------------------------------------------------------------
 --
 -- Update version number
-update Version set version='0.36';
+UPDATE Version SET version='0.36';
