@@ -1,0 +1,92 @@
+--
+-- TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+-- Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+-- Debe añadirse debajo de [mysqld] en el archivo my.cnf de la instalación mysql de la máquina destino.
+-- Si se realiza mediante script necesita ser ejecutado por un usuario con permiso SUPER.
+-- set global sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------------------------------
+-- BillType
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE BillType (
+    id int(11) NOT NULL,
+    code varchar(2) NOT NULL,
+    name varchar(40) NOT NULL,
+    rectify bool NOT NULL,
+    ownerId int(11) DEFAULT NULL,
+    departmentId int(10) DEFAULT NULL,
+    insertDate datetime DEFAULT NULL,
+    updateDate datetime DEFAULT NULL,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO BillType VALUES (1, 'F1', 'Factura', false, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (2, 'F2', 'Factura Simplificada (ticket)', false, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (3, 'F3', 'Factura emitida en sustitución de facturas simplificadas facturadas y declaradas', false, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (4, 'F4', 'Asiento resumen de facturas', false, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (5, 'R1', 'Error fundado en derecho y Art. 80 Uno Dos y Seis LIVA', true, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (6, 'R2', 'Factura Rectificativa (Art. 80.3)', true, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (7, 'R3', 'Factura Rectificativa (Art. 80.4)', true, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (8, 'R4', 'Factura Rectificativa (Resto)', true, NULL, NULL, NULL, NULL);
+
+INSERT INTO BillType VALUES (9, 'R5', 'Factura Rectificativa en facturas simplificadas', true, NULL, NULL, NULL, NULL);
+
+-- -----------------------------------------------------------------------------
+-- RectifiedBillType
+-- -----------------------------------------------------------------------------
+CREATE TABLE RectifiedBillType (
+    id int(11) NOT NULL,
+    code varchar(2) NOT NULL,
+    name varchar(40) NOT NULL,
+    ownerId int(11) DEFAULT NULL,
+    departmentId int(10) DEFAULT NULL,
+    insertDate datetime DEFAULT NULL,
+    updateDate datetime DEFAULT NULL,
+    PRIMARY KEY  (id)
+);
+
+INSERT INTO RectifiedBillType VALUES (1, 'I', 'Por diferencias', NULL, NULL, NULL, NULL);
+
+INSERT INTO RectifiedBillType VALUES (2, 'S', 'Por sustitución', NULL, NULL, NULL, NULL);
+
+-- -----------------------------------------------------------------------------
+-- Bill
+-- -----------------------------------------------------------------------------
+ALTER TABLE Bill ADD COLUMN billTypeId INT(11);
+
+ALTER TABLE Bill ADD COLUMN rectifiedBillTypeId INT(11) DEFAULT NULL;
+
+UPDATE Bill AS bbd SET bbd.billTypeId = 1;
+
+ALTER TABLE Bill ADD CONSTRAINT BillType_FK FOREIGN KEY (billTypeId) REFERENCES BillType(id);
+
+ALTER TABLE Bill ADD CONSTRAINT RectifiedBillType_FK FOREIGN KEY (rectifiedBillTypeId) REFERENCES RectifiedBillType(id);
+
+-- -----------------------------------------------------------------------------
+-- Version
+-- -----------------------------------------------------------------------------
+--
+-- Update version number
+UPDATE Version SET version='0.37';
