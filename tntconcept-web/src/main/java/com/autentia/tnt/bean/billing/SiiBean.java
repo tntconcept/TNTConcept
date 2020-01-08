@@ -418,7 +418,6 @@ public class SiiBean extends BaseBean {
                 calendar.setTime( bill.getCreationDate() );
                 expirationDate = bill.getCreationDate();
                 organization = bill.getProject().getClient();
-
                 break;
             case RECIEVED:  // compras
                 calendar.setTime( bill.getInsertDate() );
@@ -456,16 +455,16 @@ public class SiiBean extends BaseBean {
 
             switch (bbd.getIva().toString()){
                 case "21.00":
-                    fillOutCostData(ivaDataMap.get("ivaData21"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData21"), bbd);
                     break;
                 case "10.00":
-                    fillOutCostData(ivaDataMap.get("ivaData10"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData10"), bbd);
                     break;
                 case "4.00":
-                    fillOutCostData(ivaDataMap.get("ivaData4"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData4"), bbd);
                     break;
                 case "0.00":
-                    fillOutCostData(ivaDataMap.get("ivaData0"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData0"), bbd);
             }
         }
 
@@ -492,7 +491,7 @@ public class SiiBean extends BaseBean {
         return item.toString();
     }
 
-    private void fillOutCostData(IVAData ivaData, BillBreakDown bbd){
+    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd){
         ivaData.setExistsOnBill(true);
         BigDecimal basePrice = bbd.getAmount().multiply(bbd.getUnits());
         ivaData.setBasePrice(ivaData.getBasePrice().add(basePrice));
@@ -582,7 +581,7 @@ public class SiiBean extends BaseBean {
         insertEmptyField(15, item);
         item.append( this.populateCell(total));
         item.append( this.populateCell("0"));
-        item.append( this.populateCell( description ));
+        item.append( this.populateCell( description.substring(0, 40) ));
         item.append( this.populateCell("F1 - Factura"));
         item.append( this.populateCell(""));
         item.append( this.populateCell("01 - Operación de régimen común"));
