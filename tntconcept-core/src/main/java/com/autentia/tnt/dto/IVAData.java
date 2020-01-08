@@ -1,4 +1,4 @@
-package com.autentia.tnt.bean.billing;
+package com.autentia.tnt.dto;
 
 import java.math.BigDecimal;
 
@@ -21,31 +21,6 @@ public class IVAData {
         this.ivaPercentage = ivaPercentage;
         this.basePrice = new BigDecimal(0);
         this.ivaAmount = new BigDecimal(0);
-    }
-
-    // VENTAS
-    public IVAData(BigDecimal ivaPercentage, BigDecimal basePrice, BigDecimal ivaAmount, String reason,
-                   String subject, boolean serviceProvision, BigDecimal amountArt714, BigDecimal TAIAmount) {
-        this.existsOnBill = true;
-        this.ivaPercentage = ivaPercentage;
-        this.basePrice = basePrice;
-        this.ivaAmount = ivaAmount;
-        this.reason = reason;
-        this.subject = subject;
-        this.serviceProvision = serviceProvision;
-        this.amountArt714 = amountArt714;
-        this.TAIAmount = TAIAmount;
-    }
-
-    // COMPRAS
-    public IVAData(BigDecimal ivaPercentage, BigDecimal basePrice, BigDecimal ivaAmount,
-                   BigDecimal REAGYPCompensationPercentage, BigDecimal REAGYPCompensationAmount) {
-        this.existsOnBill = true;
-        this.ivaPercentage = ivaPercentage;
-        this.basePrice = basePrice;
-        this.ivaAmount = ivaAmount;
-        this.REAGYPCompensationPercentage = REAGYPCompensationPercentage;
-        this.REAGYPCompensationAmount = REAGYPCompensationAmount;
     }
 
     public boolean isExistsOnBill() {

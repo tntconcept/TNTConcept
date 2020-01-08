@@ -21,6 +21,7 @@ import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.BillSearch;
+import com.autentia.tnt.dto.IVAData;
 import com.autentia.tnt.mail.DefaultMailService;
 import com.autentia.tnt.mail.MailService;
 import com.autentia.tnt.manager.admin.SettingManager;
@@ -41,7 +42,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.text.Bidi;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -523,12 +523,8 @@ public class SiiBean extends BaseBean {
         Map<String, String> fields = new HashMap<>();
 
         evaluateObject(bill.getCreationDate(), fields, "Fallo en la fecha de creación");
-        //evaluateObject(bill.getInsertDate(), fields, "Fallo en la fecha de inserción");
-        //evaluateObject(organization, fields, "Fallo en la organización");
-        //evaluateObject(organization.getName(), fields, "Nombre de la organización ("+organizationName+") vacío");
         evaluateObject(organization.getCif(), fields, "CIF de la organización ("+organizationName+") vacío");
         evaluateObject(organization.getCountry(), fields, "País de la organización ("+organizationName+") vacío");
-        //evaluateObject(bill.getNumber(), fields, "Número de factura vacío");
         evaluateObject(bill.getTotal(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getBreakDown().iterator().next().getIva(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getTotalNoTaxes(), fields, "Fallo en el desglose de la factura");
@@ -569,32 +565,8 @@ public class SiiBean extends BaseBean {
         });
 
         for (int i = 0; i < contador.get(); i ++) {
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
+            insertEmptyField(6, item);
         }
-
-//        item.append( this.populateCell( (BigDecimal) costData.get("iva21") ) );
-//        item.append( this.populateCell( (BigDecimal) costData.get("basePrice21") ));
-//        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal21") ));
-//        item.append( this.populateCell(""));
-//        item.append( this.populateCell(""));
-//        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal21") ));
-//        item.append( this.populateCell( (BigDecimal) costData.get("iva10") ) );
-//        item.append( this.populateCell( (BigDecimal) costData.get("basePrice10") ));
-//        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal10") ));
-//        item.append( this.populateCell(""));
-//        item.append( this.populateCell(""));
-//        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal10") ));
-//        item.append( this.populateCell( (BigDecimal) costData.get("iva4") ) );
-//        item.append( this.populateCell( (BigDecimal) costData.get("basePrice4") ));
-//        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal4") ));
-//        item.append( this.populateCell(""));
-//        item.append( this.populateCell(""));
-//        item.append( this.populateCell( (BigDecimal) costData.get("ivaTotal4") ));
 
 
         if(ivaDataMap.get("ivaData0").isExistsOnBill()){
@@ -605,56 +577,27 @@ public class SiiBean extends BaseBean {
         }
         else {
             item.append( this.populateCell("NO"));
-            item.append(this.populateCell(""));
-            item.append(this.populateCell(""));
-            item.append(this.populateCell(""));
+            insertEmptyField(3, item);
         }
-
-//
-//        item.append(this.populateCell((((BigDecimal) costData.get("basePrice0")).compareTo(BigDecimal.ZERO) != 0) ? "SI" : "NO"));
-//        item.append(this.populateCell((BigDecimal) costData.get("basePrice0") ));
-//        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal0") ));
-//        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal0") ));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
+        insertEmptyField(15, item);
         item.append( this.populateCell(total));
         item.append( this.populateCell("0"));
         item.append( this.populateCell( description ));
         item.append( this.populateCell("F1 - Factura"));
         item.append( this.populateCell(""));
         item.append( this.populateCell("01 - Operación de régimen común"));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
+        insertEmptyField(6, item);
         item.append( this.populateCell("NO"));
-        item.append( this.populateCell(""));
+        insertEmptyField(1, item);
         item.append( this.populateCell("N - No"));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell(""));
+        insertEmptyField(2, item);
         item.append( this.populateCell("N - No"));
 
     }
 
     private void generateCSVItemIssue (Map<String, IVAData> ivaDataMap, StringBuilder item, BigDecimal total) {
 
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
+        insertEmptyField(2, item);
 
         AtomicInteger contador = new AtomicInteger();
         ivaDataMap.forEach((k, v) -> {
@@ -676,41 +619,8 @@ public class SiiBean extends BaseBean {
         });
 
         for (int i = 0; i < contador.get(); i ++) {
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
-            item.append( this.populateCell("" ));
+            insertEmptyField(8, item);
         }
-
-//        item.append( this.populateCell((BigDecimal) costData.get("iva21")));
-//        item.append(this.populateCell((BigDecimal) costData.get("basePrice21")));
-//        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal21")));
-//        item.append(this.populateCell((String) costData.get("reason21")));
-//        item.append(this.populateCell(""));
-//        item.append(this.populateCell("SI"));
-//        item.append(this.populateCell("")); // IMPORTE 1 SEGUN ART 7,14
-//        item.append(this.populateCell("")); // IMPORTE 1 TAI
-//        item.append( this.populateCell((BigDecimal) costData.get("iva10")));
-//        item.append(this.populateCell((BigDecimal) costData.get("basePrice10")));
-//        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal10")));
-//        item.append(this.populateCell((String) costData.get("reason10")));
-//        item.append(this.populateCell(""));
-//        item.append(this.populateCell("SI"));
-//        item.append(this.populateCell("")); // IMPORTE 2 SEGUN ART 7,14
-//        item.append(this.populateCell("")); // IMPORTE 2 TAI
-//        item.append( this.populateCell((BigDecimal) costData.get("iva4")));
-//        item.append(this.populateCell((BigDecimal) costData.get("basePrice4")));
-//        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal4")));
-//        item.append(this.populateCell((String) costData.get("reason4")));
-//        item.append(this.populateCell(""));
-//        item.append(this.populateCell("SI"));
-//        item.append(this.populateCell("")); // IMPORTE 3 SEGUN ART 7,14
-//        item.append(this.populateCell("")); // IMPORTE 3 TAI
-
 
         if(ivaDataMap.get("ivaData0").isExistsOnBill()){
             item.append( this.populateCell("SI"));
@@ -721,54 +631,25 @@ public class SiiBean extends BaseBean {
         }
         else {
             item.append( this.populateCell("NO"));
-            item.append(this.populateCell(""));
-            item.append(this.populateCell(""));
-            item.append(this.populateCell(""));
-            item.append(this.populateCell(""));
+            insertEmptyField(4, item);
         }
 
-//        item.append(this.populateCell((((BigDecimal) costData.get("basePrice0")).compareTo(BigDecimal.ZERO) != 0) ? "SI" : "NO"));
-//        item.append(this.populateCell((BigDecimal) costData.get("basePrice0") ));
-//        item.append(this.populateCell((BigDecimal) costData.get("ivaTotal0") ));
-//        item.append(this.populateCell(""));
-//        item.append(this.populateCell((String) costData.get("reason0")));
-
-
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
+        insertEmptyField(15, item);
         item.append(this.populateCell(total));
         item.append(this.populateCell("0"));
         item.append(this.populateCell("Prestación de servicios"));
         item.append(this.populateCell("F1 - Factura"));
-        item.append(this.populateCell(""));
+        insertEmptyField(1, item);
         item.append(this.populateCell("01 - Operación de régimen común"));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
+        insertEmptyField(5, item);
         item.append(this.populateCell("NO"));
         item.append(this.populateCell("0"));
         item.append(this.populateCell("N - No"));
-        item.append(this.populateCell(""));
-        item.append(this.populateCell(""));
+        insertEmptyField(2, item);
         item.append(this.populateCell("N - No"));
         item.append(this.populateCell("N - No"));
         item.append(this.populateCell("N - No"));
-        item.append(this.populateCell(""));
+        insertEmptyField(1, item);
 
     }
 
@@ -804,6 +685,12 @@ public class SiiBean extends BaseBean {
         NumberFormat nf = NumberFormat.getNumberInstance(new Locale(FacesUtils.getViewLocale().getLanguage()));
         cell.append(nf.format(content)).append(";");
         return cell.toString();
+    }
+
+    private void insertEmptyField(int columns, StringBuilder item) {
+        for (int i = 0; i < columns; i ++) {
+            item.append(this.populateCell(""));
+        }
     }
 
     /**
