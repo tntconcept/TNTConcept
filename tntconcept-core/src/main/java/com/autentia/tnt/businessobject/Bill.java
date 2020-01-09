@@ -63,6 +63,10 @@ public class Bill implements Serializable, ITransferObject
 	private Set<CreditTitle> creditTitles;
 
 	private Integer submitted;
+
+	private BillCategory billCategory;
+
+	private RectifiedBillCategory rectifiedBillCategory;
 	
 	public Set<CreditTitle> getCreditTitles() {
 		return creditTitles;
@@ -195,7 +199,23 @@ public class Bill implements Serializable, ITransferObject
 		this.submitted = submitted;
 	}
 
-// Fields
+	public BillCategory getBillCategory() {
+		return billCategory;
+	}
+
+	public void setBillCategory(BillCategory billCategory) {
+		this.billCategory = billCategory;
+	}
+
+	public RectifiedBillCategory getRectifiedBillCategory() {
+		return rectifiedBillCategory;
+	}
+
+	public void setRectifiedBillCategory(RectifiedBillCategory rectifiedBillCategory) {
+		this.rectifiedBillCategory = rectifiedBillCategory;
+	}
+
+	// Fields
 	
 	private Date startBillDate;
 	
