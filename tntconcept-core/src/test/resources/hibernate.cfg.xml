@@ -56,6 +56,8 @@
     <mapping resource="com/autentia/tnt/businessobject/config/Country.hbm.xml"/>
     <mapping resource="com/autentia/tnt/businessobject/config/IVAReason.hbm.xml"/>
     <mapping resource="com/autentia/tnt/businessobject/config/IVAType.hbm.xml"/>
+    <mapping resource="com/autentia/tnt/businessobject/config/BillCategory.hbm.xml" />
+    <mapping resource="com/autentia/tnt/businessobject/config/RectifiedBillCategory.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/UserCategory.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Inventary.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Organization.hbm.xml" />

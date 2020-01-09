@@ -57,6 +57,8 @@
 	<bean id="daoProvince" class="com.autentia.tnt.dao.hibernate.ProvinceDAO" />
 	<bean id="daoCountry" class="com.autentia.tnt.dao.hibernate.CountryDAO" />
 	<bean id="daoIVAReason" class="com.autentia.tnt.dao.hibernate.IVAReasonDAO" />
+	<bean id="daoBillCategory" class="com.autentia.tnt.dao.hibernate.BillCategoryDAO" />
+	<bean id="daoRectifiedBillCategory" class="com.autentia.tnt.dao.hibernate.RectifiedBillCategoryDAO" />
 	<bean id="daoIVAType" class="com.autentia.tnt.dao.hibernate.IVATypeDAO" />
 	<bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
 	<bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />
