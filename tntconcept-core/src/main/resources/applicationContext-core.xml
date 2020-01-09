@@ -68,6 +68,8 @@
   <bean id="daoProvince" class="com.autentia.tnt.dao.hibernate.ProvinceDAO" />
   <bean id="daoCountry" class="com.autentia.tnt.dao.hibernate.CountryDAO" />
   <bean id="daoIVAReason" class="com.autentia.tnt.dao.hibernate.IVAReasonDAO" />
+  <bean id="daoBillCategory" class="com.autentia.tnt.dao.hibernate.BillCategoryDAO" />
+  <bean id="daoRectifiedBillCategory" class="com.autentia.tnt.dao.hibernate.RectifiedBillCategoryDAO" />
   <bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
   <bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />
   <bean id="daoRole" class="com.autentia.tnt.dao.hibernate.RoleDAO" />
@@ -213,6 +215,12 @@
 	</bean>
 	<bean id="managerIVAReason" class="com.autentia.tnt.manager.billing.IVAReasonManager">
 		<constructor-arg ref="daoIVAReason" />
+	</bean>
+	<bean id="managerBillCategory" class="com.autentia.tnt.manager.billing.BillCategoryManager">
+		<constructor-arg ref="daoBillCategory" />
+	</bean>
+	<bean id="managerRectifiedBillCategory" class="com.autentia.tnt.manager.billing.RectifiedBillCategoryManager">
+		<constructor-arg ref="daoRectifiedBillCategory" />
 	</bean>
 	<bean id="managerOfferRejectReason"
 		class="com.autentia.tnt.manager.contacts.OfferRejectReasonManager">
