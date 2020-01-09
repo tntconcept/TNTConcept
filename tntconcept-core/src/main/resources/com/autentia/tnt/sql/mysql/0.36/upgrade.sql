@@ -26,7 +26,7 @@
 CREATE TABLE BillCategory (
     id int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
     code varchar(2) NOT NULL,
-    name varchar(40) NOT NULL,
+    name varchar(100) NOT NULL,
     rectify bool NOT NULL COMMENT 'TRUE para facturas rectificativas',
     ownerId int(11) DEFAULT NULL,
     departmentId int(10) DEFAULT NULL,
