@@ -74,11 +74,9 @@ INSERT INTO RectifiedBillCategory VALUES (2, 'S', 'Por sustitución', NULL, NULL
 -- -----------------------------------------------------------------------------
 -- Bill
 -- -----------------------------------------------------------------------------
-ALTER TABLE Bill ADD COLUMN billCategoryId INT(11);
+ALTER TABLE Bill ADD COLUMN billCategoryId INT(11) NOT NULL DEFAULT 1;
 
 ALTER TABLE Bill ADD COLUMN rectifiedBillCategoryId INT(11) DEFAULT NULL;
-
-UPDATE Bill AS bbd SET bbd.billCategoryId = 1;
 
 ALTER TABLE Bill ADD CONSTRAINT BillCategory_FK FOREIGN KEY (billCategoryId) REFERENCES BillCategory(id);
 
