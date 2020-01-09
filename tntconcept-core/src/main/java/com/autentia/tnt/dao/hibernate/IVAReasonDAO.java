@@ -19,9 +19,9 @@ public class IVAReasonDAO extends HibernateManagerBase<IVAReason> {
      * Get default IVAReasonDAO as defined in Spring's configuration file.
      * @return the default singleton IVAReasonDAO
      */
-    public static CountryDAO getDefault()
+    public static IVAReasonDAO getDefault()
     {
-        return (CountryDAO) SpringUtils.getSpringBean("daoIVAReason");
+        return (IVAReasonDAO) SpringUtils.getSpringBean("daoIVAReason");
     }
 
     /**
