@@ -38,8 +38,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.businessobject.*;
-import com.autentia.tnt.manager.billing.IVATypeManager;
-import com.autentia.tnt.manager.billing.IVAReasonManager;
+import com.autentia.tnt.manager.billing.*;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,8 +53,6 @@ import com.autentia.tnt.dao.search.ContactSearch;
 import com.autentia.tnt.manager.account.AccountEntryManager;
 import com.autentia.tnt.manager.account.AccountManager;
 import com.autentia.tnt.manager.admin.ProjectManager;
-import com.autentia.tnt.manager.billing.BillBreakDownManager;
-import com.autentia.tnt.manager.billing.BillManager;
 import com.autentia.tnt.manager.contacts.ContactManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
 import com.autentia.tnt.manager.security.Permission;
@@ -804,6 +801,9 @@ public class BillBean extends BaseBean {
 		} 
 		else 
 		{
+			if(!bill.getBillCategory().isRectify()){
+				bill.setRectifiedBillCategory(null);
+			}
 			manager.updateEntity(bill);
 		}
 
@@ -1332,6 +1332,26 @@ public class BillBean extends BaseBean {
 		List<IVAType> refs = IVATypeManager.getDefault().getAllEntities(new SortCriteria("id"));
 		for (IVAType ref : refs) {
 			ret.add(new SelectItem(ref.getIva(), ref.getIva().toString() +" - "+ ref.getName()));
+		}
+		return ret;
+	}
+
+	public List<SelectItem> getBillCategories(){
+		ArrayList<SelectItem> ret = new ArrayList<>();
+		List<BillCategory> refs = BillCategoryManager.getDefault().getAllEntities(new SortCriteria("id"));
+		for (BillCategory ref : refs) {
+			ret.add(new SelectItem(ref, ref.getCode() +" - "+ ref.getName()));
+		}
+		return ret;
+	}
+
+	public List<SelectItem> getRectifiedBillCategory(){
+		ArrayList<SelectItem> ret = new ArrayList<>();
+
+		List<RectifiedBillCategory> refs = RectifiedBillCategoryManager.getDefault().getAllEntities(new SortCriteria("id"));
+		for (RectifiedBillCategory ref : refs) {
+			ret.add(new SelectItem(ref, ref.getCode() +" - "+ ref.getName()));
+
 		}
 		return ret;
 	}

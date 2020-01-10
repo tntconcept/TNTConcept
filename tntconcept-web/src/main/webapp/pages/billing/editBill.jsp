@@ -219,6 +219,33 @@
               </h:panelGroup>
             </td>
           </tr>
+
+              <%-- Field: category --%>
+              <tr>
+                  <td class="editLabelRW">*${msg['bill.type']}:</td>
+                  <td class="editFieldCell">
+                      <h:panelGroup>
+                          <h:message styleClass="error" showSummary="true" showDetail="false" for="billCategory" />
+                          <h:selectOneMenu id="billCategory" value="#{billBean.bill.billCategory}" required="true"
+                                           styleClass="requiredFieldClass"
+                                           onchange="submit();"
+                                           readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                                           style="width: 17%; ">
+                              <f:selectItems value="#{billBean.billCategories}"/>
+                              <f:converter converterId="autentia.EntityConverter"/>
+                          </h:selectOneMenu>
+
+                          <h:selectOneMenu id="rectifiedBillCategory" value="#{billBean.bill.rectifiedBillCategory}" required="true"
+                                           styleClass="requiredFieldClass"
+                                           rendered="#{billBean.bill.billCategory.rectify}"
+                                           readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                                           style="width: 17%;">
+                              <f:selectItems value="#{billBean.rectifiedBillCategory}"/>
+                              <f:converter converterId="autentia.EntityConverter"/>
+                          </h:selectOneMenu>
+                      </h:panelGroup>
+                  </td>
+              </tr>
     
     
            <%-- Field: breakDown --%>
