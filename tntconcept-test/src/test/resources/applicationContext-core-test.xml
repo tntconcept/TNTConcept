@@ -59,6 +59,7 @@
 	<bean id="daoIVAReason" class="com.autentia.tnt.dao.hibernate.IVAReasonDAO" />
 	<bean id="daoBillCategory" class="com.autentia.tnt.dao.hibernate.BillCategoryDAO" />
 	<bean id="daoRectifiedBillCategory" class="com.autentia.tnt.dao.hibernate.RectifiedBillCategoryDAO" />
+	<bean id="daoBillRegime" class="com.autentia.tnt.dao.hibernate.BillRegimeDAO" />
 	<bean id="daoIVAType" class="com.autentia.tnt.dao.hibernate.IVATypeDAO" />
 	<bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
 	<bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />

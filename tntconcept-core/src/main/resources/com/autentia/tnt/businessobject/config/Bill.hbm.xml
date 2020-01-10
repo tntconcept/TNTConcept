@@ -94,6 +94,6 @@
     <many-to-one name="billCategory" class="com.autentia.tnt.businessobject.BillCategory" column="billCategoryId"/>
     <many-to-one name="rectifiedBillCategory" class="com.autentia.tnt.businessobject.RectifiedBillCategory"
                  column="rectifiedBillCategoryId"/>
-
+      <many-to-one name="billRegime" class="com.autentia.tnt.businessobject.BillRegime" column="billRegimeId"/>
   </class>
 </hibernate-mapping>

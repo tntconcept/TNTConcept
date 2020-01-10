@@ -134,7 +134,7 @@ public class SpringUtils
 	 */
 	public static Object getSpringBean( String name )
 	{
-		return appCtx.getBean(name);
+		return appCtx.	getBean(name);
 	}
 	
 	/**

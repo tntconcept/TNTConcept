@@ -81,6 +81,7 @@
   <bean id="daoOffer" class="com.autentia.tnt.dao.hibernate.OfferDAO" />
   <bean id="daoBillBreakDown" class="com.autentia.tnt.dao.hibernate.BillBreakDownDAO" />
   <bean id="daoIVAType" class="com.autentia.tnt.dao.hibernate.IVATypeDAO" />
+  <bean id="daoBillRegime" class="com.autentia.tnt.dao.hibernate.BillRegimeDAO" />
   <bean id="daoFinancialRatio" class="com.autentia.tnt.dao.hibernate.FinancialRatioDAO" />
   <bean id="daoOfferCost" class="com.autentia.tnt.dao.hibernate.OfferCostDAO" />
   <bean id="daoOfferRole" class="com.autentia.tnt.dao.hibernate.OfferRoleDAO" />
@@ -212,6 +213,9 @@
 	</bean>
 	<bean id="managerCountry" class="com.autentia.tnt.manager.admin.CountryManager">
 		<constructor-arg ref="daoCountry" />
+	</bean>
+	<bean id="managerBillRegime" class="com.autentia.tnt.manager.billing.BillRegimeManager">
+		<constructor-arg ref="daoBillRegime" />
 	</bean>
 	<bean id="managerIVAReason" class="com.autentia.tnt.manager.billing.IVAReasonManager">
 		<constructor-arg ref="daoIVAReason" />

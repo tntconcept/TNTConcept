@@ -67,6 +67,8 @@ public class Bill implements Serializable, ITransferObject
 	private BillCategory billCategory;
 
 	private RectifiedBillCategory rectifiedBillCategory;
+
+	private BillRegime billRegime;
 	
 	public Set<CreditTitle> getCreditTitles() {
 		return creditTitles;
@@ -209,6 +211,14 @@ public class Bill implements Serializable, ITransferObject
 
 	public RectifiedBillCategory getRectifiedBillCategory() {
 		return rectifiedBillCategory;
+	}
+
+	public BillRegime getBillRegime() {
+		return billRegime;
+	}
+
+	public void setBillRegime(BillRegime billRegime) {
+		this.billRegime = billRegime;
 	}
 
 	public void setRectifiedBillCategory(RectifiedBillCategory rectifiedBillCategory) {
