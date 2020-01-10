@@ -68,9 +68,9 @@ CREATE TABLE RectifiedBillCategory (
     PRIMARY KEY  (id)
 );
 
-INSERT INTO RectifiedBillCategory VALUES (1, 'I', 'Por diferencias', NULL, NULL, NULL, NULL);
+INSERT INTO RectifiedBillCategory VALUES (1, 'S', 'Por sustitución', NULL, NULL, NULL, NULL);
 
-INSERT INTO RectifiedBillCategory VALUES (2, 'S', 'Por sustitución', NULL, NULL, NULL, NULL);
+INSERT INTO RectifiedBillCategory VALUES (2, 'I', 'Por diferencias', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- BillRegime
@@ -113,7 +113,9 @@ ALTER TABLE Bill ADD COLUMN rectifiedBillCategoryId INT(11) DEFAULT NULL;
 
 ALTER TABLE Bill ADD COLUMN billRegimeId INT(11) NOT NULL DEFAULT 1;
 
-UPDATE Bill SET Bill.rectifiedBillCategoryId = 2 WHERE ((SELECT RIGHT(NUMBER,1)) = 'R');
+UPDATE Bill SET Bill.rectifiedBillCategoryId = 1 WHERE ((SELECT RIGHT(NUMBER,1)) = 'R');
+
+UPDATE Bill SET Bill.billCategoryId = 5 WHERE ((SELECT RIGHT(NUMBER,1)) = 'R');
 
 ALTER TABLE Bill ADD CONSTRAINT BillCategory_FK FOREIGN KEY (billCategoryId) REFERENCES BillCategory(id);
 
