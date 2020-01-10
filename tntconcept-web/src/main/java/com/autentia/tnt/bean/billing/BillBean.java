@@ -1680,4 +1680,12 @@ public class BillBean extends BaseBean {
 	public void setReadOnlyBill(boolean readOnlyBill) {
 		this.readOnlyBill = readOnlyBill;
 	}
+
+	public void setProvideService(String provideService){
+  		bill.setProvideService(Boolean.parseBoolean(provideService));
+	}
+
+	public String getProvideService(){
+  		return String.valueOf(bill.isProvideService()).toUpperCase();
+	}
 }

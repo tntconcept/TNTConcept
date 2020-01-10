@@ -78,6 +78,8 @@ ALTER TABLE Bill ADD COLUMN billCategoryId INT(11) NOT NULL DEFAULT 1;
 
 ALTER TABLE Bill ADD COLUMN rectifiedBillCategoryId INT(11) DEFAULT NULL;
 
+ALTER TABLE Bill ADD COLUMN provideService bool NOT NULL DEFAULT 1;
+
 ALTER TABLE Bill ADD CONSTRAINT BillCategory_FK FOREIGN KEY (billCategoryId) REFERENCES BillCategory(id);
 
 ALTER TABLE Bill ADD CONSTRAINT RectifiedBillCategory_FK FOREIGN KEY (rectifiedBillCategoryId) REFERENCES RectifiedBillCategory(id);

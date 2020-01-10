@@ -78,6 +78,8 @@ ALTER TABLE Bill ADD COLUMN billCategoryId INT(11);
 
 ALTER TABLE Bill ADD COLUMN rectifiedBillCategoryId INT(11) DEFAULT NULL;
 
+ALTER TABLE Bill ADD COLUMN provideService boolean NOT NULL DEFAULT 1;
+
 UPDATE Bill AS bbd SET bbd.billCategoryId = 1;
 
 ALTER TABLE Bill ADD CONSTRAINT BillCategory_FK FOREIGN KEY (billCategoryId) REFERENCES BillCategory(id);

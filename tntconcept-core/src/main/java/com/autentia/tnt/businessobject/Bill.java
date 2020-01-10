@@ -67,6 +67,8 @@ public class Bill implements Serializable, ITransferObject
 	private BillCategory billCategory;
 
 	private RectifiedBillCategory rectifiedBillCategory;
+
+	private Boolean provideService;
 	
 	public Set<CreditTitle> getCreditTitles() {
 		return creditTitles;
@@ -215,6 +217,13 @@ public class Bill implements Serializable, ITransferObject
 		this.rectifiedBillCategory = rectifiedBillCategory;
 	}
 
+	public Boolean isProvideService() {
+		return provideService;
+	}
+
+	public void setProvideService(Boolean provideService) {
+		this.provideService = provideService;
+	}
 	// Fields
 	
 	private Date startBillDate;

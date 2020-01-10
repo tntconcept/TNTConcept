@@ -246,8 +246,22 @@
                       </h:panelGroup>
                   </td>
               </tr>
-    
-    
+
+              <%-- Field: category --%>
+              <tr>
+                  <td class="editLabelRW">${msg['bill.provideService']}:</td>
+                  <td class="editFieldCell">
+                      <h:panelGroup>
+                          <h:message styleClass="error" showSummary="true" showDetail="false" for="account" />
+                          <h:selectOneRadio value = "#{billBean.provideService}">
+                              <f:selectItem itemValue = "TRUE" itemLabel = "#{msg['msg.yes']}" />
+                              <f:selectItem itemValue = "FALSE" itemLabel = "#{msg['msg.no']}" />
+                          </h:selectOneRadio>
+                      </h:panelGroup>
+                  </td>
+              </tr>
+
+
            <%-- Field: breakDown --%>
     <tr>
     	    		<td class="editLabelRW">${msg['bill.breakDown']}:</td>
