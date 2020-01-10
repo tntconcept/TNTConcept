@@ -247,7 +247,7 @@ public class SiiBean extends BaseBean {
      */
     private String generateCSVHeader () {
         final StringBuilder header = new StringBuilder();
-        header.append(this.populateCell(""));
+        insertEmptyField(1, header);
         header.append(this.populateCell("NIF"));
         header.append(this.populateCell("RAZON SOCIAL"));
         header.append(this.populateCell("TIPO DOCUMENTO"));
@@ -468,25 +468,27 @@ public class SiiBean extends BaseBean {
             }
         }
 
-        item.append( this.populateCell("") );
+        insertEmptyField(1, item);
         item.append( this.populateCell( cif ) );
         item.append( this.populateCell( providerName ));
         item.append( this.populateCell( documentType ));
         item.append( this.populateCell( europeCif ));
         item.append( this.populateCell(country));
         item.append( this.populateCell( orderNumber ));
-        item.append( this.populateCell(""));
+        insertEmptyField(1, item);
         item.append( this.populateCell( creacionDate ));
         item.append( this.populateCell( expirationDate ));
         item.append( this.populateCell("=\"\"" + year + "\"\"")); //La gestora quiere que el año sea texto
         item.append( this.populateCell("=\"\"" + period + "\"\"")); //La gestora quiere que el periodo sea texto
 
-        if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
-            generateCSVItemReceive(ivaDataMap, item, bill.getName(), total );
-        else
-            generateCSVItemIssue(ivaDataMap, item, total);
+        String description = (bill.getName().length() > 40) ? bill.getName().substring(0, 40): bill.getName();
 
-        item.append( this.returnLine());
+        if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
+            generateCSVItemReceive(ivaDataMap, item, description, total );
+        else
+            generateCSVItemIssue(ivaDataMap, description, item, total);
+
+        item.append(this.returnLine());
 
         return item.toString();
     }
@@ -559,7 +561,9 @@ public class SiiBean extends BaseBean {
                 item.append( this.populateCell(v.getIvaAmount()));
             }
             else {
-                contador.getAndIncrement();
+                if (v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
+                    contador.getAndIncrement();
+                }
             }
         });
 
@@ -578,10 +582,11 @@ public class SiiBean extends BaseBean {
             item.append( this.populateCell("NO"));
             insertEmptyField(3, item);
         }
+
         insertEmptyField(15, item);
         item.append( this.populateCell(total));
         item.append( this.populateCell("0"));
-        item.append( this.populateCell( description.substring(0, 40) ));
+        item.append( this.populateCell(description));
         item.append( this.populateCell("F1 - Factura"));
         item.append( this.populateCell(""));
         item.append( this.populateCell("01 - Operación de régimen común"));
@@ -594,7 +599,8 @@ public class SiiBean extends BaseBean {
 
     }
 
-    private void generateCSVItemIssue (Map<String, IVAData> ivaDataMap, StringBuilder item, BigDecimal total) {
+    private void generateCSVItemIssue (Map<String, IVAData> ivaDataMap, String description, StringBuilder item,
+                                       BigDecimal total) {
 
         insertEmptyField(2, item);
 
@@ -636,7 +642,7 @@ public class SiiBean extends BaseBean {
         insertEmptyField(15, item);
         item.append(this.populateCell(total));
         item.append(this.populateCell("0"));
-        item.append(this.populateCell("Prestación de servicios"));
+        item.append(this.populateCell(description));
         item.append(this.populateCell("F1 - Factura"));
         insertEmptyField(1, item);
         item.append(this.populateCell("01 - Operación de régimen común"));
