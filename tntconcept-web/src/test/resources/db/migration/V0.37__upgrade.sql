@@ -56,6 +56,7 @@ INSERT INTO BillCategory VALUES (9, 'R5', 'Factura Rectificativa en facturas sim
 -- -----------------------------------------------------------------------------
 -- RectifiedBillCategory
 -- -----------------------------------------------------------------------------
+
 CREATE TABLE RectifiedBillCategory (
     id int(11) NOT NULL,
     code varchar(2) NOT NULL,
@@ -67,24 +68,63 @@ CREATE TABLE RectifiedBillCategory (
     PRIMARY KEY  (id)
 );
 
-INSERT INTO RectifiedBillCategory VALUES (1, 'I', 'Por diferencias', NULL, NULL, NULL, NULL);
+INSERT INTO RectifiedBillCategory VALUES (1, 'S', 'Por sustitución', NULL, NULL, NULL, NULL);
 
-INSERT INTO RectifiedBillCategory VALUES (2, 'S', 'Por sustitución', NULL, NULL, NULL, NULL);
+INSERT INTO RectifiedBillCategory VALUES (2, 'I', 'Por diferencias', NULL, NULL, NULL, NULL);
+
+-- -----------------------------------------------------------------------------
+-- BillRegime
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE BillRegime (
+    id int(11) NOT NULL,
+    code varchar(2) NOT NULL,
+    name varchar(250) NOT NULL,
+    ownerId int(11) DEFAULT NULL,
+    departmentId int(10) DEFAULT NULL,
+    insertDate datetime DEFAULT NULL,
+    updateDate datetime DEFAULT NULL,
+    PRIMARY KEY  (id)
+);
+
+INSERT INTO BillRegime VALUES (1, '01', 'Operación de régimen común', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (2, '02', 'Exportación', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (3, '03', 'Operaciones a las que se aplique el régimen especial de bienes usados, objetos de arte, antigüedades y objetos de colección (135-139 LIVA)', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (4, '04', 'Régimen especial oro de inversión', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (5, '05', 'Régimen especial agencias de viajes', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (6, '06', 'Régimen especial grupo de entidades en IVA (Nivel Avanzado)', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (7, '07', 'Régimen especial criterio de caja', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (8, '08', 'Operaciones sujetas al IPSI / IGIC', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (9, '09', 'Facturación de las prestaciones de servicios de agencias de viaje que actúan como mediadoras en nombre y por cuenta ajena (D.A.4ª RD1619/2012)', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (10, '10', 'Cobros por cuenta de terceros de honorarios profesionales o de derechos derivados de la propiedad industrial, de autor, asociados...', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (11, '11', 'Operaciones de arrendamiento de local de negocio sujetas a retención', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (12, '12', 'Operaciones de arrendamiento de local de negocio no sujetos a retención', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (13, '13', 'Operaciones de arrendamiento de local de negocio sujetas y no sujetas a retención', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (14, '14', 'Factura con IVA pendiente de devengo (certificaciones de obra cuyo destinatario sea una Administración Pública)', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (15, '15', 'Factura con IVA pendiente de devengo - operaciones de tracto sucesivo', NULL, NULL, NULL, NULL);
+INSERT INTO BillRegime VALUES (16, '16', 'Primer semestre 2017', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
 -- Bill
 -- -----------------------------------------------------------------------------
-ALTER TABLE Bill ADD COLUMN billCategoryId INT(11);
+ALTER TABLE Bill ADD COLUMN billCategoryId INT(11) NOT NULL DEFAULT 1;
 
 ALTER TABLE Bill ADD COLUMN rectifiedBillCategoryId INT(11) DEFAULT NULL;
 
 ALTER TABLE Bill ADD COLUMN provideService boolean NOT NULL DEFAULT 1;
 
 UPDATE Bill AS bbd SET bbd.billCategoryId = 1;
+ALTER TABLE Bill ADD COLUMN billRegimeId INT(11) NOT NULL DEFAULT 1;
+
+UPDATE Bill SET Bill.rectifiedBillCategoryId = 1 WHERE ((SELECT RIGHT(NUMBER,1)) = 'R');
+
+UPDATE Bill SET Bill.billCategoryId = 5 WHERE ((SELECT RIGHT(NUMBER,1)) = 'R');
 
 ALTER TABLE Bill ADD CONSTRAINT BillCategory_FK FOREIGN KEY (billCategoryId) REFERENCES BillCategory(id);
 
 ALTER TABLE Bill ADD CONSTRAINT RectifiedBillCategory_FK FOREIGN KEY (rectifiedBillCategoryId) REFERENCES RectifiedBillCategory(id);
+
+ALTER TABLE Bill ADD CONSTRAINT BillRegime_FK FOREIGN KEY (billRegimeId) REFERENCES BillRegime(id);
 
 -- -----------------------------------------------------------------------------
 -- Version

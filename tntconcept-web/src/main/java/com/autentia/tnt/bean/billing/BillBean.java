@@ -91,7 +91,7 @@ public class BillBean extends BaseBean {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	
+
 	public static int getMaximumYears() {
 		return ConfigurationUtil.getDefault().getAccountEntryMaximumYears();
 	}
@@ -1687,5 +1687,24 @@ public class BillBean extends BaseBean {
 
 	public String getProvideService(){
   		return String.valueOf(bill.isProvideService()).toUpperCase();
+	}
+
+	public BillRegime getBillRegime() {
+  		return bill.getBillRegime();
+	}
+
+	public void setBillRegime(BillRegime billRegime) {
+  		bill.setBillRegime(billRegime);
+	}
+
+	public List<SelectItem> getBillRegimes() {
+		List<BillRegime> refs = BillRegimeManager.getDefault().getAllEntities(new SortCriteria("id"));
+
+		ArrayList<SelectItem> ret = new ArrayList<>();
+		for(BillRegime ref : refs) {
+			ret.add(new SelectItem(ref, ref.getCode() + " - " + ref.getName()));
+		}
+
+		return ret;
 	}
 }

@@ -131,7 +131,7 @@
 	          </h:panelGroup>          
 			</td>
 		 </tr>
-    
+
           <%-- Field: organization --%>
           <tr>
             <td class="editLabelRW">${msg['bill.organization']}:</td>
@@ -160,6 +160,21 @@
                 </h:selectOneMenu>
               </h:panelGroup>
             </td>
+          </tr>
+
+              <%-- Field: regimen --%>
+          <tr>
+              <td class="editLabelRW">*${msg['bill.regime']}:</td>
+              <td class="editFieldCell">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="regimen" />
+                      <h:selectOneMenu id="regimen" value="#{billBean.billRegime}" immediate="true"
+                                       disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
+                          <f:selectItems value="#{billBean.billRegimes}" />
+                          <f:converter converterId="autentia.EntityConverter"/>
+                      </h:selectOneMenu>
+                  </h:panelGroup>
+              </td>
           </tr>
           
           <%-- Field: name --%>
