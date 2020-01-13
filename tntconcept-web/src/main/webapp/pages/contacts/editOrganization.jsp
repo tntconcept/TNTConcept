@@ -202,11 +202,6 @@
                 </h:selectOneMenu>
             </h:panelGroup>
 
-<%--            <h:panelGroup>--%>
-<%--                <h:message styleClass="error" showSummary="true" showDetail="false" for="country"/>--%>
-<%--                <h:inputText id="country" value="#{organizationBean.country}" size="70" maxlength="256"/>--%>
-<%--            </h:panelGroup>--%>
-
         </td>
     </tr>
                                   

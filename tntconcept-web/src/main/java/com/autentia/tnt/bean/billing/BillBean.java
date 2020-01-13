@@ -38,8 +38,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.businessobject.*;
-import com.autentia.tnt.manager.billing.IVATypeManager;
-import com.autentia.tnt.manager.billing.IVAReasonManager;
+import com.autentia.tnt.manager.billing.*;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,8 +53,6 @@ import com.autentia.tnt.dao.search.ContactSearch;
 import com.autentia.tnt.manager.account.AccountEntryManager;
 import com.autentia.tnt.manager.account.AccountManager;
 import com.autentia.tnt.manager.admin.ProjectManager;
-import com.autentia.tnt.manager.billing.BillBreakDownManager;
-import com.autentia.tnt.manager.billing.BillManager;
 import com.autentia.tnt.manager.contacts.ContactManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
 import com.autentia.tnt.manager.security.Permission;
@@ -66,6 +63,7 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
+import org.apache.xpath.operations.Bool;
 
 /**
  * UI bean for Bill objects.
@@ -94,7 +92,7 @@ public class BillBean extends BaseBean {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	
+
 	public static int getMaximumYears() {
 		return ConfigurationUtil.getDefault().getAccountEntryMaximumYears();
 	}
@@ -324,6 +322,54 @@ public class BillBean extends BaseBean {
 			search.setOrderNumber(search.getOrderNumber());
 		} else {
 			search.unsetOrderNumber();
+		}
+	}
+
+	private boolean isRectify;
+
+	public String getSearchRectifiedBill() {
+		return String.valueOf(isRectify).toUpperCase();
+	}
+
+	public void setSearchRectifiedBill(String rectifiedBill) {
+		if (search.isRectifiedBillCategorySet()) {
+			isRectify = Boolean.parseBoolean(rectifiedBill);
+			RectifiedBillCategory rbc = (isRectify) ? new RectifiedBillCategory() : null;
+			search.setRectifiedBillCategory(rbc);
+		}
+	}
+
+	public boolean isSearchRectifiedBillValid() {
+		return search.isRectifiedBillCategorySet();
+	}
+
+	public void setSearchRectifiedBillValid(boolean val) {
+		if (val) {
+			search.setRectifiedBillCategory(search.getRectifiedBillCategory());
+		} else {
+			search.unsetRectifiedBillCategory();
+		}
+	}
+
+	public BillCategory getSearchBillCategory() {
+		return search.getBillCategory();
+	}
+
+	public void setSearchBillCategory(BillCategory val) {
+		if (search.isBillCategorySet()) {
+			search.setBillCategory(val);
+		}
+	}
+
+	public boolean isSearchBillCategoryValid() {
+		return search.isBillCategorySet();
+	}
+
+	public void setSearchBillCategoryValid(boolean val) {
+		if (val) {
+			search.setBillCategory(search.getBillCategory());
+		} else {
+			search.unsetBillCategory();
 		}
 	}
 
@@ -804,6 +850,9 @@ public class BillBean extends BaseBean {
 		} 
 		else 
 		{
+			if(!bill.getBillCategory().isRectify()){
+				bill.setRectifiedBillCategory(null);
+			}
 			manager.updateEntity(bill);
 		}
 
@@ -1336,6 +1385,26 @@ public class BillBean extends BaseBean {
 		return ret;
 	}
 
+	public List<SelectItem> getBillCategories(){
+		ArrayList<SelectItem> ret = new ArrayList<>();
+		List<BillCategory> refs = BillCategoryManager.getDefault().getAllEntities(new SortCriteria("id"));
+		for (BillCategory ref : refs) {
+			ret.add(new SelectItem(ref, ref.getCode() +" - "+ ref.getName()));
+		}
+		return ret;
+	}
+
+	public List<SelectItem> getRectifiedBillCategory(){
+		ArrayList<SelectItem> ret = new ArrayList<>();
+
+		List<RectifiedBillCategory> refs = RectifiedBillCategoryManager.getDefault().getAllEntities(new SortCriteria("id"));
+		for (RectifiedBillCategory ref : refs) {
+			ret.add(new SelectItem(ref, ref.getCode() +" - "+ ref.getName()));
+
+		}
+		return ret;
+	}
+
 	List<BillBreakDown> bitacoreBreakDowns = null;
 
 	public List<BillBreakDown> getAllBitacoreBreakDowns() {
@@ -1659,5 +1728,32 @@ public class BillBean extends BaseBean {
 
 	public void setReadOnlyBill(boolean readOnlyBill) {
 		this.readOnlyBill = readOnlyBill;
+	}
+
+	public void setProvideService(String provideService){
+  		bill.setProvideService(Boolean.parseBoolean(provideService));
+	}
+
+	public String getProvideService(){
+  		return String.valueOf(bill.isProvideService()).toUpperCase();
+	}
+
+	public BillRegime getBillRegime() {
+  		return bill.getBillRegime();
+	}
+
+	public void setBillRegime(BillRegime billRegime) {
+  		bill.setBillRegime(billRegime);
+	}
+
+	public List<SelectItem> getBillRegimes() {
+		List<BillRegime> refs = BillRegimeManager.getDefault().getAllEntities(new SortCriteria("id"));
+
+		ArrayList<SelectItem> ret = new ArrayList<>();
+		for(BillRegime ref : refs) {
+			ret.add(new SelectItem(ref, ref.getCode() + " - " + ref.getName()));
+		}
+
+		return ret;
 	}
 }

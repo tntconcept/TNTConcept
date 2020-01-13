@@ -68,6 +68,8 @@
   <bean id="daoProvince" class="com.autentia.tnt.dao.hibernate.ProvinceDAO" />
   <bean id="daoCountry" class="com.autentia.tnt.dao.hibernate.CountryDAO" />
   <bean id="daoIVAReason" class="com.autentia.tnt.dao.hibernate.IVAReasonDAO" />
+  <bean id="daoBillCategory" class="com.autentia.tnt.dao.hibernate.BillCategoryDAO" />
+  <bean id="daoRectifiedBillCategory" class="com.autentia.tnt.dao.hibernate.RectifiedBillCategoryDAO" />
   <bean id="daoPublication" class="com.autentia.tnt.dao.hibernate.PublicationDAO" />
   <bean id="daoRequestHoliday" class="com.autentia.tnt.dao.hibernate.RequestHolidayDAO" />
   <bean id="daoRole" class="com.autentia.tnt.dao.hibernate.RoleDAO" />
@@ -79,6 +81,7 @@
   <bean id="daoOffer" class="com.autentia.tnt.dao.hibernate.OfferDAO" />
   <bean id="daoBillBreakDown" class="com.autentia.tnt.dao.hibernate.BillBreakDownDAO" />
   <bean id="daoIVAType" class="com.autentia.tnt.dao.hibernate.IVATypeDAO" />
+  <bean id="daoBillRegime" class="com.autentia.tnt.dao.hibernate.BillRegimeDAO" />
   <bean id="daoFinancialRatio" class="com.autentia.tnt.dao.hibernate.FinancialRatioDAO" />
   <bean id="daoOfferCost" class="com.autentia.tnt.dao.hibernate.OfferCostDAO" />
   <bean id="daoOfferRole" class="com.autentia.tnt.dao.hibernate.OfferRoleDAO" />
@@ -211,8 +214,17 @@
 	<bean id="managerCountry" class="com.autentia.tnt.manager.admin.CountryManager">
 		<constructor-arg ref="daoCountry" />
 	</bean>
+	<bean id="managerBillRegime" class="com.autentia.tnt.manager.billing.BillRegimeManager">
+		<constructor-arg ref="daoBillRegime" />
+	</bean>
 	<bean id="managerIVAReason" class="com.autentia.tnt.manager.billing.IVAReasonManager">
 		<constructor-arg ref="daoIVAReason" />
+	</bean>
+	<bean id="managerBillCategory" class="com.autentia.tnt.manager.billing.BillCategoryManager">
+		<constructor-arg ref="daoBillCategory" />
+	</bean>
+	<bean id="managerRectifiedBillCategory" class="com.autentia.tnt.manager.billing.RectifiedBillCategoryManager">
+		<constructor-arg ref="daoRectifiedBillCategory" />
 	</bean>
 	<bean id="managerOfferRejectReason"
 		class="com.autentia.tnt.manager.contacts.OfferRejectReasonManager">

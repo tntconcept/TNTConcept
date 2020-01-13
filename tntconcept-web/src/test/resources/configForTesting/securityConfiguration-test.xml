@@ -169,6 +169,42 @@
 			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
 		</entity>
 
+		<entity name="BillCategory">
+     		<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+		</entity>
+
+		<entity name="RectifiedBillCategory">
+     		<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+		</entity>
+
+		<entity name="IVAReason">
+     		<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+		</entity>
+
+		<entity name="IVAType">
+     		<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+		</entity>
+
 		<entity name="CreditTitle">
      		<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
 			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>

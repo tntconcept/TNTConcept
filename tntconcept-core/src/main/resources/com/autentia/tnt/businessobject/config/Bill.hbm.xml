@@ -91,5 +91,11 @@
 	<property name="insertDate" type="java.util.Date" column="insertDate"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate"/>
     <property name="submitted" type="java.lang.Integer" column="submitted"/>
+    <many-to-one name="billCategory" class="com.autentia.tnt.businessobject.BillCategory" column="billCategoryId"/>
+    <many-to-one name="rectifiedBillCategory" class="com.autentia.tnt.businessobject.RectifiedBillCategory"
+                 column="rectifiedBillCategoryId"/>
+      <many-to-one name="billRegime" class="com.autentia.tnt.businessobject.BillRegime" column="billRegimeId"/>
+    <property name="provideService" type="java.lang.Boolean" column="provideService"/>
+
   </class>
 </hibernate-mapping>

@@ -22,15 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.autentia.tnt.businessobject.AccountEntry;
-import com.autentia.tnt.businessobject.BillBreakDown;
-import com.autentia.tnt.businessobject.BillPaymentMode;
-import com.autentia.tnt.businessobject.BillState;
-import com.autentia.tnt.businessobject.BillType;
-import com.autentia.tnt.businessobject.Contact;
-import com.autentia.tnt.businessobject.CreditTitle;
-import com.autentia.tnt.businessobject.Organization;
-import com.autentia.tnt.businessobject.Project;
+import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.ITransferObject;
 import com.autentia.tnt.dao.SearchCriteria;
 
@@ -340,6 +332,33 @@ public class BillSearch extends SearchCriteria {
 			}
 		}
 
+		if (isBillCategorySet()) {
+			ret.append((ret.length() == 0) ? "WHERE " : " AND ");
+			if (getBillCategory() == null) {
+				ret.append("billCategory is NULL");
+			} else {
+				ret.append("billCategory = :arg" + (iArgNum++));
+			}
+		}
+
+		if (isRectifiedBillCategorySet()) {
+			ret.append((ret.length() == 0) ? "WHERE " : " AND ");
+			if (getRectifiedBillCategory() == null) {
+				ret.append("rectifiedBillCategory is NULL");
+			} else {
+				ret.append("rectifiedBillCategory is NOT NULL");
+			}
+		}
+
+		if (isProvideServiceSet()) {
+			ret.append((ret.length() == 0) ? "WHERE " : " AND ");
+			if (getProvideService() == null) {
+				ret.append("provideService is NULL");
+			} else {
+				ret.append("provideService = :arg" + (iArgNum++));
+			}
+		}
+
 		customGetHQL(ret, iArgNum);
 		return ret.toString();
 	}
@@ -504,6 +523,18 @@ public class BillSearch extends SearchCriteria {
 		if (isSubmittedSet() && getSubmitted() != null) {
 			ret.add(submitted);
 		}
+
+		if (isBillCategorySet() && getBillCategory() != null) {
+			ret.add(billCategory);
+		}
+
+		/*if (isRectifiedBillCategorySet() && getRectifiedBillCategory() != null) {
+			ret.add(rectifiedBillCategory);
+		}*/
+
+		if (isProvideServiceSet() && getProvideService() != null) {
+			ret.add(provideService);
+		}
 		
 		customGetArguments(ret);
 		return ret.toArray();
@@ -573,6 +604,12 @@ public class BillSearch extends SearchCriteria {
 		unsetCreditTitle();
 
 		unsetSubmitted();
+
+		unsetBillCategory();
+
+		unsetRectifiedBillCategory();
+
+		unsetProvideService();
 
 		customReset();
 	}
@@ -775,6 +812,24 @@ public class BillSearch extends SearchCriteria {
 		if (isSubmittedSet()) {
 			ret.append("(submitted");
 			ret.append("=" + submitted);
+			ret.append(")");
+		}
+
+		if (isBillCategorySet()) {
+			ret.append("(billCategory");
+			ret.append("=" + billCategory);
+			ret.append(")");
+		}
+
+		if (isRectifiedBillCategorySet()) {
+			ret.append("(rectifiedBillCategory");
+			ret.append("=" + rectifiedBillCategory);
+			ret.append(")");
+		}
+
+		if (isProvideServiceSet()) {
+			ret.append("(provideService");
+			ret.append("=" + provideService);
 			ret.append(")");
 		}
 
@@ -1359,6 +1414,57 @@ public class BillSearch extends SearchCriteria {
 		return submittedSet;
 	}
 
+	public BillCategory getBillCategory() {
+		return billCategory;
+	}
+
+	public boolean isBillCategorySet() {
+		return billCategorySet;
+	}
+
+	public void setBillCategory(BillCategory billCategory) {
+		this.billCategory = billCategory;
+		this.billCategorySet = true;
+	}
+
+	public void unsetBillCategory() {
+		this.billCategorySet = false;
+	}
+
+	public RectifiedBillCategory getRectifiedBillCategory() {
+		return rectifiedBillCategory;
+	}
+
+	public void setRectifiedBillCategory(RectifiedBillCategory rectifiedBillCategory) {
+		this.rectifiedBillCategory = rectifiedBillCategory;
+		this.rectifiedBillCategorySet = true;
+	}
+
+	public boolean isRectifiedBillCategorySet() {
+		return rectifiedBillCategorySet;
+	}
+
+	public void unsetRectifiedBillCategory() {
+		this.rectifiedBillCategorySet = false;
+	}
+
+	public Boolean getProvideService() {
+		return provideService;
+	}
+
+	public void setProvideService(Boolean provideService) {
+		this.provideService = provideService;
+		this.provideServiceSet = true;
+	}
+
+	public boolean isProvideServiceSet() {
+		return provideServiceSet;
+	}
+
+	public void unsetProvideService() {
+		this.provideServiceSet = false;
+	}
+
 	// Fields
 
 	private boolean startCreationDateSet;
@@ -1498,15 +1604,29 @@ public class BillSearch extends SearchCriteria {
 	private Integer submitted;
 
 	private boolean submittedSet;
+
+	private BillCategory billCategory;
+
+	private boolean billCategorySet;
+
+	private RectifiedBillCategory rectifiedBillCategory;
+
+	private boolean rectifiedBillCategorySet;
+
+	private Boolean provideService;
+
+	private boolean provideServiceSet;
 	
 	// Returns if there are a search condition active
 	public boolean isSearchActive() {
 		return customIsSearchActive() || startCreationDateSet || endCreationDateSet || startStartBillDateSet
 				|| endStartBillDateSet || startEndBillDateSet || endEndBillDateSet || startExpirationSet
-				|| endExpirationSet || paymentModeSet || stateSet || numberSet || bookNumberSet || nameSet || fileSet || fileMimeSet
-				|| observationsSet || billTypeSet || orderNumberSet || amountSet || entriesNumberSet || ownerIdSet
-				|| departmentIdSet || startInsertDateSet || endInsertDateSet || startUpdateDateSet || endUpdateDateSet
-				|| projectSet || contactSet || providerSet || entriesSet || breakDownSet || billTypesSet || creditTitleSet || submittedSet;
+				|| endExpirationSet || paymentModeSet || stateSet || numberSet || bookNumberSet || nameSet || fileSet
+				|| fileMimeSet || observationsSet || billTypeSet || orderNumberSet || amountSet || entriesNumberSet
+				|| ownerIdSet || departmentIdSet || startInsertDateSet || endInsertDateSet || startUpdateDateSet
+				|| endUpdateDateSet	|| projectSet || contactSet || providerSet || entriesSet || breakDownSet
+				|| billTypesSet || creditTitleSet || submittedSet || billCategorySet || rectifiedBillCategorySet
+				|| provideServiceSet;
 	}
 
 	/* generated by stajanov (do not edit/delete) */
