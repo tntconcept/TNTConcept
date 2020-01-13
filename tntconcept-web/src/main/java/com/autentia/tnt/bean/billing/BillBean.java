@@ -63,6 +63,7 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
+import org.apache.xpath.operations.Bool;
 
 /**
  * UI bean for Bill objects.
@@ -321,6 +322,54 @@ public class BillBean extends BaseBean {
 			search.setOrderNumber(search.getOrderNumber());
 		} else {
 			search.unsetOrderNumber();
+		}
+	}
+
+	private boolean isRectify;
+
+	public String getSearchRectifiedBill() {
+		return String.valueOf(isRectify).toUpperCase();
+	}
+
+	public void setSearchRectifiedBill(String rectifiedBill) {
+		if (search.isRectifiedBillCategorySet()) {
+			isRectify = Boolean.parseBoolean(rectifiedBill);
+			RectifiedBillCategory rbc = (isRectify) ? new RectifiedBillCategory() : null;
+			search.setRectifiedBillCategory(rbc);
+		}
+	}
+
+	public boolean isSearchRectifiedBillValid() {
+		return search.isRectifiedBillCategorySet();
+	}
+
+	public void setSearchRectifiedBillValid(boolean val) {
+		if (val) {
+			search.setRectifiedBillCategory(search.getRectifiedBillCategory());
+		} else {
+			search.unsetRectifiedBillCategory();
+		}
+	}
+
+	public BillCategory getSearchBillCategory() {
+		return search.getBillCategory();
+	}
+
+	public void setSearchBillCategory(BillCategory val) {
+		if (search.isBillCategorySet()) {
+			search.setBillCategory(val);
+		}
+	}
+
+	public boolean isSearchBillCategoryValid() {
+		return search.isBillCategorySet();
+	}
+
+	public void setSearchBillCategoryValid(boolean val) {
+		if (val) {
+			search.setBillCategory(search.getBillCategory());
+		} else {
+			search.unsetBillCategory();
 		}
 	}
 

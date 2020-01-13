@@ -404,6 +404,51 @@
         
       </td>
     </tr>
+
+          <%-- Field: rectifiedBill --%>
+          <tr>
+              <td class="searchLabel">${msg['bill.rectified']}:</td>
+              <td class="searchFieldCell" style="display:flex">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="rectifiedBill" />
+                      <h:selectBooleanCheckbox id="rectifiedBillValid" value="#{billBean.searchRectifiedBillValid}"
+                                               onclick="setEnabled('search:rectifiedBill:0',this.checked);
+                                                        setEnabled('search:rectifiedBill:1',this.checked)"/>
+                      <h:selectOneRadio id="rectifiedBill" value = "#{billBean.searchRectifiedBill}">
+                          <f:selectItem itemValue = "TRUE" itemLabel = "#{msg['msg.yes']}" />
+                          <f:selectItem itemValue = "FALSE" itemLabel = "#{msg['msg.no']}" />
+                      </h:selectOneRadio>
+                  </h:panelGroup>
+                  <script>
+                      setEnabled( 'search:rectifiedBill:0', ${billBean.searchRectifiedBillValid} )
+                      setEnabled( 'search:rectifiedBill:1', ${billBean.searchRectifiedBillValid} )
+                  </script>
+
+
+              </td>
+          </tr>
+
+          <%-- Field: billCategory --%>
+          <tr>
+              <td class="searchLabel">${msg['bill.type']}:</td>
+              <td class="searchFieldCell">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="billCategory" />
+                      <h:selectBooleanCheckbox id="billCategoryValid" value="#{billBean.searchBillCategoryValid}"
+                                               onclick="setEnabled('search:billCategory',this.checked)"/>
+                      <h:selectOneMenu id="billCategory" value="#{billBean.searchBillCategory}"
+                                       onclick="setEnabled('search:billCategory',true)">
+                          <f:selectItems value="#{billBean.billCategories}" />
+                          <f:converter converterId="autentia.EntityConverter"/>
+                      </h:selectOneMenu>
+                  </h:panelGroup>
+                  <script>
+                      setEnabled( 'search:billCategory', ${billBean.searchBillCategoryValid} )
+                  </script>
+
+
+              </td>
+          </tr>
     
      
             <h:messages></h:messages>

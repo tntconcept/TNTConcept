@@ -528,9 +528,9 @@ public class BillSearch extends SearchCriteria {
 			ret.add(billCategory);
 		}
 
-		if (isRectifiedBillCategorySet() && getRectifiedBillCategory() != null) {
+		/*if (isRectifiedBillCategorySet() && getRectifiedBillCategory() != null) {
 			ret.add(rectifiedBillCategory);
-		}
+		}*/
 
 		if (isProvideServiceSet() && getProvideService() != null) {
 			ret.add(provideService);
@@ -1452,9 +1452,9 @@ public class BillSearch extends SearchCriteria {
 		return provideService;
 	}
 
-	public void setProvideService(boolean provideService) {
+	public void setProvideService(Boolean provideService) {
 		this.provideService = provideService;
-		this.provideServiceSet = false;
+		this.provideServiceSet = true;
 	}
 
 	public boolean isProvideServiceSet() {
