@@ -76,9 +76,9 @@
   
       <%-- Field: cif --%>
     <tr>
-	<td class="detailLabelRW">${msg['organization.cif']}:</td>
+	<td class="detailLabelRW">${msg['organization.documentNumber']}:</td>
 	<td class="detailFieldCell">
-         	       <h:outputText value="#{organizationBean.cif}" />
+         	       <h:outputText value="#{organizationBean.documentNumber}" />
  	      </td>
     </tr>
                             

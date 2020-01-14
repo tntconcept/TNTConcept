@@ -264,11 +264,12 @@
 
               <%-- Field: category --%>
               <tr>
-                  <td class="editLabelRW">${msg['bill.provideService']}:</td>
+                  <td class="editLabelRW">*${msg['bill.provideService']}:</td>
                   <td class="editFieldCell">
                       <h:panelGroup>
                           <h:message styleClass="error" showSummary="true" showDetail="false" for="provideService" />
-                          <h:selectOneRadio id="provideService" value = "#{billBean.provideService}">
+                          <h:selectOneRadio id="provideService" value = "#{billBean.provideService}" required="true"
+                                            styleClass="requiredFieldClass">
                               <f:selectItem itemValue = "TRUE" itemLabel = "#{msg['msg.yes']}" />
                               <f:selectItem itemValue = "FALSE" itemLabel = "#{msg['msg.no']}" />
                           </h:selectOneRadio>

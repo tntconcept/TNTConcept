@@ -62,6 +62,7 @@
     <mapping resource="com/autentia/tnt/businessobject/config/UserCategory.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Inventary.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Organization.hbm.xml" />
+    <mapping resource="com/autentia/tnt/businessobject/config/OrganizationDocCategory.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Project.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/ProjectRole.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/ProjectCost.hbm.xml" />

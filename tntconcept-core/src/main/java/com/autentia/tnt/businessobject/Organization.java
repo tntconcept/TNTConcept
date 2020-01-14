@@ -58,7 +58,7 @@ public class Organization implements Serializable, ITransferObject
 
       
       
-  private String cif;
+  private String documentNumber;
 
       
       
@@ -133,9 +133,8 @@ public class Organization implements Serializable, ITransferObject
     
   private OrganizationType type;
 
-      
-  
-    
+  private OrganizationDocCategory organizationDocCategory;
+
   private OrganizationISOCategory category;
 
   private EvaluationCriteria evaluationCriteria;
@@ -185,11 +184,11 @@ public String getName() {
       
   
   
-  public String getCif() {
-    return cif;
+  public String getDocumentNumber() {
+    return documentNumber;
   }
-  public void setCif( String cif ) {
-    this.cif = cif;
+  public void setDocumentNumber(String documentNumber ) {
+    this.documentNumber = documentNumber;
   }
       
   
@@ -371,11 +370,15 @@ public String getName() {
   public void setProvince( Province province ) {
     this.province = province;
   }
-        
-    
-    
-    
-  
+
+  public OrganizationDocCategory getOrganizationDocCategory() {
+    return organizationDocCategory;
+  }
+
+  public void setOrganizationDocCategory(OrganizationDocCategory organizationDocCategory) {
+    this.organizationDocCategory = organizationDocCategory;
+  }
+
   public Set<Tag> getTags() {
 	return tags;
 }
