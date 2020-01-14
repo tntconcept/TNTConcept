@@ -59,6 +59,7 @@
   <bean id="daoMagazine" class="com.autentia.tnt.dao.hibernate.MagazineDAO" />
   <bean id="daoObjective" class="com.autentia.tnt.dao.hibernate.ObjectiveDAO" />
   <bean id="daoOrganization" class="com.autentia.tnt.dao.hibernate.OrganizationDAO" />
+  <bean id="daoOrganizationDocCategory" class="com.autentia.tnt.dao.hibernate.OrganizationDocCategoryDAO" />
   <bean id="daoOrganizationISOCategory" class="com.autentia.tnt.dao.hibernate.OrganizationISOCategoryDAO" />
   <bean id="daoOrganizationType" class="com.autentia.tnt.dao.hibernate.OrganizationTypeDAO" />
   <bean id="daoPeriodicalAccountEntry" class="com.autentia.tnt.dao.hibernate.PeriodicalAccountEntryDAO" />
@@ -188,6 +189,10 @@
 	<bean id="managerOrganizationISOCategory"
 		class="com.autentia.tnt.manager.contacts.OrganizationISOCategoryManager">
 		<constructor-arg ref="daoOrganizationISOCategory" />
+	</bean>
+	<bean id="managerOrganizationDocCategory"
+		class="com.autentia.tnt.manager.contacts.OrganizationDocCategoryManager">
+		<constructor-arg ref="daoOrganizationDocCategory" />
 	</bean>
 	<bean id="managerOrganization" class="com.autentia.tnt.manager.contacts.OrganizationManager">
 		<constructor-arg ref="daoOrganization" />

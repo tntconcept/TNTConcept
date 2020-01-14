@@ -17,7 +17,6 @@
 
 package com.autentia.tnt.bean.contacts;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,10 +49,8 @@ import com.autentia.tnt.manager.security.Permission;
 import com.autentia.tnt.manager.tags.TagManager;
 import com.autentia.tnt.upload.Uploader;
 import com.autentia.tnt.upload.UploaderFactory;
-import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.SpringUtils;
-import java.util.Collection;
 
 /**
  * UI bean for Organization objects.
@@ -423,22 +420,22 @@ public class OrganizationBean extends BaseBean {
     
     
     
-    public String getSearchCif(){
-        return search.getCif();
+    public String getSearchDocumentNumber(){
+        return search.getDocumentNumber();
     }
-    public void setSearchCif( String val ){
-        if( search.isCifSet() ) {
-          search.setCif( val );
+    public void setSearchDocumentNumber(String val ){
+        if( search.isDocumentNumberSet() ) {
+          search.setDocumentNumber( val );
         }
     }
-    public boolean isSearchCifValid(){
-        return search.isCifSet();
+    public boolean isSearchDocumentNumberValid(){
+        return search.isDocumentNumberSet();
     }
-    public void setSearchCifValid( boolean val ){
+    public void setSearchDocumentNumberValid(boolean val ){
         if( val ){
-          search.setCif( search.getCif() );
+          search.setDocumentNumber( search.getDocumentNumber() );
         } else {
-          search.unsetCif();
+          search.unsetDocumentNumber();
         }
     }
         
@@ -1005,11 +1002,11 @@ public class OrganizationBean extends BaseBean {
         
     
     
-    public String getCif() {
-    return organization.getCif();
+    public String getDocumentNumber() {
+    return organization.getDocumentNumber();
   }
-  public void setCif( String cif ) {
-    organization.setCif( cif );
+  public void setDocumentNumber(String documentNumber ) {
+    organization.setDocumentNumber( documentNumber );
   }
         
     

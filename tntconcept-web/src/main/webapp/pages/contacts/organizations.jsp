@@ -135,7 +135,7 @@
     </h:column>
   
 
-      <%-- Ignored field: cif --%>
+      <%-- Ignored field: documentNumber --%>
   
 
       <%-- Ignored field: street --%>

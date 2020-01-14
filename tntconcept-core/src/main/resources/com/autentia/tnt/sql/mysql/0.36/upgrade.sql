@@ -105,6 +105,34 @@ INSERT INTO BillRegime VALUES (15, '15', 'Factura con IVA pendiente de devengo -
 INSERT INTO BillRegime VALUES (16, '16', 'Primer semestre 2017', NULL, NULL, NULL, NULL);
 
 -- -----------------------------------------------------------------------------
+-- OrganizationDocCategory
+-- -----------------------------------------------------------------------------
+
+CREATE TABLE OrganizationDocCategory (
+    id int(11) NOT NULL COMMENT 'El id no es autoincremental porque ya tienen unos codigos fijos',
+    code varchar(3) NOT NULL,
+    name varchar(70) NOT NULL,
+    ownerId int(11) DEFAULT NULL,
+    departmentId int(10) DEFAULT NULL,
+    insertDate datetime DEFAULT NULL,
+    updateDate datetime DEFAULT NULL,
+    PRIMARY KEY  (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tipos de documento que tiene la organización';
+
+INSERT INTO OrganizationDocCategory VALUES (1, '02', 'NIF-IVA', NULL, NULL, NULL, NULL);
+
+INSERT INTO OrganizationDocCategory VALUES (2, '03', 'PASAPORTE', NULL, NULL, NULL, NULL);
+
+INSERT INTO OrganizationDocCategory VALUES (3, '04', 'DOCUMENTO EXPEDIDO POR PAIS O TERRITORIO RESIDENCIA', NULL, NULL, NULL, NULL);
+
+INSERT INTO OrganizationDocCategory VALUES (4, '05', 'CERTIFICADO DE RESIDENCIA', NULL, NULL, NULL, NULL);
+
+INSERT INTO OrganizationDocCategory VALUES (5, '06', 'OTRO DOCUMENTO PROBATORIO', NULL, NULL, NULL, NULL);
+
+INSERT INTO OrganizationDocCategory VALUES (6, '07', 'NO CENSADO', NULL, NULL, NULL, NULL);
+
+
+-- -----------------------------------------------------------------------------
 -- Bill
 -- -----------------------------------------------------------------------------
 
@@ -125,6 +153,16 @@ ALTER TABLE Bill ADD CONSTRAINT BillCategory_FK FOREIGN KEY (billCategoryId) REF
 ALTER TABLE Bill ADD CONSTRAINT RectifiedBillCategory_FK FOREIGN KEY (rectifiedBillCategoryId) REFERENCES RectifiedBillCategory(id);
 
 ALTER TABLE Bill ADD CONSTRAINT BillRegime_FK FOREIGN KEY (billRegimeId) REFERENCES BillRegime(id);
+
+-- -----------------------------------------------------------------------------
+-- Organization
+-- -----------------------------------------------------------------------------
+
+ALTER TABLE Organization ADD COLUMN organizationDocCategoryId INT(11) NOT NULL DEFAULT 1;
+
+ALTER TABLE Organization ADD CONSTRAINT OrganizationDocCategory_FK FOREIGN KEY (organizationDocCategoryId) REFERENCES OrganizationDocCategory(id);
+
+ALTER TABLE Organization CHANGE COLUMN cif documentNumber VARCHAR(50) NULL DEFAULT NULL ;
 
 -- -----------------------------------------------------------------------------
 -- Version

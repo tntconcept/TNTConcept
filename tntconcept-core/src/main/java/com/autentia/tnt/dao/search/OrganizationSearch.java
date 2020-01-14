@@ -31,9 +31,6 @@
 package com.autentia.tnt.dao.search;
 
 import java.util.*;
-import java.math.*;
-
-import org.hibernate.type.*;
 
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.*;
@@ -81,12 +78,12 @@ public class OrganizationSearch extends SearchCriteria
     
   
         
-    if( isCifSet() ){
+    if( isDocumentNumberSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
-      if( getCif()==null ){
-	ret.append( "cif is NULL" );
+      if( getDocumentNumber()==null ){
+	ret.append( "documentNumber is NULL" );
       } else {
-	ret.append( "cif = :arg"+(iArgNum++) );
+	ret.append( "documentNumber = :arg"+(iArgNum++) );
       }
     }
 
@@ -386,8 +383,8 @@ public class OrganizationSearch extends SearchCriteria
 
               
   
-      if( isCifSet() && getCif()!=null ){
-        ret.add( cif );
+      if( isDocumentNumberSet() && getDocumentNumber()!=null ){
+        ret.add(documentNumber);
     }
 
               
@@ -530,7 +527,7 @@ public class OrganizationSearch extends SearchCriteria
   
               
   
-      unsetCif();
+      unsetDocumentNumber();
   
               
   
@@ -636,9 +633,9 @@ public class OrganizationSearch extends SearchCriteria
               
   
   
-          if( isCifSet() ){
-          ret.append( "(cif" );
-          ret.append( "="+cif );
+          if( isDocumentNumberSet() ){
+          ret.append( "(documentNumber" );
+          ret.append( "="+ documentNumber);
           ret.append( ")" );
       }
 
@@ -880,18 +877,18 @@ public class OrganizationSearch extends SearchCriteria
   
     
     
-    public boolean isCifSet(){
-        return cifSet;
+    public boolean isDocumentNumberSet(){
+        return documentNumberSet;
     }
-    public String getCif(){
-        return cif;
+    public String getDocumentNumber(){
+        return documentNumber;
     }
-    public void setCif( String cif ){
-        this.cif = cif;
-        this.cifSet = true;
+    public void setDocumentNumber(String documentNumber){
+        this.documentNumber = documentNumber;
+        this.documentNumberSet = true;
     }
-    public void unsetCif(){
-        this.cifSet = false;
+    public void unsetDocumentNumber(){
+        this.documentNumberSet = false;
     }
           
   
@@ -1302,8 +1299,8 @@ public class OrganizationSearch extends SearchCriteria
 
           
   
-      private boolean cifSet;
-        private String cif;
+      private boolean documentNumberSet;
+        private String documentNumber;
 
           
   
@@ -1413,7 +1410,7 @@ public class OrganizationSearch extends SearchCriteria
         
   // Returns if there are a search condition active
   public boolean isSearchActive() {
-    return customIsSearchActive()||nameSet||cifSet||streetSet||numberSet||locatorSet||postalCodeSet||citySet||stateSet||countrySet||phoneSet||faxSet||emailSet||websiteSet||ftpsiteSet||notesSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||typeSet||categorySet||provinceSet||evaluationCriteriaSet;
+    return customIsSearchActive()||nameSet|| documentNumberSet ||streetSet||numberSet||locatorSet||postalCodeSet||citySet||stateSet||countrySet||phoneSet||faxSet||emailSet||websiteSet||ftpsiteSet||notesSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||typeSet||categorySet||provinceSet||evaluationCriteriaSet;
   }
 
 

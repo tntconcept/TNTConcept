@@ -28,7 +28,7 @@
 	<many-to-one name="type" class="com.autentia.tnt.businessobject.OrganizationType" column="organizationTypeId" />
 	<many-to-one name="category" class="com.autentia.tnt.businessobject.OrganizationISOCategory" column="organizationISOCategoryId" />
     <property name="name" type="java.lang.String"/>
-    <property name="cif" type="java.lang.String"/>
+    <property name="documentNumber" type="java.lang.String"/>
     <property name="street" type="java.lang.String"/>
     <property name="number" type="java.lang.String"/>
     <property name="locator" type="java.lang.String"/>
@@ -65,7 +65,11 @@
 		<key column="organizationId"/>
 		<many-to-many column="tagId" class="com.autentia.tnt.businessobject.Tag"/>
 	</set>
-	
+
+    <many-to-one name="organizationDocCategory" class="com.autentia.tnt.businessobject.OrganizationDocCategory"
+                 column="organizationDocCategoryId" />
+
+
   </class>
   
 </hibernate-mapping>

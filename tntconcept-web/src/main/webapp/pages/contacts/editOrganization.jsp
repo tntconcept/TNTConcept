@@ -85,13 +85,13 @@
   
       <%-- Field: cif --%>
     <tr>
-    	    		<td class="editLabelRW">${msg['organization.cif']}:</td>
+    	    		<td class="editLabelRW">${msg['organization.documentNumber']}:</td>
     	      
       <td class="editFieldCell">
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="cif" />
-                		<h:inputText id="cif" value="#{organizationBean.cif}" maxlength="50"/>
+                		<h:inputText id="cif" value="#{organizationBean.documentNumber}" maxlength="50"/>
     	              </h:panelGroup>
 
               </td>

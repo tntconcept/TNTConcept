@@ -425,13 +425,13 @@ public class SiiBean extends BaseBean {
                 organization = bill.getProvider();
         }
 
-        boolean nationalOrganitation = Pattern.matches("(ES)?([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])", organization.getCif());
+        boolean nationalOrganitation = Pattern.matches("(ES)?([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])", organization.getDocumentNumber());
         nationalOrganitation = nationalOrganitation || organization.getCountry().getName().trim().toLowerCase().equals("españa");
 
-        String cif = ( nationalOrganitation ) ? organization.getCif()  : "";
+        String cif = ( nationalOrganitation ) ? organization.getDocumentNumber()  : "";
         String providerName = organization.getName();
         String documentType = ( !nationalOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
-        String europeCif = ( !nationalOrganitation ) ? organization.getCif()  : ""; // Cuando la empresa sea extranjera
+        String europeCif = ( !nationalOrganitation ) ? organization.getDocumentNumber()  : ""; // Cuando la empresa sea extranjera
         String country = ( !nationalOrganitation ) ? (organization.getCountry().getIso3166a1() + " - " + organization.getCountry().getName()) : "";
         String orderNumber = bill.getNumber();
         Date creacionDate = bill.getCreationDate();
@@ -524,7 +524,7 @@ public class SiiBean extends BaseBean {
         Map<String, String> fields = new HashMap<>();
 
         evaluateObject(bill.getCreationDate(), fields, "Fallo en la fecha de creación");
-        evaluateObject(organization.getCif(), fields, "CIF de la organización ("+organizationName+") vacío");
+        evaluateObject(organization.getDocumentNumber(), fields, "CIF de la organización ("+organizationName+") vacío");
         evaluateObject(organization.getCountry(), fields, "País de la organización ("+organizationName+") vacío");
         evaluateObject(bill.getTotal(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getBreakDown().iterator().next().getIva(), fields, "Fallo en el desglose de la factura");

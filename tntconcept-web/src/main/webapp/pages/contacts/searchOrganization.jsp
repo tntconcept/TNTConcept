@@ -96,19 +96,19 @@
                         
       <%-- Field: cif --%>
     <tr>
-      <td class="searchLabel">${msg['organization.cif']}:</td>
+      <td class="searchLabel">${msg['organization.documentNumber']}:</td>
       <td class="searchFieldCell">
 
         
           
           <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="cif" />
-            <h:selectBooleanCheckbox id="cifValid" value="#{organizationBean.searchCifValid}" 
+            <h:selectBooleanCheckbox id="cifValid" value="#{organizationBean.searchDocumentNumberValid}"
                                       onclick="setEnabled('search:cif',this.checked)"/>
-            <h:inputText id="cif" value="#{organizationBean.searchCif}" size="70"/>
+            <h:inputText id="cif" value="#{organizationBean.searchDocumentNumber}" size="70"/>
           </h:panelGroup>
           <script>
-            setEnabled( 'search:cif', ${organizationBean.searchCifValid} )
+            setEnabled( 'search:cif', ${organizationBean.searchDocumentNumberValid} )
           </script>
 
         
