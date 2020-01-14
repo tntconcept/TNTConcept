@@ -430,7 +430,9 @@ public class SiiBean extends BaseBean {
 
         String cif = ( nationalOrganitation ) ? organization.getDocumentNumber()  : "";
         String providerName = organization.getName();
-        String documentType = ( !nationalOrganitation ) ? "02 - NIF-IVA" : "";  // Cuando la empresa sea extranjera
+        String documentType = ( !nationalOrganitation ) ? // Cuando la empresa sea extranjera
+                organization.getOrganizationDocCategory().getCode() + " - " + organization.getOrganizationDocCategory().getName()
+                : "";
         String europeCif = ( !nationalOrganitation ) ? organization.getDocumentNumber()  : ""; // Cuando la empresa sea extranjera
         String country = ( !nationalOrganitation ) ? (organization.getCountry().getIso3166a1() + " - " + organization.getCountry().getName()) : "";
         String orderNumber = bill.getNumber();
@@ -452,19 +454,20 @@ public class SiiBean extends BaseBean {
         for(BillBreakDown bbd: bill.getBreakDown()){
 
             total = total.add(bbd.getTotal());
+            boolean isProvideService = bill.isProvideService();
 
             switch (bbd.getIva().toString()){
                 case "21.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData21"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService);
                     break;
                 case "10.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData10"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService);
                     break;
                 case "4.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData4"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService);
                     break;
                 case "0.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData0"), bbd);
+                    fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService);
             }
         }
 
@@ -482,18 +485,21 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell("=\"\"" + period + "\"\"")); //La gestora quiere que el periodo sea texto
 
         String description = (bill.getName().length() > 40) ? bill.getName().substring(0, 40): bill.getName();
+        BillCategory billCategory = bill.getBillCategory();
+        RectifiedBillCategory rectifiedBillCategory = bill.getRectifiedBillCategory();
+        BillRegime billRegime = bill.getBillRegime();
 
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
-            generateCSVItemReceive(ivaDataMap, item, description, total );
+            generateCSVItemReceive(ivaDataMap, item, description, total, billCategory, rectifiedBillCategory, billRegime);
         else
-            generateCSVItemIssue(ivaDataMap, description, item, total);
+            generateCSVItemIssue(ivaDataMap, description, item, total, billCategory, rectifiedBillCategory, billRegime);
 
         item.append(this.returnLine());
 
         return item.toString();
     }
 
-    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd){
+    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd, boolean isProvideService){
         ivaData.setExistsOnBill(true);
         BigDecimal basePrice = bbd.getAmount().multiply(bbd.getUnits());
         ivaData.setBasePrice(ivaData.getBasePrice().add(basePrice));
@@ -503,7 +509,7 @@ public class SiiBean extends BaseBean {
             case ISSUED:  // ventas
                 ivaData.setReason(bbd.getIVAReason().getCode() + " - " + bbd.getIVAReason().getReason());
                 ivaData.setSubject("SI");
-                ivaData.setServiceProvision(true); // Si o No
+                ivaData.setServiceProvision(isProvideService); // Si o No
                 ivaData.setAmountArt714(null);
                 ivaData.setTAIAmount(null);
                 break;
@@ -549,7 +555,8 @@ public class SiiBean extends BaseBean {
     }
 
     private void generateCSVItemReceive (Map<String, IVAData> ivaDataMap, StringBuilder item,
-                                         String description, BigDecimal total) {
+                                         String description, BigDecimal total, BillCategory billCategory,
+                                         RectifiedBillCategory rectifiedBillCategory, BillRegime billRegime) {
         AtomicInteger contador = new AtomicInteger();
         ivaDataMap.forEach((k, v) -> {
             if( v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
@@ -587,9 +594,10 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell(total));
         item.append( this.populateCell("0"));
         item.append( this.populateCell(description));
-        item.append( this.populateCell("F1 - Factura"));
-        item.append( this.populateCell(""));
-        item.append( this.populateCell("01 - Operación de régimen común"));
+        item.append( this.populateCell(billCategory.getCode() + " - " + billCategory.getName()));
+        item.append( this.populateCell((billCategory.isRectify()) ?
+                rectifiedBillCategory.getCode() + " - " + rectifiedBillCategory.getName() : ""));
+        item.append( this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
         insertEmptyField(6, item);
         item.append( this.populateCell("NO"));
         insertEmptyField(1, item);
@@ -600,7 +608,8 @@ public class SiiBean extends BaseBean {
     }
 
     private void generateCSVItemIssue (Map<String, IVAData> ivaDataMap, String description, StringBuilder item,
-                                       BigDecimal total) {
+                                       BigDecimal total, BillCategory billCategory, RectifiedBillCategory rectifiedBillCategory,
+                                       BillRegime billRegime) {
 
         insertEmptyField(2, item);
 
@@ -643,9 +652,10 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell(total));
         item.append(this.populateCell("0"));
         item.append(this.populateCell(description));
-        item.append(this.populateCell("F1 - Factura"));
-        insertEmptyField(1, item);
-        item.append(this.populateCell("01 - Operación de régimen común"));
+        item.append( this.populateCell(billCategory.getCode() + " - " + billCategory.getName()));
+        item.append( this.populateCell((billCategory.isRectify()) ?
+                rectifiedBillCategory.getCode() + " - " + rectifiedBillCategory.getName() : ""));
+        item.append( this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
         insertEmptyField(5, item);
         item.append(this.populateCell("NO"));
         item.append(this.populateCell("0"));

@@ -81,20 +81,37 @@
 
               </td>
     </tr>
-                                  
-  
-      <%-- Field: cif --%>
+
+    <%-- Field: organizationDocCategory --%>
     <tr>
-    	    		<td class="editLabelRW">${msg['organization.documentNumber']}:</td>
-    	      
-      <td class="editFieldCell">
+        <td class="editLabelRW">${msg['organization.organizationDocCategory']}:</td>
 
-                  <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="cif" />
-                		<h:inputText id="cif" value="#{organizationBean.documentNumber}" maxlength="50"/>
-    	              </h:panelGroup>
+        <td class="editFieldCell">
 
-              </td>
+            <h:panelGroup>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="organizationDocCategory"/>
+                <h:selectOneMenu id="organizationDocCategory" value="#{organizationBean.organizationDocCategory}" required="true"
+                                 styleClass="requiredFieldClass">
+                    <f:selectItems value="#{organizationBean.organizationDocCategories}"/>
+                    <f:converter converterId="autentia.EntityConverter"/>
+                </h:selectOneMenu>
+            </h:panelGroup>
+
+        </td>
+    </tr>
+
+    <%-- Field: documentNumber --%>
+    <tr>
+        <td class="editLabelRW">${msg['organization.documentNumber']}:</td>
+
+        <td class="editFieldCell">
+
+            <h:panelGroup>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="documentNumber"/>
+                <h:inputText id="documentNumber" value="#{organizationBean.documentNumber}" maxlength="50"/>
+            </h:panelGroup>
+
+        </td>
     </tr>
                                   
   

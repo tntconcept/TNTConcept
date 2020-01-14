@@ -30,6 +30,7 @@ import javax.faces.model.SelectItem;
 
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.manager.admin.CountryManager;
+import com.autentia.tnt.manager.contacts.OrganizationDocCategoryManager;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -206,7 +207,21 @@ public class OrganizationBean extends BaseBean {
 
         return ret;
     }
-        
+        /**
+     * Get the list of all countries
+     * @return a list with all countries
+     */
+    public List<SelectItem> getOrganizationDocCategories() {
+        List<OrganizationDocCategory> refs = OrganizationDocCategoryManager.getDefault().getAllEntities(new SortCriteria("id"));
+
+        ArrayList<SelectItem> ret = new ArrayList<>();
+        for(OrganizationDocCategory ref : refs) {
+            ret.add(new SelectItem(ref, ref.getCode() + " - " + ref.getName()));
+        }
+
+        return ret;
+    }
+
   // Getters to list possible values of enum fields
                                                                                                                     
 
@@ -1071,7 +1086,16 @@ public class OrganizationBean extends BaseBean {
     public void setCountry(Country country) {
         organization.setCountry(country);
     }
-        
+
+
+    public OrganizationDocCategory getOrganizationDocCategory() {
+        return organization.getOrganizationDocCategory();
+    }
+
+    public void setOrganizationDocCategory(OrganizationDocCategory organizationDocCategory) {
+        organization.setOrganizationDocCategory(organizationDocCategory);
+    }
+
     
     
     public String getPhone() {
