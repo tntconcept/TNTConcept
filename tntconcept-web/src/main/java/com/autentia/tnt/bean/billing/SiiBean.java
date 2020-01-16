@@ -636,7 +636,9 @@ public class SiiBean extends BaseBean {
             insertEmptyField(8, item);
         }
 
-        if(ivaDataMap.get("ivaData0").isExistsOnBill()){
+        boolean isExempt = ivaDataMap.get("ivaData0").isExistsOnBill();
+
+        if(isExempt){
             item.append( this.populateCell("SI"));
             item.append(this.populateCell((ivaDataMap.get("ivaData0").getBasePrice())));
             item.append(this.populateCell("0"));
@@ -657,7 +659,7 @@ public class SiiBean extends BaseBean {
                 rectifiedBillCategory.getCode() + " - " + rectifiedBillCategory.getName() : ""));
         item.append( this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
         insertEmptyField(5, item);
-        item.append(this.populateCell((ivaDataMap.get("ivaData0").isExistsOnBill() && isProvideService) ? "SI" : "NO"));
+        item.append(this.populateCell((isExempt && isProvideService) ? "SI" : "NO"));
         item.append(this.populateCell("0"));
         item.append(this.populateCell("N - No"));
         insertEmptyField(2, item);
