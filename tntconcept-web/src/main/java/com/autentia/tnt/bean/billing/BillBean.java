@@ -799,6 +799,7 @@ public class BillBean extends BaseBean {
 		bill.setEndBillDate(new Date());
 		bill.setBillType(getSelectedType());
 		bill.setSubmitted(0);
+		bill.setProvideService(true);
 		selectedOrganization = null;
 		return NavigationResults.CREATE;
 	}
