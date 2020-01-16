@@ -492,7 +492,7 @@ public class SiiBean extends BaseBean {
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
             generateCSVItemReceive(ivaDataMap, item, description, total, billCategory, rectifiedBillCategory, billRegime);
         else
-            generateCSVItemIssue(ivaDataMap, description, item, total, billCategory, rectifiedBillCategory, billRegime);
+            generateCSVItemIssue(ivaDataMap, description, item, total, billCategory, rectifiedBillCategory, billRegime, bill.isProvideService());
 
         item.append(this.returnLine());
 
@@ -609,7 +609,7 @@ public class SiiBean extends BaseBean {
 
     private void generateCSVItemIssue (Map<String, IVAData> ivaDataMap, String description, StringBuilder item,
                                        BigDecimal total, BillCategory billCategory, RectifiedBillCategory rectifiedBillCategory,
-                                       BillRegime billRegime) {
+                                       BillRegime billRegime, boolean isProvideService) {
 
         insertEmptyField(2, item);
 
@@ -657,7 +657,7 @@ public class SiiBean extends BaseBean {
                 rectifiedBillCategory.getCode() + " - " + rectifiedBillCategory.getName() : ""));
         item.append( this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
         insertEmptyField(5, item);
-        item.append(this.populateCell("NO"));
+        item.append(this.populateCell((ivaDataMap.get("ivaData0").isExistsOnBill() && isProvideService) ? "SI" : "NO"));
         item.append(this.populateCell("0"));
         item.append(this.populateCell("N - No"));
         insertEmptyField(2, item);
