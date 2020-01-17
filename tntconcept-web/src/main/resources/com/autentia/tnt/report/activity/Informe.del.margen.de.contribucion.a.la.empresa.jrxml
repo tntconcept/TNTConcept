@@ -69,22 +69,18 @@
 	</parameter>
 	
 	
-	<queryString><![CDATA[select 
-	u.login as userName,
-	COALESCE(((sum(a.duration)/60)*pr.costPerHour),0) as facturado
-
+        <queryString><![CDATA[select userName, COALESCE(sum(impFact),0) as facturado
 from 
-	User u, 
-	Activity a, 
-	ProjectRole pr 
-
-where 	
-	u.id = a.userId and	
-	a.billable = 1 and 
-	a.roleId = pr.id and	
-	a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-
-group by u.id
+(
+        SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as projectName,
+                a.startDate,a.duration,a.description,
+        sum(CASE WHEN a.billable=1 then (duration/60 * r.costPerHour) end) as 'impFact'
+        FROM Activity a, Organization o,User u,Project p,ProjectRole r 
+        where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
+        and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+        group by r.id, u.id
+) as tabla
+group by userName
 order by facturado desc;]]></queryString>
 
 	<field name="userName" class="java.lang.String"/>
