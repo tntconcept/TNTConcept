@@ -49,7 +49,7 @@
 	<field name="organizationTypeId" class="java.lang.Integer"/>
 	<field name="organizationISOCategoryId" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="cif" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
 	<field name="phone" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="number" class="java.lang.String"/>
@@ -135,7 +135,7 @@
 					<textElement>
 						<font fontName="Arial" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{factura.factura_subreport.text1} + " " + $F{phone} + " " + $R{factura.factura_subreport.text2} + " " + $F{cif}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{factura.factura_subreport.text1} + " " + $F{phone} + " " + $R{factura.factura_subreport.text2} + " " + $F{documentNumber}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

@@ -81,7 +81,7 @@
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT bb.concept as concepto,b.id as billId,o.cif as CIF, case b.state when 'PAID' then 'Pagada'
+	<queryString><![CDATA[SELECT bb.concept as concepto,b.id as billId,o.documentNumber as documentNumber, case b.state when 'PAID' then 'Pagada'
                     when 'EMITTED' then 'Emitida'
                     when 'IN_CREDITTITLE' then 'En pagare'
                     end as estado,b.number,o.name,b.creationDate
@@ -99,7 +99,7 @@ order by number asc, b.creationDate asc]]></queryString>
 	<field name="estado" class="java.lang.String"/>
 	<field name="number" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
-  <field name="CIF" class="java.lang.String"/>
+  <field name="documentNumber" class="java.lang.String"/>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
@@ -476,7 +476,7 @@ order by number asc, b.creationDate asc]]></queryString>
 					<textElement textAlignment="Left" verticalAlignment="Bottom">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{CIF}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{documentNumber}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement

@@ -56,7 +56,7 @@
 		<defaultValueExpression ><![CDATA[new String("")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="showLegalWarning" isForPrompting="true" class="java.lang.String"/>
-	<queryString><![CDATA[SELECT bb.amount as PrecioParcial,bb.concept as Concepto, bb.iva as Iva, bb.units as Unidades,pv.name as Provincia,o.name as OrgName,o.cif,o.phone,o.street,o.number as OrgNumber,
+	<queryString><![CDATA[SELECT bb.amount as PrecioParcial,bb.concept as Concepto, bb.iva as Iva, bb.units as Unidades,pv.name as Provincia,o.name as OrgName,o.documentNumber,o.phone,o.street,o.number as OrgNumber,
 	o.locator,o.postalCode,o.city,b.id,b.creationDate,b.paymentMode,
 	b.number as BillNumber,b.name as BillName,b.observations,b.orderNumber, bb.place, 
 	c.name as ContactName 
@@ -70,7 +70,7 @@ WHERE b.projectId = p.id and p.organizationId = o.id and pv.id = o.provinceId
 	<field name="Unidades" class="java.math.BigDecimal"/>
 	<field name="Provincia" class="java.lang.String"/>
 	<field name="OrgName" class="java.lang.String"/>
-	<field name="cif" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
 	<field name="phone" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="OrgNumber" class="java.lang.String"/>
@@ -258,7 +258,7 @@ WHERE b.projectId = p.id and p.organizationId = o.id and pv.id = o.provinceId
 					<textElement textAlignment="Left">
 						<font fontName="Arial" size="10"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{OrgName} + " - " + $F{cif}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{OrgName} + " - " + $F{documentNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

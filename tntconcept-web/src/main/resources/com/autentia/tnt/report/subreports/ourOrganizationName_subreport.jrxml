@@ -43,12 +43,12 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="idOrg" isForPrompting="true" class="java.lang.Integer"/>
-	<queryString><![CDATA[select name,cif,phone,street,number,locator,city,postalCode,email,website 
+	<queryString><![CDATA[select name,documentNumber,phone,street,number,locator,city,postalCode,email,website
 from Organization
 where id=$P{idOrg}]]></queryString>
 
 	<field name="name" class="java.lang.String"/>
-	<field name="cif" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
 	<field name="phone" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="number" class="java.lang.String"/>

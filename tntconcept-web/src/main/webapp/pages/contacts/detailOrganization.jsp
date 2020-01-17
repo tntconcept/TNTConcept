@@ -74,7 +74,7 @@
     
   
   
-      <%-- Field: cif --%>
+      <%-- Field: documentNumber --%>
     <tr>
 	<td class="detailLabelRW">${msg['organization.documentNumber']}:</td>
 	<td class="detailFieldCell">

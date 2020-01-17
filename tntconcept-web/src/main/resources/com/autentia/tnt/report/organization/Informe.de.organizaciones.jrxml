@@ -58,14 +58,14 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select id,name,cif,phone,email,website,contactName 
-		from ( select o.id,o.name,o.cif,o.phone,o.email,o.website, ifnull(c.name,'---') as 'contactName'
+	<queryString><![CDATA[select id,name,documentNumber,phone,email,website,contactName
+		from ( select o.id,o.name,o.documentNumber,o.phone,o.email,o.website, ifnull(c.name,'---') as 'contactName'
 	from Organization o left join ContactInfo ci on ci.organizationId = o.id left join Contact c on ci.contactId = c.id) as tabla
 order by name]]></queryString>
 
 	<field name="id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="cif" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
 	<field name="phone" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="website" class="java.lang.String"/>
@@ -287,7 +287,7 @@ order by name]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{cif}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{documentNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

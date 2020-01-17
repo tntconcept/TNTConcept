@@ -94,7 +94,7 @@
       </td>
     </tr>
                         
-      <%-- Field: cif --%>
+      <%-- Field: documentNumber --%>
     <tr>
       <td class="searchLabel">${msg['organization.documentNumber']}:</td>
       <td class="searchFieldCell">

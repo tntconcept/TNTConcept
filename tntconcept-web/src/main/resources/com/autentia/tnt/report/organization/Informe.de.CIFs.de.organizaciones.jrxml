@@ -67,14 +67,14 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["ourOrganization_subreport"]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT o.name as name, o.id as id, o.postalCode as postalCode, o.cif as cif, ot.name as organizationType
+	<queryString><![CDATA[SELECT o.name as name, o.id as id, o.postalCode as postalCode, o.documentNumber as documentNumber, ot.name as organizationType
 	from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, OrganizationType ot
 	where bb.billId=b.id
 	and b.providerId = o.id and (ot.id = 1 or ot.id = 2) and ot.id = o.organizationTypeId
 	and b.creationDate between $P{Fecha inicio} and $P{Fecha fin} 
 	group by o.name
 	union
-	SELECT o.name, o.id, o.postalCode, o.cif, ot.name
+	SELECT o.name, o.id, o.postalCode, o.documentNumber, ot.name
 	from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o, Project p, OrganizationType ot
 	where bb.billId=b.id
 	and p.organizationId = o.id and (ot.id = 1 or ot.id = 2) and ot.id = o.organizationTypeId
@@ -83,7 +83,7 @@
 
 	<field name="id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
-	<field name="cif" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
 	<field name="postalCode" class="java.lang.String"/>
 	<field name="organizationType" class="java.lang.String"/>
 
@@ -261,7 +261,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{cif}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{documentNumber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

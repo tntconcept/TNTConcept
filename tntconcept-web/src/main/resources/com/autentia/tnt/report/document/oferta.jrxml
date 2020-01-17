@@ -57,9 +57,9 @@
 		<defaultValueExpression ><![CDATA[new Integer(0)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="showLegalWarning" isForPrompting="true" class="java.lang.String"/>
-	<queryString><![CDATA[SELECT number,orgName, cif, street, streetNumber, streetLocator, contactName, phone, mobile, title, ifnull(descripcion,'---') as descripcion, ifnull(observaciones,'---') as observaciones, estado, fechaModif,
+	<queryString><![CDATA[SELECT number,orgName, documentNumber, street, streetNumber, streetLocator, contactName, phone, mobile, title, ifnull(descripcion,'---') as descripcion, ifnull(observaciones,'---') as observaciones, estado, fechaModif,
 showIva,creationDate, validityDate, updateDate
-FROM (SELECT org.name as orgName, org.cif as cif, org.street as street, org.number as streetNumber, org.locator as streetLocator, c.name as contactName, c.mobile as mobile, c.phone as phone, o.title as title, o.showIvaIntoReport as showIva, 
+FROM (SELECT org.name as orgName, org.documentNumber as documentNumber, org.street as street, org.number as streetNumber, org.locator as streetLocator, c.name as contactName, c.mobile as mobile, c.phone as phone, o.title as title, o.showIvaIntoReport as showIva,
 	o.description as descripcion, o.observations as observaciones, case o.offerState 
 			when 'OPEN' then 'Abierta'
                         when 'ACCEPTED' then 'Aceptada'
@@ -71,7 +71,7 @@ FROM (SELECT org.name as orgName, org.cif as cif, org.street as street, org.numb
 
 	<field name="number" class="java.lang.String"/>
 	<field name="orgName" class="java.lang.String"/>
-	<field name="cif" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="streetNumber" class="java.lang.String"/>
 	<field name="streetLocator" class="java.lang.String"/>
@@ -214,7 +214,7 @@ FROM (SELECT org.name as orgName, org.cif as cif, org.street as street, org.numb
 					<textElement textAlignment="Left">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgName} + " - " + $F{cif} + " - " + $F{street} + " " + $F{streetNumber} + " " + $F{streetLocator}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{orgName} + " - " + $F{documentNumber} + " - " + $F{street} + " " + $F{streetNumber} + " " + $F{streetLocator}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement

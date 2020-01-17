@@ -79,7 +79,7 @@
 		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
 
-	<queryString><![CDATA[SELECT o.name as concepto,o.cif as CIF,b.id as billId, case b.state when 'PAID' then 'Pagada'
+	<queryString><![CDATA[SELECT o.name as concepto,o.documentNumber as documentNumber,b.id as billId, case b.state when 'PAID' then 'Pagada'
                     when 'EMITTED' then 'Emitida'
                     when 'IN_CREDITTITLE' then 'En pagare'
                     end as estado,b.number,o.name,b.creationDate
@@ -97,7 +97,7 @@ order by b.number, b.creationDate asc]]></queryString>
 	<field name="estado" class="java.lang.String"/>
 	<field name="number" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
-  <field name="CIF" class="java.lang.String"/>
+  <field name="documentNumber" class="java.lang.String"/>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
@@ -487,7 +487,7 @@ order by b.number, b.creationDate asc]]></queryString>
           <textElement textAlignment="Center" verticalAlignment="Middle">
             <font fontName="Verdana" size="6"/>
           </textElement>
-        <textFieldExpression   class="java.lang.String"><![CDATA[$F{CIF}]]></textFieldExpression>
+        <textFieldExpression   class="java.lang.String"><![CDATA[$F{documentNumber}]]></textFieldExpression>
         </textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
