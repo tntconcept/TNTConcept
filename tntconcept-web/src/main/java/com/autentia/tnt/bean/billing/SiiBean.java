@@ -442,7 +442,7 @@ public class SiiBean extends BaseBean {
         int monthNumber = calendar.get(Calendar.MONTH) + 1;
         String aux = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         String monthName =  aux.substring(0, 1).toUpperCase() + aux.substring(1);
-        String period = monthNumber + " - " + monthName ;
+        String period = (monthNumber < 10 ? "0" + monthNumber : monthNumber) + " - " + monthName ;
 
         ivaDataMap.put("ivaData21", new IVAData(new BigDecimal(21)));
         ivaDataMap.put("ivaData10", new IVAData(new BigDecimal(10)));
