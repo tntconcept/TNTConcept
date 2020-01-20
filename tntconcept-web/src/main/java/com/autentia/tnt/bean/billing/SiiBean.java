@@ -490,7 +490,7 @@ public class SiiBean extends BaseBean {
         BillRegime billRegime = bill.getBillRegime();
 
         if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
-            generateCSVItemReceive(ivaDataMap, item, description, total, billCategory, rectifiedBillCategory, billRegime);
+            generateCSVItemReceive(ivaDataMap, item, description, total, billCategory, rectifiedBillCategory, billRegime, bill.getDeductibleIVAPercentage());
         else
             generateCSVItemIssue(ivaDataMap, description, item, total, billCategory, rectifiedBillCategory, billRegime, bill.isProvideService());
 
@@ -556,7 +556,10 @@ public class SiiBean extends BaseBean {
 
     private void generateCSVItemReceive (Map<String, IVAData> ivaDataMap, StringBuilder item,
                                          String description, BigDecimal total, BillCategory billCategory,
-                                         RectifiedBillCategory rectifiedBillCategory, BillRegime billRegime) {
+                                         RectifiedBillCategory rectifiedBillCategory, BillRegime billRegime, int deductibleIVAPercentage) {
+
+        BigDecimal deductibleFactor = new BigDecimal(deductibleIVAPercentage).divide(new BigDecimal(100));
+
         AtomicInteger contador = new AtomicInteger();
         ivaDataMap.forEach((k, v) -> {
             if( v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
@@ -565,7 +568,7 @@ public class SiiBean extends BaseBean {
                 item.append( this.populateCell(v.getIvaAmount()));
                 item.append( this.populateCell(v.getREAGYPCompensationPercentage()));
                 item.append( this.populateCell(v.getREAGYPCompensationAmount()));
-                item.append( this.populateCell(v.getIvaAmount()));
+                item.append( this.populateCell(v.getIvaAmount().multiply(deductibleFactor)));
             }
             else {
                 if (v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
