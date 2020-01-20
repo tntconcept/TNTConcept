@@ -800,6 +800,7 @@ public class BillBean extends BaseBean {
 		bill.setBillType(getSelectedType());
 		bill.setSubmitted(0);
 		bill.setProvideService(true);
+		bill.setDeductibleIVAPercentage(100);
 		selectedOrganization = null;
 		return NavigationResults.CREATE;
 	}
@@ -1737,6 +1738,14 @@ public class BillBean extends BaseBean {
 
 	public String getProvideService(){
   		return String.valueOf(bill.isProvideService()).toUpperCase();
+	}
+
+	public void setDeductibleIVAPercentage(String percentage) {
+  		bill.setDeductibleIVAPercentage(Integer.parseInt(percentage));
+	}
+
+	public String getDeductibleIVAPercentage() {
+  		return String.valueOf(bill.getDeductibleIVAPercentage());
 	}
 
 	public BillRegime getBillRegime() {

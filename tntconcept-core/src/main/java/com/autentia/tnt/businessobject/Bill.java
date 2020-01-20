@@ -71,6 +71,8 @@ public class Bill implements Serializable, ITransferObject
 	private Boolean provideService;
 
 	private BillRegime billRegime;
+
+	private Integer deductibleIVAPercentage;
 	
 	public Set<CreditTitle> getCreditTitles() {
 		return creditTitles;
@@ -234,6 +236,19 @@ public class Bill implements Serializable, ITransferObject
 	public void setProvideService(Boolean provideService) {
 		this.provideService = provideService;
 	}
+
+	public Boolean getProvideService() {
+		return provideService;
+	}
+
+	public Integer getDeductibleIVAPercentage() {
+		return deductibleIVAPercentage;
+	}
+
+	public void setDeductibleIVAPercentage(Integer deductibleIVAPercentage) {
+		this.deductibleIVAPercentage = deductibleIVAPercentage;
+	}
+
 	// Fields
 	
 	private Date startBillDate;

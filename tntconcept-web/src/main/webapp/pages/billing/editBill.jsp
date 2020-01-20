@@ -262,9 +262,9 @@
                   </td>
               </tr>
 
-              <%-- Field: category --%>
+              <%-- Field: provideService --%>
               <tr>
-                  <td class="editLabelRW">*${msg['bill.provideService']}:</td>
+                  <td class="editLabelRW">*${msg['bill.deductibleIVAPercentage']}:</td>
                   <td class="editFieldCell">
                       <h:panelGroup>
                           <h:message styleClass="error" showSummary="true" showDetail="false" for="provideService" />
@@ -277,6 +277,20 @@
                   </td>
               </tr>
 
+              <%-- Field: deductibleIVAPercentage --%>
+              <tr>
+                  <td class="editLabelRW">*${msg['bill.deductibleIVAPercentage']}:</td>
+                  <td class="editFieldCell">
+                      <h:panelGroup>
+                          <h:message styleClass="error" showSummary="true" showDetail="false" for="deductibleIVA" />
+                          <h:selectOneRadio id="deductibleIVA" value = "#{billBean.deductibleIVAPercentage}" required="true"
+                                            styleClass="requiredFieldClass">
+                              <f:selectItem itemValue = "100" itemLabel = "100 %" />
+                              <f:selectItem itemValue = "50" itemLabel = "50 %" />
+                          </h:selectOneRadio>
+                      </h:panelGroup>
+                  </td>
+              </tr>
 
            <%-- Field: breakDown --%>
     <tr>
