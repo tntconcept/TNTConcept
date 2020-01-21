@@ -562,6 +562,7 @@ public class SiiBean extends BaseBean {
 
         AtomicInteger contador = new AtomicInteger();
         ivaDataMap.forEach((k, v) -> {
+            //Rellenamos para tipos de iva 21%, 10% y 4% existentes
             if( v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
                 item.append( this.populateCell(v.getIvaPercentage()) );
                 item.append( this.populateCell(v.getBasePrice()));
@@ -578,11 +579,13 @@ public class SiiBean extends BaseBean {
         });
 
         for (int i = 0; i < contador.get(); i ++) {
+            //celdas vacías para tipos 21%, 10% y 4% no existentes en factura
             insertEmptyField(6, item);
         }
 
 
         if(ivaDataMap.get("ivaData0").isExistsOnBill()){
+            //Rellenamos IVA 0% (exentas)
             item.append( this.populateCell("SI"));
             item.append(this.populateCell((ivaDataMap.get("ivaData0").getBasePrice())));
             item.append(this.populateCell("0"));
