@@ -264,7 +264,7 @@
 
               <%-- Field: provideService --%>
               <tr>
-                  <td class="editLabelRW">*${msg['bill.deductibleIVAPercentage']}:</td>
+                  <td class="editLabelRW">*${msg['bill.provideService']}:</td>
                   <td class="editFieldCell">
                       <h:panelGroup>
                           <h:message styleClass="error" showSummary="true" showDetail="false" for="provideService" />
