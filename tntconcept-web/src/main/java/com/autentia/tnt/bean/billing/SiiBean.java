@@ -235,7 +235,9 @@ public class SiiBean extends BaseBean {
         final StringBuilder body = new StringBuilder();
         body.append(this.generateCSVHeader());
         for (Bill bill: bills) {
-            body.append(this.generateCSVItem(bill));
+            if (bill.getDeductibleIVAPercentage() != 0) {
+                body.append(this.generateCSVItem(bill));
+            }
         }
 
         return body.toString();
