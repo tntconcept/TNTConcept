@@ -285,8 +285,9 @@
                           <h:message styleClass="error" showSummary="true" showDetail="false" for="deductibleIVA" />
                           <h:selectOneRadio id="deductibleIVA" value = "#{billBean.deductibleIVAPercentage}" required="true"
                                             styleClass="requiredFieldClass">
-                              <f:selectItem itemValue = "100" itemLabel = "100 %" />
-                              <f:selectItem itemValue = "50" itemLabel = "50 %" />
+                              <f:selectItem itemValue = "100" itemLabel = "100%" />
+                              <f:selectItem itemValue = "50" itemLabel = "50%" />
+                              <f:selectItem itemValue = "0" itemLabel = "0% #{msg['bill.notDeductible']}" />
                           </h:selectOneRadio>
                       </h:panelGroup>
                   </td>
