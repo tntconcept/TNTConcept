@@ -479,7 +479,7 @@ public class SiiBean extends BaseBean {
         item.append( this.populateCell( documentType ));
         item.append( this.populateCell( europeCif ));
         item.append( this.populateCell(country));
-        item.append( this.populateCell( orderNumber ));
+        item.append( this.populateCell("=\"\"" + orderNumber + "\"\""));
         insertEmptyField(1, item);
         item.append( this.populateCell( creacionDate ));
         item.append( this.populateCell( expirationDate ));
