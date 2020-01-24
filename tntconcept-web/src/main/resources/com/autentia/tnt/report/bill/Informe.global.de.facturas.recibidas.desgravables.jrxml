@@ -72,7 +72,7 @@
 	</parameter>
 	<parameter name="SUBREPORT_IVA" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["subinforme_ivaGlobalRecibidas"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["subinforme_ivaGlobalRecibidas_desgravables"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_CONCEPTOS7" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
