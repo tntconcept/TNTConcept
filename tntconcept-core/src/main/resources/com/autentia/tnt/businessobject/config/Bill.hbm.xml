@@ -81,8 +81,8 @@
     <many-to-one name="contact" class="com.autentia.tnt.businessobject.Contact"
               column="contactId"  />
     
-    <property name="amount" type="java.math.BigDecimal" formula="(select truncate(sum((a.amount*a.units)+(((a.amount*a.units)*a.iva))/100.00),2) from BillBreakDown a, Bill b where b.id = a.billId and b.id = id)" ></property>
-    <property name="entriesNumber" type="java.lang.Integer" formula="(select count(*) from Bill_AccountEntry a where a.billId = id)" ></property>
+    <property name="amount" type="java.math.BigDecimal" formula="(select truncate(sum((a.amount*a.units)+(((a.amount*a.units)*a.iva))/100.00),2) from BillBreakDown a, Bill b where b.id = a.billId and b.id = id)"/>
+    <property name="entriesNumber" type="java.lang.Integer" formula="(select count(*) from Bill_AccountEntry a where a.billId = id)"/>
 
     <many-to-one name="provider" class="com.autentia.tnt.businessobject.Organization"
               column="providerId" not-null="false"  />
@@ -97,6 +97,7 @@
     <many-to-one name="billRegime" class="com.autentia.tnt.businessobject.BillRegime" column="billRegimeId"/>
     <property name="provideService" type="java.lang.Boolean" column="provideService"/>
     <property name="deductibleIVAPercentage" type="java.lang.Integer" column="deductibleIVAPercentage"/>
+    <property name="freelanceIRPFPercentage" type="java.math.BigDecimal" column="freelanceIRPFPercentage"/>
 
   </class>
 </hibernate-mapping>

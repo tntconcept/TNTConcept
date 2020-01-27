@@ -30,6 +30,12 @@ ALTER TABLE Organization ADD COLUMN freelance BOOLEAN DEFAULT FALSE;
 -- Los Id son organizaciones de renting, que solo se deduce el 50% del IVA
 
 -- -----------------------------------------------------------------------------
+-- Bill
+-- -----------------------------------------------------------------------------
+
+ALTER TABLE Bill ADD COLUMN freelanceIRPFPercentage INT(11) DEFAULT NULL;
+
+-- -----------------------------------------------------------------------------
 -- Version
 -- -----------------------------------------------------------------------------
 --

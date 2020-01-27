@@ -63,7 +63,6 @@ import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
 import com.autentia.tnt.util.IvaApplicator;
 import com.autentia.tnt.util.SpringUtils;
-import org.apache.xpath.operations.Bool;
 
 /**
  * UI bean for Bill objects.
@@ -397,6 +396,10 @@ public class BillBean extends BaseBean {
 	public BigDecimal getTotal() {
 		return bill.getTotal();
 	}
+
+	public BigDecimal getTotalWithIVA() {
+		return bill.getTotalWithIVA();
+	}
 	
 	public BigDecimal getBillPaymentTotal() {
 		return bill.getBillPaymentTotal();
@@ -405,7 +408,14 @@ public class BillBean extends BaseBean {
 	public BigDecimal getTotalNoTaxes() {
 		return bill.getTotalNoTaxes();
 	}
-	
+
+	public BigDecimal getTotalToPaidIRPF() {
+		return bill.getTotalToPaidHoldingIRPF();
+	}
+
+	public BigDecimal getIrpfAmount() {
+		return bill.getIRPFAmount();
+	}
 	// reloads the page to update the total of the bill
 	public String reloadTotal() {
 		return null;
@@ -1581,7 +1591,7 @@ public class BillBean extends BaseBean {
 				&& (bill.getId() != null);
 	}
 	
-	public boolean getPuedoPintarProvider() {
+	public boolean getEsFacturaRecibida() {
 		return (getSelectedType() == BillType.RECIEVED);
 				
 	}
@@ -1746,6 +1756,22 @@ public class BillBean extends BaseBean {
 
 	public String getDeductibleIVAPercentage() {
   		return String.valueOf(bill.getDeductibleIVAPercentage());
+	}
+
+	public void setFreelanceIRPFPercentage(BigDecimal freelanceIRPFPercentage) {
+  		bill.setFreelanceIRPFPercentage(freelanceIRPFPercentage);
+	}
+
+	public BigDecimal getFreelanceIRPFPercentage() {
+  		return bill.getFreelanceIRPFPercentage();
+	}
+
+	public boolean organizationIsFreelance() {
+  		return bill.getProvider() != null && bill.getProvider().isFreelance();
+	}
+
+	public boolean getBillHasIRPF() {
+  		return getEsFacturaRecibida() && organizationIsFreelance();
 	}
 
 	public BillRegime getBillRegime() {

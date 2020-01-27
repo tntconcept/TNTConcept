@@ -107,8 +107,20 @@
               </h:panelGroup>
             </td>
           </tr>
-          
-	    <%-- Field: bookNumber --%>
+
+              <%-- Field: name --%>
+          <tr>
+              <td class="editLabelRW">*${msg['bill.name']}:</td>
+              <td class="editFieldCell">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="name" />
+                      <h:inputTextarea id="name" value="#{billBean.name}" rows="7" cols="68" required="true" styleClass="requiredFieldClass"
+                                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
+                  </h:panelGroup>
+              </td>
+          </tr>
+
+          <%-- Field: bookNumber --%>
 	    <tr>
 	      <td class="editLabelRW">${msg['bill.bookNumber']}:</td>      
 	      <td class="editFieldCell">
@@ -122,9 +134,9 @@
 		 <tr>
 		    <td class="editLabelRW">${msg['bill.provider']}:</td> 
 		    <td class="editFieldCell">
-	           <h:panelGroup rendered="#{billBean.puedoPintarProvider}">
+	           <h:panelGroup rendered="#{billBean.esFacturaRecibida}">
 	            <h:message styleClass="error" showSummary="true" showDetail="false" for="provider" />
-	            <h:selectOneMenu id="provider" disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" value="#{billBean.provider}" required="true" styleClass="requiredFieldClass">
+	            <h:selectOneMenu id="provider" disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" value="#{billBean.provider}" required="true" onchange="submit();" styleClass="requiredFieldClass">
 	              <f:selectItems value="#{billBean.providers}" />
 	              <f:converter converterId="autentia.EntityConverter"/>
 	            </h:selectOneMenu>
@@ -176,18 +188,6 @@
                   </h:panelGroup>
               </td>
           </tr>
-          
-          <%-- Field: name --%>
-          <tr>
-            <td class="editLabelRW">*${msg['bill.name']}:</td>
-            <td class="editFieldCell">
-              <h:panelGroup>
-                <h:message styleClass="error" showSummary="true" showDetail="false" for="name" />
-                <h:inputTextarea id="name" value="#{billBean.name}" rows="7" cols="68" required="true" styleClass="requiredFieldClass"
-                                 readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
-              </h:panelGroup>
-            </td>
-          </tr>	
           
           <%-- Field: orderNumber --%>
     <tr>
@@ -293,6 +293,20 @@
                   </td>
               </tr>
 
+                  <%-- Field: IRPF --%>
+              <h:panelGroup rendered="#{billBean.billHasIRPF}" >
+              <tr>
+                  <td class="editLabelRW">${msg['bill.irpf']}:</td>
+
+                  <td class="editFieldCell">
+                          <h:message styleClass="error" showSummary="true" showDetail="false" for="irpf" />
+                          <h:inputText id="irpf" value="#{billBean.freelanceIRPFPercentage}"  maxlength="11" size="11" styleClass="requiredFieldClass"
+                                       readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
+
+                  </td>
+              </tr>
+              </h:panelGroup>
+
            <%-- Field: breakDown --%>
     <tr>
     	    		<td class="editLabelRW">${msg['bill.breakDown']}:</td>
@@ -323,12 +337,33 @@
             <td class="editFieldCell" align="right">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="total" />
-                <h:outputText id="total" value="#{billBean.total}  " styleClass="requiredFieldClass"/>
+                <h:outputText id="total" value="#{billBean.totalWithIVA}  " styleClass="requiredFieldClass"/>
               </h:panelGroup>
             </td>
           </tr>
-		  
-		 
+
+          <h:panelGroup rendered="#{billBean.billHasIRPF}" >
+          <tr>
+              <td class="editLabelRW">${msg['bill.irpfAmount']}:</td>
+              <td class="editFieldCell" align="right">
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="totalIrpfAmount" />
+                      <h:outputText id="totalIrpfAmount" value="#{billBean.irpfAmount}  " styleClass="requiredFieldClass"/>
+
+              </td>
+          </tr>
+          </h:panelGroup>
+
+<%--          <h:panelGroup rendered="#{billBean.billHasIRPF}" >--%>
+<%--              <tr>--%>
+<%--                  <td class="editLabelRW">${msg['bill.totalToPaidHoldingIRPF']}:</td>--%>
+<%--                  <td class="editFieldCell" align="right">--%>
+<%--                      <h:message styleClass="error" showSummary="true" showDetail="false" for="totalToPaid" />--%>
+<%--                      <h:outputText id="totalToPaid" value="#{billBean.totalToPaidIRPF}  " styleClass="requiredFieldClass"/>--%>
+
+<%--                  </td>--%>
+<%--              </tr>--%>
+<%--          </h:panelGroup>--%>
+
           <tr>
             <td class="editLabelRW">${msg['bill.unpaidTotal']}:</td>
             <td class="editFieldCell" align="right">

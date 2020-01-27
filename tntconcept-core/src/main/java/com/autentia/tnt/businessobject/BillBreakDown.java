@@ -222,6 +222,7 @@ public BigDecimal getTotal() {
 	}
     //result.setScale(2);
 }
+
 public boolean isSelected() {
 	return selected;
 }

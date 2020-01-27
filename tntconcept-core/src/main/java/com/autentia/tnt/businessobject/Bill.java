@@ -73,6 +73,8 @@ public class Bill implements Serializable, ITransferObject
 	private BillRegime billRegime;
 
 	private Integer deductibleIVAPercentage;
+
+	private BigDecimal freelanceIRPFPercentage;
 	
 	public Set<CreditTitle> getCreditTitles() {
 		return creditTitles;
@@ -247,6 +249,14 @@ public class Bill implements Serializable, ITransferObject
 
 	public void setDeductibleIVAPercentage(Integer deductibleIVAPercentage) {
 		this.deductibleIVAPercentage = deductibleIVAPercentage;
+	}
+
+	public BigDecimal getFreelanceIRPFPercentage() {
+		return freelanceIRPFPercentage;
+	}
+
+	public void setFreelanceIRPFPercentage(BigDecimal freelanceIRPFPercentage) {
+		this.freelanceIRPFPercentage = freelanceIRPFPercentage;
 	}
 
 	// Fields
@@ -475,15 +485,24 @@ public class Bill implements Serializable, ITransferObject
 	
 	public BigDecimal getTotal()
 	{
+		if(provider != null && provider.isFreelance()) {
+			return getTotalToPaidHoldingIRPF();
+		} else {
+			return getTotalWithIVA();
+		}
+	}
+
+	public BigDecimal getTotalWithIVA() {
+		//Total comun (base + IVA)
 		BigDecimal valor = new BigDecimal(0);
-		
+
 		if(getBreakDown()!=null)
 		{
 			for(BillBreakDown elem:getBreakDown())
 			{
 				valor = valor.add(elem.getTotal());
 			}
-			
+
 		}
 		valor = valor.setScale(2,RoundingMode.HALF_EVEN);
 		return valor;
@@ -521,6 +540,26 @@ public class Bill implements Serializable, ITransferObject
 		}
 		valor = valor.setScale(2,RoundingMode.HALF_EVEN);
 		return valor;
+	}
+
+	public BigDecimal getIRPFAmount() {
+		if (provider != null && provider.isFreelance() && getFreelanceIRPFPercentage() != null) {
+			BigDecimal totalNoTaxes = getTotalNoTaxes();
+
+			BigDecimal irpfTotal = totalNoTaxes.multiply(getFreelanceIRPFPercentage());
+			irpfTotal = irpfTotal.divide(new BigDecimal(100), 2, RoundingMode.HALF_EVEN);
+
+			return irpfTotal.setScale(2,RoundingMode.HALF_EVEN);
+		} else {
+			return new BigDecimal(0);
+		}
+	}
+
+	public BigDecimal getTotalToPaidHoldingIRPF() {
+		//Total reteniendo IRPF (base + IVA - (base * %IRPF))
+		BigDecimal totalWithTaxesAndHoldingIRPF = getTotalWithIVA().subtract(getIRPFAmount());
+
+		return totalWithTaxesAndHoldingIRPF.setScale(2, RoundingMode.HALF_EVEN);
 	}
 	
 	public BigDecimal getAmount()
@@ -588,5 +627,5 @@ public class Bill implements Serializable, ITransferObject
   		} else {
   			return unpaid.setScale(2,RoundingMode.HALF_EVEN);	
   		}
-  	}  	
+  	}
 }
