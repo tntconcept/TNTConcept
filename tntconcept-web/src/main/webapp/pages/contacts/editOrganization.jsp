@@ -82,6 +82,24 @@
               </td>
     </tr>
 
+    <%-- Field: legalForm --%>
+    <tr>
+        <td class="editLabelRW">*${msg['organization.legalForm']}:</td>
+
+        <td class="editFieldCell">
+
+            <h:panelGroup>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="legalForm" />
+                <h:selectOneRadio id="legalForm" value = "#{organizationBean.legalForm}" required="true"
+                                  styleClass="requiredFieldClass">
+                    <f:selectItem itemValue = "FALSE" itemLabel = "#{msg['organization.company']}" />
+                    <f:selectItem itemValue = "TRUE" itemLabel = "#{msg['organization.freelance']}" />
+                </h:selectOneRadio>
+            </h:panelGroup>
+
+        </td>
+    </tr>
+
     <%-- Field: organizationDocCategory --%>
     <tr>
         <td class="editLabelRW">${msg['organization.organizationDocCategory']}:</td>

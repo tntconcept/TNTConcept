@@ -112,6 +112,8 @@ public class Organization implements Serializable, ITransferObject
       
   private String notes;
 
+  private boolean freelance;
+
       
       
   private Integer ownerId;
@@ -307,9 +309,15 @@ public String getName() {
   public void setNotes( String notes ) {
     this.notes = notes;
   }
-      
-  
-  
+
+  public boolean isFreelance() {
+    return freelance;
+  }
+
+  public void setFreelance(boolean freelance) {
+    this.freelance = freelance;
+  }
+
   public Integer getOwnerId() {
     return ownerId;
   }

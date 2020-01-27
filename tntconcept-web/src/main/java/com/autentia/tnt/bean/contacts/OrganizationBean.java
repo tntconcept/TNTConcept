@@ -1087,6 +1087,13 @@ public class OrganizationBean extends BaseBean {
         organization.setCountry(country);
     }
 
+    public String getLegalForm() {
+        return String.valueOf(organization.isFreelance()).toUpperCase();
+    }
+
+    public void setLegalForm(String freelance) {
+        organization.setFreelance(Boolean.parseBoolean(freelance));
+    }
 
     public OrganizationDocCategory getOrganizationDocCategory() {
         return organization.getOrganizationDocCategory();

@@ -68,6 +68,7 @@
 
     <many-to-one name="organizationDocCategory" class="com.autentia.tnt.businessobject.OrganizationDocCategory"
                  column="organizationDocCategoryId" />
+    <property name="freelance" type="java.lang.Boolean" column="freelance"/>
 
 
   </class>
