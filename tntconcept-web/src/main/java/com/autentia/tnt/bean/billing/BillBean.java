@@ -858,7 +858,9 @@ public class BillBean extends BaseBean {
 	 * @return forward to list page
 	 */
 	public String save() {
-		
+
+		correctIrpf();
+
 		if( bill.getId()==null )
 		{
 			manager.insertEntity(bill);
@@ -885,6 +887,23 @@ public class BillBean extends BaseBean {
 		return NavigationResults.EDIT;
 	}
 
+	public void correctIrpf() {
+		//Para mantener integridad de datos, nos aseguramos de que, si no procede asignar IRPF, SIEMPRE se queda a NULL
+
+		if (bill.getFreelanceIRPFPercentage() != null) {
+			if (bill.getBillType().equals(BillType.ISSUED)) {
+				setIrpfPercentageAsNull();
+			} else {
+				if (!bill.getProvider().isFreelance()) {
+					setIrpfPercentageAsNull();
+				}
+			}
+		}
+	}
+
+	public void setIrpfPercentageAsNull() {
+		bill.setFreelanceIRPFPercentage(null);
+	}
 	/**
 	 * Delete bean and go back to beans list
 	 * 
