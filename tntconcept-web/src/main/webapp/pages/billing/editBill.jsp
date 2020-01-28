@@ -378,46 +378,53 @@
               </h:panelGroup>
             </td>
           </tr>
-		  
-		    <%-- Field: startBillDate --%>
-    <tr>
-    	    		<td class="editLabelRW">*${msg['bill.startBillDate']}:</td>
-    	      
-      <td class="editFieldCell">
 
-                  <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="startBillDate" />
-            <t:inputCalendar id="startBillDate" value="#{billBean.startBillDate}" required="true" styleClass="requiredFieldClass"
-                             renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true"
-                             popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
-                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
-				<f:validator validatorId="autentia.dateValidator"/>
-			</t:inputCalendar>
-          </h:panelGroup>
+                  <%-- Field: startBillDate --%>
+              <tr>
+                  <td class="editLabelRW">*${msg['bill.startBillDate']}:</td>
 
-              </td>
-    </tr>
-                              
-    
-    
-      <%-- Field: endBillDate --%>
-    <tr>
-    	    		<td class="editLabelRW">*${msg['bill.endBillDate']}:</td>
-    	      
-      <td class="editFieldCell">
+                  <td class="editFieldCell">
 
-                  <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="endBillDate" />
-            <t:inputCalendar id="endBillDate" value="#{billBean.endBillDate}" required="true" styleClass="requiredFieldClass"
-                             renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true"
-                             popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
-                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}" disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
-				<f:validator validatorId="autentia.dateValidator"/>
-			</t:inputCalendar>
-          </h:panelGroup>
+                      <h:panelGroup>
+                          <h:message styleClass="error" showSummary="true" showDetail="false" for="startBillDate"/>
+                          <t:inputCalendar id="startBillDate" value="#{billBean.startBillDate}" required="true"
+                                           styleClass="requiredFieldClass"
+                                           renderAsPopup="true" popupDateFormat="d/MM/yyyy"
+                                           renderPopupButtonAsImage="true"
+                                           popupTodayString="#{msg['calendar.today']}"
+                                           popupWeekString="#{msg['calendar.week']}"
+                                           readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                                           disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
+                              <f:validator validatorId="autentia.dateValidator"/>
+                          </t:inputCalendar>
+                      </h:panelGroup>
 
-              </td>
-    </tr>
+                  </td>
+              </tr>
+
+
+                  <%-- Field: endBillDate --%>
+              <tr>
+                  <td class="editLabelRW">*${msg['bill.endBillDate']}:</td>
+
+                  <td class="editFieldCell">
+
+                      <h:panelGroup>
+                          <h:message styleClass="error" showSummary="true" showDetail="false" for="endBillDate"/>
+                          <t:inputCalendar id="endBillDate" value="#{billBean.endBillDate}" required="true"
+                                           styleClass="requiredFieldClass"
+                                           renderAsPopup="true" popupDateFormat="d/MM/yyyy"
+                                           renderPopupButtonAsImage="true"
+                                           popupTodayString="#{msg['calendar.today']}"
+                                           popupWeekString="#{msg['calendar.week']}"
+                                           readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                                           disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
+                              <f:validator validatorId="autentia.dateValidator"/>
+                          </t:inputCalendar>
+                      </h:panelGroup>
+
+                  </td>
+              </tr>
 
            <%-- Field: payments --%>
     <tr>
