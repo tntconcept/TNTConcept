@@ -90,6 +90,7 @@
 from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o
 where b.billType='recieved'
 and bb.billId=b.id and b.providerId = o.id
+and o.freelance = false
 and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 group by number
 order by number asc, b.creationDate asc]]></queryString>
