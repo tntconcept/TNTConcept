@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -485,5 +486,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 		return Integer.parseInt(getProperty("maxHoursByContract", ""));
 	}
 
-
+	public BigDecimal getDefaultIRPF() {
+		return new BigDecimal(getProperty("defaultIRPF", "15"));
+	}
 }

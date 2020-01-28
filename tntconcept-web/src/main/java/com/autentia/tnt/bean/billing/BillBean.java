@@ -76,6 +76,8 @@ public class BillBean extends BaseBean {
 	private boolean CREATE_BILL_PAYMENT = true;
 
 	private boolean readOnlyBill;
+
+	private BigDecimal defaultIRPF;
 	
 	private boolean DONT_CREATE_BILL_PAYMENT = false;
 	
@@ -812,6 +814,7 @@ public class BillBean extends BaseBean {
 		bill.setProvideService(true);
 		bill.setDeductibleIVAPercentage(100);
 		selectedOrganization = null;
+		bill.setFreelanceIRPFPercentage(defaultIRPF);
 		return NavigationResults.CREATE;
 	}
 
@@ -1724,7 +1727,7 @@ public class BillBean extends BaseBean {
 
 	public BillBean() {
 		this.readOnlyBill = ConfigurationUtil.getDefault().getReadOnlyBill();
-
+		this.defaultIRPF = ConfigurationUtil.getDefault().getDefaultIRPF();
 	}
 
 	/**

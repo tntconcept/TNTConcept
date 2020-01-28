@@ -300,8 +300,9 @@
 
                   <td class="editFieldCell">
                           <h:message styleClass="error" showSummary="true" showDetail="false" for="irpf" />
-                          <h:inputText id="irpf" value="#{billBean.freelanceIRPFPercentage}"  maxlength="11" size="11" styleClass="requiredFieldClass"
+                          <h:inputText id="irpf" value="#{billBean.freelanceIRPFPercentage}"  maxlength="2" size="3" styleClass="requiredFieldClass"
                                        readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"/>
+                          <h:outputText value="%"/>
 
                   </td>
               </tr>
@@ -352,17 +353,6 @@
               </td>
           </tr>
           </h:panelGroup>
-
-<%--          <h:panelGroup rendered="#{billBean.billHasIRPF}" >--%>
-<%--              <tr>--%>
-<%--                  <td class="editLabelRW">${msg['bill.totalToPaidHoldingIRPF']}:</td>--%>
-<%--                  <td class="editFieldCell" align="right">--%>
-<%--                      <h:message styleClass="error" showSummary="true" showDetail="false" for="totalToPaid" />--%>
-<%--                      <h:outputText id="totalToPaid" value="#{billBean.totalToPaidIRPF}  " styleClass="requiredFieldClass"/>--%>
-
-<%--                  </td>--%>
-<%--              </tr>--%>
-<%--          </h:panelGroup>--%>
 
           <tr>
             <td class="editLabelRW">${msg['bill.unpaidTotal']}:</td>
