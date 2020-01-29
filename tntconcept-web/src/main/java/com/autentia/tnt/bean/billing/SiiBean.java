@@ -80,6 +80,8 @@ public class SiiBean extends BaseBean {
     public void sendReportWebDav() {
         String report = getReport();
 
+        sendReportEmail(report);
+
         if( report != null) {
             String url = configurationUtil.getWebdavHost();
             String username = configurationUtil.getWebdavUser();
@@ -108,8 +110,7 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    public void sendReport() {
-        String report = getReport();
+    public void sendReportEmail(String report) {
 
         if( report != null) {
             Map<InputStream, String> attachments = new ConcurrentHashMap<>();
@@ -139,6 +140,11 @@ public class SiiBean extends BaseBean {
 
             executor.shutdown();
         }
+    }
+
+    public void sendReport() {
+        String report = getReport();
+        sendReportEmail(report);
     }
 
     public void downloadReport() throws IOException {
