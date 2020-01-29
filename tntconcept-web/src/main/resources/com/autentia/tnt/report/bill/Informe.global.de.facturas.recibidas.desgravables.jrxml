@@ -76,7 +76,7 @@
 	</parameter>
 	<parameter name="SUBREPORT_CONCEPTOS7" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["subinforme_conceptos7"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["subinforme_conceptos_desgravables"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
@@ -86,12 +86,12 @@
                     when 'IN_CREDITTITLE' then 'En pagare'
                     end as estado,b.number,o.name,b.creationDate
 	,sum((bb.units*bb.amount)) as baseImponible, sum((bb.units*bb.amount)*((bb.iva/100))) as iva,
+	sum((bb.units*bb.amount)*((bb.iva/100))*((b.deductibleIVAPercentage/100))) as ivaDesgravable,
 	sum((bb.units*bb.amount)*(1+(bb.iva/100))) as sumaFactura, bb.iva as percent
 from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o
 where b.billType='recieved'
 and bb.billId=b.id
 and b.providerId = o.id
-and o.freelance = false
 and b.deductibleIVAPercentage > 0
 and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 group by number
@@ -106,6 +106,7 @@ order by number asc, b.creationDate asc]]></queryString>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
+	<field name="ivaDesgravable" class="java.math.BigDecimal"/>
 	<field name="sumaFactura" class="java.math.BigDecimal"/>
 	<field name="percent" class="java.math.BigDecimal"/>
 
@@ -114,6 +115,9 @@ order by number asc, b.creationDate asc]]></queryString>
 	</variable>
 	<variable name="sumaBaseImponible" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{baseImponible}]]></variableExpression>
+	</variable>
+	<variable name="sumaIvaDesgravable" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ivaDesgravable}]]></variableExpression>
 	</variable>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -336,7 +340,7 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="524"
+						x="574"
 						y="2"
 						width="50"
 						height="17"
@@ -362,9 +366,9 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="575"
+						x="625"
 						y="2"
-						width="65"
+						width="50"
 						height="17"
 						key="staticText-19"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -375,9 +379,9 @@ order by number asc, b.creationDate asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="640"
+						x="690"
 						y="2"
-						width="140"
+						width="60"
 						height="17"
 						key="staticText-22"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -411,6 +415,20 @@ order by number asc, b.creationDate asc]]></queryString>
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text12}]]></textFieldExpression>
+				</textField>
+				<!--IVA DESGRAVABLE-->
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+							x="520"
+							y="2"
+							width="55"
+							height="17"
+							key="staticText-24"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text15}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -739,7 +757,7 @@ order by number asc, b.creationDate asc]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[new BigDecimal ($V{sumaTotal}.floatValue() - $V{sumaBaseImponible}.floatValue())]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumaIvaDesgravable}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -752,7 +770,7 @@ order by number asc, b.creationDate asc]]></queryString>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{factura.text18} + ":"]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text16} + ":"]]></textFieldExpression>
 				</textField>
 			</band>
 		</lastPageFooter>

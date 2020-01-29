@@ -55,7 +55,6 @@ WHERE bb.billId in (
 	select b.id from Bill b, Organization o
 	where b.billType='recieved'
 	and b.providerId = o.id
-	and o.freelance = false
 	and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 	and b.deductibleIVAPercentage > 0
 ) group by iva order by iva desc;]]></queryString>
