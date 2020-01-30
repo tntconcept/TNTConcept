@@ -11,6 +11,7 @@ public class BillRegime implements Serializable, ITransferObject {
     private Integer id;
     private String code;
     private String name;
+    private BillType associatedBillType;
 
     private Integer ownerId;
     private Integer departmentId;
@@ -35,6 +36,14 @@ public class BillRegime implements Serializable, ITransferObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BillType getAssociatedBillType() {
+        return associatedBillType;
+    }
+
+    public void setAssociatedBillType(BillType associatedBillType) {
+        this.associatedBillType = associatedBillType;
     }
 
     @Override

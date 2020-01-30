@@ -1806,10 +1806,13 @@ public class BillBean extends BaseBean {
 
 	public List<SelectItem> getBillRegimes() {
 		List<BillRegime> refs = BillRegimeManager.getDefault().getAllEntities(new SortCriteria("id"));
+		BillType billType = bill.getBillType();
 
 		ArrayList<SelectItem> ret = new ArrayList<>();
 		for(BillRegime ref : refs) {
-			ret.add(new SelectItem(ref, ref.getCode() + " - " + ref.getName()));
+			if (ref.getAssociatedBillType().equals(billType)) {
+				ret.add(new SelectItem(ref, ref.getCode() + " - " + ref.getName()));
+			}
 		}
 
 		return ret;
