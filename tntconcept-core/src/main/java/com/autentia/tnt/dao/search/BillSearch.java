@@ -332,6 +332,11 @@ public class BillSearch extends SearchCriteria {
 			}
 		}
 
+		if (isOnlyDeductibleBills()) {
+			ret.append((ret.length() == 0) ? "WHERE " : " AND ");
+			ret.append("deductibleIVAPercentage > 0");
+		}
+
 		if (isBillCategorySet()) {
 			ret.append((ret.length() == 0) ? "WHERE " : " AND ");
 			if (getBillCategory() == null) {
@@ -605,6 +610,8 @@ public class BillSearch extends SearchCriteria {
 
 		unsetSubmitted();
 
+		unsetOnlyDeductibleBills();
+
 		unsetBillCategory();
 
 		unsetRectifiedBillCategory();
@@ -813,6 +820,10 @@ public class BillSearch extends SearchCriteria {
 			ret.append("(submitted");
 			ret.append("=" + submitted);
 			ret.append(")");
+		}
+
+		if (isOnlyDeductibleBills()) {
+			ret.append("(deductibleIVAPercentage > 0");
 		}
 
 		if (isBillCategorySet()) {
@@ -1414,6 +1425,18 @@ public class BillSearch extends SearchCriteria {
 		return submittedSet;
 	}
 
+	public boolean isOnlyDeductibleBills() {
+		return onlyDeductibleBills;
+	}
+
+	public void setOnlyDeuctibleBills() {
+		this.onlyDeductibleBills = true;
+	}
+
+	public void unsetOnlyDeductibleBills() {
+		this.onlyDeductibleBills = false;
+	}
+
 	public BillCategory getBillCategory() {
 		return billCategory;
 	}
@@ -1604,6 +1627,8 @@ public class BillSearch extends SearchCriteria {
 	private Integer submitted;
 
 	private boolean submittedSet;
+
+	private boolean onlyDeductibleBills;
 
 	private BillCategory billCategory;
 

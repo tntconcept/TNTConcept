@@ -177,14 +177,15 @@ public class SiiBean extends BaseBean {
         context = FacesContext.getCurrentInstance();
 
         search.setBillType(selectedType);
-
-        search.setStartStartBillDate( startDate );
-        search.setEndStartBillDate( endDate );
         search.setSubmitted( 0 );
 
-        if ( selectedType.compareTo(BillType.RECIEVED) == 0) { // compras
-                search.setStartInsertDate( startDate );
-                search.setEndInsertDate( endDate );
+        if ( selectedType.equals(BillType.ISSUED)) { // compras
+            search.setStartCreationDate(startDate);
+            search.setEndCreationDate(endDate);
+        } else {
+            search.setStartInsertDate(startDate);
+            search.setEndInsertDate(endDate);
+            search.setOnlyDeuctibleBills();
         }
 
         bills = manager.getAllEntities(search, new SortCriteria("startBillDate", true));
@@ -241,9 +242,7 @@ public class SiiBean extends BaseBean {
         final StringBuilder body = new StringBuilder();
         body.append(this.generateCSVHeader());
         for (Bill bill: bills) {
-            if (bill.getDeductibleIVAPercentage() != 0) {
-                body.append(this.generateCSVItem(bill));
-            }
+            body.append(this.generateCSVItem(bill));
         }
 
         return body.toString();
