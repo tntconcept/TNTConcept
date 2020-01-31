@@ -182,13 +182,13 @@ public class SiiBean extends BaseBean {
         if ( selectedType.equals(BillType.ISSUED)) { // compras
             search.setStartCreationDate(startDate);
             search.setEndCreationDate(endDate);
+            bills = manager.getAllEntities(search, new SortCriteria("creationDate", true));
         } else {
             search.setStartInsertDate(startDate);
             search.setEndInsertDate(endDate);
             search.setOnlyDeuctibleBills();
+            bills = manager.getAllEntities(search, new SortCriteria("insertDate", true));
         }
-
-        bills = manager.getAllEntities(search, new SortCriteria("startBillDate", true));
         
         if (bills.isEmpty()) {
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No hay facturas para enviar",null));
