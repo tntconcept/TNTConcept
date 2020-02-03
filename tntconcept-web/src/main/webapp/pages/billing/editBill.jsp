@@ -283,7 +283,8 @@
                   <td class="editFieldCell">
                       <h:panelGroup>
                           <h:message styleClass="error" showSummary="true" showDetail="false" for="deductibleIVA" />
-                          <h:selectOneRadio id="deductibleIVA" value = "#{billBean.deductibleIVAPercentage}" required="true"
+                          <h:selectOneRadio disabled="#{billBean.esFacturaEnviada}" id="deductibleIVA"
+                                            value = "#{billBean.deductibleIVAPercentage}" required="true"
                                             styleClass="requiredFieldClass">
                               <f:selectItem itemValue = "100" itemLabel = "100%" />
                               <f:selectItem itemValue = "50" itemLabel = "50%" />

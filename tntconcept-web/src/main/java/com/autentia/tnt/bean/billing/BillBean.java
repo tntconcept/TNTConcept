@@ -1616,7 +1616,11 @@ public class BillBean extends BaseBean {
 		return (getSelectedType() == BillType.RECIEVED);
 				
 	}
-	
+
+	public boolean getEsFacturaEnviada() {
+		return (getSelectedType() == BillType.ISSUED);
+	}
+
 	public boolean isReceivedBillType() {
 		return (bill != null && (bill.getBillType() == BillType.RECIEVED));
 	}
