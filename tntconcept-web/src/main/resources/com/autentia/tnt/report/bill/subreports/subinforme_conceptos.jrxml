@@ -1,23 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"  ?>
-<!--
-
-    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
-    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
--->
-
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
@@ -50,7 +31,11 @@
                     when 'IN_CREDITTITLE' then 'En pagare'
                     end as estado,b.number,b.creationDate
 	,sum((bb.units*bb.amount)) as baseImponible, sum((bb.units*bb.amount)*((bb.iva/100))) as iva,
-	sum((bb.units*bb.amount)*(1+(bb.iva/100))) as sumaFactura, bb.iva as percent, ac.name as 'AccountName'
+	sum((bb.units*bb.amount)*((bb.iva/100))*((b.deductibleIVAPercentage/100))) as ivaDesgravable,
+	IFNULL(b.freelanceIRPFPercentage, 0) as porcentajeIrpf,
+	sum((bb.units*bb.amount)*((IFNULL(b.freelanceIRPFPercentage, 0)/100))) as cantidadIrpf,
+	sum(((bb.units*bb.amount)*(1+(bb.iva/100)))-(((bb.units*bb.amount))*IFNULL(b.freelanceIRPFPercentage, 0)/100)) as sumaFacturaReteniendoIrpf,
+	bb.iva as percent, ac.name as 'AccountName'
 from Bill b
 left join BillBreakDown      bb on b.id=bb.billId
 left join Bill_AccountEntry  ba on ba.billId=bb.billId
@@ -68,7 +53,10 @@ group by bb.id]]></queryString>
 	<field name="creationDate" class="java.sql.Date"/>
 	<field name="baseImponible" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
-	<field name="sumaFactura" class="java.math.BigDecimal"/>
+	<field name="ivaDesgravable" class="java.math.BigDecimal"/>
+	<field name="porcentajeIrpf" class="java.math.BigDecimal"/>
+	<field name="cantidadIrpf" class="java.math.BigDecimal"/>
+	<field name="sumaFacturaReteniendoIrpf" class="java.math.BigDecimal"/>
 	<field name="percent" class="java.math.BigDecimal"/>
 	<field name="AccountName" class="java.lang.String"/>
 
@@ -90,11 +78,11 @@ group by bb.id]]></queryString>
 		</columnHeader>
 		<detail>
 			<band height="14"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="300"
+						x="253"
 						y="0"
-						width="50"
+						width="39"
 						height="13"
 						key="textField-2"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -103,11 +91,11 @@ group by bb.id]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{creationDate}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="556"
+						x="553"
 						y="0"
-						width="55"
+						width="40"
 						height="13"
 						forecolor="#0000FF"
 						key="textField-3"/>
@@ -115,11 +103,25 @@ group by bb.id]]></queryString>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{sumaFactura}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{sumaFacturaReteniendoIrpf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="423"
+						y="0"
+						width="40"
+						height="13"
+						forecolor="#0000FF"
+						key="textField-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ivaDesgravable}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
-						x="205"
+						x="160"
 						y="13"
 						width="573"
 						height="0"
@@ -130,9 +132,9 @@ group by bb.id]]></queryString>
 				</line>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="611"
+						x="594"
 						y="0"
-						width="55"
+						width="60"
 						height="13"
 						forecolor="#000000"
 						key="textField-5"/>
@@ -142,11 +144,11 @@ group by bb.id]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{estado}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="407"
+						x="294"
 						y="0"
-						width="55"
+						width="50"
 						height="13"
 						forecolor="#0000FF"
 						key="textField-6"/>
@@ -156,11 +158,11 @@ group by bb.id]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{baseImponible}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="501"
+						x="378"
 						y="0"
-						width="55"
+						width="40"
 						height="13"
 						forecolor="#0000FF"
 						key="textField-7"/>
@@ -172,9 +174,9 @@ group by bb.id]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="205"
+						x="176"
 						y="0"
-						width="70"
+						width="75"
 						height="13"
 						key="textField-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -185,9 +187,9 @@ group by bb.id]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="462"
+						x="344"
 						y="0"
-						width="39"
+						width="34"
 						height="13"
 						forecolor="#0000FF"
 						key="textField-9"/>
@@ -199,9 +201,9 @@ group by bb.id]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="666"
+						x="669"
 						y="0"
-						width="110"
+						width="81"
 						height="13"
 						key="textField-11"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -209,6 +211,34 @@ group by bb.id]]></queryString>
 						<font fontName="Verdana" size="7"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{AccountName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="466"
+						y="0"
+						width="40"
+						height="13"
+						forecolor="#0000FF"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{porcentajeIrpf}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="513"
+						y="0"
+						width="40"
+						height="13"
+						forecolor="#0000FF"
+						key="textField-13"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{cantidadIrpf}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
