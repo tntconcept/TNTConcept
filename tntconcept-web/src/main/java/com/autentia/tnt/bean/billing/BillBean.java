@@ -888,21 +888,20 @@ public class BillBean extends BaseBean {
 	}
 
 	public void correctIrpf() {
-		//Para mantener integridad de datos, nos aseguramos de que, si no procede asignar IRPF, SIEMPRE se queda a NULL
+		//Para mantener integridad de datos, nos aseguramos de que, si no procede asignar IRPF, SIEMPRE se queda a CERO
+		//Evitar NULOS
 
-		if (bill.getFreelanceIRPFPercentage() != null) {
-			if (bill.getBillType().equals(BillType.ISSUED)) {
-				setIrpfPercentageAsNull();
-			} else {
-				if (!bill.getProvider().isFreelance()) {
-					setIrpfPercentageAsNull();
-				}
+		if (bill.getBillType().equals(BillType.ISSUED)) {
+			setIrpfPercentageToCero();
+		} else {
+			if (!bill.getProvider().isFreelance()) {
+				setIrpfPercentageToCero();
 			}
 		}
 	}
 
-	public void setIrpfPercentageAsNull() {
-		bill.setFreelanceIRPFPercentage(null);
+	public void setIrpfPercentageToCero() {
+		bill.setFreelanceIRPFPercentage(new BigDecimal(0));
 	}
 	/**
 	 * Delete bean and go back to beans list
