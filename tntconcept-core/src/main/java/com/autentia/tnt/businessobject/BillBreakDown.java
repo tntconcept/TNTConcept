@@ -91,6 +91,10 @@ public class BillBreakDown implements Serializable, ITransferObject, TaxableObje
 
   private IVAReason IVAReason;
 
+  private BigDecimal ivaOnlySii;
+
+    private IVAReason ivaReasonOnlySii;
+
   // Setters and getters
   
   
@@ -185,11 +189,7 @@ public class BillBreakDown implements Serializable, ITransferObject, TaxableObje
   public void setBill( Bill bill ) {
     this.bill = bill;
   }
-        
-      
-      
-      
-    
+
   public boolean equals( Object that )
   {
   	try {
@@ -248,5 +248,21 @@ public void setSelected(boolean selected) {
 
     public void setIVAReason(IVAReason IVAReason) {
         this.IVAReason = IVAReason;
+    }
+
+    public BigDecimal getIvaOnlySii() {
+        return ivaOnlySii;
+    }
+
+    public void setIvaOnlySii(BigDecimal ivaOnlySii) {
+        this.ivaOnlySii = ivaOnlySii;
+    }
+
+    public com.autentia.tnt.businessobject.IVAReason getIvaReasonOnlySii() {
+        return ivaReasonOnlySii;
+    }
+
+    public void setIvaReasonOnlySii(com.autentia.tnt.businessobject.IVAReason ivaReasonOnlySii) {
+        this.ivaReasonOnlySii = ivaReasonOnlySii;
     }
 }

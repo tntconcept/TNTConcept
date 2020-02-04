@@ -1820,4 +1820,12 @@ public class BillBean extends BaseBean {
 
 		return ret;
 	}
+
+	public boolean getIsReceivedAndIntracommunity() {
+  		if(getBillType() == null || getBillRegime() == null) {
+  			return false;
+		} else {
+			return getBillType().equals(BillType.RECIEVED) && getBillRegime().getId() == 25;
+		}
+	}
 }
