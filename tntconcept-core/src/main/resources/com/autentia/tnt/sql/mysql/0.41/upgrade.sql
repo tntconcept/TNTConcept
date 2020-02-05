@@ -27,7 +27,7 @@
 
 ALTER TABLE BillBreakDown ADD COLUMN IVAReasonIdOnlySii INT(11);
 
-ALTER TABLE BillBreakDown ADD COLUMN ivaOnlySII decimal(4,2) NOT NULL DEFAULT '0.00';
+ALTER TABLE BillBreakDown ADD COLUMN ivaOnlySII decimal(4,2);
 
 ALTER TABLE BillBreakDown ADD CONSTRAINT IVAReasonOnlySii_FK FOREIGN KEY (IVAReasonIdOnlySii) REFERENCES IVAReason(id);
 
