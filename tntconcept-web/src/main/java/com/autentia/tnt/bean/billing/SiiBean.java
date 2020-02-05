@@ -74,7 +74,9 @@ public class SiiBean extends BaseBean {
 
     private BillType selectedType;
 
-    /** Manager */
+    /**
+     * Manager
+     */
     private static BillManager manager = BillManager.getDefault();
 
     public void sendReportWebDav() {
@@ -82,59 +84,57 @@ public class SiiBean extends BaseBean {
 
         sendReportEmail(report);
 
-        if( report != null) {
+        if (report != null) {
             String url = configurationUtil.getWebdavHost();
             String username = configurationUtil.getWebdavUser();
             String password = configurationUtil.getWebdavPassword();
-            Sardine sardine = SardineFactory.begin( username, password );
-            InputStream file =  getStreamReport( report );
-            try{
-                sardine.put( url + reportName(), file , "text/csv");
+            Sardine sardine = SardineFactory.begin(username, password);
+            InputStream file = getStreamReport(report);
+            try {
+                sardine.put(url + reportName(), file, "text/csv");
 
-                if( bills != null) {
+                if (bills != null) {
                     for (Bill bill : bills) {
-                        bill.setSubmitted( 1 );
-                        manager.updateEntity( bill );
+                        bill.setSubmitted(1);
+                        manager.updateEntity(bill);
                     }
                 }
 
                 context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informe enviado correctamente",null));
-                
-            }
-            catch (IOException ioe) {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informe enviado correctamente", null));
+
+            } catch (IOException ioe) {
                 context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se ha producido un error al enviar el informe",null));
-                
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Se ha producido un error al enviar el informe", null));
+
             }
         }
     }
 
     public void sendReportEmail(String report) {
 
-        if( report != null) {
+        if (report != null) {
             Map<InputStream, String> attachments = new ConcurrentHashMap<>();
             String filename = reportName();
 
-            attachments.put( getStreamReport( report ), filename );
+            attachments.put(getStreamReport(report), filename);
 
             String subject = "SII_" + filename.split(".csv")[0];
 
             ExecutorService executor = Executors.newFixedThreadPool(1);
             // Runnable, return void, submit and run the task async
             executor.submit(() -> {
-                try{
+                try {
                     String[] recipients = to.trim().split("[;,]");
 
                     MailService mailService = (DefaultMailService) SpringUtils.getSpringBean("mailService");
                     mailService.sendOutputStreams(recipients, subject, "", attachments);
 
                     context = FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Email enviado correctamente",null));
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado correctamente", null));
 
-                }
-                catch ( MessagingException e ) {
-                    System.err.println( e.getMessage() );
+                } catch (MessagingException e) {
+                    System.err.println(e.getMessage());
                 }
             });
 
@@ -150,9 +150,9 @@ public class SiiBean extends BaseBean {
     public void downloadReport() throws IOException {
         String report = getReport();
 
-        if( report != null) {
+        if (report != null) {
             context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Informe descargado correctamente",null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informe descargado correctamente", null));
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
             response.reset();
@@ -168,8 +168,8 @@ public class SiiBean extends BaseBean {
         }
     }
 
-    private InputStream getStreamReport( String report ) {
-        return new ByteArrayInputStream( report.getBytes( StandardCharsets.UTF_8 ) );
+    private InputStream getStreamReport(String report) {
+        return new ByteArrayInputStream(report.getBytes(StandardCharsets.UTF_8));
     }
 
     private String getReport() {
@@ -177,9 +177,9 @@ public class SiiBean extends BaseBean {
         context = FacesContext.getCurrentInstance();
 
         search.setBillType(selectedType);
-        search.setSubmitted( 0 );
+        search.setSubmitted(0);
 
-        if ( selectedType.equals(BillType.ISSUED)) { // compras
+        if (selectedType.equals(BillType.ISSUED)) { // compras
             search.setStartCreationDate(startDate);
             search.setEndCreationDate(endDate);
             bills = manager.getAllEntities(search, new SortCriteria("creationDate", true));
@@ -189,22 +189,22 @@ public class SiiBean extends BaseBean {
             search.setOnlyDeuctibleBills();
             bills = manager.getAllEntities(search, new SortCriteria("insertDate", true));
         }
-        
+
         if (bills.isEmpty()) {
-                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No hay facturas para enviar",null));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay facturas para enviar", null));
             return null;
         }
 
         // Comprobamos la calidad del dato de cada factura antes de generar el informe
         StringBuilder error = new StringBuilder();
-        for(Bill bill: bills){
+        for (Bill bill : bills) {
             String msg = areRequiredFieldsNull(bill);
-            if(msg != null){
+            if (msg != null) {
                 error.append(msg).append('\n');
             }
         }
 
-        if( !StringUtils.isBlank(error.toString())) {
+        if (!StringUtils.isBlank(error.toString())) {
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 
             response.reset();
@@ -231,17 +231,17 @@ public class SiiBean extends BaseBean {
         StringBuilder stringBuilder = new StringBuilder();
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
-        String billType = ( selectedType.compareTo(BillType.ISSUED) == 0 ) ? "VENTAS" : "COMPRAS";
+        String billType = (selectedType.compareTo(BillType.ISSUED) == 0) ? "VENTAS" : "COMPRAS";
 
-        stringBuilder.append( billType ).append( "_AUTENTIA_" ).append( dateFormat.format( today ) ).append( ".csv" );
+        stringBuilder.append(billType).append("_AUTENTIA_").append(dateFormat.format(today)).append(".csv");
 
-        return  stringBuilder.toString();
+        return stringBuilder.toString();
     }
 
-    private String generateCSVBody (final List<Bill> bills) {
+    private String generateCSVBody(final List<Bill> bills) {
         final StringBuilder body = new StringBuilder();
         body.append(this.generateCSVHeader());
-        for (Bill bill: bills) {
+        for (Bill bill : bills) {
             body.append(this.generateCSVItem(bill));
         }
 
@@ -250,9 +250,10 @@ public class SiiBean extends BaseBean {
 
     /**
      * Generates the header of the CSV document
+     *
      * @return the header of the CSV document
      */
-    private String generateCSVHeader () {
+    private String generateCSVHeader() {
         final StringBuilder header = new StringBuilder();
         insertEmptyField(1, header);
         header.append(this.populateCell("NIF"));
@@ -267,18 +268,17 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("AÑO"));
         header.append(this.populateCell("PERIODO"));
 
-        if ( selectedType.compareTo(BillType.ISSUED) == 0 )
-            generateCSVHeaderIssue( header );
+        if (selectedType.compareTo(BillType.ISSUED) == 0)
+            generateCSVHeaderIssue(header);
         else
-            generateCSVHeaderRecieved( header );
-
+            generateCSVHeaderRecieved(header);
 
 
         header.append(this.returnLine());
         return header.toString();
     }
 
-    private void generateCSVHeaderRecieved( StringBuilder header ) {
+    private void generateCSVHeaderRecieved(StringBuilder header) {
         header.append(this.populateCell("IVA 1"));
         header.append(this.populateCell("BASE IVA 1"));
         header.append(this.populateCell("CUOTA IVA 1"));
@@ -336,7 +336,7 @@ public class SiiBean extends BaseBean {
         header.append(this.populateCell("REDEME"));
     }
 
-    private void generateCSVHeaderIssue( StringBuilder header ) {
+    private void generateCSVHeaderIssue(StringBuilder header) {
         header.append(this.populateCell("SITUACION INMUEBLE"));
         header.append(this.populateCell("REF CATASTRAL"));
         header.append(this.populateCell("IVA 1"));
@@ -407,10 +407,11 @@ public class SiiBean extends BaseBean {
 
     /**
      * Generates the different lines of the CSV document
+     *
      * @param bill data to be printed in the CSV
      * @return the different lines of the CSV document
      */
-    private String generateCSVItem (final Bill bill) {
+    private String generateCSVItem(final Bill bill) {
 
         final StringBuilder item = new StringBuilder();
         Map<String, IVAData> ivaDataMap = new HashMap<>();
@@ -422,12 +423,12 @@ public class SiiBean extends BaseBean {
 
         switch (selectedType) {
             case ISSUED:  // ventas
-                calendar.setTime( bill.getCreationDate() );
+                calendar.setTime(bill.getCreationDate());
                 expirationDate = bill.getCreationDate();
                 organization = bill.getProject().getClient();
                 break;
             case RECIEVED:  // compras
-                calendar.setTime( bill.getInsertDate() );
+                calendar.setTime(bill.getInsertDate());
                 expirationDate = bill.getInsertDate();
                 organization = bill.getProvider();
         }
@@ -435,21 +436,21 @@ public class SiiBean extends BaseBean {
         boolean nationalOrganitation = Pattern.matches("(ES)?([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])", organization.getDocumentNumber());
         nationalOrganitation = nationalOrganitation || organization.getCountry().getName().trim().toLowerCase().equals("españa");
 
-        String cif = ( nationalOrganitation ) ? organization.getDocumentNumber()  : "";
+        String cif = (nationalOrganitation) ? organization.getDocumentNumber() : "";
         String providerName = organization.getName();
-        String documentType = ( !nationalOrganitation ) ? // Cuando la empresa sea extranjera
+        String documentType = (!nationalOrganitation) ? // Cuando la empresa sea extranjera
                 organization.getOrganizationDocCategory().getCode() + " - " + organization.getOrganizationDocCategory().getName()
                 : "";
-        String europeCif = ( !nationalOrganitation ) ? organization.getDocumentNumber()  : ""; // Cuando la empresa sea extranjera
-        String country = ( !nationalOrganitation ) ? (organization.getCountry().getIso3166a1() + " - " + organization.getCountry().getName()) : "";
+        String europeCif = (!nationalOrganitation) ? organization.getDocumentNumber() : ""; // Cuando la empresa sea extranjera
+        String country = (!nationalOrganitation) ? (organization.getCountry().getIso3166a1() + " - " + organization.getCountry().getName()) : "";
         String orderNumber = bill.getNumber();
         Date creacionDate = bill.getCreationDate();
         String year = Integer.toString(calendar.get(Calendar.YEAR));
 
         int monthNumber = calendar.get(Calendar.MONTH) + 1;
         String aux = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-        String monthName =  aux.substring(0, 1).toUpperCase() + aux.substring(1);
-        String period = (monthNumber < 10 ? "0" + monthNumber : monthNumber) + " - " + monthName ;
+        String monthName = aux.substring(0, 1).toUpperCase() + aux.substring(1);
+        String period = (monthNumber < 10 ? "0" + monthNumber : monthNumber) + " - " + monthName;
 
         ivaDataMap.put("ivaData21", new IVAData(new BigDecimal(21)));
         ivaDataMap.put("ivaData10", new IVAData(new BigDecimal(10)));
@@ -458,45 +459,67 @@ public class SiiBean extends BaseBean {
 
         BigDecimal total = new BigDecimal(0);
 
-        for(BillBreakDown bbd: bill.getBreakDown()){
+        if (bill.getBillType().equals(BillType.RECIEVED) && bill.getBillRegime().getId() == 25) {
+            for (BillBreakDown bbd : bill.getBreakDown()) {
 
-            total = total.add(bbd.getTotal());
-            boolean isProvideService = bill.isProvideService();
+                total = total.add(bbd.getTotalNoTaxes());
+                boolean isProvideService = bill.isProvideService();
 
-            switch (bbd.getIva().toString()){
-                case "21.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService);
-                    break;
-                case "10.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService);
-                    break;
-                case "4.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService);
-                    break;
-                case "0.00":
-                    fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService);
+                switch (bbd.getIvaOnlySii().toString()) {
+                    case "21.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService);
+                        break;
+                    case "10.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService);
+                        break;
+                    case "4.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService);
+                        break;
+                    case "0.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService);
+                }
+            }
+        } else {
+            for (BillBreakDown bbd : bill.getBreakDown()) {
+
+                total = total.add(bbd.getTotal());
+                boolean isProvideService = bill.isProvideService();
+
+                switch (bbd.getIva().toString()) {
+                    case "21.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService);
+                        break;
+                    case "10.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService);
+                        break;
+                    case "4.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService);
+                        break;
+                    case "0.00":
+                        fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService);
+                }
             }
         }
 
         insertEmptyField(1, item);
-        item.append( this.populateCell( cif ) );
-        item.append( this.populateCell( providerName ));
-        item.append( this.populateCell( documentType ));
-        item.append( this.populateCell( europeCif ));
-        item.append( this.populateCell(country));
-        item.append( this.populateCell("=\"\"" + orderNumber + "\"\""));
+        item.append(this.populateCell(cif));
+        item.append(this.populateCell(providerName));
+        item.append(this.populateCell(documentType));
+        item.append(this.populateCell(europeCif));
+        item.append(this.populateCell(country));
+        item.append(this.populateCell("=\"\"" + orderNumber + "\"\""));
         insertEmptyField(1, item);
-        item.append( this.populateCell( creacionDate ));
-        item.append( this.populateCell( expirationDate ));
-        item.append( this.populateCell("=\"\"" + year + "\"\"")); //La gestora quiere que el año sea texto
-        item.append( this.populateCell("=\"\"" + period + "\"\"")); //La gestora quiere que el periodo sea texto
+        item.append(this.populateCell(creacionDate));
+        item.append(this.populateCell(expirationDate));
+        item.append(this.populateCell("=\"\"" + year + "\"\"")); //La gestora quiere que el año sea texto
+        item.append(this.populateCell("=\"\"" + period + "\"\"")); //La gestora quiere que el periodo sea texto
 
-        String description = (bill.getName().length() > 40) ? bill.getName().substring(0, 40): bill.getName();
+        String description = (bill.getName().length() > 40) ? bill.getName().substring(0, 40) : bill.getName();
         BillCategory billCategory = bill.getBillCategory();
         RectifiedBillCategory rectifiedBillCategory = bill.getRectifiedBillCategory();
         BillRegime billRegime = bill.getBillRegime();
 
-        if ( selectedType.compareTo(BillType.RECIEVED) == 0 )
+        if (selectedType.compareTo(BillType.RECIEVED) == 0)
             generateCSVItemReceive(ivaDataMap, item, description, total, billCategory, rectifiedBillCategory, billRegime, bill.getDeductibleIVAPercentage());
         else
             generateCSVItemIssue(ivaDataMap, description, item, total, billCategory, rectifiedBillCategory, billRegime, bill.isProvideService());
@@ -506,7 +529,7 @@ public class SiiBean extends BaseBean {
         return item.toString();
     }
 
-    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd, boolean isProvideService){
+    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd, boolean isProvideService) {
         ivaData.setExistsOnBill(true);
         BigDecimal basePrice = bbd.getAmount().multiply(bbd.getUnits());
         ivaData.setBasePrice(ivaData.getBasePrice().add(basePrice));
@@ -537,8 +560,8 @@ public class SiiBean extends BaseBean {
         Map<String, String> fields = new HashMap<>();
 
         evaluateObject(bill.getCreationDate(), fields, "Fallo en la fecha de creación");
-        evaluateObject(organization.getDocumentNumber(), fields, "CIF de la organización ("+organizationName+") vacío");
-        evaluateObject(organization.getCountry(), fields, "País de la organización ("+organizationName+") vacío");
+        evaluateObject(organization.getDocumentNumber(), fields, "CIF de la organización (" + organizationName + ") vacío");
+        evaluateObject(organization.getCountry(), fields, "País de la organización (" + organizationName + ") vacío");
         evaluateObject(bill.getTotal(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getBreakDown().iterator().next().getIva(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getTotalNoTaxes(), fields, "Fallo en el desglose de la factura");
@@ -546,90 +569,88 @@ public class SiiBean extends BaseBean {
 
         fields.forEach((k, v) -> error.append(v).append('\n'));
 
-        if(error.toString().trim().isEmpty()){
+        if (error.toString().trim().isEmpty()) {
             return null;
         }
 
-        error.insert(0, "Fallo en la factura con numero "+bill.getNumber()+"\n");
+        error.insert(0, "Fallo en la factura con numero " + bill.getNumber() + "\n");
 
         return error.toString();
     }
 
-    private void evaluateObject (Object object, Map<String, String> fields, String msg) {
-        if(object == null || (object instanceof String && StringUtils.isBlank((String) object))){
+    private void evaluateObject(Object object, Map<String, String> fields, String msg) {
+        if (object == null || (object instanceof String && StringUtils.isBlank((String) object))) {
             fields.put("FAILURE " + msg.hashCode(), msg);
         }
     }
 
-    private void generateCSVItemReceive (Map<String, IVAData> ivaDataMap, StringBuilder item,
-                                         String description, BigDecimal total, BillCategory billCategory,
-                                         RectifiedBillCategory rectifiedBillCategory, BillRegime billRegime, int deductibleIVAPercentage) {
+    private void generateCSVItemReceive(Map<String, IVAData> ivaDataMap, StringBuilder item,
+                                        String description, BigDecimal total, BillCategory billCategory,
+                                        RectifiedBillCategory rectifiedBillCategory, BillRegime billRegime, int deductibleIVAPercentage) {
 
         BigDecimal deductibleFactor = new BigDecimal(deductibleIVAPercentage).divide(new BigDecimal(100));
 
         AtomicInteger contador = new AtomicInteger();
         ivaDataMap.forEach((k, v) -> {
             //Rellenamos para tipos de iva 21%, 10% y 4% existentes
-            if( v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
-                item.append( this.populateCell(v.getIvaPercentage()) );
-                item.append( this.populateCell(v.getBasePrice()));
-                item.append( this.populateCell(v.getIvaAmount()));
-                item.append( this.populateCell(v.getREAGYPCompensationPercentage()));
-                item.append( this.populateCell(v.getREAGYPCompensationAmount()));
-                item.append( this.populateCell(v.getIvaAmount().multiply(deductibleFactor)));
-            }
-            else {
+            if (v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
+                item.append(this.populateCell(v.getIvaPercentage()));
+                item.append(this.populateCell(v.getBasePrice()));
+                item.append(this.populateCell(v.getIvaAmount()));
+                item.append(this.populateCell(v.getREAGYPCompensationPercentage()));
+                item.append(this.populateCell(v.getREAGYPCompensationAmount()));
+                item.append(this.populateCell(v.getIvaAmount().multiply(deductibleFactor)));
+            } else {
                 if (v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
                     contador.getAndIncrement();
                 }
             }
         });
 
-        for (int i = 0; i < contador.get(); i ++) {
+        for (int i = 0; i < contador.get(); i++) {
             //celdas vacías para tipos 21%, 10% y 4% no existentes en factura
             insertEmptyField(6, item);
         }
 
 
-        if(ivaDataMap.get("ivaData0").isExistsOnBill()){
+        if (ivaDataMap.get("ivaData0").isExistsOnBill()) {
             //Rellenamos IVA 0% (exentas)
-            item.append( this.populateCell("SI"));
+            item.append(this.populateCell("SI"));
             item.append(this.populateCell((ivaDataMap.get("ivaData0").getBasePrice())));
             item.append(this.populateCell("0"));
             item.append(this.populateCell("0"));
-        }
-        else {
-            item.append( this.populateCell("NO"));
+        } else {
+            item.append(this.populateCell("NO"));
             insertEmptyField(3, item);
         }
 
         insertEmptyField(15, item);
-        item.append( this.populateCell(total));
-        item.append( this.populateCell("0"));
-        item.append( this.populateCell(description));
-        item.append( this.populateCell(billCategory.getCode() + " - " + billCategory.getName()));
-        item.append( this.populateCell((billCategory.isRectify()) ?
+        item.append(this.populateCell(total));
+        item.append(this.populateCell("0"));
+        item.append(this.populateCell(description));
+        item.append(this.populateCell(billCategory.getCode() + " - " + billCategory.getName()));
+        item.append(this.populateCell((billCategory.isRectify()) ?
                 rectifiedBillCategory.getCode() + " - " + rectifiedBillCategory.getName() : ""));
-        item.append( this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
+        item.append(this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
         insertEmptyField(6, item);
-        item.append( this.populateCell("NO"));
+        item.append(this.populateCell("NO"));
         insertEmptyField(1, item);
-        item.append( this.populateCell("N - No"));
+        item.append(this.populateCell("N - No"));
         insertEmptyField(2, item);
-        item.append( this.populateCell("N - No"));
+        item.append(this.populateCell("N - No"));
 
     }
 
-    private void generateCSVItemIssue (Map<String, IVAData> ivaDataMap, String description, StringBuilder item,
-                                       BigDecimal total, BillCategory billCategory, RectifiedBillCategory rectifiedBillCategory,
-                                       BillRegime billRegime, boolean isProvideService) {
+    private void generateCSVItemIssue(Map<String, IVAData> ivaDataMap, String description, StringBuilder item,
+                                      BigDecimal total, BillCategory billCategory, RectifiedBillCategory rectifiedBillCategory,
+                                      BillRegime billRegime, boolean isProvideService) {
 
         insertEmptyField(2, item);
 
         AtomicInteger contador = new AtomicInteger();
         ivaDataMap.forEach((k, v) -> {
-            if( v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
-                item.append( this.populateCell(v.getIvaPercentage()));
+            if (v.isExistsOnBill() && v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
+                item.append(this.populateCell(v.getIvaPercentage()));
                 item.append(this.populateCell(v.getBasePrice()));
                 item.append(this.populateCell(v.getIvaAmount()));
                 item.append(this.populateCell(v.getReason()));
@@ -637,29 +658,27 @@ public class SiiBean extends BaseBean {
                 item.append(this.populateCell(v.isServiceProvision() ? "SI" : "NO"));
                 item.append(this.populateCell(v.getAmountArt714()));
                 item.append(this.populateCell(v.getTAIAmount()));
-            }
-            else {
+            } else {
                 if (v.getIvaPercentage().compareTo(BigDecimal.ZERO) != 0) {
                     contador.getAndIncrement();
                 }
             }
         });
 
-        for (int i = 0; i < contador.get(); i ++) {
+        for (int i = 0; i < contador.get(); i++) {
             insertEmptyField(8, item);
         }
 
         boolean isExempt = ivaDataMap.get("ivaData0").isExistsOnBill();
 
-        if(isExempt){
-            item.append( this.populateCell("SI"));
+        if (isExempt) {
+            item.append(this.populateCell("SI"));
             item.append(this.populateCell((ivaDataMap.get("ivaData0").getBasePrice())));
             item.append(this.populateCell("0"));
             item.append(this.populateCell(ivaDataMap.get("ivaData0").getSubject()));
             item.append(this.populateCell(ivaDataMap.get("ivaData0").getReason()));
-        }
-        else {
-            item.append( this.populateCell("NO"));
+        } else {
+            item.append(this.populateCell("NO"));
             insertEmptyField(4, item);
         }
 
@@ -667,10 +686,10 @@ public class SiiBean extends BaseBean {
         item.append(this.populateCell(total));
         item.append(this.populateCell("0"));
         item.append(this.populateCell(description));
-        item.append( this.populateCell(billCategory.getCode() + " - " + billCategory.getName()));
-        item.append( this.populateCell((billCategory.isRectify()) ?
+        item.append(this.populateCell(billCategory.getCode() + " - " + billCategory.getName()));
+        item.append(this.populateCell((billCategory.isRectify()) ?
                 rectifiedBillCategory.getCode() + " - " + rectifiedBillCategory.getName() : ""));
-        item.append( this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
+        item.append(this.populateCell(billRegime.getCode() + " - " + billRegime.getName()));
         insertEmptyField(5, item);
         item.append(this.populateCell((isExempt && isProvideService) ? "SI" : "NO"));
         item.append(this.populateCell("0"));
@@ -685,18 +704,19 @@ public class SiiBean extends BaseBean {
 
     /**
      * Populates a cell of the csv
+     *
      * @param content content to appear in the csv
      * @return the content of the cell populated
      */
-    private String populateCell (final String content) {
+    private String populateCell(final String content) {
         final StringBuilder cell = new StringBuilder();
         cell.append("\"").append(content).append("\"").append(";");
         return cell.toString();
     }
 
-    private String populateCell (final Date content) {
+    private String populateCell(final Date content) {
         final StringBuilder cell = new StringBuilder();
-        String format =  SettingManager.getString(
+        String format = SettingManager.getString(
                 SettingManager.getDefault().get(SettingPath.BITACORE_PREFERRED_HEADER_FORMAT, false),
                 "dd/MM/yy");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
@@ -705,10 +725,10 @@ public class SiiBean extends BaseBean {
         return cell.toString();
     }
 
-    private String populateCell (final BigDecimal content) {
+    private String populateCell(final BigDecimal content) {
         final StringBuilder cell = new StringBuilder();
 
-        if(content == null) {
+        if (content == null) {
             return cell.append("\"").append("\"").append(";").toString();
         }
 
@@ -718,16 +738,17 @@ public class SiiBean extends BaseBean {
     }
 
     private void insertEmptyField(int columns, StringBuilder item) {
-        for (int i = 0; i < columns; i ++) {
+        for (int i = 0; i < columns; i++) {
             item.append(this.populateCell(""));
         }
     }
 
     /**
      * Generates a new line
+     *
      * @return a new line
      */
-    private String returnLine () {
+    private String returnLine() {
         return "\r\n";
     }
 
@@ -743,9 +764,9 @@ public class SiiBean extends BaseBean {
         selectedType = BillType.ISSUED;
         configurationUtil = ConfigurationUtil.getDefault();
         to = configurationUtil.getSiiRecipients();
-        
+
     }
-    
+
     public Date getStartDate() {
         return startDate;
     }

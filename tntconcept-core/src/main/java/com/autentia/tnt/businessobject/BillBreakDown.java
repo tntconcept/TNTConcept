@@ -223,6 +223,14 @@ public BigDecimal getTotal() {
     //result.setScale(2);
 }
 
+public BigDecimal getTotalNoTaxes() {
+    try {
+        return amount.multiply(units);
+    } catch (Exception e){
+        return new BigDecimal(0);
+    }
+}
+
 public boolean isSelected() {
 	return selected;
 }
