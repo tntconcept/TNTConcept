@@ -36,7 +36,7 @@
 	<property name="insertDate" type="java.util.Date" column="insertDate"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate"/>
     <many-to-one name="IVAReason" class="com.autentia.tnt.businessobject.IVAReason" column="IVAReasonId"/>
-    <property name="ivaOnlySii" type="java.math.BigDecimal"/>
-    <many-to-one name="ivaReasonOnlySii" class="com.autentia.tnt.businessobject.IVAReason" column="IVAReasonId"/>
+    <property name="ivaOnlySii" type="java.math.BigDecimal" column="ivaOnlySII"/>
+    <many-to-one name="ivaReasonOnlySii" class="com.autentia.tnt.businessobject.IVAReason" column="IVAReasonIdOnlySii"/>
   </class>
 </hibernate-mapping>

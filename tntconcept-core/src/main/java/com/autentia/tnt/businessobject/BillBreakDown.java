@@ -262,7 +262,7 @@ public void setSelected(boolean selected) {
         return ivaReasonOnlySii;
     }
 
-    public void setIvaReasonOnlySii(com.autentia.tnt.businessobject.IVAReason ivaReasonOnlySii) {
+    public void setIvaReasonOnlySii(IVAReason ivaReasonOnlySii) {
         this.ivaReasonOnlySii = ivaReasonOnlySii;
     }
 }

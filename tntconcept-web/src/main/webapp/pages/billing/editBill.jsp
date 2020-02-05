@@ -180,7 +180,7 @@
               <td class="editFieldCell">
                   <h:panelGroup>
                       <h:message styleClass="error" showSummary="true" showDetail="false" for="regimen" />
-                      <h:selectOneMenu id="regimen" value="#{billBean.billRegime}" immediate="true"
+                      <h:selectOneMenu id="regimen" value="#{billBean.billRegime}" immediate="true" onchange="submit();"
                                        disabled="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}">
                           <f:selectItems value="#{billBean.billRegimes}" />
                           <f:converter converterId="autentia.EntityConverter"/>

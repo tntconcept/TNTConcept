@@ -28,7 +28,7 @@
     cellpadding="0" cellspacing="0" styleClass="editListTable"
     headerClass="editListHeaderCell" footerClass="editListFooter"
     rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
-    columnClasses="listCmdCell,listCmdCell, editListBillBreakDownConcept,editListBillBreakDownUnits,editListBillBreakDownAmount,editListBillBreakDownIva">
+    columnClasses="listCmdCell,listCmdCell, editListBillBreakDownConcept,editListBillBreakDownUnits,editListBillBreakDownAmount,editListBillBreakDownIva,editListBillBreakDownIva">
 
   <%-- Commands --%>
   <h:column>
@@ -134,15 +134,43 @@
                              styleClass="requiredFieldClass"
                              onchange="submit();"
                              readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
-                             style="width: 90%;">
+                             style="width: 70%;">
                 <f:selectItems value="#{billBean.IVAType}"/>
             </h:selectOneMenu>
 
             <h:selectOneMenu id="ivaReason" value="#{itemBreakDown.IVAReason}" required="true"
                              styleClass="requiredFieldClass"
                              readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
-                             style="width: 90%;">
+                             style="width: 70%;">
                 <f:selectItems value="#{billBean.getIVAReasons(itemBreakDown.iva)}"/>
+                <f:converter converterId="autentia.EntityConverter"/>
+            </h:selectOneMenu>
+        </h:panelGroup>
+
+    </h:column>
+
+    <!-- IVA AND IVAREASON ONLY SII -->
+    <h:column rendered="#{billBean.isReceivedAndIntracommunity}">
+
+        <f:facet name="header">
+            <h:outputText value="*#{msg['billBreakDown.ivaOnlySii']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="ivaOnlySii"/>
+            <h:selectOneMenu id="ivaOnlySii" value="#{itemBreakDown.ivaOnlySii}"
+                             styleClass="requiredFieldClass"
+                             onchange="submit();"
+                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                             style="width: 70%;">
+                <f:selectItems value="#{billBean.IVAType}"/>
+            </h:selectOneMenu>
+
+            <h:selectOneMenu id="ivaReasonOnlySii" value="#{itemBreakDown.ivaReasonOnlySii}"
+                             styleClass="requiredFieldClass"
+                             readonly="#{billBean.id != null && billBean.readOnlyBill && billBean.bill.submitted == 1}"
+                             style="width: 70%;">
+                <f:selectItems value="#{billBean.getIVAReasons(itemBreakDown.ivaOnlySii)}"/>
                 <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
         </h:panelGroup>

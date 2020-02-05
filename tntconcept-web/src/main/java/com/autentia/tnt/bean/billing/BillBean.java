@@ -122,6 +122,10 @@ public class BillBean extends BaseBean {
 	}
 
 	public List<SelectItem> getIVAReasons(BigDecimal iva) {
+		if (iva == null) {
+			iva = new BigDecimal("21.00");
+		}
+
 		loadIVAReasons();
 
 		if (iva.compareTo(BigDecimal.ZERO) == 0) {
@@ -1357,6 +1361,7 @@ public class BillBean extends BaseBean {
 	public String createBreakDown() {
 		BillBreakDown item = new BillBreakDown();
 		item.setBill(bill);
+		item.setIvaOnlySii(new BigDecimal("0.00"));
 		IvaApplicator.applyIvaToTaxableObject(bill.getCreationDate(), item);
 		item.setUnits(new BigDecimal(1));
 		if (bill.getBreakDown() == null) {
