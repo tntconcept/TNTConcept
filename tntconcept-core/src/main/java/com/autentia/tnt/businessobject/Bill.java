@@ -546,7 +546,7 @@ public class Bill implements Serializable, ITransferObject
 		if (provider != null && provider.isFreelance()) {
 			BigDecimal totalNoTaxes = getTotalNoTaxes();
 
-			BigDecimal irpfTotal = totalNoTaxes.multiply(getFreelanceIRPFPercentage().divide(new BigDecimal(100)));
+			BigDecimal irpfTotal = totalNoTaxes.multiply(getFreelanceIRPFPercentage());
 			irpfTotal = irpfTotal.divide(new BigDecimal(100), 2, RoundingMode.HALF_EVEN);
 
 			return irpfTotal.setScale(2,RoundingMode.HALF_EVEN);
