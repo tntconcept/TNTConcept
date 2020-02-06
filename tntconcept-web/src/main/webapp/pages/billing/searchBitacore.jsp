@@ -151,7 +151,7 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="total" />
-          <h:outputText id="total" value="#{item.total}" />
+          <h:outputText id="total" value="#{item.totalWithIva}" />
         </h:panelGroup>
 
       

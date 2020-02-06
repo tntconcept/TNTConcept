@@ -462,41 +462,41 @@ public class SiiBean extends BaseBean {
         if (bill.getBillType().equals(BillType.RECIEVED) && bill.getBillRegime().getId() == 25) {
             for (BillBreakDown bbd : bill.getBreakDown()) {
 
-                total = total.add(bbd.getTotalNoTaxes());
+                total = total.add(bbd.getTotalWithIvaOnlySii());
                 boolean isProvideService = bill.isProvideService();
 
                 switch (bbd.getIvaOnlySii().toString()) {
                     case "21.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService, bill.getBillRegime());
                         break;
                     case "10.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService, bill.getBillRegime());
                         break;
                     case "4.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService, bill.getBillRegime());
                         break;
                     case "0.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService, bill.getBillRegime());
                 }
             }
         } else {
             for (BillBreakDown bbd : bill.getBreakDown()) {
 
-                total = total.add(bbd.getTotal());
+                total = total.add(bbd.getTotalWithIva());
                 boolean isProvideService = bill.isProvideService();
 
                 switch (bbd.getIva().toString()) {
                     case "21.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData21"), bbd, isProvideService, bill.getBillRegime());
                         break;
                     case "10.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData10"), bbd, isProvideService, bill.getBillRegime());
                         break;
                     case "4.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData4"), bbd, isProvideService, bill.getBillRegime());
                         break;
                     case "0.00":
-                        fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService);
+                        fillOutIVAData(ivaDataMap.get("ivaData0"), bbd, isProvideService, bill.getBillRegime());
                 }
             }
         }
@@ -529,14 +529,14 @@ public class SiiBean extends BaseBean {
         return item.toString();
     }
 
-    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd, boolean isProvideService) {
+    private void fillOutIVAData(IVAData ivaData, BillBreakDown bbd, boolean isProvideService, BillRegime billRegime) {
         ivaData.setExistsOnBill(true);
-        BigDecimal basePrice = bbd.getAmount().multiply(bbd.getUnits());
+        BigDecimal basePrice = bbd.getTotalNoTaxes();
         ivaData.setBasePrice(ivaData.getBasePrice().add(basePrice));
-        ivaData.setIvaAmount(ivaData.getIvaAmount().add(bbd.getTotal().subtract(basePrice)));
 
         switch (selectedType) {
             case ISSUED:  // ventas
+                ivaData.setIvaAmount(ivaData.getIvaAmount().add(bbd.getIvaAmount()));
                 ivaData.setReason(bbd.getIVAReason().getCode() + " - " + bbd.getIVAReason().getReason());
                 ivaData.setSubject("SI");
                 ivaData.setServiceProvision(isProvideService); // Si o No
@@ -544,6 +544,11 @@ public class SiiBean extends BaseBean {
                 ivaData.setTAIAmount(null);
                 break;
             case RECIEVED:  // compras
+                if (billRegime.getId() == 25) {
+                    ivaData.setIvaAmount(ivaData.getIvaAmount().add(bbd.getIvaAmountOnlySii()));
+                } else {
+                    ivaData.setIvaAmount(ivaData.getIvaAmount().add(bbd.getIvaAmount()));
+                }
                 ivaData.setREAGYPCompensationAmount(null);
                 ivaData.setREAGYPCompensationPercentage(null);
         }

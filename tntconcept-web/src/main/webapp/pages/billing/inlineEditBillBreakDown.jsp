@@ -185,7 +185,7 @@
 
               <h:panelGroup>
           <h:message styleClass="error" showSummary="true" showDetail="false" for="total" />
-          <h:outputText id="total" value="#{itemBreakDown.total}"    styleClass="requiredFieldClass"/>
+          <h:outputText id="total" value="#{itemBreakDown.totalWithIva}" styleClass="requiredFieldClass"/>
         </h:panelGroup>
 
       

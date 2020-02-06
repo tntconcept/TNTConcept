@@ -500,7 +500,7 @@ public class Bill implements Serializable, ITransferObject
 		{
 			for(BillBreakDown elem:getBreakDown())
 			{
-				valor = valor.add(elem.getTotal());
+				valor = valor.add(elem.getTotalWithIva());
 			}
 
 		}
