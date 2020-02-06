@@ -28,7 +28,7 @@
     cellpadding="0" cellspacing="0" styleClass="editListTable"
     headerClass="editListHeaderCell" footerClass="editListFooter"
     rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
-    columnClasses="listCmdCell,listCmdCell, editListBillBreakDownConcept,editListBillBreakDownUnits,editListBillBreakDownAmount,editListBillBreakDownIva,editListBillBreakDownIva">
+    columnClasses="listCmdCell,listCmdCell, editListBillBreakDownConcept,editListBillBreakDownUnits,editListBillBreakDownAmount,editListBillBreakDownIva,editListBillBreakDownIva,editListBillBreakDownIva">
 
   <%-- Commands --%>
   <h:column>
