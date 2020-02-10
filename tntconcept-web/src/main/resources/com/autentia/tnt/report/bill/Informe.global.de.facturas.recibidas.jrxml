@@ -77,9 +77,9 @@ from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o
 where b.billType='recieved'
 and bb.billId=b.id
 and b.providerId = o.id
-and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
+and b.insertDate between $P{Fecha inicio} and $P{Fecha fin}
 group by number
-order by number asc, b.creationDate asc]]></queryString>
+order by b.creationDate asc, o.name asc]]></queryString>
 
 	<field name="concepto" class="java.lang.String"/>
 	<field name="billId" class="java.lang.Integer"/>
@@ -146,7 +146,7 @@ order by number asc, b.creationDate asc]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="14"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.desgravables.title}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.title}]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement
@@ -168,7 +168,7 @@ order by number asc, b.creationDate asc]]></queryString>
 					<textElement>
 						<font pdfFontName="Helvetica-Oblique" isItalic="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.desgravables.description}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.description}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
