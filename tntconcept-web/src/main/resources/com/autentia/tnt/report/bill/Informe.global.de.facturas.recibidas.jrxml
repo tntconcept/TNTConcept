@@ -55,6 +55,10 @@
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["subinforme_ivaGlobalRecibidas"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_IVA_INTRACOMUNITARIAS_TOTAL" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
+		<defaultValueExpression ><![CDATA["subinforme_ivaTotal_intracomunitarias"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="SUBREPORT_CONCEPTOS" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["subinforme_conceptos"]]></defaultValueExpression>
@@ -699,7 +703,7 @@ order by b.creationDate asc, o.name asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text9}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="691"
 						y="100"
@@ -725,7 +729,7 @@ order by b.creationDate asc, o.name asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{oferta.text14}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="692"
 						y="69"
@@ -809,7 +813,7 @@ order by b.creationDate asc, o.name asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text19}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="439"
 						y="69"
@@ -861,7 +865,7 @@ order by b.creationDate asc, o.name asc]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text21}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="439"
 						y="100"
@@ -876,30 +880,68 @@ order by b.creationDate asc, o.name asc]]></queryString>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="10"
-						y="70"
-						width="230"
-						height="23"
+						x="16"
+						y="102"
+						width="185"
+						height="13"
 						key="staticText-34"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="15" isBold="true"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text22}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="14"
-						y="98"
-						width="220"
-						height="29"
+						x="204"
+						y="101"
+						width="83"
+						height="15"
 						key="textField-18"/>
-					<box topBorder="4Point" topBorderColor="#000000" leftBorder="4Point" leftBorderColor="#000000" rightBorder="4Point" rightBorderColor="#000000" bottomBorder="4Point" bottomBorderColor="#000000"/>
+					<box topBorder="2Point" topBorderColor="#000000" leftBorder="2Point" leftBorderColor="#000000" rightBorder="2Point" rightBorderColor="#000000" bottomBorder="2Point" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="20" isBold="true"/>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{sumaTotalFacturasConIvaReteniendoIrpf}]]></textFieldExpression>
 				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="3"
+						y="67"
+						width="280"
+						height="30"
+						key="subreport-12"/>
+					<subreportParameter  name="Fecha inicio">
+						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="Fecha fin">
+						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_IVA_INTRACOMUNITARIAS_TOTAL}]]></subreportExpression>
+				</subreport>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="2"
+						y="3"
+						width="776"
+						height="61"
+						key="subreport-11"/>
+					<subreportParameter  name="Fecha inicio">
+						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="Fecha fin">
+						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_IVA}]]></subreportExpression>
+				</subreport>
 			</band>
 		</lastPageFooter>
 		<summary>
