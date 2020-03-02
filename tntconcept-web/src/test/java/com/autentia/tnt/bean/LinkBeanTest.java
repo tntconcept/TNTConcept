@@ -59,11 +59,20 @@ public class LinkBeanTest {
 		when(ctx.getBean("configuration")).thenReturn(configurationUtil);
 		
 		SpringUtils.configureTest(ctx);
+
+
 	}
 	
 	@Before
 	public void setExternalContext() {
 		doReturn(externalContext).when(sutMock).getFacesExternalContext();
+
+		HttpServletRequest req = mock(HttpServletRequest.class);
+		doReturn(req).when(externalContext).getRequest();
+		StringBuffer url = new StringBuffer("http://localhost:8080/tntconcept/passwordChangeForm.jsf");
+		doReturn(url).when(req).getRequestURL();
+		doReturn("/tntconcept/passwordChangeForm.jsf").when(req).getRequestURI();
+		doReturn("/tntconcept").when(req).getContextPath();
 	}
 	
 	@Test
@@ -106,13 +115,7 @@ public class LinkBeanTest {
 	
 	@Test
 	public void shouldSendMail() throws MessagingException {
-		
-		HttpServletRequest req = mock(HttpServletRequest.class);
-		doReturn(req).when(externalContext).getRequest();
-		StringBuffer url = new StringBuffer("http://localhost:8080/tntconcept/passwordChangeForm.jsf");
-		doReturn(url).when(req).getRequestURL();
-		doReturn("/tntconcept/passwordChangeForm.jsf").when(req).getRequestURI();
-		doReturn("/tntconcept").when(req).getContextPath();
+
 		Link link = new Link();
 		link.setLink("dgfjhsadgflkjasghajksdhfk");
 		String mailAddress = "test@mail.com";
@@ -125,7 +128,7 @@ public class LinkBeanTest {
 	
 	@Test
 	public void shouldProcessPasswordResetRequest() {
-		
+
 		User testUser = new User();
 		testUser.setLogin("testName");
 		testUser.setActive(true);
