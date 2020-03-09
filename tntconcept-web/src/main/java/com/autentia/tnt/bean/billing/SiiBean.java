@@ -570,6 +570,9 @@ public class SiiBean extends BaseBean {
         evaluateObject(bill.getTotal(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getBreakDown().iterator().next().getIva(), fields, "Fallo en el desglose de la factura");
         evaluateObject(bill.getTotalNoTaxes(), fields, "Fallo en el desglose de la factura");
+        if (bill.getBillCategory().isRectify()) {
+            evaluateObject(bill.getRectifiedBillCategory(), fields, "Debe especificarse tipo de factura rectificativa");
+        }
 
 
         fields.forEach((k, v) -> error.append(v).append('\n'));
