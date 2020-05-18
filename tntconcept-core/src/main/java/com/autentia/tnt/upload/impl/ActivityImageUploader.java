@@ -29,8 +29,8 @@ public class ActivityImageUploader {
 
         try {
             bufferedImage = ImageIO.read(file.getInputStream());
-            out = new FileOutputStream(fileName);
             destinationFile.getParentFile().mkdirs();
+            out = new FileOutputStream(fileName);
 
             Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(EXTENSION);
             ImageWriter writer = writers.next();
