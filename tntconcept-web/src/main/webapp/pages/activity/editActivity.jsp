@@ -201,7 +201,7 @@
 				<h:graphicImage value="/img/delete.gif" styleClass="image-inline" />
 			</h:commandLink>
 			<h:message styleClass="error" showSummary="true" showDetail="false" for="activityImage" />
-			<t:inputFileUpload id="activityImage" size="58" value="#{activityBean.uploadedImage}" storage="file" accept="image/jpeg"/>
+			<t:inputFileUpload id="activityImage" size="58" value="#{activityBean.uploadedImage}" storage="file" accept="image/jpeg,image/png,image/gif"/>
 			<div class="detailForm">
 				<i:imgActivity insertionDate="${activityBean.insertDate}" fileName="${activityBean.id}" rendered="${activityBean.imageAvailable}"/>
 			</div>
