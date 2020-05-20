@@ -356,23 +356,44 @@
 	</bean>
 
 	<bean id="contractExpirationNotificationBean" class="com.autentia.tnt.bean.ContractExpirationNotificationBean">
-	   <constructor-arg ref="mailService" />
+		<constructor-arg ref="mailService"/>
 	</bean>
 
-  		<bean id="jobContractExpirationNotification" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		  	 <property name="targetObject" ref="contractExpirationNotificationBean" />
-			 <property name="targetMethod" value="checkExpirationDate" />
-  		</bean>
+	<bean id="jobContractExpirationNotification"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="contractExpirationNotificationBean"/>
+		<property name="targetMethod" value="checkExpirationDate"/>
+	</bean>
 
-  		<bean id="cronContractExpirationNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		  	<property name="jobDetail" ref="jobContractExpirationNotification" />
-		  	<property name="cronExpression" value="	0 0 8 1 1/1 ? *"/>
-  		</bean>
-   		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-    		<property name="triggers">
-         		<ref bean="cronContractExpirationNotificationTrigger" />
-     		</property>
- 		</bean>
+	<bean id="cronContractExpirationNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobContractExpirationNotification"/>
+		<property name="cronExpression" value="	0 0 8 1 1/1 ? *"/>
+	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<ref bean="cronContractExpirationNotificationTrigger"/>
+		</property>
+	</bean>
+
+	<bean id="activityEvidenceNotificationBean" class="com.autentia.tnt.bean.ActivityEvidenceNotificationBean">
+		<constructor-arg ref="mailService"/>
+	</bean>
+
+	<bean id="jobActivityEvidenceNotification"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="activityEvidenceNotificationBean"/>
+		<property name="targetMethod" value="checkActivitiesWithNoEvidence"/>
+	</bean>
+
+	<bean id="cronActivityEvidenceNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobActivityEvidenceNotification"/>
+		<property name="cronExpression" value="	0 0 12 ? * MON * "/>
+	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<ref bean="cronActivityEvidenceNotificationTrigger"/>
+		</property>
+	</bean>
 	
 	<!--
 	<bean id="billExpirationDateBean" class="com.autentia.tnt.bean.billing.BillExpirationDateBean" />

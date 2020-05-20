@@ -487,4 +487,16 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	public BigDecimal getDefaultIRPF() {
 		return new BigDecimal(getProperty("defaultIRPF", "15"));
 	}
+
+	public String getNoEvidenceInActivityMailSubject() {
+		return getProperty("mail.activity.noEvidenceSubject", "Falta evidencia");
+	}
+
+	public String getNoEvidenceInActivityMailBody() {
+		return getProperty("mail.activity.noEvidenceMailBody", "Es necesario adjuntar al menos una imagen cada 7 días como evidencia de tus actividades.\n\nUn saludo");
+	}
+
+	public Boolean shouldSendNoEvidenceMail() {
+		return Boolean.valueOf(getProperty("mail.activity.evidence.sendMail", "true"));
+	}
 }

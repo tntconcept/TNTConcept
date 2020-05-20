@@ -549,4 +549,16 @@ public class ConfigurationUtil {
     public int getMaxHoursByContract() {
         return Integer.parseInt(getProperty("maxHoursByContract", ""));
     }
+
+    public String getNoEvidenceInActivityMailSubject() {
+        return getProperty("mail.activity.noEvidenceSubject", "Falta evidencia");
+    }
+
+    public String getNoEvidenceInActivityMailBody() {
+        return getProperty("mail.activity.noEvidenceMailBody", "Es necesario adjuntar al menos una imagen cada 7 días como evidencia de tus actividades.\n\nUn saludo");
+    }
+
+    public Boolean shouldSendNoEvidenceMail() {
+        return Boolean.valueOf(getProperty("mail.activity.evidence.sendMail", "false"));
+    }
 }
