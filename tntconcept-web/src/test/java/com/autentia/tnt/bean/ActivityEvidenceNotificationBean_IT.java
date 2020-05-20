@@ -89,7 +89,7 @@ public class ActivityEvidenceNotificationBean_IT {
     }
 
     private void insertEntities(User user) {
-        ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(1);
+        ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(3);
 
         Activity activity = new Activity();
         activity.setDescription("Test activity");

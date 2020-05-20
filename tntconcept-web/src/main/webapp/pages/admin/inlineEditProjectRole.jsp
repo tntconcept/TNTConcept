@@ -132,14 +132,22 @@
 			</h:outputText>	
 		</t:div>      
       </h:panelGroup>  
-    	 
-    	 
-    	 
+
+
+
     	 
     	 
     </h:column>
 
-  
+  <h:column>
+      <f:facet name="header">
+          <h:outputText value="*#{msg['projectRole.requireEvidence']}" styleClass="editListHeader"/>
+      </f:facet>
+      <h:panelGroup>
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="evidence" />
+          <h:selectBooleanCheckbox id="evidence" value="#{role.requireEvidence}" />
+      </h:panelGroup>
+  </h:column>
   
   
       <%-- Ignored field: project --%>

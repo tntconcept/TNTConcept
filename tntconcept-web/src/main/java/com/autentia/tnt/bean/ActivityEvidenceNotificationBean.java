@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ActivityEvidenceNotificationBean {
     private static final Log log = LogFactory.getLog(ContractExpirationNotificationBean.class);
@@ -33,10 +34,6 @@ public class ActivityEvidenceNotificationBean {
     }
 
     public void checkActivitiesWithNoEvidence() throws MessagingException {
-        if (!ConfigurationUtil.getDefault().shouldSendNoEvidenceMail()) {
-            return;
-        }
-
         log.info("Checking for users with no activity evidence images attached for the past 7 days");
 
         authenticateAs(ConfigurationUtil.getDefault().getAdminUser());
@@ -52,6 +49,11 @@ public class ActivityEvidenceNotificationBean {
             search.setStartStartDate(oneWeekAgo);
             search.setUser(user);
             List<Activity> activities = ActivityManager.getDefault().getAllEntities(search, null);
+            activities = activities.stream().filter(activity -> activity.getRole().getRequireEvidence()).collect(Collectors.toList());
+
+            if (activities.isEmpty()) {
+                break;
+            }
 
             boolean anyHasImage = false;
             for (Activity activity : activities) {

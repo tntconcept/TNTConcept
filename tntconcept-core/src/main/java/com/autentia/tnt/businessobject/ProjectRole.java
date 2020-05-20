@@ -84,9 +84,10 @@ public class ProjectRole implements Serializable, ITransferObject
   private Project project;
 
   private Set<Activity> activities;
-        	 	
 
-  // Setters and getters
+  private boolean requireEvidence;
+
+    // Setters and getters
   
   
   
@@ -176,9 +177,16 @@ private void setId( Integer id ) {
 	}
 	public void setActivities(Set<Activity> activities) {
 		this.activities = activities;
-	}      
-      
-    
+	}
+
+    public boolean getRequireEvidence() {
+        return requireEvidence;
+    }
+
+    public void setRequireEvidence(boolean requireEvidence) {
+        this.requireEvidence = requireEvidence;
+    }
+
   public boolean equals( Object that )
   {
   	try {
@@ -236,8 +244,8 @@ private void setId( Integer id ) {
 		  }	  
 		  return total/60;		
 	}
-	
-	
-	
-	
+
+
+
+
 }

@@ -37,5 +37,6 @@
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+    <property name="requireEvidence" type="java.lang.Boolean" column="requireEvidence"/>
   </class>
 </hibernate-mapping>
