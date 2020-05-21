@@ -17,7 +17,7 @@
 
 --%>
 
-<%@page language="java" contentType="text/html; charset=UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" %>
 
 <%@include file="/inc/tlibs.jsp" %>
 
@@ -25,133 +25,117 @@
 
 <%-- List of projectRoles --%>
 <t:dataTable id="roles" var="role" value="#{projectBean.roles}" preserveDataModel="false"
-    cellpadding="0" cellspacing="0" styleClass="editListTable"
-    headerClass="editListHeaderCell" footerClass="editListFooter"
-    rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
-    columnClasses="listCmdCell,editListProjectRoleName,editListProjectRoleCostPerHour,editListProjectRoleExpectedHours">
-  <%-- Commands --%>
-  <h:column>
-    <f:facet name="header">
-      <t:commandLink action="#{projectBean.createRoles}">
-        <h:graphicImage title="#{msg.entityActions_new}"  value="/img/new.gif" styleClass="cmdImg" />
-      </t:commandLink>
-    </f:facet>
-    <t:commandLink action="#{projectBean.deleteRoles}">
-      <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="cmdImg" />
-    </t:commandLink>
-  </h:column>
-
-
-  
-      <%-- Ignored field: id --%>
-  
-  
-  
-      
+             cellpadding="0" cellspacing="0" styleClass="editListTable"
+             headerClass="editListHeaderCell" footerClass="editListFooter"
+             rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
+             columnClasses="listCmdCell,editListProjectRoleName,editListProjectRoleCostPerHour,editListProjectRoleExpectedHours">
+    <%-- Commands --%>
     <h:column>
+        <f:facet name="header">
+            <t:commandLink action="#{projectBean.createRoles}">
+                <h:graphicImage title="#{msg.entityActions_new}" value="/img/new.gif" styleClass="cmdImg"/>
+            </t:commandLink>
+        </f:facet>
+        <t:commandLink action="#{projectBean.deleteRoles}">
+            <h:graphicImage title="#{msg.entityActions_delete}" value="/img/delete.gif" styleClass="cmdImg"/>
+        </t:commandLink>
+    </h:column>
 
-      <f:facet name="header">
-        <h:outputText value="*#{msg['projectRole.name']}" styleClass="editListHeader"/>
-      </f:facet>
 
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="name" />
-          <h:inputText id="name" value="#{role.name}"  size="10" required="true" styleClass="requiredFieldClass"/>
+    <%-- Ignored field: id --%>
+
+
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectRole.name']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="name"/>
+            <h:inputText id="name" value="#{role.name}" size="10" required="true" styleClass="requiredFieldClass"/>
+        </h:panelGroup>
+    </h:column>
+
+
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectRole.requireEvidence']}" styleClass="editListHeader"/>
+        </f:facet>
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="evidence"/>
+            <h:selectBooleanCheckbox id="evidence" value="#{role.requireEvidence}"/>
+        </h:panelGroup>
+    </h:column>
+
+
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectRole.costPerHour']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="costPerHour"/>
+            <h:inputText id="costPerHour" value="#{role.costPerHour}" size="10" required="true"
+                         styleClass="requiredFieldClass"/>
+        </h:panelGroup>
+    </h:column>
+
+
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectRole.expectedHours']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="expectedHours"/>
+            <h:inputText id="expectedHours" value="#{role.expectedHours}" size="10" required="true"
+                         styleClass="requiredFieldClass"/>
+        </h:panelGroup>
+    </h:column>
+
+
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="#{msg['projectRole.bar']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup rendered="#{role.percentageWorkedByRole<= 1}">
+
+            <t:div styleClass="progressBar"
+                   style="background-position: #{250 * (-2 + role.percentageWorkedByRole)}px center;z-index:0;"
+                   rendered="#{(activityBean.scheduleModel.mode == 3)}">
+                <h:outputFormat value="[{0}h. / {1}h.] - " styleClass="progressBarText">
+                    <f:param value="#{role.workedHoursByRole}"/>
+                    <f:param value="#{role.expectedHours}"/>
+                </h:outputFormat>
+
+                <h:outputText value="#{role.percentageWorkedByRole}" styleClass="progressBarText">
+                    <f:convertNumber type="percent" maxFractionDigits="1"/>
+                </h:outputText>
+            </t:div>
         </h:panelGroup>
 
-      
-    </h:column>
+        <h:panelGroup rendered="#{role.percentageWorkedByRole > 1}">
+            <%--Si el porcentaje es mayor de uno, es decir del 100% se pintará en rojo --%>
+            <t:div styleClass="progressBarRed" style="background-position: #{-250}px center;z-index:0;"
+                   rendered="#{(activityBean.scheduleModel.mode == 3)}">
+                <h:outputFormat value="[{0}h. / {1}h.] - " styleClass="progressBarText">
+                    <f:param value="#{role.workedHoursByRole}"/>
+                    <f:param value="#{role.expectedHours}"/>
+                </h:outputFormat>
 
-    
-  
-      
-    <h:column>
-
-      <f:facet name="header">
-        <h:outputText value="*#{msg['projectRole.costPerHour']}" styleClass="editListHeader"/>
-      </f:facet>
-
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="costPerHour" />
-          <h:inputText id="costPerHour" value="#{role.costPerHour}" size="10" required="true" styleClass="requiredFieldClass" />
+                <h:outputText value="#{role.percentageWorkedByRole}" styleClass="progressBarText">
+                    <f:convertNumber type="percent" maxFractionDigits="1"/>
+                </h:outputText>
+            </t:div>
         </h:panelGroup>
 
-      
+
     </h:column>
 
-    
-  
-      
-    <h:column>
 
-      <f:facet name="header">
-        <h:outputText value="*#{msg['projectRole.expectedHours']}" styleClass="editListHeader"/>
-      </f:facet>
+    <%-- Ignored field: project --%>
 
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="expectedHours" />
-          <h:inputText id="expectedHours" value="#{role.expectedHours}" size="10" required="true" styleClass="requiredFieldClass" />
-        </h:panelGroup>
-
-      
-    </h:column>
-    	
-    	  
-    	    	  
-    <h:column>
-     	<f:facet name="header">
-    		  <h:outputText value="#{msg['projectRole.bar']}" styleClass="editListHeader"/>
-    	 </f:facet>
-    	 
-    	  <h:panelGroup rendered="#{role.percentageWorkedByRole<= 1}">
-
-			<t:div styleClass="progressBar" style="background-position: #{250 * (-2 + role.percentageWorkedByRole)}px center;z-index:0;"
-			rendered="#{(activityBean.scheduleModel.mode == 3)}">
-			<h:outputFormat value="[{0}h. / {1}h.] - " styleClass="progressBarText">
-				<f:param value="#{role.workedHoursByRole}"/>
-				<f:param value="#{role.expectedHours}"/>
-			</h:outputFormat>
-
-			<h:outputText value="#{role.percentageWorkedByRole}" styleClass="progressBarText">
-				<f:convertNumber type="percent" maxFractionDigits="1"/>
-			</h:outputText>	
-		</t:div>      
-      </h:panelGroup>
-      
-      <h:panelGroup rendered="#{role.percentageWorkedByRole > 1}">
-		<%--Si el porcentaje es mayor de uno, es decir del 100% se pintará en rojo --%>
-		<t:div styleClass="progressBarRed" style="background-position: #{-250}px center;z-index:0;"
-			rendered="#{(activityBean.scheduleModel.mode == 3)}">
-			<h:outputFormat value="[{0}h. / {1}h.] - " styleClass="progressBarText">
-				<f:param value="#{role.workedHoursByRole}"/>
-				<f:param value="#{role.expectedHours}"/>
-			</h:outputFormat>
-
-			<h:outputText value="#{role.percentageWorkedByRole}" styleClass="progressBarText">
-				<f:convertNumber type="percent" maxFractionDigits="1"/>
-			</h:outputText>	
-		</t:div>      
-      </h:panelGroup>  
-
-
-
-    	 
-    	 
-    </h:column>
-
-  <h:column>
-      <f:facet name="header">
-          <h:outputText value="*#{msg['projectRole.requireEvidence']}" styleClass="editListHeader"/>
-      </f:facet>
-      <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="evidence" />
-          <h:selectBooleanCheckbox id="evidence" value="#{role.requireEvidence}" />
-      </h:panelGroup>
-  </h:column>
-  
-  
-      <%-- Ignored field: project --%>
-  
 
 </t:dataTable>
 
