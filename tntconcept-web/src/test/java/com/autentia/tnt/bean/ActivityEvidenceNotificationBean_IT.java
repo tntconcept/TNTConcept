@@ -5,9 +5,14 @@ import com.autentia.tnt.dao.hibernate.*;
 import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.mail.MailService;
 import com.autentia.tnt.manager.admin.UserManager;
+import com.autentia.tnt.manager.security.AuthenticationManager;
+import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -68,8 +73,9 @@ public class ActivityEvidenceNotificationBean_IT {
 
     @Test
     public void should_send_no_evidence_email() throws MessagingException {
-        UserManager userManager = (UserManager) SpringUtils.getSpringBean("userManager");
-        User user = userManager.getAllEntities(null, null).get(0);
+        User user = testUser();
+
+        insertActivityWithRequiredEvidence(user);
 
         ActivityEvidenceNotificationBean bean = new ActivityEvidenceNotificationBean(mailService);
         bean.checkActivitiesWithNoEvidence();
@@ -78,27 +84,55 @@ public class ActivityEvidenceNotificationBean_IT {
 
     @Test
     public void should_not_send_no_evidence_email() throws MessagingException {
-        UserManager userManager = (UserManager) SpringUtils.getSpringBean("userManager");
-        User user = userManager.getAllEntities(null, null).get(0);
+        User user = testUser();
 
-        insertEntities(user);
+        insertActivityWithNonRequiredEvidence(user);
 
         ActivityEvidenceNotificationBean bean = new ActivityEvidenceNotificationBean(mailService);
         bean.checkActivitiesWithNoEvidence();
         verify(mailService, times(0)).send(eq(user.getEmail()),anyString(),anyString());
     }
 
-    private void insertEntities(User user) {
+    private User testUser() {
+        UserManager userManager = (UserManager) SpringUtils.getSpringBean("userManager");
+        UserSearch search = new UserSearch();
+        search.setLogin("user");
+        return userManager.getAllEntities(search, null).get(0);
+    }
+
+    private void insertActivityWithRequiredEvidence(User user) {
         ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(3);
 
         Activity activity = new Activity();
         activity.setDescription("Test activity");
-        activity.setUser(user);
+        activity.setHasImage(false);
+        activity.setStartDate(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        activity.setRole(role);
+
+        // Even if user is set on activity, if completely ignores it, so...
+        final Principal principal = (Principal) AuthenticationManager.getDefault().loadUserByUsername(user.getLogin());
+        Authentication auth = new UsernamePasswordAuthenticationToken(principal, principal.getUser().getPassword(),principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        ActivityDAO activityDAO = (ActivityDAO) SpringUtils.getSpringBean("daoActivity");
+        activityDAO.insert(activity);
+    }
+
+    private void insertActivityWithNonRequiredEvidence(User user) {
+        ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(1);
+
+        Activity activity = new Activity();
+        activity.setDescription("Test activity 2");
         activity.setHasImage(true);
         activity.setStartDate(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         activity.setRole(role);
 
+        // Even if user is set on activity, if completely ignores it, so...
+        final Principal principal = (Principal) AuthenticationManager.getDefault().loadUserByUsername(user.getLogin());
+        Authentication auth = new UsernamePasswordAuthenticationToken(principal, principal.getUser().getPassword(),principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
         ActivityDAO activityDAO = (ActivityDAO) SpringUtils.getSpringBean("daoActivity");
-        activityDAO.insert(activity);
+        activityDAO.insertWithoutUser(activity);
     }
 }

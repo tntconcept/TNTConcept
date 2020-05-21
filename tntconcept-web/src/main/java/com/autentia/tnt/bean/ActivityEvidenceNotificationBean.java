@@ -42,7 +42,11 @@ public class ActivityEvidenceNotificationBean {
 
         UserSearch userSearch = new UserSearch();
         userSearch.setActive(true);
-        List<User> users = UserManager.getDefault().getAllEntities(userSearch,null);
+        List<User> users = UserManager
+                .getDefault()
+                .getAllEntities(userSearch,null)
+                .stream().filter(user -> user.getEmail() != null)
+                .collect(Collectors.toList());
 
         for (User user: users) {
             ActivitySearch search = new ActivitySearch();
@@ -63,7 +67,7 @@ public class ActivityEvidenceNotificationBean {
                 }
             }
 
-            if (!anyHasImage && user.getEmail() != null) {
+            if (!anyHasImage) {
                 String emailSubject = ConfigurationUtil.getDefault().getNoEvidenceInActivityMailSubject();
                 String emailBody = ConfigurationUtil.getDefault().getNoEvidenceInActivityMailBody();
                 mailService.send(user.getEmail(), emailSubject, emailBody);
