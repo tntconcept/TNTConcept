@@ -387,7 +387,7 @@
 
 	<bean id="cronActivityEvidenceNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobActivityEvidenceNotification"/>
-		<property name="cronExpression" value="0 0 9 ? * MON *"/>
+		<property name="cronExpression" value="0 0 4 ? * MON-FRI *"/>
 	</bean>
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
