@@ -56,7 +56,7 @@ public class ActivityEvidenceNotificationBean {
             activities = activities.stream().filter(activity -> activity.getRole().getRequireEvidence()).collect(Collectors.toList());
 
             if (activities.isEmpty()) {
-                break;
+                continue;
             }
 
             boolean anyHasImage = false;
