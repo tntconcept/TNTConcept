@@ -551,10 +551,10 @@ public class ConfigurationUtil {
     }
 
     public String getNoEvidenceInActivityMailSubject() {
-        return getProperty("mail.activity.noEvidenceSubject", "Falta evidencia");
+        return getProperty("mail.activity.noEvidenceSubject", "Falta evidencia %s - %s");
     }
 
     public String getNoEvidenceInActivityMailBody() {
-        return getProperty("mail.activity.noEvidenceMailBody", "Es necesario adjuntar al menos una imagen cada 7 días como evidencia de tus actividades.\n\nUn saludo");
+        return getProperty("mail.activity.noEvidenceMailBody", "En el proyecto %s - %s es necesario adjuntar al menos una imagen cada 7 días como evidencia de tus actividades.\n\n¡Gracias!");
     }
 }
