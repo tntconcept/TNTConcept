@@ -555,6 +555,9 @@ public class ConfigurationUtil {
     }
 
     public String getNoEvidenceInActivityMailBody() {
-        return getProperty("mail.activity.noEvidenceMailBody", "En el proyecto %s - %s es necesario adjuntar al menos una imagen cada 7 días como evidencia de tus actividades.\n\n¡Gracias!");
+        return getProperty("mail.activity.noEvidenceMailBody",
+                "Cada 7 días es necesario adjuntar al menos una evidencia de tu participación en el proyecto.\n" +
+                "Como por ejemplo una captura de pantalla o foto de tu histórico en el repositorio de código o de tus issues en la herramienta de seguimiento de proyecto.\n" +
+                        "\n%s\n\n¡Gracias!");
     }
 }

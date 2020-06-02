@@ -112,15 +112,22 @@ public class ActivityEvidenceNotificationBean {
             }
 
             HashMap<Project, List<Activity>> groupedActivities = groupedActivitiesByProject(activities);
-            for(Project project: groupedActivities.keySet()) {
+            for (Project project : groupedActivities.keySet()) {
                 List<Activity> prjActivities = groupedActivities.get(project);
-                if(prjActivities.stream().noneMatch(Activity::isHasImage)) {
+                if (prjActivities.stream().anyMatch(activity -> activity.getRole().getRequireEvidence())
+                        && prjActivities.stream().noneMatch(Activity::isHasImage)) {
+                    List<ProjectRole> roles = prjActivities
+                            .stream()
+                            .map(Activity::getRole)
+                            .filter(ProjectRole::getRequireEvidence)
+                            .collect(Collectors.toList());
+
                     prjActivities
                             .stream()
                             .findFirst()
                             .ifPresent(activity -> {
                                 try {
-                                    sendEmail(activity.getRole(), user.getEmail());
+                                    sendEmail(project, roles, user.getEmail());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -130,11 +137,14 @@ public class ActivityEvidenceNotificationBean {
         }
     }
 
-    private void sendEmail(ProjectRole role, String email) throws Exception {
-        String roleName = role.getName();
-        String prjName = role.getProject().getName();
-        String emailSubject = String.format(ConfigurationUtil.getDefault().getNoEvidenceInActivityMailSubject(),prjName,roleName);
-        String emailBody = String.format(ConfigurationUtil.getDefault().getNoEvidenceInActivityMailBody(),prjName,roleName);
+    private void sendEmail(Project project, List<ProjectRole> roles, String email) throws Exception {
+        String organizationName = project.getClient().getName();
+        String prjName = project.getName();
+        String emailSubject = String.format(ConfigurationUtil.getDefault().getNoEvidenceInActivityMailSubject(),organizationName,prjName);
+        String lines = roles
+                .stream()
+                .map( role -> String.format("%s - %s - %s", organizationName, prjName, role.getName())).collect(Collectors.joining("\n"));
+        String emailBody = String.format(ConfigurationUtil.getDefault().getNoEvidenceInActivityMailBody(),lines);
         mailService.send(email, emailSubject, emailBody);
         log.info("Email sent to: " + email);
     }
