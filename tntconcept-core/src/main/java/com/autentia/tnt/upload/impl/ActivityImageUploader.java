@@ -19,8 +19,8 @@ import java.util.Iterator;
 public class ActivityImageUploader {
 
     private static final String EXTENSION = "jpg";
-    private static final int MAX_WIDTH = 1024;
-    private static final int MAX_HEIGHT = 768;
+    private static final int MAX_WIDTH = 1980;
+    private static final int MAX_HEIGHT = 1080;
 
     public static boolean store(UploadedFile file, Activity activity) {
         String fileName = generateFileName(activity.getInsertDate(),activity.getId());
@@ -46,7 +46,7 @@ public class ActivityImageUploader {
             bufferedImage = transformImage(bufferedImage);
 
             param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            param.setCompressionQuality(0.3f);
+            param.setCompressionQuality(0.7f);
             writer.write(null, new IIOImage(bufferedImage, null, null), param);
         } catch (IOException e) {
             e.printStackTrace();
