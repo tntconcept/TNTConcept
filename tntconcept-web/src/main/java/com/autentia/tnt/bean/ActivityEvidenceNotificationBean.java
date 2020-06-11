@@ -141,9 +141,10 @@ public class ActivityEvidenceNotificationBean {
         String organizationName = project.getClient().getName();
         String prjName = project.getName();
         String emailSubject = String.format(ConfigurationUtil.getDefault().getNoEvidenceInActivityMailSubject(),organizationName,prjName);
-        String lines = roles
+        Set<String> lineSet = roles
                 .stream()
-                .map( role -> String.format("%s - %s - %s", organizationName, prjName, role.getName())).collect(Collectors.joining("\n"));
+                .map( role -> String.format("%s - %s - %s", organizationName, prjName, role.getName())).collect(Collectors.toSet());
+        String lines = String.join("\n", lineSet);
         String emailBody = String.format(ConfigurationUtil.getDefault().getNoEvidenceInActivityMailBody(),lines);
         mailService.send(email, emailSubject, emailBody);
         log.info("Email sent to: " + email);
