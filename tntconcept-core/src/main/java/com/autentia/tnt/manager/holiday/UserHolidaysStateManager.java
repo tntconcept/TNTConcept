@@ -158,17 +158,16 @@ public class UserHolidaysStateManager {
 			fiestaSearch.setEndDate(calendarLastDayOfYear.getTime());
 
 			CorrespondingHolidayManager correspondingFiestasManager = CorrespondingHolidayManager.getDefault();
-
 			List<Holiday> allFiestas = fiestasManager.getAllEntities(fiestaSearch, null);
+
+			List<Holiday> correspondingFiestasToUser = correspondingFiestasManager.calculateCorrespondingHolidays(calendarFirstDayOfYear,
+					calendarLastDayOfYear, allFiestas, usuario.getStartDate());
 
 			firstDayOfYear = com.autentia.tnt.util.DateUtils.getFirstDayOfYear(year);
 			calendarFirstDayOfYear.setTime(firstDayOfYear);
 	
 			lastDayOfYear = com.autentia.tnt.util.DateUtils.getLastDayOfYear(year);
 			calendarLastDayOfYear.setTime(lastDayOfYear);
-
-			List<Holiday> correspondingFiestasToUser = correspondingFiestasManager.calculateCorrespondingHolidays(calendarFirstDayOfYear,
-					calendarLastDayOfYear, allFiestas, usuario.getStartDate());
 
 			RequestHolidayManager holyManager = RequestHolidayManager.getDefault();
 			RequestHolidaySearch holSearch = new RequestHolidaySearch();
