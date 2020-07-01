@@ -34,53 +34,6 @@ public class ActivityEvidenceNotificationBean {
         this.mailService = mailService;
     }
 
-//    public void checkActivitiesWithNoEvidence() throws MessagingException {
-//        log.info("Checking for users with no activity evidence images attached for the past 7 days");
-//
-//        authenticateAs(ConfigurationUtil.getDefault().getAdminUser());
-//
-//        Date oneWeekAgo = Date.from(LocalDate.now().plusDays(-7).atStartOfDay(ZoneId.systemDefault()).toInstant());
-//
-//        UserSearch userSearch = new UserSearch();
-//        userSearch.setActive(true);
-//        List<User> users = UserManager
-//                .getDefault()
-//                .getAllEntities(userSearch,null)
-//                .stream().filter(user -> user.getEmail() != null)
-//                .collect(Collectors.toList());
-//
-//        List<Project> projects = ProjectManager
-//                .getDefault()
-//                .getAllEntities(null, null);
-//
-//        for (User user: users) {
-//            ActivitySearch search = new ActivitySearch();
-//            search.setStartStartDate(oneWeekAgo);
-//            search.setUser(user);
-//            List<Activity> activities = ActivityManager.getDefault().getAllEntities(search, null);
-//            activities = activities.stream().filter(activity -> activity.getRole().getRequireEvidence()).collect(Collectors.toList());
-//
-//            if (activities.isEmpty()) {
-//                continue;
-//            }
-//
-//            boolean anyHasImage = false;
-//            for (Activity activity : activities) {
-//                if (activity.isHasImage()) {
-//                    anyHasImage = true;
-//                    break;
-//                }
-//            }
-//
-//            if (!anyHasImage) {
-//                String emailSubject = ConfigurationUtil.getDefault().getNoEvidenceInActivityMailSubject();
-//                String emailBody = ConfigurationUtil.getDefault().getNoEvidenceInActivityMailBody();
-//                mailService.send(user.getEmail(), emailSubject, emailBody);
-//                log.info("Email sent to: " + user.getEmail());
-//            }
-//        }
-//    }
-
     public void checkActivitiesWithNoEvidence() throws MessagingException {
         log.info("Checking for users with no activity evidence images attached for the past 7 days");
 
@@ -115,7 +68,7 @@ public class ActivityEvidenceNotificationBean {
             for (Project project : groupedActivities.keySet()) {
                 List<Activity> prjActivities = groupedActivities.get(project);
                 if (prjActivities.stream().anyMatch(activity -> activity.getRole().getRequireEvidence())
-                        && prjActivities.stream().noneMatch(Activity::isHasImage)) {
+                        && prjActivities.stream().noneMatch(this::doesActivitityHasEvidence)) {
                     List<ProjectRole> roles = prjActivities
                             .stream()
                             .map(Activity::getRole)
@@ -135,6 +88,10 @@ public class ActivityEvidenceNotificationBean {
                 }
             }
         }
+    }
+
+    private boolean doesActivitityHasEvidence(Activity activity) {
+        return activity.isHasImage() || activity.getDescription().startsWith("###Autocreated evidence###");
     }
 
     private void sendEmail(Project project, List<ProjectRole> roles, String email) throws Exception {
