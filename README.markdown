@@ -26,7 +26,7 @@ With TNTConcept you can manage, in an integrated way, your customers, providers,
 
 The [ldapTools/docker](https://github.com/autentia/TNTConcept/tree/master/ldapTools/docker) folder contains the Dockerfile for the image and a docker-compose.yml file already configured and ready to build the OpenLDAP container. This image is inspired by [dinkel/docker-openldap](https://github.com/dinkel/docker-openldap), so please check that README file in case you need to change any startup configuration.
 
-The directory domain is autentia.com, so the actual base/root of the directory tree would be `dc=autentia,dc=com`. The rootdn (LDAP's admin) is `cn=admin,dc=autentia,dc=com`and its password is `adminadmin`. As it uses OLC (Online Configuration), we have the `cn=config` entry, which is the root user able to make configuration changes. It also comes with an existing structure, having the `groups`and `people` organizational units (parent groups).
+The directory domain is autentia.com, so the current base/root of the directory tree would be `dc=autentia,dc=com`. The rootdn (LDAP's admin) is `cn=admin,dc=autentia,dc=com`and its password is `adminadmin`. As it uses OLC (Online Configuration), we have the `cn=config` entry, which is the root user able to make configuration changes. It also comes with an existing structure, having the `groups`and `people` organizational units (parent groups).
 
 Additionally, the `ppolicy` module is already set up. This module provides enhanced password management capabilities. Since our application has a password reset feature, there is a `cn=reset,dc=autentia,dc=com` entry under the root structure (password `resetadmin`), which has access rights to reset the users' password.
 
