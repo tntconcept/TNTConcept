@@ -32,6 +32,8 @@ import java.util.Date;
 public class ActivityReportBean extends ReportBean {
 
     private static final Log log = LogFactory.getLog(ActivityReportBean.class);
+    private static final String ACTIVITY_IMAGES_PATH = "/doc/activity/images/";
+    private static final String EXTENSION = ".jpg";
 
     @Override
     protected void setListReports() {
@@ -47,9 +49,8 @@ public class ActivityReportBean extends ReportBean {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
 
-        path.append("/doc/activity/images/")
-                .append(year).append("/").append(month)
-                .append("/").append(id).append(".jpg");
+        path.append(ACTIVITY_IMAGES_PATH)
+                .append(year).append("/").append(month).append("/").append(id).append(EXTENSION);
 
         return path.toString();
     }
