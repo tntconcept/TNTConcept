@@ -561,8 +561,8 @@ public class ConfigurationUtil {
                         "\n%s\n\n¡Gracias!");
     }
 
-    public String getDomain() {
-        return getProperty("domain", "https://autentia.no-ip.org");
+    public String getTntconceptUrl() {
+        return getProperty("tntconcept_url", "https://tnt.autentia.com/tntconcept");
     }
 
 }

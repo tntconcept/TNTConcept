@@ -42,16 +42,14 @@ public class ActivityReportBean extends ReportBean {
     }
 
     public static String getActivityImageUrl(Integer id, Date date) {
-        String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        StringBuilder path = new StringBuilder(ConfigurationUtil.getDefault().getDomain());
+        StringBuilder path = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
 
-        path.append(contextPath).append(ACTIVITY_IMAGES_PATH)
-                .append(year).append("/").append(month).append("/").append(id).append(EXTENSION);
+        path.append(ACTIVITY_IMAGES_PATH).append(year).append("/").append(month).append("/").append(id).append(EXTENSION);
 
         return path.toString();
     }

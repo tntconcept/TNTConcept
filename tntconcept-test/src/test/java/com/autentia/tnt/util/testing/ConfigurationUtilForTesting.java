@@ -496,7 +496,7 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 		return getProperty("mail.activity.noEvidenceMailBody", "Es necesario adjuntar al menos una imagen cada 7 días como evidencia de tus actividades.\n\nUn saludo");
 	}
 
-	public String getDomain() {
-		return getProperty("domain", "https://autentia.no-ip.org");
+	public String getTntconceptUrl() {
+		return getProperty("tntconcept_url", "https://tnt.autentia.com/tntconcept");
 	}
 }
