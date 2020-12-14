@@ -560,4 +560,9 @@ public class ConfigurationUtil {
                 "Como por ejemplo una captura de pantalla o foto de tu histórico en el repositorio de código o de tus issues en la herramienta de seguimiento de proyecto.\n" +
                         "\n%s\n\n¡Gracias!");
     }
+
+    public String getDomain() {
+        return getProperty("domain", "https://autentia.no-ip.org");
+    }
+
 }
