@@ -23,3 +23,6 @@ tntconcept-web/.gitignore
 #
 bin/
 tntconcept-web-tomcat/overlays
+
+#Mac files
+**/.DS_Store
