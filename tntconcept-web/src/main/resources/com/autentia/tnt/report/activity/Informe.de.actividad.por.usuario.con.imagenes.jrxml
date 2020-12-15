@@ -23,6 +23,7 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 	<import value="com.autentia.tnt.util.ConfigurationUtil" />
+	<import value="com.autentia.tnt.bean.reports.ActivityReportBean"/>
 
 	<parameter name="descripcion" isForPrompting="false" class="java.lang.String">
 		<parameterDescription><![CDATA[description]]></parameterDescription>
@@ -59,6 +60,7 @@
 	startDate,
 	startDate + INTERVAL duration MINUTE as endDate,
 	hasImage,
+	activityId,
 	duration,
 	description,
 	COALESCE(fact/60,0) as fact,
@@ -74,7 +76,7 @@ from (
 		a.duration,
 		a.hasImage,
 		a.description,
-		a.id,
+		a.id as activityId,
 		p.name as proName,
 		sum(CASE WHEN a.billable=1
 	   		then duration end) as 'fact',
@@ -105,9 +107,7 @@ from (
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="hasImage" class="java.lang.Integer"/>
-	<field name="activityReportBean" class="com.autentia.tnt.bean.reports">
-		<fieldDescription>_THIS</fieldDescription>
-	</field>
+	<field name="activityId" class="java.lang.Integer"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
 	<field name="total" class="java.math.BigDecimal"/>
@@ -436,7 +436,7 @@ from (
 				</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
 				<reportElement
 						x="660"
 						y="4"
@@ -447,7 +447,9 @@ from (
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class = "java.lang.String"> <![CDATA[$F{hasImage}==0 ? "" : $F{activityReportBean}.]]> </textFieldExpression>
+				<textFieldExpression class="java.lang.String"> <![CDATA[$F{hasImage}==0 ? "" : "Ver imagen"]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{startDate})]]>
+				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
