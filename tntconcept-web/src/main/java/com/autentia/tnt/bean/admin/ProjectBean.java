@@ -63,6 +63,7 @@ public class ProjectBean extends BaseBean {
      */
 
     public String copy() {
+        project = null;
         int id = Integer.parseInt(FacesUtils.getRequestParameter(ROW_ID));
         copy(id);
         return NavigationResults.COPY_FROM_OFFER;
@@ -412,6 +413,7 @@ public class ProjectBean extends BaseBean {
      * @return forward to LIST page
      */
     public String list() {
+        project = null;
         offerNumberInput.setValue("");
         offerNumberList.clear();
         return NavigationResults.LIST;
