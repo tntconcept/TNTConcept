@@ -136,6 +136,7 @@ public class ReportManager implements ContentHandler {
 		// reports that the user can see
 		List filesList = new ArrayList<String>();
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.externa.por.usuario.jrxml");
+		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.con.imagenes.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.y.organizacion.jrxml");
 		filesList.add("com/autentia/tnt/report/activity/Informe.de.actividad.por.usuario.organizacion.y.rol.jrxml");
