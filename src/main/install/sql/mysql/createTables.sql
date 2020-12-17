@@ -15,6 +15,15 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+
+SET time_zone = "+00:00";
+
+CREATE DATABASE IF NOT EXISTS `tntconcept` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+
+USE `tntconcept`;
+
+GRANT ALL ON `tntconcept`.* TO 'tnt'@'%' IDENTIFIED BY 'tnt';
 
 -- -----------------------------------------------------------------------------
 -- Version
