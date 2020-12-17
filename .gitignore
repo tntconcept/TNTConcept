@@ -1,5 +1,7 @@
 # Directorio de salida de Maven.
 target/
+# Ficheros a ignorar
+tntconcept-web/src/main/webapp/META-INF/context.xml
 
 # Configuración del Eclipse.
 .metadata/
@@ -23,3 +25,6 @@ tntconcept-web/.gitignore
 #
 bin/
 tntconcept-web-tomcat/overlays
+
+#Mac files
+**/.DS_Store

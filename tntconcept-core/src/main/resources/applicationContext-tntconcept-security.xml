@@ -43,6 +43,7 @@
                 /*=IS_AUTHENTICATED_ANONYMOUSLY
 
                 /css/**=IS_AUTHENTICATED_ANONYMOUSLY
+                /doc/**=IS_AUTHENTICATED_FULLY
                 /img/**=IS_AUTHENTICATED_ANONYMOUSLY
                 /script/**=IS_AUTHENTICATED_ANONYMOUSLY
                 /help/**=IS_AUTHENTICATED_ANONYMOUSLY
