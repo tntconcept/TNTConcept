@@ -2,7 +2,6 @@
 target/
 # Ficheros a ignorar
 tntconcept-web/src/main/webapp/META-INF/context.xml
-src/main/install/sql/mysql/createTables.sql
 
 # Configuración del Eclipse.
 .metadata/
