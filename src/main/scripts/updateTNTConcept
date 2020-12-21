@@ -1,0 +1,59 @@
+#!/bin/bash
+
+container_name=tntconcept_tomcat_1
+URL_TNTCONCEPT=http://192.168.168.5:18080/tntconcept/
+
+download_artifact(){
+    echo "Para conectarnos a Nexus necesitamos un usuario y su contraseña"
+    echo -n "username: "
+    read username
+    echo -n "password: "
+    read -rs password
+    echo
+    echo -n "version: "
+    read version
+
+    URL="https://tnt.autentia.com/nexus/repository/maven-releases/com/autentia/tnt/tntconcept-web/$version/tntconcept-web-$version.war"
+    echo "Descargando tntconcept-web-$version.war...."
+    wget -o logfile -O tntconcept.war --user=$username --password=$password  $URL &> /dev/null
+    echo "tntconcept.war descargado!"
+    echo
+}
+
+deploy_artifact(){
+    echo "Añadiendo tntconcept.war al contenedor $container_name"
+    docker cp tntconcept.war $container_name:/usr/local/tomcat/webapps/tntconcept.war
+    rm tntconcept.war
+    echo "Reiniciando $container_name..."
+    docker restart $container_name
+
+    sleep 4
+    echo "Ya está la nueva versión de TNT actualizada, para ello dirijase a"
+    echo $URL_TNTCONCEPT
+}
+
+is_success(){
+    [[ "$?" == 0 ]] && return
+}
+
+main(){
+    echo "Proceso de actualización de TNTConcept en el entorno de pre-producción"
+    download_artifact
+
+    if is_success; then
+        if [ "$( docker container inspect -f '{{.State.Status}}' $container_name )" == "running" ]; then
+            deploy_artifact
+        else
+            docker start $container_name
+            sleep 3
+            deploy_artifact
+        fi
+    else
+        echo
+        cat logfile
+        rm logfile
+        echo
+    fi
+}
+
+main
