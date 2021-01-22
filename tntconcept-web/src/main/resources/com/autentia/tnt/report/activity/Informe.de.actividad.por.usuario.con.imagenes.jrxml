@@ -60,6 +60,7 @@
 	startDate,
 	startDate + INTERVAL duration MINUTE as endDate,
 	hasImage,
+	insertDate,
 	activityId,
 	duration,
 	description,
@@ -73,6 +74,7 @@ from (
 		u.name as userName,
 		r.name as roleName,
 		a.startDate,
+		a.insertDate,
 		a.duration,
 		a.hasImage,
 		a.description,
@@ -103,6 +105,7 @@ from (
 	<field name="userName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
 	<field name="startDate" class="java.sql.Timestamp"/>
+	<field name="insertDate" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
@@ -447,8 +450,8 @@ from (
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{startDate})]]> </textFieldExpression>
-				<hyperlinkReferenceExpression> <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{startDate})]]>
+				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]>
 				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
