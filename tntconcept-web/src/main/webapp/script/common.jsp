@@ -68,7 +68,11 @@ function openFile( type, id, file, mime )
 }
 
 function openActivityFile(year, month, fileName, mime) {
-	var url = '<%=request.getContextPath()%>/doc/activity/images/'+year+'/'+month+'/'+fileName+'?'+'mime='+escape(mime);
+	var url = '<%=request.getContextPath()%>/doc/activity/images/'+year+'/'+month+'/'+fileName;
+	<%--When mime is null there is an error showing the image.--%>
+	if (mime != null){
+		url += '?' + 'mime=' + escape(mime);
+	}
 	try {
 		var v = window.open( url, "", "left=20,top=20,width=800,height=600,"+
 				"scrollbars=yes,resizable=yes,menubar=yes,status=yes,toolbar=yes" );
