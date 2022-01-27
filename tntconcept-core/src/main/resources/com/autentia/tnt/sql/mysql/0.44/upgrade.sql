@@ -15,8 +15,6 @@ CREATE TABLE AnnualWorkSummary
 (
     userId            INT(10) NOT NULL,
     year              INT (4) NOT NULL,
-    earnedVacations   INT (2) NOT NULL,
-    acceptedVacations INT (2) NOT NULL,
     targetHours       DECIMAL(7, 2) NOT NULL,
     workedHours       DECIMAL(7, 2) NOT NULL,
     insertDate        DATETIME DEFAULT NULL,
@@ -37,6 +35,17 @@ CREATE TABLE AnnualWorkSummaryJob
     finished DATETIME NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+
+-- -----------------------------------------------------------------------------
+-- AnnualWorkSummaryJob
+-- -----------------------------------------------------------------------------
+--
+-- Fill AnnualWorkSummaryJob for current users
+
+INSERT INTO AnnualWorkSummary
+SELECT u.id, 2021, 0, 0, sysdate(), sysdate()  FROM User u
+WHERE u.active = 1;
 
 -- -----------------------------------------------------------------------------
 -- Version
