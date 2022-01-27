@@ -24,7 +24,8 @@ CREATE TABLE AnnualWorkSummary
 CREATE TABLE AnnualWorkSummaryJob
 (
     `id`          INT      NOT NULL AUTO_INCREMENT,
-    lastExecution DATETIME NOT NULL,
+    started DATETIME NOT NULL,
+    finished DATETIME NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
