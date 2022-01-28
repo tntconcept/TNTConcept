@@ -282,6 +282,7 @@
 	</bean>
 	<bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
 		<constructor-arg ref="daoActivity" />
+		<constructor-arg ref="configuration" />
 	</bean>
 
 	<bean id="managerGlobalHoursReport"

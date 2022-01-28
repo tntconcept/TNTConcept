@@ -702,6 +702,7 @@
 
                 com.autentia.tnt.manager.activity.ActivityManager.*=ROLE_DenyByDefault
                 com.autentia.tnt.manager.activity.ActivityManager.getAllEntities=ROLE_Entity_List_Activity,AFTER_ACL_COLLECTION_READ
+                com.autentia.tnt.manager.activity.ActivityManager.workedTime=ROLE_Entity_List_Activity
                 com.autentia.tnt.manager.activity.ActivityManager.insertEntity=ROLE_Entity_Create_Activity
                 com.autentia.tnt.manager.activity.ActivityManager.getEntityById=ROLE_Entity_List_Activity,AFTER_ACL_READ
                 com.autentia.tnt.manager.activity.ActivityManager.updateEntity=ACL_WRITE
