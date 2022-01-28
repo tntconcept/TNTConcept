@@ -15,8 +15,6 @@ CREATE TABLE AnnualWorkSummary
 (
     userId            INT(10) NOT NULL,
     year              INT (4) NOT NULL,
-    earnedVacations   INT (2) NOT NULL,
-    acceptedVacations INT (2) NOT NULL,
     targetHours       DECIMAL(7, 2) NOT NULL,
     workedHours       DECIMAL(7, 2) NOT NULL,
     insertDate        DATETIME DEFAULT NULL,
