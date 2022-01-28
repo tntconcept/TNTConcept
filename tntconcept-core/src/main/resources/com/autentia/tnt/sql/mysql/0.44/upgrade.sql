@@ -23,6 +23,12 @@ CREATE TABLE AnnualWorkSummary
     CONSTRAINT fk_annualworksummary_user FOREIGN KEY (userId) REFERENCES User (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- Fill AnnualWorkSummaryJob for current users
+INSERT INTO AnnualWorkSummary
+SELECT u.id, 2021, 0, 0, sysdate(), sysdate()  FROM User u
+WHERE u.active = 1;
+
+
 -- -----------------------------------------------------------------------------
 -- AnnualWorkSummaryJob
 -- -----------------------------------------------------------------------------
@@ -36,16 +42,6 @@ CREATE TABLE AnnualWorkSummaryJob
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
--- -----------------------------------------------------------------------------
--- AnnualWorkSummaryJob
--- -----------------------------------------------------------------------------
---
--- Fill AnnualWorkSummaryJob for current users
-
-INSERT INTO AnnualWorkSummary
-SELECT u.id, 2021, 0, 0, sysdate(), sysdate()  FROM User u
-WHERE u.active = 1;
 
 -- -----------------------------------------------------------------------------
 -- Version
