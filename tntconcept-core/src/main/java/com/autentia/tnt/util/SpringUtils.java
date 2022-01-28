@@ -33,9 +33,6 @@ import org.acegisecurity.acls.sid.SidRetrievalStrategyImpl;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.context.ApplicationContext;
 
-import com.autentia.tnt.businessobject.Department;
-import com.autentia.tnt.businessobject.Role;
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.ITransferObject;
 import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.manager.security.Principal;
@@ -134,7 +131,7 @@ public class SpringUtils
 	 */
 	public static Object getSpringBean( String name )
 	{
-		return appCtx.	getBean(name);
+		return appCtx.getBean(name);
 	}
 	
 	/**
