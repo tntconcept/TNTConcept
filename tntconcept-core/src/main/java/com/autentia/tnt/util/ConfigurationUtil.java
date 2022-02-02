@@ -571,8 +571,8 @@ public class ConfigurationUtil{
         return getProperty("tntconcept_url", "https://tnt.autentia.com/tntconcept");
     }
 
-    public List<Integer> getNotWorkingTimeProjectRoleIds(){
-        final String ids = getProperty("notWorkingTimeProjectRoleIds", null);
+    public List<Integer> getNotWorkingTimeProjectIds(){
+        final String ids = getProperty("notWorkingTimeProjectIds", null);
 
         if(ids == null){
             return Collections.emptyList();
