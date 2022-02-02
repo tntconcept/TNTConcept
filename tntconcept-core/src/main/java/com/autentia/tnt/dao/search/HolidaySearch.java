@@ -17,13 +17,11 @@
 
 package com.autentia.tnt.dao.search;
 
-import java.util.*;
-import java.math.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
-import org.hibernate.type.*;
-
-import com.autentia.tnt.businessobject.*;
-import com.autentia.tnt.dao.*;
+import com.autentia.tnt.dao.SearchCriteria;
 
 /**
  * Class to search for Holiday objects
@@ -41,15 +39,6 @@ public class HolidaySearch extends SearchCriteria {
 		if (isDescriptionSet()) {
 			ret.append((ret.length() == 0) ? "WHERE " : " AND ");
 			if (getDescription() == null) {
-				ret.append("description is NULL");
-			} else {
-				ret.append("description like :arg" + (iArgNum++));
-			}
-		}
-
-		if (isCompensationSet()) {
-			ret.append((ret.length() == 0) ? "WHERE" : "AND");
-			if (getCompensation() == null) {
 				ret.append("description is NULL");
 			} else {
 				ret.append("description like :arg" + (iArgNum++));
@@ -136,11 +125,6 @@ public class HolidaySearch extends SearchCriteria {
 		if (isDescriptionSet() && getDescription() != null) {
 			ret.add(description);
 		}
-
-		if (isCompensationSet() && getCompensation() != null) {
-			ret.add(compensation);
-		}
-
 		if (isStartDateSet()) {
 			ret.add(startDate);
 		}
@@ -179,8 +163,6 @@ public class HolidaySearch extends SearchCriteria {
 
 		unsetDescription();
 
-		unsetCompensation();
-
 		unsetStartDate();
 		unsetEndDate();
 
@@ -205,12 +187,6 @@ public class HolidaySearch extends SearchCriteria {
 		if (isDescriptionSet()) {
 			ret.append("(description");
 			ret.append("=" + description);
-			ret.append(")");
-		}
-
-		if (isCompensationSet()) {
-			ret.append("(compensation");
-			ret.append("=" + compensation);
 			ret.append(")");
 		}
 
@@ -281,23 +257,6 @@ public class HolidaySearch extends SearchCriteria {
 
 	public void unsetDescription() {
 		this.descriptionSet = false;
-	}
-
-	public Boolean isCompensationSet() {
-		return compensationSet;
-	}
-
-	public Boolean getCompensation() {
-		return compensation;
-	}
-
-	public void setCompensation(Boolean compensation) {
-		this.compensation = compensation;
-		this.compensationSet = true;
-	}
-
-	public void unsetCompensation() {
-		this.compensationSet = false;
 	}
 
 	public boolean isStartDateSet() {
@@ -440,10 +399,6 @@ public class HolidaySearch extends SearchCriteria {
 
 	private boolean descriptionSet;
 	private String description;
-
-	private boolean compensationSet;
-	private Boolean compensation;
-
 	private boolean startDateSet;
 	private Date startDate;
 	private boolean endDateSet;
@@ -467,7 +422,7 @@ public class HolidaySearch extends SearchCriteria {
 
 	// Returns if there are a search condition active
 	public boolean isSearchActive() {
-		return customIsSearchActive() || descriptionSet || compensationSet || startDateSet || endDateSet || ownerIdSet
+		return customIsSearchActive() || descriptionSet || startDateSet || endDateSet || ownerIdSet
 				|| departmentIdSet|| startInsertDateSet || endInsertDateSet || startUpdateDateSet || endUpdateDateSet;
 	}
 
@@ -491,7 +446,7 @@ public class HolidaySearch extends SearchCriteria {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(compensation, compensationSet, departmentId, departmentIdSet, description, descriptionSet,
+		return Objects.hash(departmentId, departmentIdSet, description, descriptionSet,
 				endDate, endDateSet, endInsertDate, endInsertDateSet, endUpdateDate, endUpdateDateSet, ownerId,
 				ownerIdSet, startDate, startDateSet, startInsertDate, startInsertDateSet, startUpdateDate,
 				startUpdateDateSet);
@@ -506,8 +461,7 @@ public class HolidaySearch extends SearchCriteria {
 		if (getClass() != obj.getClass())
 			return false;
 		HolidaySearch other = (HolidaySearch) obj;
-		return Objects.equals(compensation, other.compensation) && compensationSet == other.compensationSet
-				&& Objects.equals(departmentId, other.departmentId) && departmentIdSet == other.departmentIdSet
+		return  Objects.equals(departmentId, other.departmentId) && departmentIdSet == other.departmentIdSet
 				&& Objects.equals(description, other.description) && descriptionSet == other.descriptionSet
 				&& Objects.equals(endDate, other.endDate) && endDateSet == other.endDateSet
 				&& Objects.equals(endInsertDate, other.endInsertDate) && endInsertDateSet == other.endInsertDateSet

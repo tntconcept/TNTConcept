@@ -18,17 +18,8 @@
 package com.autentia.tnt.businessobject;
 
 import java.io.Serializable;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.autentia.tnt.dao.ITransferObject;
 
@@ -45,8 +36,6 @@ public class Holiday implements Serializable, ITransferObject {
 	private String description;
 
 	private Date date;
-
-	private boolean compensation;
 
 	private Integer ownerId;
 
@@ -78,14 +67,6 @@ public class Holiday implements Serializable, ITransferObject {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public boolean isCompensation() {
-		return compensation;
-	}
-
-	public void setCompensation(boolean compensation) {
-		this.compensation = compensation;
 	}
 
 	public Integer getOwnerId() {

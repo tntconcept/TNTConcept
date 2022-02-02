@@ -21,10 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import com.autentia.jsf.component.ocupation.OcupationEntry;
 import com.autentia.jsf.component.ocupation.OcupationModel;
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.businessobject.Holiday;
@@ -39,7 +36,6 @@ import com.autentia.tnt.dao.search.RequestHolidaySearch;
 import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.manager.activity.OccupationManager;
 import com.autentia.tnt.manager.admin.UserManager;
-import com.autentia.tnt.manager.holiday.CorrespondingHolidayManager;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.util.DateUtils;
@@ -50,9 +46,6 @@ public class AvailabilityBean extends BaseBean {
 	private static final long serialVersionUID = 1L;
 	private final UserManager userMgr = UserManager.getDefault();
 	private Date selectedDate = null;
-
-	private static final CorrespondingHolidayManager correspondingHolidayManager = CorrespondingHolidayManager
-			.getDefault();
 
 	public AvailabilityBean() {
 		Calendar cal = Calendar.getInstance();
@@ -129,7 +122,7 @@ public class AvailabilityBean extends BaseBean {
 	 * Fill holidays in listOccupations for that user.
 	 * 
 	 * @param user
-	 * @param listOccupations
+	 * @param model
 	 */
 
 	private void fillModelHolidays(User user, OcupationModel model) {
@@ -174,10 +167,7 @@ public class AvailabilityBean extends BaseBean {
 
 		List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 
-		List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calendarFirstDayOfMonth, calendarLastDayOfMonth,
-				allHolidays, user.getStartDate());
-
-		for (Holiday holiday : correspondingHolidays) {
+		for (Holiday holiday : allHolidays) {
 			OcupationEntryImpl oc = new OcupationEntryImpl();
 			oc.setStart(DateUtils.minHourInDate(holiday.getDate()));
 			oc.setEnd(DateUtils.maxHourInDate(holiday.getDate()));

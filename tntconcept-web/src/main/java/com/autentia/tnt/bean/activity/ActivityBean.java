@@ -96,7 +96,6 @@ import com.autentia.tnt.manager.admin.SettingManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
 import com.autentia.tnt.manager.document.DocumentCategoryManager;
 import com.autentia.tnt.manager.document.DocumentManager;
-import com.autentia.tnt.manager.holiday.CorrespondingHolidayManager;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
@@ -223,9 +222,6 @@ public class ActivityBean extends BaseBean{
     private AuthenticationManager authManager = AuthenticationManager.getDefault();
 
     private HolidayManager holidayManager = HolidayManager.getDefault();
-
-    private static final CorrespondingHolidayManager correspondingHolidayManager = CorrespondingHolidayManager
-            .getDefault();
 
     /** Settings manager */
     private static final SettingManager settings = SettingManager.getDefault();
@@ -1682,11 +1678,8 @@ public class ActivityBean extends BaseBean{
         calMin.setTime(beginOfMonth);
         calMax.setTime(endOfMonth);
 
-        List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calMin, calMax,
-                allHolidays, authManager.getCurrentPrincipal().getUser().getStartDate());
-
         int holidays = 0;
-        for(Holiday holiday : correspondingHolidays){
+        for(Holiday holiday : allHolidays){
             LocalDateTime holidayValue = LocalDateTime.ofInstant(holiday.getDate().toInstant(), ZoneId.systemDefault());
             int day = holidayValue.getDayOfMonth();
             if(!nonWorkingDays.contains(day) && day <= daysInMonth){
@@ -1855,10 +1848,7 @@ public class ActivityBean extends BaseBean{
 
         List<Holiday> allHolidays = holidayManager.getAllEntities(monthSearch, null);
 
-        List<Holiday> correspondingHolidays = correspondingHolidayManager.calculateCorrespondingHolidays(calMin, calMax,
-                allHolidays, authManager.getCurrentPrincipal().getUser().getStartDate());
-
-        for(Holiday holiday : correspondingHolidays){
+        for(Holiday holiday : allHolidays){
             model.setHoliday(holiday.getDate(), holiday.getDescription());
         }
 
@@ -2121,8 +2111,7 @@ public class ActivityBean extends BaseBean{
     }
 
     /**
-     * @return
-     * @see com.autentia.tnt.bean.activity.BitacoreTabChangeListener#getSelectedTab()
+     * @return selected Tab
      */
     public int getSelectedTab(){
         return selectedTab;
