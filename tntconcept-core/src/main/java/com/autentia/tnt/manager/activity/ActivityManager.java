@@ -82,10 +82,11 @@ public class ActivityManager{
     public long workedTime(final List<Activity> activities){
         long duration = 0L;
 
-        List<Integer> notWorkableProjectIds = ConfigurationUtil.getDefault().getNotWorkingTimeProjectRoleIds();
+        List<Integer> notWorkableProjectIds = ConfigurationUtil.getDefault().getNotWorkingTimeProjectIds();
+
 
         for(Activity activity : activities){
-            if(!notWorkableProjectIds.contains(activity.getRole().getId())){
+            if(!notWorkableProjectIds.contains(activity.getRole().getProject().getId())){
                 duration += activity.getDuration();
             }
         }
