@@ -24,6 +24,7 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlDataTable;
 
+import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -38,8 +39,6 @@ import com.autentia.tnt.upload.Uploader;
 import com.autentia.tnt.upload.UploaderFactory;
 import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.SpringUtils;
-
-import org.acegisecurity.acls.domain.BasePermission;
 
 public class HolidayBean extends BaseBean {
 
@@ -281,28 +280,6 @@ public class HolidayBean extends BaseBean {
 		}
 	}
 
-	public Boolean getSearchCompensation() {
-		return search.getCompensation();
-	}
-
-	public void setSearchCompensation(Boolean val) {
-		if (search.isCompensationSet()) {
-			search.setCompensation(val);
-		}
-	}
-
-	public boolean isSearchCompensationValid() {
-		return search.isCompensationSet();
-	}
-
-	public void setSearchCompensationValid(boolean val) {
-		if (val) {
-			search.setCompensation(search.getCompensation());
-		} else {
-			search.unsetCompensation();
-		}
-	}
-
 	public Date getSearchStartDate() {
 		return search.getStartDate();
 	}
@@ -529,13 +506,7 @@ public class HolidayBean extends BaseBean {
 		holiday.setDescription(description);
 	}
 
-	public Boolean getCompensation() {
-		return holiday.isCompensation();
-	}
 
-	public void setCompensation(Boolean compensation) {
-		holiday.setCompensation(compensation);
-	}
 
 	public Date getDate() {
 		return holiday.getDate();

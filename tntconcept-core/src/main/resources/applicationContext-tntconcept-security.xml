@@ -825,10 +825,6 @@
                 com.autentia.tnt.manager.holiday.UserHolidaysStateManager.calculateUserHolidaysState=ROLE_Action_MyHolidays
                 com.autentia.tnt.manager.holiday.UserHolidaysStateManager.getWorkingDays=ROLE_Action_MyHolidays
                 com.autentia.tnt.manager.holiday.UserHolidaysStateManager.getFreeDays=ROLE_Action_MyHolidays
-                
-               <!-- CorrespondingHolidays -->
-				com.autentia.tnt.manager.holiday.CorrespondingHolidayManager.*=ROLE_DenyByDefault
-				com.autentia.tnt.manager.holiday.CorrespondingHolidayManager.calculateCorrespondingHolidays=ROLE_Action_MyHolidays
 
             </value>
         </property>

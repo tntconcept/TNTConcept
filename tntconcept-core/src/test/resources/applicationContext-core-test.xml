@@ -341,9 +341,6 @@
         <property name="entityChangeDAO" ref="daoEntityChange"></property>
 	</bean>
 	
-	<bean id="managerCorrespondingHoliday" class="com.autentia.tnt.manager.holiday.CorrespondingHolidayManager">
-	</bean>
-
 	<!-- Mail Service  -->
 	<bean id="mailService" class="com.autentia.tnt.mail.DefaultMailService"
 		init-method="init">
