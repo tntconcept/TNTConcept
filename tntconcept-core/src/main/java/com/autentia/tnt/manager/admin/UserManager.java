@@ -89,7 +89,11 @@ public class UserManager
   public User getEntityById(int id){
     return userDAO.loadById(id);
   }
-	
+
+  public User getUserByLogin(String login){
+      return userDAO.searchByLogin(login);
+  }
+
   /**
    * Insert user. 
    */

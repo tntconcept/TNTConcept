@@ -339,7 +339,7 @@
         <property name="contactDAO" ref="daoContact"></property>
         <property name="entityChangeDAO" ref="daoEntityChange"></property>
 	</bean>
-	<bean id="linkManager" class="com.autentia.tnt.manager.admin.LinkManager">
+	<bean id="managerLink" class="com.autentia.tnt.manager.admin.LinkManager">
 		<constructor-arg ref="daoLink" />
 	</bean>
 

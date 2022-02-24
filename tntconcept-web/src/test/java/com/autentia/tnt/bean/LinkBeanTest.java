@@ -1,40 +1,32 @@
 package com.autentia.tnt.bean;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.faces.context.ExternalContext;
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-
 import com.autentia.tnt.businessobject.Link;
 import com.autentia.tnt.businessobject.User;
-import com.autentia.tnt.dao.search.LinkSearch;
-import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.mail.DefaultMailService;
-import com.autentia.tnt.mail.MailService;
 import com.autentia.tnt.manager.admin.LinkManager;
 import com.autentia.tnt.manager.admin.UserManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 
+import javax.faces.context.ExternalContext;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.*;
-import static org.hamcrest.core.IsNull.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 public class LinkBeanTest {
 	
@@ -52,8 +44,8 @@ public class LinkBeanTest {
 	
 	@BeforeClass
 	public static void setUp() {
-		when(ctx.getBean("linkManager")).thenReturn(linkManager);
-		when(ctx.getBean("userManager")).thenReturn(userManager);
+		when(ctx.getBean("managerLink")).thenReturn(linkManager);
+		when(ctx.getBean("managerUser")).thenReturn(userManager);
 		when(ctx.getBean("userDetailsService")).thenReturn(authManager);
 		when(ctx.getBean("mailService")).thenReturn(mailService);
 		when(ctx.getBean("configuration")).thenReturn(configurationUtil);
@@ -136,7 +128,7 @@ public class LinkBeanTest {
 		sutMock.setName("testName");
 		Link testLink = new Link();
 		testLink.setLink("randomLink");
-		doReturn(Arrays.asList(testUser)).when(sutMock).getUserWithName("testName");
+		doReturn(testUser).when(sutMock).getUserWithName("testName");
 		doReturn(externalContext).when(sutMock).getFacesExternalContext();
 		doReturn(testLink).when(sutMock).generateLink("testName");
 		
@@ -153,7 +145,7 @@ public class LinkBeanTest {
 		testUser.setLogin("testName");
 		testUser.setActive(false);		
 		sutMock.setName("testName");		
-		doReturn(Arrays.asList(testUser)).when(userManager).getAllEntities((UserSearch) any(), any());
+		doReturn(testUser).when(userManager).getUserByLogin("testName");
 		
 		String result = sutMock.passwordResetRequest();
 		
@@ -165,8 +157,8 @@ public class LinkBeanTest {
 	
 	@Test
 	public void shouldDismissPasswordResetRequestWithNonExistentUser() {
-		sutMock.setName("testName");		
-		doReturn(new ArrayList<User>()).when(userManager).getAllEntities((UserSearch) any(), any());
+		sutMock.setName("testName");
+		doReturn(new User()).when(userManager).getUserByLogin("testName");
 		
 		String result = sutMock.passwordResetRequest();
 		
@@ -231,7 +223,7 @@ public class LinkBeanTest {
 		testLink.setUser("testUser");
 		testLink.setInsertDate(new Date());
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
-		doReturn(Arrays.asList(testUser)).when(sutMock).getUserWithName(testLink.getUser());
+		doReturn(testUser).when(sutMock).getUserWithName(testLink.getUser());
 		doReturn("changedPassword").when(sutMock).resetPassword(testUser);	
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
@@ -276,7 +268,7 @@ public class LinkBeanTest {
 		testLink.setUser("testUser");
 		testLink.setInsertDate(new Date());
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
-		doReturn(Arrays.asList(testUser)).when(sutMock).getUserWithName(testLink.getUser());
+		doReturn(testUser).when(sutMock).getUserWithName(testLink.getUser());
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
 		
@@ -291,7 +283,7 @@ public class LinkBeanTest {
 		testLink.setUser("testUser");
 		testLink.setInsertDate(new Date());
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
-		doReturn(new ArrayList<User>()).when(sutMock).getUserWithName("testUser");
+		doReturn(new User()).when(sutMock).getUserWithName("testUser");
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
 		

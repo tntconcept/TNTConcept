@@ -94,10 +94,8 @@ public class ActivityEvidenceNotificationBean_IT {
     }
 
     private User testUser() {
-        UserManager userManager = (UserManager) SpringUtils.getSpringBean("userManager");
-        UserSearch search = new UserSearch();
-        search.setLogin("user");
-        return userManager.getAllEntities(search, null).get(0);
+        UserManager userManager = (UserManager) SpringUtils.getSpringBean("managerUser");
+        return userManager.getUserByLogin("user");
     }
 
     private void insertActivityWithRequiredEvidence(User user) {

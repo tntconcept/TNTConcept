@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.autentia.tnt.businessobject.Link;
 import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.search.LinkSearch;
-import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.mail.DefaultMailService;
 import com.autentia.tnt.manager.admin.LinkManager;
 import com.autentia.tnt.manager.admin.UserManager;
@@ -84,11 +83,8 @@ public class LinkBean extends BaseBean {
 		return this.link;
 	}
 	
-	public List<User> getUserWithName(String name) {
-		UserSearch search = new UserSearch();
-		search.setLogin(name);
-
-		return userManager.getAllEntities(search, null);
+	public User getUserWithName(String name) {
+		return userManager.getUserByLogin(name);
 	}
 	
 	public Link generateLink(String name) {
@@ -143,16 +139,16 @@ public class LinkBean extends BaseBean {
 	public String passwordResetRequest() {
 		
 		// Check if user exists or is active
-		List<User> users = getUserWithName(this.name);
+		User user = getUserWithName(this.name);
 		
-		if (!users.isEmpty() && users.get(0).isActive()) {
+		if (user!=null && user.isActive()) {
 			
 			// send mail and store link
 			Link link = generateLink(this.name);
 			
 			manager.insertEntityWithoutUser(link);
 			
-			sendMail(link, users.get(0).getEmail());		
+			sendMail(link, user.getEmail());
 		} else {
 			// do nothing, user doesn't exist
 			System.out.println("ignore restablishment");
@@ -181,12 +177,12 @@ public class LinkBean extends BaseBean {
 		
 		if (!links.isEmpty() && isOnTime(links.get(0))) {
 
-			List<User> users = getUserWithName(links.get(0).getUser());
+			User user = getUserWithName(links.get(0).getUser());
 
-			if (!users.isEmpty() && users.get(0).isActive()) {
+			if (user!=null && user.isActive()) {
 				
 				deleteLinkFromBD(links.get(0));
-				String resetPassword = resetPassword(users.get(0));
+				String resetPassword = resetPassword(user);
 				
 				return "Tu nueva contraseña es: <b>"+resetPassword+"</b></br> <p>Se te pedirá que la modifiques al entrar por primera vez.</p>";
 			}
