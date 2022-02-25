@@ -22,8 +22,8 @@
 	<entities>
 		<entity name="User">
 			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="area" staff="all"  user="own"  cli="deny" projectManager="own"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="deny" projectManager="all"/>
+			<operation name="write"  admin="all"  super="own" staff="all"  user="own"  cli="deny" projectManager="own"/>
+			<operation name="read"   admin="all"  super="own"  staff="all"  user="own"  cli="deny" projectManager="own"/>
 			<operation name="list"   admin="true"  super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="false" staff="false" user="false" cli="false" projectManager="false"/>
 			<operation name="menu"   admin="true"  super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
@@ -375,12 +375,12 @@
 		</entity>
 
 		<entity name="Activity">
-     		<operation name="delete" admin="own"  super="own" staff="own" user="own" cli="deny" projectManager="own"/>
-			<operation name="write"  admin="own"  super="own" staff="own" user="own" cli="deny" projectManager="own"/>
+     		<operation name="delete" admin="deny"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="deny"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
 			<operation name="read"   admin="all"  super="area" staff="own" user="own" cli="deny" projectManager="own"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="create" admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
+			<operation name="create" admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
 		</entity>
 
 		<entity name="Occupation">
@@ -438,12 +438,12 @@
 		</entity>
 
 		<entity name="RequestHoliday">
-      		<operation name="delete" admin="all"  super="area"  staff="all" user="own" cli="deny" projectManager="own"/>
-			<operation name="write"  admin="all"  super="area"  staff="all" user="own" cli="deny" projectManager="own"/>
+      		<operation name="delete" admin="deny"  super="deny"  staff="deny" user="deny" cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="deny"  super="deny"  staff="deny" user="deny" cli="deny" projectManager="deny"/>
 			<operation name="read"   admin="all"  super="area"  staff="all" user="own" cli="deny" projectManager="own"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="create" admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
+			<operation name="create" admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
 		</entity>
 
 		<entity name="AdminHoliday">

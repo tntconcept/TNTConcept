@@ -493,6 +493,7 @@
                 com.autentia.tnt.manager.admin.UserManager.getEntityById=ROLE_Entity_List_User,AFTER_ACL_READ
                 com.autentia.tnt.manager.admin.UserManager.updateEntity=ACL_WRITE,IS_AUTHENTICATED_ANONYMOUSLY
                 com.autentia.tnt.manager.admin.UserManager.deleteEntity=ACL_DELETE
+                <!--IS_AUTHENTICATED_ANONYMOUSLY to be able to update password when reset it-->
                 com.autentia.tnt.manager.admin.UserManager.getUserByLogin=IS_AUTHENTICATED_ANONYMOUSLY
 
                 com.autentia.tnt.manager.admin.LinkManager.insertEntityWithoutUser=IS_AUTHENTICATED_ANONYMOUSLY
