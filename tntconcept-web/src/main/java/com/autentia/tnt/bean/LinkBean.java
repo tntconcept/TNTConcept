@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.autentia.tnt.businessobject.Link;
 import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.dao.DataNotFoundException;
 import com.autentia.tnt.dao.search.LinkSearch;
 import com.autentia.tnt.mail.DefaultMailService;
 import com.autentia.tnt.manager.admin.LinkManager;
@@ -58,9 +59,15 @@ public class LinkBean extends BaseBean {
 
 	private String name;
 	private String link;
+	private boolean resetEmailFailed=false;
 
 	public LinkBean() {
+	}
 
+	private void resetLinkBean() {
+		this.name=null;
+		this.link=null;
+		this.resetEmailFailed=false;
 	}
 
 	public LinkBean(String name) {
@@ -82,8 +89,16 @@ public class LinkBean extends BaseBean {
 	public String getLink() {
 		return this.link;
 	}
-	
-	public User getUserWithName(String name) {
+
+	public boolean isResetEmailFailed() {
+		return resetEmailFailed;
+	}
+
+	public void setResetEmailFailed(boolean resetEmailFailed) {
+		this.resetEmailFailed = resetEmailFailed;
+	}
+
+	public User getUserByName(String name) {
 		return userManager.getUserByLogin(name);
 	}
 	
@@ -137,24 +152,26 @@ public class LinkBean extends BaseBean {
 	}
 
 	public String passwordResetRequest() {
-		
-		// Check if user exists or is active
-		User user = getUserWithName(this.name);
-		
-		if (user!=null && user.isActive()) {
-			
-			// send mail and store link
-			Link link = generateLink(this.name);
-			
-			manager.insertEntityWithoutUser(link);
-			
-			sendMail(link, user.getEmail());
-		} else {
-			// do nothing, user doesn't exist
-			System.out.println("ignore restablishment");
-		}
+		try{
+			User user = getUserByName(this.name);
+			if (user.isActive()) {
+				Link link = generateLink(this.name);
 
-		return "emailSent";
+				manager.insertEntityWithoutUser(link);
+
+				sendMail(link, user.getEmail());
+				setResetEmailFailed(false);
+				return "emailSent";
+
+			}else{
+				setResetEmailFailed(true);
+				return "emailSentFailed";
+			}
+
+		} catch (DataNotFoundException ex) {
+			setResetEmailFailed(true);
+			return "emailSentFailed";
+		}
 	}
 	
 	public List<Link> getLinksWithLink(String link) {
@@ -177,7 +194,7 @@ public class LinkBean extends BaseBean {
 		
 		if (!links.isEmpty() && isOnTime(links.get(0))) {
 
-			User user = getUserWithName(links.get(0).getUser());
+			User user = getUserByName(links.get(0).getUser());
 
 			if (user!=null && user.isActive()) {
 				
@@ -221,6 +238,7 @@ public class LinkBean extends BaseBean {
 	}
 
 	public String goPasswordChange() {
+		resetLinkBean();
 		return "passwordChange";
 	}
 }

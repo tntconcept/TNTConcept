@@ -128,7 +128,7 @@ public class LinkBeanTest {
 		sutMock.setName("testName");
 		Link testLink = new Link();
 		testLink.setLink("randomLink");
-		doReturn(testUser).when(sutMock).getUserWithName("testName");
+		doReturn(testUser).when(sutMock).getUserByName("testName");
 		doReturn(externalContext).when(sutMock).getFacesExternalContext();
 		doReturn(testLink).when(sutMock).generateLink("testName");
 		
@@ -223,7 +223,7 @@ public class LinkBeanTest {
 		testLink.setUser("testUser");
 		testLink.setInsertDate(new Date());
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
-		doReturn(testUser).when(sutMock).getUserWithName(testLink.getUser());
+		doReturn(testUser).when(sutMock).getUserByName(testLink.getUser());
 		doReturn("changedPassword").when(sutMock).resetPassword(testUser);	
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
@@ -268,7 +268,7 @@ public class LinkBeanTest {
 		testLink.setUser("testUser");
 		testLink.setInsertDate(new Date());
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
-		doReturn(testUser).when(sutMock).getUserWithName(testLink.getUser());
+		doReturn(testUser).when(sutMock).getUserByName(testLink.getUser());
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
 		
@@ -283,7 +283,7 @@ public class LinkBeanTest {
 		testLink.setUser("testUser");
 		testLink.setInsertDate(new Date());
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
-		doReturn(new User()).when(sutMock).getUserWithName("testUser");
+		doReturn(new User()).when(sutMock).getUserByName("testUser");
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
 		
