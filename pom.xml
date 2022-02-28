@@ -205,6 +205,7 @@
 				</plugin>
 
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.3.2</version>
 					<dependencies>
@@ -219,6 +220,10 @@
 							<version>1.9.5</version>
 						</dependency>
 					</dependencies>
+					<configuration>
+						<preparationGoals>package -Pwar</preparationGoals>
+						<tagNameFormat>@{project.version}</tagNameFormat>
+					</configuration>
 				</plugin>
 
 				<plugin>
@@ -401,15 +406,15 @@
 
 	<distributionManagement>
 		<repository>
-            <id>autentia-repository</id>
-            <name>Autentia Releases Repository</name>
+			<id>autentia-repository</id>
+			<name>Autentia Releases Repository</name>
 			<url>${autentia.mvn.distribution}</url>
 		</repository>
-        <snapshotRepository>
-            <id>autentia-repository-snapshots</id>
-            <name>Autentia Snapshots Repository</name>
-            <url>${autentia.mvn.snapshots}</url>
-        </snapshotRepository>
+		<snapshotRepository>
+			<id>autentia-repository-snapshots</id>
+			<name>Autentia Snapshots Repository</name>
+			<url>${autentia.mvn.snapshots}</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
