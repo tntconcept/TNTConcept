@@ -24,7 +24,13 @@ jobs:
           cache: 'maven'
 
       - name: Install dependencies needed
-        run: mvn install:install-file -Dfile=./tntconcept-core/jars_to_install/jta-1.0.1B.jar -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B   -Dpackaging=jar
+        run: |
+         mvn install:install-file -Dfile=./tntconcept-core/jars_to_install/jta-1.0.1B.jar -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B   -Dpackaging=jar
+         mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/olap4j-0.9.6.jar -DgroupId=org.olap4j -DartifactId=olap4j -Dversion=0.9.6   -Dpackaging=jar
+         mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/mondrian-3.0.0.jar -DgroupId=mondrian -DartifactId=mondrian -Dversion=3.0.0   -Dpackaging=jar
+         mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/wcf-1.7.0.jar -DgroupId=com.tonbeller.wcf -DartifactId=wcf -Dversion=1.7.0   -Dpackaging=jar
+         mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/javacup-0.10k.jar -DgroupId=java_cup -DartifactId=javacup -Dversion=0.10k   -Dpackaging=jar
+         mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/org.eigenbase-xom-1.0.jar -DgroupId=org.eigenbase.xom -DartifactId=org.eigenbase-xom -Dversion=1.0   -Dpackaging=jar
 
       - name: Build with Maven
         run: mvn -B -DskipITs=false verify --file pom.xml
