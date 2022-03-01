@@ -24,7 +24,7 @@ jobs:
           cache: 'maven'
 
       - name: Install dependencies needed
-        run: mvn install:install-file -Dfile=/path/to/file.[jar | war] -DgroupId=groupId -DartifactId=artifactId -Dversion=version -Dpackaging=[jar | war]
+        run: mvn clean install -U
 
       - name: Build with Maven
         run: mvn -B -DskipITs=false verify --file pom.xml
