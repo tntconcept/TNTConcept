@@ -2,6 +2,24 @@
 
 service_name=tomcat
 
+download_artifact_gh(){
+    echo "Para conectarnos a Github necesitamos un usuario y un Personal Access Token (PAT)"
+    echo -n "username: "
+    read gh_user
+    echo -n "token: "
+    read -s gh_token
+    echo
+    echo -n "version de tntconcept-api-rest-kotlin: "
+    read version
+
+    echo "Descargando tntconcept-api-rest-kotlin-$version.war...."
+    curl -s -S -u $username:$gh_token https://api.github.com/repos/autentia/binnacle-api-kotlin/releases/tags/"$version" |
+     jq '.assets[] | select(.name | contains(".war")) .url' |
+     xargs curl -s -S -L -H 'Accept: application/octet-stream' -o tntconcept-api-rest-kotlin.war -u $username:$gh_token
+    echo "tntconcept-api-rest-kotlin.war descargado!"
+    echo
+}
+
 download_artifact(){
     echo "Para conectarnos a Nexus necesitamos un usuario y su contraseña"
     echo -n "username: "
@@ -31,7 +49,7 @@ is_success(){
 
 main(){
     echo "Proceso de actualización de TNTConcept-api-rest-kotlin en el entorno de pre-producción"
-    download_artifact
+    download_artifact_gh
 
     if is_success; then
 
