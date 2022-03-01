@@ -24,7 +24,7 @@ jobs:
           cache: 'maven'
 
       - name: Install dependencies needed
-        run: mvn clean install -U
+        run: mvn install:install-file -Dfile=./tntconcept-core/jars_to_install/jta-1.0.1B.jar -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B   -Dpackaging=jar
 
       - name: Build with Maven
         run: mvn -B -DskipITs=false verify --file pom.xml
