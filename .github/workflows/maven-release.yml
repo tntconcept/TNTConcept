@@ -1,8 +1,6 @@
 name: Maven Release
 
-on:
-  workflow_dispatch:
-    branches: [ test-pipelines ]
+on: workflow_dispatch
 
 jobs:
   release:
