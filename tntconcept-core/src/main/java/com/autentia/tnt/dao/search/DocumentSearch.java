@@ -33,7 +33,6 @@ package com.autentia.tnt.dao.search;
 import java.util.*;
 import java.math.*;
 
-import org.apache.log4j.Category;
 import org.hibernate.type.*;
 
 import com.autentia.tnt.businessobject.*;
