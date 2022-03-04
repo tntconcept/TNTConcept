@@ -38,7 +38,7 @@ public class StartupListener implements ServletContextListener
 {
   private static final Log log = LogFactory.getLog( StartupListener.class );
 
-  private static final String FILE_LOG4J = "/log4j2.properties";
+  private static final String FILE_LOG4J = "/log4j2.xml";
   
   public void contextInitialized( ServletContextEvent sce )
   {
