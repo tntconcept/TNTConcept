@@ -26,7 +26,6 @@ import com.autentia.tnt.businessobject.Link;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.LinkDAO;
 import com.autentia.tnt.dao.search.LinkSearch;
-import com.autentia.tnt.manager.admin.LinkManager;
 import com.autentia.tnt.util.SpringUtils;
 
 public class LinkManager {
@@ -43,8 +42,14 @@ public class LinkManager {
 	   */
 	  public static LinkManager getDefault()
 	  {
-	    return (LinkManager)SpringUtils.getSpringBean("linkManager");
+	    return (LinkManager)SpringUtils.getSpringBean("managerLink");
 	  }
+
+	/**
+	 * Empty constructor needed by CGLIB (Spring AOP)
+	 */
+	protected LinkManager() {
+	}
 	  
 	  /** 
 	   * Default constructor 

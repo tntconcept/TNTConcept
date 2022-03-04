@@ -41,7 +41,7 @@ public class ChangePasswordBeanTest {
     public void init() {
 
         when(applicationContext.getBean("userDetailsService")).thenReturn(authMgr);
-        when(applicationContext.getBean("userManager")).thenReturn(manager);
+        when(applicationContext.getBean("managerUser")).thenReturn(manager);
         when(applicationContext.getBean("configuration")).thenReturn(configurationUtil);
 
         when(authMgr.getCurrentPrincipal()).thenReturn(principal);
