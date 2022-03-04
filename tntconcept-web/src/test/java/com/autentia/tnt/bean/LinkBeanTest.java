@@ -133,9 +133,9 @@ public class LinkBeanTest {
 		doReturn(testLink).when(sutMock).generateLink("testName");
 		
 		String result = sutMock.passwordResetRequest();
-		
+
 		verify(sutMock).sendMail(testLink, "test@mail.com");
-		assertThat(result, equalTo("emailSent"));	
+		assertThat(result, equalTo("emailSent"));
 	}
 	
 	@Test
@@ -148,9 +148,9 @@ public class LinkBeanTest {
 		doReturn(testUser).when(userManager).getUserByLogin("testName");
 		
 		String result = sutMock.passwordResetRequest();
-		
+
 		verify(sutMock, never()).sendMail((Link) any(), any());
-		assertThat(result, equalTo("emailSent"));
+		assertThat(result, equalTo("emailSentFailed"));
 		
 		
 	}
@@ -161,9 +161,9 @@ public class LinkBeanTest {
 		doReturn(new User()).when(userManager).getUserByLogin("testName");
 		
 		String result = sutMock.passwordResetRequest();
-		
+
 		verify(sutMock, never()).sendMail((Link) any(), any());
-		assertThat(result, equalTo("emailSent"));	
+		assertThat(result, equalTo("emailSentFailed"));
 	}
 	
 	@Test
