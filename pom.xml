@@ -73,8 +73,8 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git://github.com/autentia/TNTConcept.git</connection>
-		<developerConnection>scm:git:git@github.com:autentia/TNTConcept.git</developerConnection>
+		<connection>scm:git:https://github.com/autentia/TNTConcept</connection>
+		<developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
 		<url>https://github.com/autentia/TNTConcept</url>
 		<tag>tntconcept-parent-0.27.5</tag>
 	</scm>
@@ -211,8 +211,7 @@
 					<configuration>
 						<preparationGoals>package -Pwar</preparationGoals>
 						<tagNameFormat>@{project.version}</tagNameFormat>
-					</configuration>
-					<dependencies>
+					</configuration>					<dependencies>
 						<dependency>
 							<groupId>org.apache.maven.scm</groupId>
 							<artifactId>maven-scm-api</artifactId>
