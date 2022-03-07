@@ -32,7 +32,7 @@
 	<!-- </repositories> -->
 
 	<build>
-		<finalName>${project.final.name}</finalName>
+		<finalName>${project.final.name}-web</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
