@@ -17,7 +17,7 @@
 	</description>
 	
 	<build>
-		<finalName>tntconcept-web-tomcat</finalName>
+		<finalName>tntconcept</finalName>
 		<plugins>
 			<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -25,7 +25,7 @@
 					<configuration>
 							<server>${tomcat.server.name}</server>
 							<url>${tomcat.server.url}</url>
-							<path>/tntconcept</path>
+							<path>/tntconcept-web-tomcat</path>
 							<update>true</update>
 					</configuration>
 			</plugin> 

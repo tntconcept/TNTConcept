@@ -32,7 +32,7 @@
 	<!-- </repositories> -->
 
 	<build>
-		<finalName>tntconcept-web</finalName>
+		<finalName>${project.final.name}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
