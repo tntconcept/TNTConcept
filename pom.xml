@@ -223,10 +223,6 @@
 							<version>1.9.5</version>
 						</dependency>
 					</dependencies>
-					<configuration>
-						<preparationGoals>package -Pwar</preparationGoals>
-						<tagNameFormat>@{project.version}</tagNameFormat>
-					</configuration>
 				</plugin>
 
 				<plugin>
