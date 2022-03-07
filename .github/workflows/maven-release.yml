@@ -37,6 +37,6 @@ jobs:
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "target/*.war"
+          artifacts: "tntconcept-core/target/*.jar,tntconcept-test/target/*.jar,tntconcept-web/target/*.war,tntconcept-web-tomcat/target/*.war"
           tag: ${{ steps.set-tag-version.outputs.tag-version }}
           token: ${{ secrets.GITHUB_TOKEN }}
