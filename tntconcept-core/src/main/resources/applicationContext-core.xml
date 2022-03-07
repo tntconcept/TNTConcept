@@ -138,7 +138,7 @@
 	<bean id="managerUserCategory" class="com.autentia.tnt.manager.admin.UserCategoryManager">
 		<constructor-arg ref="daoUserCategory" />
 	</bean>
-	<bean id="userManager" class="com.autentia.tnt.manager.admin.UserManager">
+	<bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
 		<constructor-arg ref="daoUser" />
 	</bean>
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
@@ -339,7 +339,7 @@
         <property name="contactDAO" ref="daoContact"></property>
         <property name="entityChangeDAO" ref="daoEntityChange"></property>
 	</bean>
-	<bean id="linkManager" class="com.autentia.tnt.manager.admin.LinkManager">
+	<bean id="managerLink" class="com.autentia.tnt.manager.admin.LinkManager">
 		<constructor-arg ref="daoLink" />
 	</bean>
 

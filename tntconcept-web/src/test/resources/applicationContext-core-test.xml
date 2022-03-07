@@ -155,10 +155,10 @@
     <bean id="managerRequestHoliday" class="com.autentia.tnt.manager.holiday.RequestHolidayManager">
         <constructor-arg ref="daoRequestHoliday" />
     </bean>
-    <bean id="userManager" class="com.autentia.tnt.manager.admin.UserManager">
+    <bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
         <constructor-arg ref="daoUser" />
     </bean>
-    <bean id="linkManager" class="com.autentia.tnt.manager.admin.LinkManager">
+    <bean id="managerLink" class="com.autentia.tnt.manager.admin.LinkManager">
 		<constructor-arg ref="daoLink" />
 	</bean>	
 
