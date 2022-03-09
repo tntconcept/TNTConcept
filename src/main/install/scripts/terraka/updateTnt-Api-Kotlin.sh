@@ -52,29 +52,26 @@ main(){
     download_artifact_gh
 
     if is_success; then
-
-	deploy_artifact
-        if [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q ${service_name})` ]; then
-            echo "Levantando servicio ${service_name}..."
-	    echo	
-            docker-compose up -d ${service_name}
-        else
+      deploy_artifact
+      if [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q ${service_name})` ]; then
+          echo "Levantando servicio ${service_name}..."
+          echo
+          docker-compose up -d ${service_name}
+      else
             echo "Reiniciando servicio ${service_name}..."
-	    echo
+            echo
             docker-compose restart ${service_name}
-	fi
+      fi
     fi
-
 
     echo
     if is_success; then
-    	echo "Ya está la nueva versión de TNTConcept-api-rest-kotlin actualizada, para ello dirijase a"
-    	echo "http://192.168.168.5:18080/tntconcept-api-rest-kotlin/"
+      echo "Ya está la nueva versión de TNTConcept-api-rest-kotlin actualizada, para ello dirijase a"
+      echo "http://192.168.168.5:18080/tntconcept-api-rest-kotlin/"
     else
-	echo "Ha ocurrido un error al desplegar la nueva version"
+      echo "Ha ocurrido un error al desplegar la nueva version"
     fi
 }
-
 main
 
 
