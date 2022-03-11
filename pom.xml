@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.46.1-SNAPSHOT</version>
+	<version>0.46.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
@@ -73,8 +73,8 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git://github.com/autentia/TNTConcept.git</connection>
-		<developerConnection>scm:git:git@github.com:autentia/TNTConcept.git</developerConnection>
+		<connection>scm:git:https://github.com/autentia/TNTConcept</connection>
+		<developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
 		<url>https://github.com/autentia/TNTConcept</url>
 		<tag>tntconcept-parent-0.27.5</tag>
 	</scm>
@@ -205,9 +205,13 @@
 				</plugin>
 
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.3.2</version>
-					<dependencies>
+					<configuration>
+						<preparationGoals>package -Pwar</preparationGoals>
+						<tagNameFormat>@{project.version}</tagNameFormat>
+					</configuration>					<dependencies>
 						<dependency>
 							<groupId>org.apache.maven.scm</groupId>
 							<artifactId>maven-scm-api</artifactId>
