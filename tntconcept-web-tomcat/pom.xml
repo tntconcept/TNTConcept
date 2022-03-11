@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.autentia.tnt</groupId>
 		<artifactId>tntconcept-parent</artifactId>
-		<version>0.46.1-SNAPSHOT</version>
+		<version>0.46.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tntconcept-web-tomcat</artifactId>
@@ -17,7 +17,7 @@
 	</description>
 	
 	<build>
-		<finalName>tntconcept</finalName>
+		<finalName>${project.final.name}-web-tomcat</finalName>
 		<plugins>
 			<plugin>
 					<groupId>org.codehaus.mojo</groupId>

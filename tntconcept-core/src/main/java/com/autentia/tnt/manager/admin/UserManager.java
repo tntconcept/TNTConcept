@@ -19,10 +19,8 @@ package com.autentia.tnt.manager.admin;
 
 
 
-import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -33,9 +31,7 @@ import com.autentia.tnt.dao.hibernate.DocumentCategoryDAO;
 import com.autentia.tnt.dao.hibernate.UserDAO;
 import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.manager.document.DocumentCategoryManager;
-import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
-import com.autentia.tnt.manager.security.AuthenticationManager;
 
 
 public class UserManager
@@ -58,10 +54,15 @@ public class UserManager
    */
   public static UserManager getDefault()
   {
-    return (UserManager)SpringUtils.getSpringBean("userManager");
+    return (UserManager)SpringUtils.getSpringBean("managerUser");
   }
 
-	
+    /**
+     * Empty constructor needed by CGLIB (Spring AOP)
+     */
+    protected UserManager() {
+    }
+
   /** 
    * Default constructor 
    * @deprecated do not construct managers alone: use Spring's declared beans
@@ -88,7 +89,11 @@ public class UserManager
   public User getEntityById(int id){
     return userDAO.loadById(id);
   }
-	
+
+  public User getUserByLogin(String login){
+      return userDAO.searchByLogin(login);
+  }
+
   /**
    * Insert user. 
    */

@@ -36,6 +36,10 @@
     		<from-outcome>emailSent</from-outcome>
     		<to-view-id>/root.jsp</to-view-id>
     	</navigation-case>
+        <navigation-case>
+            <from-outcome>emailSentFailed</from-outcome>
+            <to-view-id>/passwordChangeForm.jsp</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
