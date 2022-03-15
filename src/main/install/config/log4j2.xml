@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ABSOLUTE} %5p %c{1}:%L - %m%n"/>
+        </Console>
+        <RollingFile name="file" fileName="/tmp/tntconcept/tntconcept.log"
+                     filePattern="/tmp/tntconcept/tntconcept-%i.log">
+            <PatternLayout>
+                <Pattern>%d{DATE} %5p %c{1} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="security" fileName="/tmp/tntconcept/security.log"
+                     filePattern="/tmp/tntconcept/security-%i.log">
+            <PatternLayout>
+                <Pattern>%d{DATE} %5p %c{1} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <File name="migration" fileName="/tmp/tntconcept/migration.log">
+            <PatternLayout>
+                <Pattern>%d{DATE} %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.autentia.tnt" level="warn" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="com.autentia.tnt.manager.data.MigrationManager" level="info" additivity="false">
+            <AppenderRef ref="migration"/>
+        </Logger>
+        <Logger name="com.autentia.tnt.filter" level="info" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="com.autentia.tnt.listener" level="info" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="com.autentia.tnt.util.ApplicationLock" level="info" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.hibernate.impl.SessionFactoryObjectFactory" level="error" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="com.autentia.tnt.manager.report.ReportManager" level="info" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+        <Logger name="org.acegisecurity.event.authentication.LoggerListener" level="info" additivity="false">
+            <AppenderRef ref="security"/>
+        </Logger>
+        <Logger name="com.autentia.tnt.manager.security.impl.fixed.DefaultAuditLogger" level="info" additivity="false">
+            <AppenderRef ref="security"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="file"/>
+        </Root>
+    </Loggers>
+</Configuration>
