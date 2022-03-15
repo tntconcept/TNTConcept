@@ -21,15 +21,15 @@ import com.autentia.tnt.manager.report.ReportManager;
 import com.autentia.tnt.util.ApplicationLock;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 /**
  *
  * @author Ivan Zaera Avellon
@@ -37,8 +37,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public class StartupListener implements ServletContextListener
 {
   private static final Log log = LogFactory.getLog( StartupListener.class );
-  
-  private static final String FILE_LOG4J = "/log4j.properties";
+
+  private static final String FILE_LOG4J = "/log4j2.xml";
   
   public void contextInitialized( ServletContextEvent sce )
   {
@@ -74,7 +74,9 @@ public class StartupListener implements ServletContextListener
       {
         throw new FileNotFoundException(log4jProperties);
       }
-      PropertyConfigurator.configure(log4jProperties);
+
+      Configurator.initialize(null,log4jProperties );
+
       log.info("contextInitialized - configuring LOG4J system with file "+log4jProperties);
       
       // Try to create essential directories
