@@ -2,6 +2,24 @@
 
 service_name=tomcat
 
+download_artifact_gh(){
+    echo "Para conectarnos a Github necesitamos un usuario y un Personal Access Token (PAT)"
+    echo -n "username: "
+    read gh_user
+    echo -n "token: "
+    read -s gh_token
+    echo
+    echo -n "version de tntconcept-web: "
+    read version
+
+    echo "Descargando tntconcept-$version.war...."
+    curl -s -S -u $username:$gh_token https://api.github.com/repos/autentia/TNTConcept/releases/tags/"$version" |
+     jq '.assets[] | select(.name | contains("-tomcat.war")) .url' |
+     xargs curl -s -S -L -H 'Accept: application/octet-stream' -o tntconcept.war -u $username:$gh_token
+    echo "tntconcept.war descargado!"
+    echo
+}
+
 download_artifact(){
     echo "Para conectarnos a Nexus necesitamos un usuario y su contraseña"
     echo -n "username: "
@@ -31,29 +49,27 @@ is_success(){
 
 main(){
     echo "Proceso de actualización de TNTConcept en el entorno de pre-producción"
-    download_artifact
+    download_artifact_gh
 
     if is_success; then
-
-	deploy_artifact
-        if [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q ${service_name})` ]; then
-            echo "Levantando servicio ${service_name}..."
-	    echo	
-            docker-compose up -d ${service_name}
-        else
-            echo "Reiniciando servicio ${service_name}..."
-	    echo
-            docker-compose restart ${service_name}
-	fi
+	    deploy_artifact
+      if [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q ${service_name})` ]; then
+        echo "Levantando servicio ${service_name}..."
+	      echo
+        docker-compose up -d ${service_name}
+      else
+        echo "Reiniciando servicio ${service_name}..."
+	      echo
+        docker-compose restart ${service_name}
+	    fi
     fi
-
 
     echo
     if is_success; then
     	echo "Ya está la nueva versión de TNT actualizada, para ello dirijase a"
     	echo "http://192.168.168.5:18080/tntconcept/"
     else
-	echo "Ha ocurrido un error al desplegar la nueva version"
+	    echo "Ha ocurrido un error al desplegar la nueva version"
     fi
 }
 
