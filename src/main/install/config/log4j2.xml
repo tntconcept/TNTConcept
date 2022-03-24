@@ -4,8 +4,8 @@
         <Console name="stdout" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ABSOLUTE} %5p %c{1}:%L - %m%n"/>
         </Console>
-        <RollingFile name="file" fileName="/tmp/tntconcept/tntconcept.log"
-                     filePattern="/tmp/tntconcept/tntconcept-%i.log">
+        <RollingFile name="file" fileName="/usr/local/tomcat/logs/tntconcept.log"
+                     filePattern="/usr/local/tomcat/logs/tntconcept-%i.log">
             <PatternLayout>
                 <Pattern>%d{DATE} %5p %c{1} - %m%n</Pattern>
             </PatternLayout>
@@ -14,8 +14,8 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
-        <RollingFile name="security" fileName="/tmp/tntconcept/security.log"
-                     filePattern="/tmp/tntconcept/security-%i.log">
+        <RollingFile name="security" fileName="/usr/local/tomcat/logs/security.log"
+                     filePattern="/usr/local/tomcat/logs/security-%i.log">
             <PatternLayout>
                 <Pattern>%d{DATE} %5p %c{1} - %m%n</Pattern>
             </PatternLayout>
@@ -24,7 +24,7 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
-        <File name="migration" fileName="/tmp/tntconcept/migration.log">
+        <File name="migration" fileName="/usr/local/tomcat/logs/migration.log">
             <PatternLayout>
                 <Pattern>%d{DATE} %m%n</Pattern>
             </PatternLayout>
