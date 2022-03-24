@@ -14,8 +14,8 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
-        <RollingFile name="security" fileName="/usr/local/tomcat/logs/security.log"
-                     filePattern="/usr/local/tomcat/logs/security-%i.log">
+        <RollingFile name="security" fileName="/usr/local/tomcat/logs/tntconcept-security.log"
+                     filePattern="/usr/local/tomcat/logs/tntconcept-security-%i.log">
             <PatternLayout>
                 <Pattern>%d{DATE} %5p %c{1} - %m%n</Pattern>
             </PatternLayout>
@@ -24,7 +24,7 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
-        <File name="migration" fileName="/usr/local/tomcat/logs/migration.log">
+        <File name="migration" fileName="/usr/local/tomcat/logs/tntconcept-migration.log">
             <PatternLayout>
                 <Pattern>%d{DATE} %m%n</Pattern>
             </PatternLayout>
