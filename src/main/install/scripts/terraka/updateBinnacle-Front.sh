@@ -43,12 +43,17 @@ deploy_artifact(){
     rm -rf ~/vagrant/terraka-dockers/tntconcept/services/apache/volumes/binnacle/
     mv binnacle ~/vagrant/terraka-dockers/tntconcept/services/apache/volumes/binnacle/
     rm  binnacle_front_int.zip
-    echo "Ya está la nueva versión de TNT-Binnacle actualizada, para ello dirijase a"
-    echo "http://192.168.168.5:38080/"
 }
 
 is_success(){
     [[ "$?" == 0 ]] && return
+}
+
+restart_docker(){
+  cd /home/autentia-ci/vagrant/terraka-dockers/tntconcept || exit
+  docker-compose restart
+  echo "Ya está la nueva versión de TNT-Binnacle actualizada, para ello dirijase a"
+  echo "http://192.168.168.5:38080/"
 }
 
 main(){
@@ -57,6 +62,7 @@ main(){
 
     if is_success; then
       deploy_artifact
+      restart_docker
     fi
 }
 
