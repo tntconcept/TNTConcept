@@ -41,16 +41,16 @@
 	<import value="java.util.*" />
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
-	<import value="com.autentia.tnt.util.ConfigurationUtil" />
+	<!--<import value="com.autentia.tnt.util.ConfigurationUtil" />-->
 	<parameter name="descripcion" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.de.actividad.por.organizacion.y.proyecto.description"]]></defaultValueExpression>
-	</parameter>	
+	</parameter>
 	<parameter name="Proyecto" isForPrompting="false" class="java.lang.Integer">
 		<parameterDescription><![CDATA[Project]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	
+
 	<parameter name="Fecha inicio" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
@@ -77,9 +77,9 @@ SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as project
  a.startDate,a.duration,a.description,sum(CASE WHEN a.billable=1
    					       then duration end) as 'fact',
 				      sum(CASE WHEN a.billable=0
-				      then duration end) as 'noFact' 
-FROM Activity a,Organization o,User u,Project p,ProjectRole r 
-where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
+				      then duration end) as 'noFact'
+FROM Activity a,Organization o,User u,Project p,ProjectRole r
+where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId
 and p.id=$P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
 group by a.id
 order by a.startDate,u.name) as tabla;]]></queryString>
@@ -97,7 +97,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
 	</variable>
-	
+
 	<variable name="sumHorasNoFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{noFact}]]></variableExpression>
 	</variable>
@@ -249,7 +249,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text1} + " " + $F{projectName} +" ( " + $F{orgName} + " )"]]>
 					</textFieldExpression>
 				</textField>
-				<image  onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<!--<image  onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="617"
 						y="8"
@@ -259,8 +259,8 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<graphicElement stretchType="NoStretch"/>
 					<imageExpression class="java.io.InputStream"><![CDATA[ConfigurationUtil.getDefault().getLogoAsStream()]]></imageExpression>
-				</image>
-				<subreport  isUsingCache="true">
+				</image>-->
+				<!--<subreport  isUsingCache="true">
 					<reportElement
 						x="213"
 						y="0"
@@ -272,7 +272,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_HEADER}]]></subreportExpression>
-				</subreport>
+				</subreport>-->
 			</band>
 		</title>
 		<pageHeader>
@@ -531,7 +531,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						key="line-5"/>
 					<graphicElement stretchType="NoStretch" pen="1Point"/>
 				</line>
-				<subreport  isUsingCache="true">
+				<!--<subreport  isUsingCache="true">
 					<reportElement
 						x="126"
 						y="13"
@@ -543,7 +543,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_FOOTER}]]></subreportExpression>
-				</subreport>
+				</subreport>-->
 			</band>
 		</pageFooter>
 		<lastPageFooter>
@@ -596,7 +596,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 						key="line-8"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
-				<subreport  isUsingCache="true">
+				<!--<subreport  isUsingCache="true">
 					<reportElement
 						x="126"
 						y="13"
@@ -608,7 +608,7 @@ order by a.startDate,u.name) as tabla;]]></queryString>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_FOOTER}]]></subreportExpression>
-				</subreport>
+				</subreport>-->
 			</band>
 		</lastPageFooter>
 		<summary>
