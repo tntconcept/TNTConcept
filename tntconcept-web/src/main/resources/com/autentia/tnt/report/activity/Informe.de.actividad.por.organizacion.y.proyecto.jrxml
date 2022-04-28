@@ -119,6 +119,33 @@
 	<field name="hasImage" class="java.lang.Boolean">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+
+	<group name = "CountryGroup">
+		<groupFooter>
+			<band height = "100">
+
+				<subreport isUsingCache="false">
+					<reportElement x="5" y="0" width="200" height="100"/>
+					<subreportParameter name="Proyecto">
+						<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Fecha inicio">
+						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Fecha fin">
+						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_TABLA2}]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+
+	</group>
+
 	<background>
 		<band height="0"  isSplitAllowed="true" >
 		</band>
@@ -264,9 +291,9 @@
 					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<!--resolver problema-->
-				<textFieldExpression class="java.lang.String">
+<!--				<textFieldExpression class="java.lang.String">
 					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text1} + " " + $F{projectName} +" ( " + $F{orgName} + " )"]]>
-				</textFieldExpression>
+				</textFieldExpression>-->
 			</textField>
 			<image  onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
@@ -298,10 +325,10 @@
 		<band height="6"  isSplitAllowed="true" >
 		</band>
 	</pageHeader>
-	<detail>
-		<band height="228" isSplitAllowed="true" >
-			<subreport>
-				<reportElement x="5" y="0" width="200" height="100" key="419b12f7-47ab-403f-bd4a-9bc9d25f7b93"/>
+	<detail  >
+		<band height="100" isSplitAllowed="true" >
+			<subreport isUsingCache="false">
+				<reportElement x="5" y="0" width="200" height="100" />
 				<subreportParameter name="Proyecto">
 					<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -317,25 +344,11 @@
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_TABLA1}]]></subreportExpression>
 			</subreport>
-			<subreport>
-				<reportElement x="5" y="116" width="200" height="100" key="43224a28-7d65-4383-acb6-c172562bef2b"/>
-				<subreportParameter name="Proyecto">
-					<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="Fecha inicio">
-					<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="Fecha fin">
-					<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
-					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_TABLA2}]]></subreportExpression>
-			</subreport>
+
 		</band>
 	</detail>
+
+
 	<columnFooter>
 		<band height="0"  isSplitAllowed="true" >
 		</band>
@@ -390,7 +403,7 @@
 						key="line-5"/>
 				<graphicElement stretchType="NoStretch" pen="1Point"/>
 			</line>
-			<subreport  isUsingCache="true">
+			<subreport  isUsingCache="false">
 				<reportElement
 						x="126"
 						y="13"
@@ -470,9 +483,9 @@
 			</subreport>
 		</band>
 	</lastPageFooter>
-	<summary>
+	<summary >
 		<band height="123" isSplitAllowed="true" >
-			<subreport>
+			<subreport isUsingCache="false">
 				<reportElement x="5" y="0" width="200" height="100" key="11ef53a0-a21c-4a07-9910-a623fdbbd5c9"/>
 				<subreportParameter name="Proyecto">
 					<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
