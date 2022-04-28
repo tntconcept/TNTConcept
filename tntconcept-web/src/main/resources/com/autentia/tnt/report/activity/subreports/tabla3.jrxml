@@ -62,11 +62,11 @@ order by a.startDate,u.name) as tabla;]]>
 	<summary>
 		<band height="45">
 			<rectangle radius="3">
-				<reportElement key="rectangle-1" x="-3" y="0" width="770" height="14" backcolor="#CCCCFF"/>
+				<reportElement key="rectangle-1" x="4" y="0" width="170" height="16" backcolor="#CCCCFF"/>
 				<graphicElement stretchType="NoStretch" pen="None"/>
 			</rectangle>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-23" x="0" y="0" width="78" height="16"/>
+				<reportElement key="staticText-23" x="8" y="0" width="48" height="16"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
@@ -74,25 +74,25 @@ order by a.startDate,u.name) as tabla;]]>
 				<textFieldExpression><![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text6}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-23" x="78" y="0" width="80" height="16" />
+				<reportElement key="staticText-23" x="68" y="0" width="48" height="16" />
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text10}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="158" y="0" width="80" height="16" />
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Verdana" size="6" isBold="true"/>
+
+			<textField isBlankWhenNull="false">
+				<reportElement key="staticText-23" x="119" y="0" width="48" height="16" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[Horas totales]]></text>
-			</staticText>
-			<line>
-				<reportElement key="line-9" positionType="Float" x="0" y="37" width="760" height="1" forecolor="#CCCCFF" backcolor="#CCCCFF" />
-			</line>
+				<textFieldExpression><![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text12}]]></textFieldExpression>
+			</textField>
+
 			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
-				<reportElement key="textField-9" x="0" y="21" width="78" height="12" />
+				<reportElement key="textField-9" x="8" y="21" width="48" height="12" />
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
@@ -100,7 +100,7 @@ order by a.startDate,u.name) as tabla;]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{sumHorasFact}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
-				<reportElement key="textField-9" x="78" y="21" width="80" height="12" />
+				<reportElement key="textField-9" x="68" y="21" width="48" height="12" />
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
@@ -108,13 +108,17 @@ order by a.startDate,u.name) as tabla;]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{sumHorasNoFact}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
-				<reportElement key="textField-9" x="158" y="21" width="80" height="12" />
+				<reportElement key="textField-9" x="119" y="21" width="48" height="16" />
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{sumHorasFact}.doubleValue() + $V{sumHorasNoFact}.doubleValue()]]></textFieldExpression>
 			</textField>
+
+			<line>
+				<reportElement key="line-9" positionType="Float" x="7" y="37" width="165" height="1" forecolor="#CCCCFF" backcolor="#CCCCFF" />
+			</line>
 		</band>
 	</summary>
 </jasperReport>
