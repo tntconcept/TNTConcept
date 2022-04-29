@@ -84,41 +84,13 @@
 		<defaultValueExpression ><![CDATA["tabla3"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from Activity limit 1]]>
+		<![CDATA[select o.name as orgName, p.name as projectName
+			from Organization o,Project p
+			where p.id=1 and o.id = p.organizationId]]>
 	</queryString>
-	<field name="id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="userId" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="startDate" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="duration" class="java.lang.Integer">
-		<fieldDescription><![CDATA[DuraciÃ³n en minutos]]></fieldDescription>
-	</field>
-	<field name="description" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="billable" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="roleId" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="departmentId" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="insertDate" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="updateDate" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="hasImage" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+
+	<field name="orgName" class="java.lang.String"/>
+	<field name="projectName" class="java.lang.String"/>
 
 	<group name = "CountryGroup">
 		<groupFooter>
@@ -290,10 +262,9 @@
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="14"/>
 				</textElement>
-				<!--resolver problema-->
-<!--				<textFieldExpression class="java.lang.String">
+				<textFieldExpression class="java.lang.String">
 					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text1} + " " + $F{projectName} +" ( " + $F{orgName} + " )"]]>
-				</textFieldExpression>-->
+				</textFieldExpression>
 			</textField>
 			<image  onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
