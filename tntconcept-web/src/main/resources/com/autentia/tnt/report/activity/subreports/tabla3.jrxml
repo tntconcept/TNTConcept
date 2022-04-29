@@ -59,7 +59,7 @@ order by a.startDate,u.name) as tabla;]]>
 	<background>
 		<band isSplitAllowed="true"/>
 	</background>
-	<summary>
+	<pageFooter>
 		<band height="45">
 			<rectangle radius="3">
 				<reportElement key="rectangle-1" x="4" y="0" width="170" height="16" backcolor="#CCCCFF"/>
@@ -120,5 +120,5 @@ order by a.startDate,u.name) as tabla;]]>
 				<reportElement key="line-9" positionType="Float" x="7" y="37" width="165" height="1" forecolor="#CCCCFF" backcolor="#CCCCFF" />
 			</line>
 		</band>
-	</summary>
+	</pageFooter>
 </jasperReport>
