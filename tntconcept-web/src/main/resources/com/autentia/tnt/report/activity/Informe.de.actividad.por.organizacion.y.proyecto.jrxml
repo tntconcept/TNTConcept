@@ -93,10 +93,34 @@
 	<field name="orgName" class="java.lang.String"/>
 	<field name="projectName" class="java.lang.String"/>
 
-	<group name = "CountryGroup">
-		<groupFooter>
-			<band height = "100">
 
+	<group name = "B">
+		<groupFooter>
+			<band height="123" isSplitAllowed="true" >
+				<subreport isUsingCache="false">
+					<reportElement x="5" y="0" width="200" height="100" key="11ef53a0-a21c-4a07-9910-a623fdbbd5c9"/>
+					<subreportParameter name="Proyecto">
+						<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Fecha inicio">
+						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Fecha fin">
+						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
+						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_TABLA3} ]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+	</group>
+
+	<group name = "tabla2">
+		<groupFooter>
+			<band height = "100" isSplitAllowed="true">
 				<subreport isUsingCache="false">
 					<reportElement x="5" y="0" width="200" height="100"/>
 					<subreportParameter name="Proyecto">
@@ -116,7 +140,6 @@
 				</subreport>
 			</band>
 		</groupFooter>
-
 	</group>
 
 	<background>
@@ -455,26 +478,5 @@
 			</subreport>
 		</band>
 	</lastPageFooter>
-	<summary >
-		<band height="123" isSplitAllowed="true" >
-			<subreport isUsingCache="false">
-				<reportElement x="5" y="0" width="200" height="100" key="11ef53a0-a21c-4a07-9910-a623fdbbd5c9"/>
-				<subreportParameter name="Proyecto">
-					<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="Fecha inicio">
-					<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="Fecha fin">
-					<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
-					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_TABLA3} ]]></subreportExpression>
-			</subreport>
-		</band>
-	</summary>
 </jasperReport>
 
