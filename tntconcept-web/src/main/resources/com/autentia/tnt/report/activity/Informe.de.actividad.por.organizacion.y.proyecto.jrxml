@@ -87,7 +87,6 @@
 		<![CDATA[select o.name as orgName, p.name as projectName
 			from Organization o,Project p
 			where p.organizationId=o.id and p.id=$P{Proyecto}
-			limit 1
 			]]>
 	</queryString>
 
