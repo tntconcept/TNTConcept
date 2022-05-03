@@ -1,6 +1,6 @@
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		name="tabla3"
+		name="projectSummary"
 		columnCount="1"
 		printOrder="Vertical"
 		orientation="Portrait"

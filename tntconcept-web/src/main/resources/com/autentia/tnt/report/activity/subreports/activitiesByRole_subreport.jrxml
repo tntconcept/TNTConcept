@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-        name="tabla2"
+        name="activitiesByRole_subreport"
         columnCount="1"
         printOrder="Vertical"
         orientation="Portrait"
@@ -44,7 +44,8 @@ SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as project
 FROM Activity a,Organization o,User u,Project p,ProjectRole r
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId
 and p.id=$P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-group by roleName) as tabla;]]>
+group by roleName
+order by roleName) as tabla;]]>
     </queryString>
     <field name="orgName" class="java.lang.String"/>
     <field name="userName" class="java.lang.String"/>

@@ -71,17 +71,18 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_TABLA1" isForPrompting="true" class="java.lang.String">
+	<parameter name="SUBREPORT_USER" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["tabla1"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["activitiesByUser_subreport"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_TABLA2" isForPrompting="true" class="java.lang.String">
+
+	<parameter name="SUBREPORT_ROLE" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["tabla2"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["activitiesByRole_subreport"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="SUBREPORT_TABLA3" isForPrompting="true" class="java.lang.String">
+	<parameter name="SUBREPORT_SUMMARY" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
-		<defaultValueExpression ><![CDATA["tabla3"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["projectSummary"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select o.name as orgName, p.name as projectName
@@ -94,7 +95,7 @@
 	<field name="projectName" class="java.lang.String"/>
 
 
-	<group name = "B">
+	<group name = "SummarySubreport">
 		<groupFooter>
 			<band height="123" isSplitAllowed="true" >
 				<subreport isUsingCache="false">
@@ -112,16 +113,16 @@
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression><![CDATA[$P{SUBREPORT_TABLA3} ]]></subreportExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_SUMMARY} ]]></subreportExpression>
 				</subreport>
 			</band>
 		</groupFooter>
 	</group>
 
-	<group name = "tabla2">
+	<group name = "ActivitiesByRoleSubreport">
 		<groupFooter>
 			<band height = "100" isSplitAllowed="true">
-				<subreport isUsingCache="false">
+				<subreport isUsingCache="true">
 					<reportElement x="5" y="0" width="200" height="100"/>
 					<subreportParameter name="Proyecto">
 						<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
@@ -136,7 +137,7 @@
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression><![CDATA[$P{SUBREPORT_TABLA2}]]></subreportExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_ROLE}]]></subreportExpression>
 				</subreport>
 			</band>
 		</groupFooter>
@@ -146,6 +147,7 @@
 		<band height="0"  isSplitAllowed="true" >
 		</band>
 	</background>
+
 	<title>
 		<band height="81"  isSplitAllowed="true" >
 			<line direction="TopDown">
@@ -316,13 +318,15 @@
 			</subreport>
 		</band>
 	</title>
+
 	<pageHeader>
 		<band height="6"  isSplitAllowed="true" >
 		</band>
 	</pageHeader>
-	<detail  >
+
+	<detail >
 		<band height="100" isSplitAllowed="true" >
-			<subreport isUsingCache="false">
+			<subreport isUsingCache="true">
 				<reportElement x="5" y="0" width="200" height="100" />
 				<subreportParameter name="Proyecto">
 					<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
@@ -337,7 +341,7 @@
 					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_TABLA1}]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_USER}]]></subreportExpression>
 			</subreport>
 
 		</band>
@@ -348,6 +352,7 @@
 		<band height="0"  isSplitAllowed="true" >
 		</band>
 	</columnFooter>
+
 	<pageFooter>
 		<band height="50"  isSplitAllowed="true" >
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -398,7 +403,7 @@
 						key="line-5"/>
 				<graphicElement stretchType="NoStretch" pen="1Point"/>
 			</line>
-			<subreport  isUsingCache="false">
+			<subreport  isUsingCache="true">
 				<reportElement
 						x="126"
 						y="13"
@@ -478,5 +483,6 @@
 			</subreport>
 		</band>
 	</lastPageFooter>
+
 </jasperReport>
 
