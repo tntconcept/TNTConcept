@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		name="tabla1"
+		name="activitiesByUser_subreport"
 		columnCount="1"
 		printOrder="Vertical"
 		orientation="Portrait"
