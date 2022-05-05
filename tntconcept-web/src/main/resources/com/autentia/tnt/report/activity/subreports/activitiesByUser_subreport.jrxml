@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		name="activitiesByUser_subreport"
+		columnCount="1"
+		printOrder="Vertical"
+		orientation="Portrait"
+		pageWidth="141"
+		pageHeight="802"
+		columnWidth="141"
+		columnSpacing="0"
+		leftMargin="0"
+		rightMargin="0"
+		topMargin="0"
+		bottomMargin="0"
+		whenNoDataType="NoPages"
+		isTitleNewPage="false"
+		isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<parameter name="Proyecto" class="java.lang.Integer" isForPrompting="false">
+		<parameterDescription><![CDATA[$P{Proyecto}]]></parameterDescription>
+		<defaultValueExpression><![CDATA[new Integer (1)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startDate" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[$P{startDate}]]></parameterDescription>
+		<defaultValueExpression><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endDate" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[$P{endDate}]]></parameterDescription>
+		<defaultValueExpression><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[
+			select userName,
+				   roleName,
+				   startDate,
+				   duration,
+				   description,
+				   COALESCE(fact / 60, 0)   as fact,
+				   COALESCE(noFact / 60, 0) as noFact,
+				   projectName
+			from (
+					 SELECT u.name                         as userName,
+							r.name                         as roleName,
+							p.name                         as projectName,
+							a.startDate,
+							a.duration,
+							a.description,
+							sum(CASE
+									WHEN a.billable = 1
+										then duration end) as 'fact',
+							sum(CASE
+									WHEN a.billable = 0
+										then duration end) as 'noFact'
+					 FROM Activity a,
+						  User u,
+						  Project p,
+						  ProjectRole r
+					 where u.id = a.userId
+					   and r.id = a.roleId
+					   and p.id = r.projectId
+					   and p.id = $P{Proyecto} and a.startDate between $P{startDate} and $P{endDate}
+					 group by a.id
+					 order by a.startDate, u.name) as tabla;]]>
+	</queryString>
+
+	<field name="userName" class="java.lang.String"/>
+	<field name="roleName" class="java.lang.String"/>
+	<field name="startDate" class="java.sql.Timestamp"/>
+	<field name="duration" class="java.lang.Integer"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="fact" class="java.math.BigDecimal"/>
+	<field name="noFact" class="java.math.BigDecimal"/>
+	<field name="projectName" class="java.lang.String"/>
+	<variable name="sumHorasFact" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
+	</variable>
+	<variable name="sumHorasNoFact" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{noFact}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="0" isSplitAllowed="true"/>
+	</background>
+	<columnHeader>
+		<band height="18"  isSplitAllowed="true" >
+			<rectangle radius="3" >
+				<reportElement
+						x="4"
+						y="2"
+						width="770"
+						height="14"
+						backcolor="#CCCCFF"
+						key="rectangle-1"/>
+				<graphicElement stretchType="NoStretch" pen="None"/>
+			</rectangle>
+			<textField>
+				<reportElement
+						x="8"
+						y="4"
+						width="100"
+						height="10"
+						key="staticText-5"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">
+					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text2}]]>
+				</textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement
+						x="108"
+						y="4"
+						width="70"
+						height="10"
+						key="staticText-5"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">
+					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text9}]]>
+				</textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement
+						x="177"
+						y="4"
+						width="40"
+						height="10"
+						key="staticText-6"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">
+					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text3}]]>
+				</textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement
+						x="318"
+						y="4"
+						width="136"
+						height="10"
+						key="staticText-7"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement>
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">
+					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text4}]]>
+				</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self">
+				<reportElement
+						x="217"
+						y="1"
+						width="48"
+						height="16"
+						key="staticText-23"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">
+					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text6}]]>
+				</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self">
+				<reportElement
+						x="265"
+						y="1"
+						width="48"
+						height="16"
+						key="staticText-23"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String">
+					<![CDATA[$R{informe.de.actividad.por.organizacion.y.proyecto.text10}]]>
+				</textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" isSplitAllowed="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true">
+				<reportElement key="textField" x="177" y="4" width="40" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" x="318" y="4" width="363" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Left">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" x="8" y="4" width="100" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{userName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" x="108" y="4" width="70" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression  class="java.lang.String"><![CDATA[$F{roleName}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line-9" positionType="Float" x="7" y="21" width="760" height="1" forecolor="#CCCCFF" backcolor="#CCCCFF"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement key="textField-9" x="217" y="4" width="48" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fact}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+				<reportElement key="textField-9" x="265" y="4" width="48" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{noFact}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
