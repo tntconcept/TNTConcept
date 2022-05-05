@@ -24,12 +24,12 @@
 		<parameterDescription><![CDATA[$P{Proyecto}]]></parameterDescription>
 		<defaultValueExpression><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha inicio" class="java.sql.Timestamp">
-		<parameterDescription><![CDATA[$P{Fecha inicio}]]></parameterDescription>
+	<parameter name="startDate" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[$P{startDate}]]></parameterDescription>
 		<defaultValueExpression><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha fin" class="java.sql.Timestamp">
-		<parameterDescription><![CDATA[$P{Fecha fin}]]></parameterDescription>
+	<parameter name="endDate" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[$P{endDate}]]></parameterDescription>
 		<defaultValueExpression><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -62,7 +62,7 @@
 					 where u.id = a.userId
 					   and r.id = a.roleId
 					   and p.id = r.projectId
-					   and p.id = $P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+					   and p.id = $P{Proyecto} and a.startDate between $P{startDate} and $P{endDate}
 					 group by a.id
 					 order by a.startDate, u.name) as tabla;]]>
 	</queryString>
