@@ -51,11 +51,11 @@
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
 
-	<parameter name="Fecha inicio" isForPrompting="true" class="java.sql.Timestamp">
+	<parameter name="startDate" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha fin" isForPrompting="true" class="java.sql.Timestamp">
+	<parameter name="endDate" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
@@ -98,16 +98,16 @@
 	<group name = "SummarySubreport">
 		<groupFooter>
 			<band height="123" isSplitAllowed="true" >
-				<subreport isUsingCache="false">
+				<subreport isUsingCache="true">
 					<reportElement x="5" y="0" width="200" height="100" key="11ef53a0-a21c-4a07-9910-a623fdbbd5c9"/>
 					<subreportParameter name="Proyecto">
 						<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter name="Fecha inicio">
-						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					<subreportParameter name="startDate">
+						<subreportParameterExpression><![CDATA[$P{startDate}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter name="Fecha fin">
-						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					<subreportParameter name="endDate">
+						<subreportParameterExpression><![CDATA[$P{endDate}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
@@ -127,11 +127,11 @@
 					<subreportParameter name="Proyecto">
 						<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter name="Fecha inicio">
-						<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+					<subreportParameter name="startDate">
+						<subreportParameterExpression><![CDATA[$P{startDate}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter name="Fecha fin">
-						<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+					<subreportParameter name="endDate">
+						<subreportParameterExpression><![CDATA[$P{endDate}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
@@ -234,7 +234,7 @@
 				<textElement textAlignment="Left">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$P{Fecha inicio}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{startDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
@@ -248,7 +248,7 @@
 				<textElement textAlignment="Left">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$P{Fecha fin}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{endDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
@@ -262,7 +262,7 @@
 				<textElement textAlignment="Left">
 					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$P{Fecha inicio}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{startDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
@@ -275,7 +275,7 @@
 				<textElement textAlignment="Left">
 					<font fontName="Verdana" pdfFontName="Helvetica-Bold" isBold="true"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$P{Fecha fin}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{endDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
@@ -331,11 +331,11 @@
 				<subreportParameter name="Proyecto">
 					<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="Fecha inicio">
-					<subreportParameterExpression><![CDATA[$P{Fecha inicio}]]></subreportParameterExpression>
+				<subreportParameter name="startDate">
+					<subreportParameterExpression><![CDATA[$P{startDate}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="Fecha fin">
-					<subreportParameterExpression><![CDATA[$P{Fecha fin}]]></subreportParameterExpression>
+				<subreportParameter name="endDate">
+					<subreportParameterExpression><![CDATA[$P{endDate}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
