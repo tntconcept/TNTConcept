@@ -33,18 +33,38 @@
 		<defaultValueExpression><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select userName,roleName,startDate,duration,description,COALESCE(fact/60,0) as fact,COALESCE(noFact/60,0) as noFact, projectName from (
-
-SELECT u.name as userName,r.name as roleName,p.name as projectName,
- a.startDate,a.duration,a.description,sum(CASE WHEN a.billable=1
-   					       then duration end) as 'fact',
-				      sum(CASE WHEN a.billable=0
-				      then duration end) as 'noFact'
-FROM Activity a,User u,Project p,ProjectRole r
-where u.id=a.userId and r.id=a.roleId and p.id=r.projectId
-and p.id=$P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-group by a.id
-order by a.startDate,u.name) as tabla;]]>
+		<![CDATA[
+			select userName,
+				   roleName,
+				   startDate,
+				   duration,
+				   description,
+				   COALESCE(fact / 60, 0)   as fact,
+				   COALESCE(noFact / 60, 0) as noFact,
+				   projectName
+			from (
+					 SELECT u.name                         as userName,
+							r.name                         as roleName,
+							p.name                         as projectName,
+							a.startDate,
+							a.duration,
+							a.description,
+							sum(CASE
+									WHEN a.billable = 1
+										then duration end) as 'fact',
+							sum(CASE
+									WHEN a.billable = 0
+										then duration end) as 'noFact'
+					 FROM Activity a,
+						  User u,
+						  Project p,
+						  ProjectRole r
+					 where u.id = a.userId
+					   and r.id = a.roleId
+					   and p.id = r.projectId
+					   and p.id = $P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+					 group by a.id
+					 order by a.startDate, u.name) as tabla;]]>
 	</queryString>
 
 	<field name="userName" class="java.lang.String"/>
