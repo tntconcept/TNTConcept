@@ -7,6 +7,7 @@
 	<artifactId>tntconcept-parent</artifactId>
 	<version>0.46.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
 	<description>
@@ -486,6 +487,12 @@
 			<groupId>quartz</groupId>
 			<artifactId>quartz</artifactId>
 			<version>1.5.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.7</version>
 		</dependency>
 
 	</dependencies>
