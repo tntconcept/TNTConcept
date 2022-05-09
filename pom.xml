@@ -7,7 +7,6 @@
 	<artifactId>tntconcept-parent</artifactId>
 	<version>0.46.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
 	<description>
