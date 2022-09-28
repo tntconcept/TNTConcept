@@ -57,7 +57,7 @@
     <tr>
 	<td class="detailLabelRW">${msg['userHolidaysState.totalAvailable']}:</td>
 	<td class="detailFieldCell">
-         	       <h:outputText value="#{userHolidaysStateBean.userState.user.agreement.holidays}" />
+         	       <h:outputText value="#{userHolidaysStateBean.userState.yearAgreementHolidays}" />
  	      </td>
     </tr>
              
