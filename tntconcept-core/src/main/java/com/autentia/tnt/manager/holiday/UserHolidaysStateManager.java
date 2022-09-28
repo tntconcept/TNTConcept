@@ -39,6 +39,9 @@ import com.autentia.tnt.util.SpringUtils;
 
 public class UserHolidaysStateManager{
 
+    public static final int YEAR_NEW_AGREEMENT = 2022;
+    public static final int OLD_AGREEMENT_VACATIONS = 22;
+
     public static UserHolidaysStateManager getDefault(){
         return (UserHolidaysStateManager) SpringUtils.getSpringBean("managerUserHolidaysState");
     }
@@ -116,11 +119,9 @@ public class UserHolidaysStateManager{
         // and refresh the user instance agreement attribute
         usuario.setAgreement(agreement);
 
-        uhs.setTotalYear(agreement.getHolidays());
-
-        int acceptedHolidays = 0;
-
         if(year != null){
+
+            int acceptedHolidays = 0;
 
             HolidayManager fiestasManager = HolidayManager.getDefault();
 
@@ -195,9 +196,17 @@ public class UserHolidaysStateManager{
             int yearCharge = calAux.get(Calendar.YEAR);
             int yearContract = calAuxCont.get(Calendar.YEAR);
 
+            if(calAux.get(Calendar.YEAR) < YEAR_NEW_AGREEMENT){
+                uhs.setYearAgreementHolidays(OLD_AGREEMENT_VACATIONS);
+            }else{
+                uhs.setYearAgreementHolidays(usuario.getAgreement().getHolidays());
+            }
+
+            uhs.setTotalYear(uhs.getYearAgreementHolidays());
+
             if(yearCharge == yearContract){
                 // Dividimos los días de cada usuario entre los dias del año.
-                double ratio = uhs.getUser().getAgreement().getHolidays() / 360.0;
+                double ratio = uhs.getYearAgreementHolidays() / 360.0;
                 int dayContract = calAuxCont.get(Calendar.DAY_OF_YEAR);
                 int workedDays = (360 - dayContract);
                 double holidayDays = workedDays * ratio;
