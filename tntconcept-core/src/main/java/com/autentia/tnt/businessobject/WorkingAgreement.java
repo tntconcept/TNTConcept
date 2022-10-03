@@ -54,7 +54,7 @@ public class WorkingAgreement implements Serializable, ITransferObject{
         return id;
     }
 
-    private void setId(Integer id){
+    public void setId(Integer id){
         this.id = id;
     }
 
