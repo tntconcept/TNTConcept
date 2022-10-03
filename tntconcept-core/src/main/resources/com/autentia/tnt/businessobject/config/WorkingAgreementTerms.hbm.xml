@@ -21,23 +21,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.autentia.tnt.businessobject.WorkingAgreement" table="WorkingAgreement">
+    <class name="com.autentia.tnt.businessobject.WorkingAgreementTerms" table="WorkingAgreementTerms">
         <id name="id" type="java.lang.Integer">
             <generator class="native"/>
         </id>
-        <property name="name" type="java.lang.String"/>
-        <property name="description" type="java.lang.String"/>
-        <property name="holidays" type="int"/>
-        <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
-        <property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-        <property name="insertDate" type="java.util.Date" column="insertDate"/>
-        <property name="updateDate" type="java.util.Date" column="updateDate"/>
-        <property name="yearDuration" type="int"/>
-        <set name="terms" inverse="true" table="WorkingAgreementTerms" cascade="all-delete-orphan" lazy="false" fetch="select">
-            <key>
-                <column name="workingAgreementId" not-null="true"/>
-            </key>
-            <one-to-many class="com.autentia.tnt.businessobject.WorkingAgreementTerms"/>
-        </set>
+        <property name="effectiveFrom" type="java.util.Date" column="effectiveFrom"/>
+        <property name="vacation" type="java.lang.Integer" column="vacation"/>
+        <property name="annualWorkingTime" type="java.lang.Integer" column="annualWorkingTime"/>
+        <many-to-one name="workingAgreement" class="com.autentia.tnt.businessobject.WorkingAgreement" fetch="select" insert="false" update="false">
+            <column name="workingAgreementId" not-null="true" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

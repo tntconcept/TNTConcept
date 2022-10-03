@@ -111,6 +111,7 @@
     <mapping resource="com/autentia/tnt/businessobject/config/Setting.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Occupation.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/WorkingAgreement.hbm.xml" />
+    <mapping resource="com/autentia/tnt/businessobject/config/WorkingAgreementTerms.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Collaborator.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Commissioning.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/CommissioningDelay.hbm.xml" />
