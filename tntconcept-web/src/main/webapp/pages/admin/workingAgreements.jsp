@@ -149,7 +149,7 @@
       </f:facet>
 
       <t:commandLink action="#{workingAgreementBean.detail}" immediate="true">
-	<f:param name="rowid" value="#{workingAgreement.id}" />
+	    <f:param name="rowid" value="#{workingAgreement.id}" />
 		  <%-- String field --%>
 	  <h:outputText value="#{workingAgreement.holidays}" />
 	      </t:commandLink>
