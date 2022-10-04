@@ -96,7 +96,20 @@
               </td>
     </tr>
                                   
-    
+
+    <%-- Field: effectiveFrom --%>
+        <tr>
+            <td class="editLabelRW">*${msg['workingAgreement.effectiveFrom']}:</td>
+            <td class="editFieldCell">
+                      <h:panelGroup>
+                            <h:message styleClass="error" showSummary="true" showDetail="false" for="effectiveFrom" />
+                    		<h:inputText id="effectiveFrom" value="#{workingAgreementBean.effectiveFrom}" disabled="true">
+                    		    <f:converter converterId="autentia.dateConverter"/>
+                    		</h:inputText>
+        		        </h:panelGroup>
+                  </td>
+        </tr>
+
       <%-- Field: holidays --%>
     <tr>
     	    		<td class="editLabelRW">*${msg['workingAgreement.holidays']}:</td>
@@ -105,7 +118,7 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="holidays" />
-                			<h:inputText id="holidays" value="#{workingAgreementBean.holidays}" size="10" maxlength="2" required="true" styleClass="requiredFieldClass"/>
+                			<h:inputText id="holidays" value="#{workingAgreementBean.holidays}" size="10" maxlength="2" required="true" styleClass="requiredFieldClass" disabled="true"/>
     		          </h:panelGroup>
 
               </td>
@@ -118,7 +131,7 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="yearDuration" />
-            	<h:inputText id="yearDuration" value="#{workingAgreementBean.yearDuration}" size="10" maxlength="4" required="true" styleClass="requiredFieldClass">
+            	<h:inputText id="yearDuration" value="#{workingAgreementBean.yearDuration}" size="10" maxlength="4" required="true" styleClass="requiredFieldClass" disabled="true">
             		<f:converter converterId="autentia.MinuteToHourConverter"/>
             	</h:inputText>
                 			
