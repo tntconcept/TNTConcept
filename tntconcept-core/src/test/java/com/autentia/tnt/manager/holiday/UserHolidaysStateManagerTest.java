@@ -45,7 +45,7 @@ public class UserHolidaysStateManagerTest {
         final ArgumentCaptor<HolidaySearch> holidaySearchArgumentCaptor = ArgumentCaptor.forClass(HolidaySearch.class);
         final Date now = DateMother.from(2021, 1, 1);
 
-        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(Duration.ofHours(1765).toMinutes(), 22, terms));
+        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(terms));
         when(holidayManager.getAllEntities(holidaySearchArgumentCaptor.capture(), any())).thenReturn(holidays);
         when(requestHolidayManager.getAllEntities(requestHolidaySearchArgumentCaptor.capture(), any())).thenReturn(requestHolidays);
 
@@ -65,7 +65,7 @@ public class UserHolidaysStateManagerTest {
         final Date now = DateMother.from(1999, 1, 1);
         final User user = UserMother.random(workingAgreement, DateMother.from(1998, 1, 1));
 
-        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(annualWorkingTime, 22, terms));
+        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(terms));
         when(holidayManager.getAllEntities(holidaySearchArgumentCaptor.capture(), any())).thenReturn(Collections.singletonList(HolidayMother.random(DateMother.from(1999, Month.JANUARY.getValue(), 3))));
         when(requestHolidayManager.getAllEntities(requestHolidaySearchArgumentCaptor.capture(), any())).thenReturn(Collections.singletonList(RequestHolidayMother.random(DateMother.from(1999, Month.JANUARY.getValue(), 1), DateMother.from(1999, Month.JANUARY.getValue(), 5))));
 
@@ -85,7 +85,7 @@ public class UserHolidaysStateManagerTest {
         final Date now = DateMother.from(2025, 1, 1);
         final User user = UserMother.random(workingAgreement, DateMother.from(2000, 1, 1));
 
-        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(Duration.ofHours(1765).toMinutes(), 22, terms));
+        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(terms));
         when(holidayManager.getAllEntities(holidaySearchArgumentCaptor.capture(), any())).thenReturn(Collections.singletonList(HolidayMother.random(DateMother.from(2025, Month.JANUARY.getValue(), 3))));
         when(requestHolidayManager.getAllEntities(requestHolidaySearchArgumentCaptor.capture(), any())).thenReturn(Collections.singletonList(RequestHolidayMother.random(DateMother.from(2025, Month.JANUARY.getValue(), 1), DateMother.from(2025, Month.JANUARY.getValue(), 5))));
 
@@ -105,7 +105,7 @@ public class UserHolidaysStateManagerTest {
         final Date now = DateMother.from(1960, 1, 1);
         final User user = UserMother.random(workingAgreement, DateMother.from(1998, 1, 1));
 
-        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(Duration.ofHours(1765).toMinutes(), 22, terms));
+        when(workingAgreementDAO.loadById(user.getAgreement().getId())).thenReturn(WorkingAgreementMother.random(terms));
         when(holidayManager.getAllEntities(holidaySearchArgumentCaptor.capture(), any())).thenReturn(Collections.emptyList());
         when(requestHolidayManager.getAllEntities(requestHolidaySearchArgumentCaptor.capture(), any())).thenReturn(Collections.emptyList());
 
@@ -250,7 +250,7 @@ public class UserHolidaysStateManagerTest {
                     WorkingAgreementTermsMother.random(annualWorkingTime, 23, DateMother.from(2022, 7, 1))
             )
     );
-    private static final WorkingAgreement workingAgreement = WorkingAgreementMother.random(annualWorkingTime, 23, terms);
+    private static final WorkingAgreement workingAgreement = WorkingAgreementMother.random(terms);
     private static final User user = UserMother.random(workingAgreement, DateMother.from(2019, Month.JANUARY.getValue(), 1, 1, 0));
     private static final HolidaySearch expectedHolidaySearch = buildHolidaySearch(now);
     private static final RequestHolidaySearch expectedRequestHolidaySearch = buildRequestHolidays(now);
