@@ -20,6 +20,7 @@ package com.autentia.tnt.businessobject;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.autentia.tnt.dao.ITransferObject;
 
@@ -47,6 +48,8 @@ public class WorkingAgreement implements Serializable, ITransferObject{
     private Date updateDate;
 
     private int yearDuration;
+
+    private Set<WorkingAgreementTerms> terms;
 
     // Setters and getters
 
@@ -126,6 +129,14 @@ public class WorkingAgreement implements Serializable, ITransferObject{
      */
     public void setYearDuration(int yearDuration){
         this.yearDuration = yearDuration;
+    }
+
+    public Set<WorkingAgreementTerms> getTerms() {
+        return terms;
+    }
+
+    public void setTerms(Set<WorkingAgreementTerms> terms) {
+        this.terms = terms;
     }
 
     @Override
