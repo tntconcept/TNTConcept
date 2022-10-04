@@ -17,19 +17,11 @@
 
 package com.autentia.tnt.manager.holiday;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import com.autentia.tnt.businessobject.*;
 import org.apache.commons.lang.time.DateUtils;
 
-import com.autentia.tnt.businessobject.Holiday;
-import com.autentia.tnt.businessobject.HolidayState;
-import com.autentia.tnt.businessobject.RequestHoliday;
-import com.autentia.tnt.businessobject.User;
-import com.autentia.tnt.businessobject.UserHolidaysState;
-import com.autentia.tnt.businessobject.WorkingAgreement;
 import com.autentia.tnt.dao.hibernate.WorkingAgreementDAO;
 import com.autentia.tnt.dao.search.HolidaySearch;
 import com.autentia.tnt.dao.search.RequestHolidaySearch;
@@ -39,10 +31,7 @@ import com.autentia.tnt.util.SpringUtils;
 
 public class UserHolidaysStateManager {
 
-    public static final int YEAR_NEW_AGREEMENT = 2022;
-    public static final int OLD_AGREEMENT_VACATIONS = 22;
-
-    public static UserHolidaysStateManager getDefault(){
+    public static UserHolidaysStateManager getDefault() {
         return (UserHolidaysStateManager) SpringUtils.getSpringBean("managerUserHolidaysState");
     }
 
@@ -221,14 +210,24 @@ public class UserHolidaysStateManager {
     }
 
     private int findVacationsFromAgreement(Date year, User user) {
-        Calendar currentYearCalendar = Calendar.getInstance();
+        final Calendar currentYearCalendar = Calendar.getInstance();
         currentYearCalendar.setTime(year);
 
-        if (currentYearCalendar.get(Calendar.YEAR) < YEAR_NEW_AGREEMENT) {
-            return OLD_AGREEMENT_VACATIONS;
-        }
+        return user.getAgreement().getTerms()
+                .stream()
+                .filter((workingAgreementTerms) -> {
+                    final Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(workingAgreementTerms.getEffectiveFrom());
 
-        return user.getAgreement().getHolidays();
+                    return calendar.get(Calendar.YEAR) <= currentYearCalendar.get(Calendar.YEAR);
+                })
+                .max(Comparator.comparing(WorkingAgreementTerms::getEffectiveFrom))
+                .orElseGet(() -> {
+                    WorkingAgreementTerms workingAgreementTerms = new WorkingAgreementTerms();
+                    workingAgreementTerms.setVacation(0);
+                    return workingAgreementTerms;
+                })
+                .getVacation();
     }
 
     private int calculateTotalPermittedVacations(Date year, Date startDate, int vacations) {
@@ -256,9 +255,9 @@ public class UserHolidaysStateManager {
 
     /**
      * @return Devuelve el número de dias de vacaciones que le quedan a un usuario
-     *         en un año
+     * en un año
      */
-    public int getFreeDays(User user, Date year){
+    public int getFreeDays(User user, Date year) {
         UserHolidaysState state = this.calculateUserHolidaysState(user, year);
         return state.getTotalYear() - state.getTotalAccepted();
     }

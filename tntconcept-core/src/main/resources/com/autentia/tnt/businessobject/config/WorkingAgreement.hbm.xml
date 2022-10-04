@@ -27,12 +27,10 @@
         </id>
         <property name="name" type="java.lang.String"/>
         <property name="description" type="java.lang.String"/>
-        <property name="holidays" type="int"/>
         <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
         <property name="departmentId" type="java.lang.Integer" column="departmentId"/>
         <property name="insertDate" type="java.util.Date" column="insertDate"/>
         <property name="updateDate" type="java.util.Date" column="updateDate"/>
-        <property name="yearDuration" type="int"/>
         <set name="terms" inverse="true" table="WorkingAgreementTerms" cascade="all-delete-orphan" lazy="false" fetch="select">
             <key>
                 <column name="workingAgreementId" not-null="true"/>
