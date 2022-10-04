@@ -6,7 +6,7 @@
 create table if not exists WorkingAgreementTerms
 (
     id                 int      not null AUTO_INCREMENT,
-    effectiveFrom      datetime not null,
+    effectiveFrom      date     not null,
     vacation           int      not null,
     annualWorkingTime  int      not null,
     workingAgreementId int      not null,
