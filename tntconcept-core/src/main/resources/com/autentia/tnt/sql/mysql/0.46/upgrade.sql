@@ -23,8 +23,8 @@ ON UPDATE CASCADE ON DELETE RESTRICT
 -- insert current working agreement terms
 
 insert into WorkingAgreementTerms (effectiveFrom, vacation, annualWorkingTime, workingAgreementId)
-values ('1970-01-01 00:00:00', 22, 105900, (select w.id from WorkingAgreement w limit 0, 1)),
-('2022-07-22 00:00:00', 23, 105900, (select w.id from WorkingAgreement w limit 0, 1));
+values ('1970-01-01', 22, 105900, (select w.id from WorkingAgreement w limit 0, 1)),
+('2022-07-22', 23, 105900, (select w.id from WorkingAgreement w limit 0, 1));
 
 -- -----------------------------------------------------------------------------
 -- Version
