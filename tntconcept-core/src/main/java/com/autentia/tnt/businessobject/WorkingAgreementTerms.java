@@ -19,6 +19,8 @@ package com.autentia.tnt.businessobject;
 
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -41,6 +43,13 @@ public class WorkingAgreementTerms implements Serializable {
 
     public Date getEffectiveFrom() {
         return effectiveFrom;
+    }
+
+    public int getYearFromEffectiveFrom() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(effectiveFrom);
+
+        return calendar.get(Calendar.YEAR);
     }
 
     public void setEffectiveFrom(Date effectiveFrom) {
@@ -90,5 +99,13 @@ public class WorkingAgreementTerms implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getEffectiveFrom(), getVacation(), getAnnualWorkingTime(), getWorkingAgreement());
+    }
+
+    public static WorkingAgreementTerms empty() {
+        final WorkingAgreementTerms workingAgreementTerms = new WorkingAgreementTerms();
+        workingAgreementTerms.setVacation(0);
+        workingAgreementTerms.setEffectiveFrom(Date.from(Instant.MIN));
+        workingAgreementTerms.setAnnualWorkingTime(0);
+        return workingAgreementTerms;
     }
 }

@@ -160,7 +160,11 @@
     </bean>
     <bean id="managerLink" class="com.autentia.tnt.manager.admin.LinkManager">
 		<constructor-arg ref="daoLink" />
-	</bean>	
+	</bean>
+
+	<bean id="managerWorkingAgreement" class="com.autentia.tnt.manager.admin.WorkingAgreementManager">
+		<constructor-arg ref="daoWorkingAgreement" />
+	</bean>
 
     <!-- Mail Service  -->
     <bean id="mailService" class="com.autentia.tnt.mail.DefaultMailService" init-method="init">

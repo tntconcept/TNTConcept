@@ -18,6 +18,7 @@
 package com.autentia.tnt.bean.activity;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -48,6 +49,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import com.autentia.tnt.businessobject.*;
+import com.autentia.tnt.manager.admin.WorkingAgreementManager;
 import org.acegisecurity.acls.domain.BasePermission;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,19 +66,6 @@ import org.springframework.util.CollectionUtils;
 import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.bean.NavigationResults;
 import com.autentia.tnt.bean.admin.SettingBean;
-import com.autentia.tnt.businessobject.Activity;
-import com.autentia.tnt.businessobject.ActivityFile;
-import com.autentia.tnt.businessobject.Document;
-import com.autentia.tnt.businessobject.DocumentCategory;
-import com.autentia.tnt.businessobject.ExternalActivity;
-import com.autentia.tnt.businessobject.Holiday;
-import com.autentia.tnt.businessobject.HolidayState;
-import com.autentia.tnt.businessobject.Organization;
-import com.autentia.tnt.businessobject.Project;
-import com.autentia.tnt.businessobject.ProjectRole;
-import com.autentia.tnt.businessobject.RequestHoliday;
-import com.autentia.tnt.businessobject.Setting;
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.ProjectRoleDAO;
 import com.autentia.tnt.dao.hibernate.UserDAO;
@@ -1606,13 +1596,13 @@ public class ActivityBean extends BaseBean{
         return cal.get(Calendar.YEAR);
     }
 
-    private float getTotalHoursOfYear(){
+    private float getTotalWorkingHoursFor(int year){
         float suma = 0;
         float hoursPerDay = getHoursPerDay();
         int daysInMonth;
         Calendar today = Calendar.getInstance();
 
-        LocalDate firstDay = LocalDate.of(getSelectedYear(), 1, 1);
+        LocalDate firstDay = LocalDate.of(year, 1, 1);
         Date date = java.sql.Date.valueOf(firstDay);
 
         cal.clear();
@@ -2163,15 +2153,28 @@ public class ActivityBean extends BaseBean{
     }
 
     public int getYearTotalHours(){
+        final int selectedYear = getSelectedYear();
+        final int totalWorkingHours = Math.round(getTotalWorkingHoursFor(selectedYear));
+        final int totalWorkingHoursByAgreement = findWorkingAgreementHoursByYear(selectedYear);
 
-        boolean contractLowerThanLaborHours =
-                ConfigurationUtil.getDefault().getMaxHoursByContract() < Math.round(getTotalHoursOfYear());
-
-        this.yearTotalHours = (contractLowerThanLaborHours) ?
-                ConfigurationUtil.getDefault().getMaxHoursByContract() :
-                Math.round(getTotalHoursOfYear());
+        this.yearTotalHours = Math.min(totalWorkingHoursByAgreement, totalWorkingHours);
 
         return yearTotalHours;
+    }
+
+    private int findWorkingAgreementHoursByYear(int year) {
+        final User user = findUser();
+
+        return (int) Duration.ofMinutes(user.getYearDurationByYear(year)).toHours();
+    }
+
+    private User findUser() {
+        final User user = AuthenticationManager.getDefault().getCurrentPrincipal().getUser();
+
+        final WorkingAgreementManager agreementManager = WorkingAgreementManager.getDefault();
+        final WorkingAgreement workingAgreement = agreementManager.getEntityById(user.getAgreement().getId());
+        user.setAgreement(workingAgreement);
+        return user;
     }
 
     public void setYearTotalHours(int yearTotalHours){
