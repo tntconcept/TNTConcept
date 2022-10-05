@@ -11,6 +11,7 @@ package com.autentia.tnt.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
@@ -512,6 +513,18 @@ public class User implements Serializable, ITransferObject {
         this.agreement = agreement;
     }
 
+    public int getYearDurationByYear(int year) {
+        if (agreementYearDuration != null && agreementYearDuration > 0) return agreementYearDuration;
+
+        return agreement.getYearDurationByYear(year);
+    }
+
+    public int getYearDuration() {
+        if (agreementYearDuration != null && agreementYearDuration > 0) return agreementYearDuration;
+
+        return agreement.getYearDuration();
+    }
+
     public Integer getOwnerId() {
         return id;
     }
@@ -543,16 +556,13 @@ public class User implements Serializable, ITransferObject {
     }
 
     public double getSalaryPerHour() {
-
         /*
          * Si el usuario tiene rellenop el campo de horas anuales, se usa ese dato para el calculo del salario por hora Si
          * no, se usa el numero de horas incluido en el convenio
          */
-        double userYearHours = this.getAgreementYearDuration() != null ? (this.getAgreementYearDuration() / 60.0)
-                : (this.getAgreement().getYearDuration() / 60.0);
-        double costPerHour = this.getSalary().doubleValue() / userYearHours;
+        final long yearDuration = Duration.ofMinutes(this.getYearDuration()).toHours();
 
-        return costPerHour;
+        return this.getSalary().doubleValue() / yearDuration;
     }
 
     /* se estima el coste por hora, en el salario de cada usuario */

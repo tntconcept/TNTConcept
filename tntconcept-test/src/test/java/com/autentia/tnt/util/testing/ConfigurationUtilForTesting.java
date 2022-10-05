@@ -480,10 +480,6 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 		return Boolean.valueOf(getProperty("readOnlyBill", "true"));
 	}
 
-	public int getMaxHoursByContract() {
-		return Integer.parseInt(getProperty("maxHoursByContract", ""));
-	}
-
 	public BigDecimal getDefaultIRPF() {
 		return new BigDecimal(getProperty("defaultIRPF", "15"));
 	}

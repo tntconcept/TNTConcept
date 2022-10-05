@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
+import java.math.BigDecimal;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -95,5 +97,34 @@ public class UserTest {
 
         assertThat(user.buildLdapName(), is("uid=user,ou=People"));
     }
+    @Test
+    public void shouldGetYearDurationByYearFromUser() {
+        user.setAgreementYearDuration(1000);
 
+        assertThat(user.getYearDurationByYear(2020), is(1000));
+    }
+    @Test
+    public void shouldGetYearDurationByYearFromAgreement() {
+        final WorkingAgreement workingAgreement = WorkingAgreementMother.sample();
+        user.setAgreement(workingAgreement);
+
+        assertThat(user.getYearDurationByYear(2020), is(100000));
+    }
+
+    @Test
+    public void shouldGetSalaryPerHourByUserAgreement() {
+        user.setAgreementYearDuration(105900);
+        user.setSalary(BigDecimal.valueOf(10000));
+
+        assertEquals(5.66, user.getSalaryPerHour(), 2);
+    }
+
+    @Test
+    public void shouldGetSalaryPerHourByAgreement() {
+        final WorkingAgreement workingAgreement = WorkingAgreementMother.sample();
+        user.setAgreement(workingAgreement);
+        user.setSalary(BigDecimal.valueOf(10000));
+
+        assertEquals(5.66, user.getSalaryPerHour(), 2);
+    }
 }

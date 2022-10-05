@@ -3,6 +3,7 @@ package com.autentia.tnt.bean.activity;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -154,6 +155,16 @@ public class ActivityBean_IT {
 		sut.setSelectedDate(augustDate);
 		double augustHours = sut.getMonthTotalHours();
 		assertThat(augustHours, closeTo(184.0, 0.1));
+	}
+
+	@Test
+	public void shouldGetYearTotalHours() {
+		final ActivityBeanNoJSF sut = new ActivityBeanNoJSF();
+		sut.setSelectedDate(Date.from(Instant.parse("2000-01-01T00:00:00.00Z")));
+
+		final int result = sut.getYearTotalHours();
+
+		assertThat(result, is(1592));
 	}
 
 	/**
