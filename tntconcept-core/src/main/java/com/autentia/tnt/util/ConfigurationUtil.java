@@ -551,10 +551,6 @@ public class ConfigurationUtil{
         return new BigDecimal(getProperty("defaultIRPF", "15"));
     }
 
-    public int getMaxHoursByContract(){
-        return Integer.parseInt(getProperty("maxHoursByContract", ""));
-    }
-
     public String getNoEvidenceInActivityMailSubject(){
         return getProperty("mail.activity.noEvidenceSubject", "Falta evidencia %s - %s");
     }
