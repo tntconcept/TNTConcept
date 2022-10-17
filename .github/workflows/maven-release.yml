@@ -46,16 +46,14 @@ jobs:
 
 
       - name: Prepare Maven Release
-        run: mvn -B release:prepare
-
-      - name: Set the new version
-        run: echo "::set-output name=tag-version::$(grep -r 'scm.tag=' release.properties | sed 's/scm.tag=//')"
-        id: set-tag-version
-        shell: bash
+        run: |
+          mvn -B release:prepare
+          NEXT_RELEASE=$(grep -r 'scm.tag=' release.properties | sed 's/scm.tag=//')
+          echo "NEXT_RELEASE=$NEXT_RELEASE" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "tntconcept-web/target/*.war,tntconcept-web-tomcat/target/*.war"
-          tag: ${{ steps.set-tag-version.outputs.tag-version }}
+          tag: ${{ env.NEXT_RELEASE }}
           token: ${{ secrets.GITHUB_TOKEN }}
