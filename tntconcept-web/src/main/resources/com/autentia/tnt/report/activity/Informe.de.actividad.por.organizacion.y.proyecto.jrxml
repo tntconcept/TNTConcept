@@ -98,7 +98,7 @@
 	<group name = "SummarySubreport">
 		<groupFooter>
 			<band height="123" isSplitAllowed="true" >
-				<subreport isUsingCache="false">
+				<subreport isUsingCache="true">
 					<reportElement x="5" y="0" width="200" height="100" key="11ef53a0-a21c-4a07-9910-a623fdbbd5c9"/>
 					<subreportParameter name="Proyecto">
 						<subreportParameterExpression><![CDATA[$P{Proyecto}]]></subreportParameterExpression>
