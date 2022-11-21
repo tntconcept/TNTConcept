@@ -17,19 +17,6 @@
 
 With TNTConcept you can manage, in an integrated way, your customers, providers, contacts, business interactions, projects, week objectives, project time-tracking, bills, cash flow ... Built with the lastest J2EE techs: JSF, Spring, Hibernate, Maven ...
 
-## TNTConcept Setup
-In order to work in this project is necessary to setup
-https://gitlab.com/autentia/internal/TNTGitHook to upload evidences automatically based
-on the next setup file:
-
-```json
-{
-"organization": "Autentia Real Business Solutions S.L.",
-"project": "Desarrollo TNT Concept",
-"role": "Programacion"
-}
-```
-
 ## Build requirements
 
 - TNTConcept does not compile with JDK 8+
