@@ -95,22 +95,6 @@ public class DocRootServlet extends HttpServlet {
 									"Bad URL prefix for servlet: check your web.xml file" );
 		}
 	}
-
-	/*
-	@Override
-	protected long getLastModified(HttpServletRequest request) 
-	{
-		String uri = request.getRequestURI();
-		int i = uri.indexOf(URL_PREFIX);
-		if( i!=-1 )
-		{
-			String relPath = uri.substring( i+URL_PREFIX.length() );
-			File f = new File( ConfigurationUtil.getUploadPath()+relPath );
-			return f.lastModified();
-		}
-		return 0;
-	}
-	*/
 }
 
 

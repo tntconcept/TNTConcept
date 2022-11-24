@@ -33,9 +33,6 @@ public class NavigationResults {
 	public static final String DETAIL= "detail";
 	public static final String SETTINGS= "settings";
 
-        
-        
-	/* Sin revisar ******************************************************************* */
 
 	public static final String MESSAGE_DETAIL = "messageDetail";	
 	public static final String BOARD_DETAIL = "board_detail";

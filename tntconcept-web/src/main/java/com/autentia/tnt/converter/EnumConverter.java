@@ -42,16 +42,7 @@ public class EnumConverter implements Converter {
       try {
         Enum[] values = (Enum[])clazz.getEnumConstants();
         ret = values[Integer.parseInt(value)];
-                                /*
-                                for( Enum val : values )
-                                {
-                                        if( val.name().equals(value) )
-                                        {
-                                                ret = val;
-                                                break;
-                                        }
-                                }
-                                 */
+
       } catch( Exception e ) {
         log.warn("getAsObject - exception converting value '"+value+"' to "+clazz.getName(),e);
         throw new ConverterException( "Error converting value '"+value+"' to "+clazz.getName(), e );

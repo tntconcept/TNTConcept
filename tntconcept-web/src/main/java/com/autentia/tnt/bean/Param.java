@@ -23,7 +23,7 @@ package com.autentia.tnt.bean;
  */
 public class Param 
 {
-	/* Sin revisar **********************************************************************/
+
 	public static final String CATEGORY_ID = "categoryId";
 	public static final String MESSAGE_ID = "messageId";
 	public static final String MESSAGE_DOCTYPE = "docType";
