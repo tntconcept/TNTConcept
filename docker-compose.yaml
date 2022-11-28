@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mysql-TNT:
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: 'tntconcept'
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'tnt'
+      MYSQL_PASSWORD: 'tnt'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./src/main/install/sql/tables:/docker-entrypoint-initdb.d
