@@ -10,8 +10,6 @@ services:
       MYSQL_PASSWORD: 'tnt'
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
     volumes:
       - ./src/main/install/sql/mysql/createTables.sql:/docker-entrypoint-initdb.d/createTables.sql
   openldap:
@@ -26,3 +24,9 @@ services:
       - SLAPD_ADDITIONAL_SCHEMAS=ppolicy
       - SLAPD_ADDITIONAL_MODULES=ppolicy
     container_name: autentia-ldap
+  tntconcept:
+    container_name: tntconcept
+    image: tntconcept
+    ports:
+      - '8080:8080'
+
