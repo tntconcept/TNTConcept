@@ -24,6 +24,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
+		<autentia.mvn.distribution>https://autentia.no-ip.org/nexus/repository/maven-releases/</autentia.mvn.distribution>
+		<autentia.mvn.snapshots>https://autentia.no-ip.org/nexus/repository/maven-snapshots/</autentia.mvn.snapshots>
 
 		<!-- jacoco options -->
 		<jacoco.version>0.7.6.201602180812</jacoco.version>
@@ -78,7 +80,7 @@
 		<connection>scm:git:https://github.com/autentia/TNTConcept</connection>
 		<developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
 		<url>https://github.com/autentia/TNTConcept</url>
-		<tag>tntconcept-parent-0.27.5</tag>
+		<tag>SNAPSHOT</tag>
 	</scm>
 
 	<profiles>
@@ -210,20 +212,25 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>3.0.0-M7</version>
 					<configuration>
 						<preparationGoals>package -Pwar</preparationGoals>
 						<tagNameFormat>@{project.version}</tagNameFormat>
-					</configuration>					<dependencies>
+						<releaseProfiles>tomcat-profile</releaseProfiles>
+						<checkModificationExcludes>
+							<checkModificationExclude>pom.xml</checkModificationExclude>
+						</checkModificationExcludes>
+					</configuration>
+					<dependencies>
 						<dependency>
 							<groupId>org.apache.maven.scm</groupId>
 							<artifactId>maven-scm-api</artifactId>
-							<version>1.9.5</version>
+							<version>2.0.0-M3</version>
 						</dependency>
 						<dependency>
 							<groupId>org.apache.maven.scm</groupId>
 							<artifactId>maven-scm-provider-gitexe</artifactId>
-							<version>1.9.5</version>
+							<version>2.0.0-M3</version>
 						</dependency>
 					</dependencies>
 				</plugin>
