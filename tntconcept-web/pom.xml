@@ -13,24 +13,6 @@
 
 	<name>tntconcept-web</name>
 	<description>Aplicación de TNT Concept. Genera un war para desplegar en el jboss.</description>
-
-	<!-- <repositories> -->
-	<!-- <repository> -->
-	<!-- <id>java-net</id> -->
-	<!-- <name>java-net</name> -->
-	<!-- <url>http://download.java.net/maven/2</url> -->
-	<!-- </repository> -->
-	<!-- <repository> -->
-	<!-- <id>java.net</id> -->
-	<!-- <url>http://download.java.net/maven/1</url> -->
-	<!-- <layout>legacy</layout> -->
-	<!-- </repository> -->
-	<!-- <repository> -->
-	<!-- <id>jboss</id> -->
-	<!-- <url>http://repository.jboss.com/maven2/</url> -->
-	<!-- </repository> -->
-	<!-- </repositories> -->
-
 	<build>
 		<finalName>${project.final.name}-web</finalName>
 		<plugins>
@@ -60,33 +42,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<!-- <plugin> -->
-			<!-- <artifactId>maven-resources-plugin</artifactId> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>properties-resources</id> -->
-			<!-- <phase>process-resources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>resources</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <outputDirectory> -->
-			<!-- ${project.build.outputDirectory} -->
-			<!-- </outputDirectory> -->
-			<!-- <encoding>ISO-8859-1</encoding> -->
-			<!-- <resources> -->
-			<!-- <directory> -->
-			<!-- src/main/resources -->
-			<!-- </directory> -->
-			<!-- <filtering>true</filtering> -->
-			<!-- <includes> -->
-			<!-- <include>**/**.properties</include> -->
-			<!-- </includes> -->
-			<!-- </resources> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
@@ -410,27 +365,6 @@
 			<version>1.0</version>
 		</dependency>
 		<!-- /=================== Dependencias de Mondrian - JPivot =================== -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>commons-dbcp</groupId> -->
-		<!-- <artifactId>commons-dbcp</artifactId> -->
-		<!-- <version>1.2.2</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>commons-vfs</groupId> -->
-		<!-- <artifactId>commons-vfs</artifactId> -->
-		<!-- <version>1.0</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>commons-math</groupId> -->
-		<!-- <artifactId>commons-math</artifactId> -->
-		<!-- <version>1.2</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>commons-pool</groupId> -->
-		<!-- <artifactId>commons-pool</artifactId> -->
-		<!-- <version>1.4</version> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>jaxen</groupId>
