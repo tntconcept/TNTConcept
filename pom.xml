@@ -19,13 +19,17 @@
 
 		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
-		<compileSource>1.8</compileSource>
+		<compileSource>11</compileSource>
+		<compileTarget>11</compileTarget> <!-- Bajar a 1.8 en caso de fallo -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
 		<maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
 		<maven.install.plugin.version>3.1.0</maven.install.plugin.version>
+
+<!--		<surefireArgLine>&#45;&#45;illegal-access=permit</surefireArgLine>-->
+<!--		<failsafeArgLine>&#45;&#45;illegal-access=permit</failsafeArgLine>-->
 
 		<!-- jacoco options -->
 		<jacoco.version>0.8.8</jacoco.version>
@@ -148,7 +152,7 @@
 					<version>3.10.1</version>
 					<configuration>
 						<source>${compileSource}</source>
-						<target>${compileSource}</target>
+						<target>${compileTarget}</target>
 						<encoding>${sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
@@ -499,9 +503,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
+			<groupId>quartz</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.3.2</version>
+			<version>1.5.2</version>
 		</dependency>
 
 		<dependency>
