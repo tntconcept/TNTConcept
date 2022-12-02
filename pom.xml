@@ -25,6 +25,7 @@
 
 		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
 		<maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
+		<maven.install.plugin.version>3.1.0</maven.install.plugin.version>
 
 		<!-- jacoco options -->
 		<jacoco.version>0.8.8</jacoco.version>
