@@ -17,26 +17,11 @@
 
 package com.autentia.tnt.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.faces.model.SelectItem;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import com.autentia.tnt.bean.reports.ReportParameterDefinition;
+import com.autentia.tnt.businessobject.Role;
+import com.autentia.tnt.dao.SortCriteria;
+import com.autentia.tnt.dao.hibernate.RoleDAO;
+import com.autentia.tnt.xml.ParameterReport;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -45,14 +30,21 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import com.autentia.tnt.bean.reports.ReportParameterDefinition;
-import com.autentia.tnt.businessobject.ProjectRole;
-import com.autentia.tnt.businessobject.Role;
-import com.autentia.tnt.dao.SortCriteria;
-import com.autentia.tnt.dao.hibernate.RoleDAO;
-import com.autentia.tnt.xml.ParameterReport;
-import com.sun.org.apache.commons.collections.IteratorUtils;
+import javax.faces.model.SelectItem;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public final class ReportUtil {
 
