@@ -20,16 +20,13 @@
 		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<compileSource>11</compileSource>
-		<compileTarget>11</compileTarget> <!-- Bajar a 1.8 en caso de fallo -->
+		<compileTarget>11</compileTarget>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
 		<maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
 		<maven.install.plugin.version>3.1.0</maven.install.plugin.version>
-
-<!--		<surefireArgLine>&#45;&#45;illegal-access=permit</surefireArgLine>-->
-<!--		<failsafeArgLine>&#45;&#45;illegal-access=permit</failsafeArgLine>-->
 
 		<!-- jacoco options -->
 		<jacoco.version>0.8.8</jacoco.version>
