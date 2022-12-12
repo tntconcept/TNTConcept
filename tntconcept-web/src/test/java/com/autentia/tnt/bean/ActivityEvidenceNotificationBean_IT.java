@@ -2,7 +2,6 @@ package com.autentia.tnt.bean;
 
 import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.hibernate.*;
-import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.mail.MailService;
 import com.autentia.tnt.manager.admin.UserManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
@@ -23,11 +22,8 @@ import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.jws.soap.SOAPBinding;
 import javax.mail.MessagingException;
 
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
