@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.47.2-SNAPSHOT</version>
+	<version>0.47.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
@@ -20,16 +20,13 @@
 		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
 		<compileSource>17</compileSource>
-		<compileTarget>17</compileTarget> <!-- Bajar a 1.8 en caso de fallo -->
+		<compileTarget>17</compileTarget>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
 		<maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
 		<maven.install.plugin.version>3.1.0</maven.install.plugin.version>
-
-<!--		<surefireArgLine>&#45;&#45;illegal-access=permit</surefireArgLine>-->
-<!--		<failsafeArgLine>&#45;&#45;illegal-access=permit</failsafeArgLine>-->
 
 		<!-- jacoco options -->
 		<jacoco.version>0.8.8</jacoco.version>
@@ -87,7 +84,7 @@
 		<connection>scm:git:https://github.com/autentia/TNTConcept</connection>
 		<developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
 		<url>https://github.com/autentia/TNTConcept</url>
-		<tag>SNAPSHOT</tag>
+		<tag>tntconcept-parent-0.27.5</tag>
 	</scm>
 
 	<profiles>

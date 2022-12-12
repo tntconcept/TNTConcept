@@ -1,4 +1,4 @@
-FROM tomcat:9.0.69-jre17-temurin
+FROM tomcat:8.5.84-jre17-temurin
 
 COPY ../tntconcept-web-tomcat/target/tntconcept-web-tomcat.war /usr/local/tomcat/webapps/
 COPY ../tntconcept-web/src/main/webapp/META-INF/context.xml /usr/local/tomcat/conf/
