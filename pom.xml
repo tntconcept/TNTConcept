@@ -19,8 +19,7 @@
 
 		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
-		<compileSource>17</compileSource>
-		<compileTarget>17</compileTarget>
+		<java.release>17</java.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -147,8 +146,7 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.10.1</version>
 					<configuration>
-						<source>${compileSource}</source>
-						<target>${compileTarget}</target>
+						<release>${java.release}</release>
 						<encoding>${sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
