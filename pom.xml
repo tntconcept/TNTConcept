@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.47.3-SNAPSHOT</version>
+	<version>0.47.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
@@ -19,8 +19,7 @@
 
 		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
-		<compileSource>11</compileSource>
-		<compileTarget>11</compileTarget>
+		<java.release>17</java.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -142,14 +141,12 @@
 
 		<pluginManagement>
 			<plugins>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.10.1</version>
 					<configuration>
-						<source>${compileSource}</source>
-						<target>${compileTarget}</target>
+						<release>${java.release}</release>
 						<encoding>${sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
@@ -271,6 +268,11 @@
 					<configuration>
 						<additionalparam>-Xdoclint:none</additionalparam>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.3.2</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
