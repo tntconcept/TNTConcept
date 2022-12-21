@@ -212,7 +212,7 @@
                                  rowOnMouseOut="this.style.backgroundColor='#FFFFE0'"
                                  rowOnClick="this.style.backgroundColor='#DBDBD1'"
                                  rowOnDblClick="this.style.backgroundColor='#DBDBD1'" 
-                                 var="message"	value="#{bulletinBoardBean.public}"
+                                 var="message"	value="#{bulletinBoardBean['public']}"
                                  preserveDataModel="true" rows="15" cellpadding="0" cellspacing="0">
                       
                       <h:column>
