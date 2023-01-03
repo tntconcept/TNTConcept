@@ -27,29 +27,23 @@ public class DefaultMailServiceIT{
 
     @Test
     public void sendTest() throws MessagingException{
-        DefaultMailService defaultMailService = new DefaultMailService(true, smptServer.getHost(),
-                String.valueOf(smptServer.getFirstMappedPort()),
-                "fjmpaez@autentia.com", "nopassword", "false", "false", "true");
+        DefaultMailService defaultMailService = createLocalMailService();
 
         defaultMailService.send("fjmpaez@autentia.com", "test", "text");
     }
 
     @Test
     public void sendMultipleOutputStreams() throws MessagingException{
-        DefaultMailService defaultMailService = new DefaultMailService(true, smptServer.getHost(),
-                String.valueOf(smptServer.getFirstMappedPort()),
-                "fjmpaez@autentia.com", "nopassword", "false", "false", "true");
+        DefaultMailService defaultMailService = createLocalMailService();
 
-        defaultMailService.sendOutputStreams(new String[]{"fjmpaez@autentia.com", "desktop.support@autentia.com"},
+        defaultMailService.sendOutputStreams(new String[]{"fjmpaez@autentia.com", "fjmpaez@gmail.com"},
                 "test", "text",
                 Map.of(new ByteArrayInputStream(new byte[]{}), "fileName"));
     }
 
     @Test
     public void sendOutputStreams() throws MessagingException{
-        DefaultMailService defaultMailService = new DefaultMailService(true, smptServer.getHost(),
-                String.valueOf(smptServer.getFirstMappedPort()),
-                "fjmpaez@autentia.com", "nopassword", "false", "false", "true");
+        DefaultMailService defaultMailService = createLocalMailService();
 
         defaultMailService.sendOutputStreams("fjmpaez@autentia.com", "test", "text",
                 Map.of(new ByteArrayInputStream(new byte[]{}), "fileName"));
@@ -57,9 +51,7 @@ public class DefaultMailServiceIT{
 
     @Test
     public void sendFiles() throws MessagingException{
-        DefaultMailService defaultMailService = new DefaultMailService(true, smptServer.getHost(),
-                String.valueOf(smptServer.getFirstMappedPort()),
-                "fjmpaez@autentia.com", "nopassword", "false", "false", "true");
+        DefaultMailService defaultMailService = createLocalMailService();
 
         File attachment = new File(getClass().getClassLoader().getResource("mail/attachment.txt").getFile());
 
@@ -68,11 +60,16 @@ public class DefaultMailServiceIT{
 
     @Test
     public void sendHtmlTest() throws MessagingException{
-        DefaultMailService defaultMailService = new DefaultMailService(true, smptServer.getHost(),
+        DefaultMailService defaultMailService = createLocalMailService();
+
+        defaultMailService.sendHtml("fjmpaez@autentia.com", "test", "<html><body><b>hello</b></body></html>");
+    }
+
+    private static DefaultMailService createLocalMailService(){
+        return new DefaultMailService(true, smptServer.getHost(),
                 String.valueOf(smptServer.getFirstMappedPort()),
                 "fjmpaez@autentia.com", "nopassword", "false", "false", "true");
 
-        defaultMailService.sendHtml("fjmpaez@autentia.com", "test", "<html><body><b>hello</b></body></html>");
     }
 
     @Test

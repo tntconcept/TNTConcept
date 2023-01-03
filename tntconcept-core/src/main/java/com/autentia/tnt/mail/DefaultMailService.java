@@ -105,16 +105,10 @@ public class DefaultMailService implements MailService, Runnable{
      */
     private void init(){
         try{
-            setupMail(
-                    configurationUtil.getEnabledSendMail(),
-                    configurationUtil.getMailHost(),
-                    configurationUtil.getMailPort(),
-                    configurationUtil.getMailUsername(),
-                    configurationUtil.getMailPassword(),
-                    configurationUtil.getMailRequiresAuth(),
-                    configurationUtil.getMailTLS(),
-                    configurationUtil.getMailDebug()
-            );
+            setupMail(configurationUtil.getEnabledSendMail(), configurationUtil.getMailHost(),
+                    configurationUtil.getMailPort(), configurationUtil.getMailUsername(),
+                    configurationUtil.getMailPassword(), configurationUtil.getMailRequiresAuth(),
+                    configurationUtil.getMailTLS(), configurationUtil.getMailDebug());
         }catch(Exception e){
             log.error("The smtp server is not configured", e);
         }
@@ -124,13 +118,10 @@ public class DefaultMailService implements MailService, Runnable{
     public void sendFiles(String to, String subject, String text, Collection<File> attachments)
             throws MessagingException{
 
-        MimeMessage message = new MimeMessage(session);
-        Transport t = session.getTransport("smtp");
+        MimeMessage message = createMessage(this.username, subject);
 
-        message.setFrom(new InternetAddress(this.username));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        message.setSubject(subject);
-        message.setSentDate(new Date());
+        addRecipientsToMessage(message, Message.RecipientType.TO, new String[]{to});
+
         if(attachments == null || attachments.size() < 1){
             message.setText(text);
         }else{
@@ -150,6 +141,7 @@ public class DefaultMailService implements MailService, Runnable{
             message.setContent(multipart);
         }
 
+        Transport t = session.getTransport("smtp");
         t.connect(this.username, this.password);
 
         t.sendMessage(message, message.getAllRecipients());
@@ -161,13 +153,10 @@ public class DefaultMailService implements MailService, Runnable{
         Transport t = null;
 
         try{
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(this.username));
-
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
+            MimeMessage message = createMessage(this.username, subject);
+            addRecipientsToMessage(message, Message.RecipientType.TO, new String[]{to});
             t = session.getTransport("smtp");
-            sendMail(subject, text, attachments, t, message);
+            sendMail(text, attachments, t, message);
 
         }catch(Exception e){
             log.error("Error sending mail", e);
@@ -179,24 +168,39 @@ public class DefaultMailService implements MailService, Runnable{
 
     }
 
-    public void sendOutputStreams(String[] recipients, String subject, String text,
-            Map<InputStream, String> attachments) throws MessagingException{
-        Transport t = null;
-        InternetAddress[] addresses = new InternetAddress[recipients.length];
+    private void addRecipientsToMessage(final Message message, final Message.RecipientType recipientType,
+            final String[] recipients) throws MessagingException{
 
-        try{
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(this.username));
-
-            message.addRecipients(Message.RecipientType.BCC, addresses);
+        if(recipients != null){
+            InternetAddress[] addresses = new InternetAddress[recipients.length];
 
             for(int i = 0; i < recipients.length; i++){
                 addresses[i] = new InternetAddress(recipients[i]);
             }
 
+            message.addRecipients(recipientType, addresses);
+        }
+    }
+
+    private MimeMessage createMessage(final String from, final String subject) throws MessagingException{
+        final MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.setSubject(subject);
+        message.setSentDate(new Date());
+        return message;
+    }
+
+    public void sendOutputStreams(String[] recipients, String subject, String text,
+            Map<InputStream, String> attachments) throws MessagingException{
+        Transport t = null;
+
+        try{
+            MimeMessage message = createMessage(this.username, subject);
+            addRecipientsToMessage(message, Message.RecipientType.BCC, recipients);
+
             t = session.getTransport("smtp");
 
-            sendMail(subject, text, attachments, t, message);
+            sendMail(text, attachments, t, message);
         }catch(Exception e){
             log.error("sendOutputStreams ERROR: ", e);
         }finally{
@@ -207,10 +211,8 @@ public class DefaultMailService implements MailService, Runnable{
 
     }
 
-    private void sendMail(String subject, String text, Map<InputStream, String> attachments, Transport t,
+    private void sendMail(String text, Map<InputStream, String> attachments, Transport t,
             MimeMessage message) throws MessagingException{
-        message.setSubject(subject);
-        message.setSentDate(new Date());
         if(attachments == null || attachments.size() < 1){
             message.setText(text);
         }else{
@@ -267,15 +269,12 @@ public class DefaultMailService implements MailService, Runnable{
 
         try{
 
-            MimeMessage message = new MimeMessage(session);
-            Transport t = session.getTransport("smtp");
+            MimeMessage message = createMessage(this.username, particularSubject);
 
-            message.setFrom(new InternetAddress(this.username));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(particularTo));
-            message.setSubject(particularSubject);
-            message.setSentDate(new Date());
+            addRecipientsToMessage(message, Message.RecipientType.TO, new String[]{particularTo});
             message.setContent(particularText, "text/html; charset=utf-8");
 
+            Transport t = session.getTransport("smtp");
             t.connect(this.username, this.password);
 
             t.sendMessage(message, message.getAllRecipients());
