@@ -1600,7 +1600,7 @@ public class ActivityBean extends BaseBean{
         float suma = 0;
         float hoursPerDay = getHoursPerDay();
         int daysInMonth;
-        Calendar today = Calendar.getInstance();
+        Calendar today = getToday();
 
         LocalDate firstDay = LocalDate.of(year, 1, 1);
         Date date = java.sql.Date.valueOf(firstDay);
@@ -1618,6 +1618,10 @@ public class ActivityBean extends BaseBean{
         }
 
         return Math.round(suma);
+    }
+
+    protected Calendar getToday() {
+        return Calendar.getInstance();
     }
 
     private float getMonthTotalHours(float hoursPerDay, Date date, int daysInMonth){

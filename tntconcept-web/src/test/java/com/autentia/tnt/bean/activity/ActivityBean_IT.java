@@ -6,14 +6,12 @@ import static org.hamcrest.Matchers.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -160,7 +158,7 @@ public class ActivityBean_IT {
 	@Test
 	public void shouldGetYearTotalHours() {
 		final ActivityBeanNoJSF sut = new ActivityBeanNoJSF();
-		sut.setSelectedDate(Date.from(Instant.parse("2000-01-01T00:00:00.00Z")));
+		sut.setSelectedDate(Date.from(Instant.parse("2022-10-05T23:00:00.00Z")));
 
 		final int result = sut.getYearTotalHours();
 
@@ -178,6 +176,14 @@ public class ActivityBean_IT {
 		public float getHoursPerDay() {
 			return 8;
 		}
+
+		@Override
+		protected Calendar getToday() {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(getSelectedDate());
+			return cal;
+		}
+
 	}
 
 }
