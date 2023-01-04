@@ -45,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.autentia.tnt.util.ConfigurationUtil;
 
-public class DefaultMailService implements MailService,Runnable {
+public class DefaultMailService implements MailService, Runnable{
 
     private static final Log log = LogFactory.getLog(DefaultMailService.class);
 
@@ -55,49 +55,82 @@ public class DefaultMailService implements MailService,Runnable {
 
     private final ConfigurationUtil configurationUtil;
 
-	private String to, subject, text;
-	 private final Semaphore mutex = new Semaphore(1);
+    private boolean enabled;
+    private String username, password;
 
-    public DefaultMailService(ConfigurationUtil configurationUtil) {
+    private String to, subject, text;
+    private final Semaphore mutex = new Semaphore(1);
+
+    public DefaultMailService(ConfigurationUtil configurationUtil){
         super();
         this.configurationUtil = configurationUtil;
+    }
+
+    /*
+     This constructor is only for testing purposes
+     */
+    DefaultMailService(boolean enabled, String host, String port, String username, String password, String requiresAuth,
+            String useTLS, String debugMode){
+        this.configurationUtil = null;
+
+        setupMail(enabled, host, port, username, password, requiresAuth, useTLS, debugMode);
+    }
+
+    private void setupMail(boolean enabled, String host, String port, String username, String password,
+            String requiresAuth, String useTLS, String debugMode){
+
+        this.enabled = enabled;
+        this.username = username;
+        this.password = password;
+
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
+        properties.put("mail.smtp.user", username);
+        properties.put("mail.smtp.auth", requiresAuth);
+
+        properties.put("mail.debug", debugMode);
+
+        if(Boolean.parseBoolean(useTLS)){
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.starttls.required", "true");
+            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+            properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        }
+
+        session = Session.getDefaultInstance(properties);
     }
 
     /**
      * This method is used by Spring Framework
      */
-    private void init() {
-        try {
-            properties.put("mail.smtp.host", configurationUtil.getMailHost());
-            properties.put("mail.smtp.port", Integer.parseInt(configurationUtil.getMailPort()));
-            properties.put("mail.smtp.user", configurationUtil.getMailUsername());
-            properties.put("mail.smtp.auth", configurationUtil.getMailRequiresAuth());
-            properties.put("mail.smtp.starttls.enable", "true");
-
-            session = Session.getDefaultInstance(properties);
-        } catch (Exception e) {
-            log.warn("The smtp server is not configured: " + e);
+    private void init(){
+        try{
+            setupMail(configurationUtil.getEnabledSendMail(), configurationUtil.getMailHost(),
+                    configurationUtil.getMailPort(), configurationUtil.getMailUsername(),
+                    configurationUtil.getMailPassword(), configurationUtil.getMailRequiresAuth(),
+                    configurationUtil.getMailTLS(), configurationUtil.getMailDebug());
+        }catch(Exception e){
+            log.error("The smtp server is not configured", e);
         }
+
     }
 
-    public void sendFiles(String to, String subject, String text, Collection<File> attachments) throws MessagingException {
+    public void sendFiles(String to, String subject, String text, Collection<File> attachments)
+            throws MessagingException{
 
-        MimeMessage message = new MimeMessage(session);
-        Transport t = session.getTransport("smtp");
+        MimeMessage message = createMessage(this.username, subject);
 
-        message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        message.setSubject(subject);
-        message.setSentDate(new Date());
-        if (attachments == null || attachments.size() < 1) {
+        addRecipientsToMessage(message, Message.RecipientType.TO, new String[]{to});
+
+        if(attachments == null || attachments.size() < 1){
             message.setText(text);
-        } else {
+        }else{
             // create the message part
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText(text);
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
-            for (File attachment : attachments) {
+            for(File attachment : attachments){
 
                 messageBodyPart = new MimeBodyPart();
                 DataSource source = new FileDataSource(attachment);
@@ -108,147 +141,155 @@ public class DefaultMailService implements MailService,Runnable {
             message.setContent(multipart);
         }
 
-        t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
+        Transport t = session.getTransport("smtp");
+        t.connect(this.username, this.password);
 
         t.sendMessage(message, message.getAllRecipients());
         t.close();
     }
 
-    public void sendOutputStreams(String to, String subject, String text, Map<InputStream, String> attachments) throws MessagingException {
+    public void sendOutputStreams(String to, String subject, String text, Map<InputStream, String> attachments)
+            throws MessagingException{
         Transport t = null;
 
-        try {
-            MimeMessage message = new MimeMessage(session);
-
+        try{
+            MimeMessage message = createMessage(this.username, subject);
+            addRecipientsToMessage(message, Message.RecipientType.TO, new String[]{to});
             t = session.getTransport("smtp");
+            sendMail(text, attachments, t, message);
 
-            message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            sendMail(subject, text, attachments, t, message);
-        } catch (Exception e) {
-            System.err.println("sendOutputStreams ERROR: " + e.getStackTrace().toString());
-        }
-        finally {
-            if (t != null) {
+        }catch(Exception e){
+            log.error("Error sending mail", e);
+        }finally{
+            if(t != null){
                 t.close();
             }
         }
 
     }
 
-    public void sendOutputStreams(String[] recipients, String subject, String text, Map<InputStream, String> attachments) throws MessagingException {
-        Transport t = null;
-        InternetAddress[] addresses = new InternetAddress[ recipients.length ];
+    private void addRecipientsToMessage(final Message message, final Message.RecipientType recipientType,
+            final String[] recipients) throws MessagingException{
 
-        try {
-            MimeMessage message = new MimeMessage(session);
+        if(recipients != null){
+            InternetAddress[] addresses = new InternetAddress[recipients.length];
 
-            t = session.getTransport("smtp");
-
-            message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
-
-            for( int i = 0; i < recipients.length; i++) {
-                addresses[ i ] = new InternetAddress( recipients[ i ] );
+            for(int i = 0; i < recipients.length; i++){
+                addresses[i] = new InternetAddress(recipients[i]);
             }
 
-            message.addRecipients(Message.RecipientType.BCC, addresses);
-
-            sendMail(subject, text, attachments, t, message);
-        } catch (Exception e) {
-            System.err.println("sendOutputStreams ERROR: " + e.getStackTrace().toString());
+            message.addRecipients(recipientType, addresses);
         }
-        finally {
-            if (t != null) {
-                t.close();
-            }
-        }
-
     }
 
-    private void sendMail(String subject, String text, Map<InputStream, String> attachments, Transport t, MimeMessage message) throws MessagingException {
+    private MimeMessage createMessage(final String from, final String subject) throws MessagingException{
+        final MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
         message.setSubject(subject);
         message.setSentDate(new Date());
-        if (attachments == null || attachments.size() < 1) {
+        return message;
+    }
+
+    public void sendOutputStreams(String[] recipients, String subject, String text,
+            Map<InputStream, String> attachments) throws MessagingException{
+        Transport t = null;
+
+        try{
+            MimeMessage message = createMessage(this.username, subject);
+            addRecipientsToMessage(message, Message.RecipientType.BCC, recipients);
+
+            t = session.getTransport("smtp");
+
+            sendMail(text, attachments, t, message);
+        }catch(Exception e){
+            log.error("sendOutputStreams ERROR: ", e);
+        }finally{
+            if(t != null){
+                t.close();
+            }
+        }
+
+    }
+
+    private void sendMail(String text, Map<InputStream, String> attachments, Transport t,
+            MimeMessage message) throws MessagingException{
+        if(attachments == null || attachments.size() < 1){
             message.setText(text);
-        } else {
+        }else{
             // create the message part
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText(text);
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
-            try {
-                for (InputStream attachment : attachments.keySet()) {
+            try{
+                for(InputStream attachment : attachments.keySet()){
                     messageBodyPart = new MimeBodyPart();
                     DataSource source = new ByteArrayDataSource(attachment, "application/octet-stream");
 
                     messageBodyPart.setDataHandler(new DataHandler(source));
                     messageBodyPart.setFileName(attachments.get(attachment)); //NOSONAR
-                    multipart.addBodyPart(messageBodyPart);                      //Se emplea keyset y no valueset porque se emplea tanto la key como el val
+                    multipart.addBodyPart(
+                            messageBodyPart);                      //Se emplea keyset y no valueset porque se emplea tanto la key como el val
                 }
-            } catch (IOException e) {
+            }catch(IOException e){
                 throw new MessagingException("cannot add an attachment to mail", e);
             }
             message.setContent(multipart);
         }
 
-        t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
+        t.connect(this.username, this.password);
 
         t.sendMessage(message, message.getAllRecipients());
     }
 
-    public void send(String to, String subject, String text) throws MessagingException {
-        if(ConfigurationUtil.getDefault().getEnabledSendMail()){
-    		sendFiles(to, subject, text, null);
+    public void send(String to, String subject, String text) throws MessagingException{
+        if(this.enabled){
+            sendFiles(to, subject, text, null);
         }
     }
 
-    
-	public void setHtmlData(String to, String subject, String text) {
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		this.to = to;
-		this.subject = subject;
-		this.text = text;
-	}
+    public void setHtmlData(String to, String subject, String text){
+        try{
+            mutex.acquire();
+        }catch(InterruptedException e){
+            log.error("Error trying to acquire mutex", e);
+        }
+        this.to = to;
+        this.subject = subject;
+        this.text = text;
+    }
 
-	@Override
-	public void run() {
+    @Override
+    public void run(){
 
-		String particularTo = to;
-		String particularSubject = subject;
-		String particularText = text;
-		mutex.release();
-		
-		try {
+        String particularTo = to;
+        String particularSubject = subject;
+        String particularText = text;
+        mutex.release();
 
-			MimeMessage message = new MimeMessage(session);
-			Transport t = session.getTransport("smtp");
+        try{
 
-			message.setFrom(new InternetAddress(configurationUtil.getMailUsername()));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(particularTo));
-			message.setSubject(particularSubject);
-			message.setSentDate(new Date());
-			message.setContent(particularText, "text/html; charset=utf-8");
+            MimeMessage message = createMessage(this.username, particularSubject);
 
-			t.connect(configurationUtil.getMailUsername(), configurationUtil.getMailPassword());
+            addRecipientsToMessage(message, Message.RecipientType.TO, new String[]{particularTo});
+            message.setContent(particularText, "text/html; charset=utf-8");
 
-			t.sendMessage(message, message.getAllRecipients());
-			t.close();
+            Transport t = session.getTransport("smtp");
+            t.connect(this.username, this.password);
 
-		} catch (MessagingException e) {
-			log.error("Send mail", e);
-		}
-	}
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
 
-	public void sendHtml(String to, String subject, String text) {
-		if(ConfigurationUtil.getDefault().getEnabledSendMail()){
-			setHtmlData(to, subject, text);
-			new Thread(this).start();
-		}
-	}
+        }catch(MessagingException e){
+            log.error("Send mail", e);
+        }
+    }
 
+    public void sendHtml(String to, String subject, String text){
+        if(this.enabled){
+            setHtmlData(to, subject, text);
+            new Thread(this).start();
+        }
+    }
 
 }
