@@ -446,6 +446,14 @@ public class ConfigurationUtil{
         return getProperty("mail.requiresAuth", "true");
     }
 
+    public String getMailDebug(){
+        return getProperty("mail.debug", "false");
+    }
+
+    public String getMailTLS(){
+        return getProperty("mail.tls", "true");
+    }
+
     /**
      * Return the absolute path of the folder docroot (external files) with
      * ending /
