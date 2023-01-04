@@ -6,9 +6,9 @@ import static org.hamcrest.Matchers.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
+import com.autentia.tnt.dao.search.HolidaySearch;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.junit.*;
@@ -157,12 +157,40 @@ public class ActivityBean_IT {
 
 	@Test
 	public void shouldGetYearTotalHours() {
+		String strTarget = "2022-10-05T22:00:00.00Z";
+		Date dateTarget = Date.from(Instant.parse(strTarget));
+		LocalDate localDateTarget = LocalDate.ofInstant(Instant.parse(strTarget), ZoneId.systemDefault());
+
 		final ActivityBeanNoJSF sut = new ActivityBeanNoJSF();
-		sut.setSelectedDate(Date.from(Instant.parse("2022-10-05T23:00:00.00Z")));
+
+		List<Holiday> holidays = sut.listHolidays(localDateTarget);
+		for( Holiday holiday : holidays) {
+			System.out.println( "Holidays: " + holiday.toString() );
+		}
+
+		sut.setSelectedDate(dateTarget);
+
+		int workingHours = Math.round(sut.getTotalWorkingHoursFor(localDateTarget.getYear()));
+		int hoursByAgreement = sut.findWorkingAgreementHoursByYear(localDateTarget.getYear());
+		Map<Integer, Integer> weekends = sut.alternativeGetWeekendsInMonth(localDateTarget.getYear());
+
+		assertEquals(0, holidays.size() );
+		assertEquals( 10, weekends.size() );
+		assertEquals( 10, weekends.getOrDefault(0, -1).intValue() );
+		assertEquals( 8, weekends.getOrDefault(1, -1).intValue() );
+		assertEquals( 8, weekends.getOrDefault(2, -1).intValue() );
+		assertEquals( 9, weekends.getOrDefault(3, -1).intValue() );
+		assertEquals( 9, weekends.getOrDefault(4, -1).intValue() );
+		assertEquals( 8, weekends.getOrDefault(5, -1).intValue() );
+		assertEquals( 10, weekends.getOrDefault(6, -1).intValue() );
+		assertEquals( 8, weekends.getOrDefault(7, -1).intValue() );
+		assertEquals( 8, weekends.getOrDefault(8, -1).intValue() );
+		assertEquals( 10, weekends.getOrDefault(9, -1).intValue() );
+		assertEquals( 1592, workingHours );
+		assertEquals( 1765, hoursByAgreement );
 
 		final int result = sut.getYearTotalHours();
-
-		assertThat(result, is(1592));
+		assertEquals( 1592, result);
 	}
 
 	/**
@@ -182,6 +210,48 @@ public class ActivityBean_IT {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(getSelectedDate());
 			return cal;
+		}
+
+		public List<Holiday> listHolidays(LocalDate endDate) {
+			LocalDate firstDaySelectedMonth = LocalDate.of( endDate.getYear(), 1, 1 );
+			LocalDate lastDaySelectedMonth = endDate;
+			Date beginOfMonth = Date.from(firstDaySelectedMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			Date endOfMonth = Date.from(lastDaySelectedMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+			HolidaySearch monthSearch = new HolidaySearch();
+			monthSearch.setStartDate(beginOfMonth);
+			monthSearch.setEndDate(endOfMonth);
+
+			return holidayManager.getAllEntities(monthSearch, null);
+		}
+
+		public Map<Integer, Integer> alternativeGetWeekendsInMonth(int year) {
+
+			Map<Integer, Integer> result = new HashMap<>();
+
+			Calendar cal = getToday();
+			LocalDate firstDay = LocalDate.of(year, 1, 1);
+			Date date = java.sql.Date.valueOf(firstDay);
+			cal.setTime(date);
+
+			for( int month = 0; month <= getSelectedDate().getMonth() ; month++ ) {
+
+				int weekendsInMonth = 0;
+				int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+				for(int i = 1; i <= daysInMonth; i++){
+					cal.set(Calendar.DAY_OF_MONTH, i);
+					if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+							|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+						weekendsInMonth++;
+					}
+				}
+
+				result.put(month, weekendsInMonth);
+				cal.add(Calendar.MONTH, 1);
+			}
+
+			return result;
 		}
 
 	}

@@ -211,7 +211,7 @@ public class ActivityBean extends BaseBean{
 
     private AuthenticationManager authManager = AuthenticationManager.getDefault();
 
-    private HolidayManager holidayManager = HolidayManager.getDefault();
+    protected HolidayManager holidayManager = HolidayManager.getDefault();
 
     /** Settings manager */
     private static final SettingManager settings = SettingManager.getDefault();
@@ -1596,7 +1596,7 @@ public class ActivityBean extends BaseBean{
         return cal.get(Calendar.YEAR);
     }
 
-    private float getTotalWorkingHoursFor(int year){
+    protected float getTotalWorkingHoursFor(int year){
         float suma = 0;
         float hoursPerDay = getHoursPerDay();
         int daysInMonth;
@@ -2166,7 +2166,7 @@ public class ActivityBean extends BaseBean{
         return yearTotalHours;
     }
 
-    private int findWorkingAgreementHoursByYear(int year) {
+    protected int findWorkingAgreementHoursByYear(int year) {
         final User user = findUser();
 
         return (int) Duration.ofMinutes(user.getYearDurationByYear(year)).toHours();
