@@ -1624,7 +1624,7 @@ public class ActivityBean extends BaseBean{
         return Calendar.getInstance();
     }
 
-    private float getMonthTotalHours(float hoursPerDay, Date date, int daysInMonth){
+    protected float getMonthTotalHours(float hoursPerDay, Date date, int daysInMonth){
         List<Integer> nonWorkingDays = new ArrayList<>();
 
         int weekendsInMonth = 0;
@@ -1653,7 +1653,7 @@ public class ActivityBean extends BaseBean{
         return calculateHolidays(nonWorkingDays, selectedDate, daysInMonth);
     }
 
-    private int calculateHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
+    protected int calculateHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
 
         LocalDate selectedDay = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
         LocalDate firstDaySelectedMonth = selectedDay.withDayOfMonth(1);
@@ -1688,7 +1688,7 @@ public class ActivityBean extends BaseBean{
         return calculateRequestedHolidays(nonWorkingDays, selectedDate, daysInMonth);
     }
 
-    private int calculateRequestedHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
+    protected int calculateRequestedHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
 
         LocalDate selectedDay = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
         LocalDate firstDaySelectedMonth = selectedDay.withDayOfMonth(1);

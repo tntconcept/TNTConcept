@@ -170,23 +170,19 @@ public class ActivityBean_IT {
 
 		sut.setSelectedDate(dateTarget);
 
-		int workingHours = Math.round(sut.getTotalWorkingHoursFor(localDateTarget.getYear()));
+		int yearWorkingHours = Math.round(sut.getTotalWorkingHoursFor(localDateTarget.getYear()));
 		int hoursByAgreement = sut.findWorkingAgreementHoursByYear(localDateTarget.getYear());
 		Map<Integer, Integer> weekends = sut.alternativeGetWeekendsInMonth(localDateTarget.getYear());
+		Map<Integer, Integer> monthWorkingHours = sut.alternativeGetTotalWorkingHours(localDateTarget.getYear());
 
 		assertEquals(0, holidays.size() );
-		assertEquals( 10, weekends.size() );
-		assertEquals( 10, weekends.getOrDefault(0, -1).intValue() );
-		assertEquals( 8, weekends.getOrDefault(1, -1).intValue() );
-		assertEquals( 8, weekends.getOrDefault(2, -1).intValue() );
-		assertEquals( 9, weekends.getOrDefault(3, -1).intValue() );
-		assertEquals( 9, weekends.getOrDefault(4, -1).intValue() );
-		assertEquals( 8, weekends.getOrDefault(5, -1).intValue() );
-		assertEquals( 10, weekends.getOrDefault(6, -1).intValue() );
-		assertEquals( 8, weekends.getOrDefault(7, -1).intValue() );
-		assertEquals( 8, weekends.getOrDefault(8, -1).intValue() );
-		assertEquals( 10, weekends.getOrDefault(9, -1).intValue() );
-		assertEquals( 1592, workingHours );
+		assertEquals( Arrays.asList(10, 8, 8, 9, 9, 8, 10, 8, 8, 10), weekends.values().stream().toList() );
+		assertEquals( Arrays.asList(184, 0 ,0 ,0 ,0 , 0, 0),  monthWorkingHours.values().stream().toList() );
+
+		assertEquals( 184, monthWorkingHours.getOrDefault( 0, -1 ).intValue() );
+		assertEquals( 16, monthWorkingHours.getOrDefault( 9, -1 ).intValue() );
+		assertEquals( 160, monthWorkingHours.getOrDefault( 1, -1 ).intValue() );
+		assertEquals( 1592, yearWorkingHours );
 		assertEquals( 1765, hoursByAgreement );
 
 		final int result = sut.getYearTotalHours();
@@ -252,6 +248,32 @@ public class ActivityBean_IT {
 			}
 
 			return result;
+		}
+
+		public Map<Integer, Integer> alternativeGetTotalWorkingHours(int year) {
+
+			Map<Integer, Integer> workingHours = new HashMap<>();
+
+			float hoursPerDay = getHoursPerDay();
+			int daysInMonth;
+
+			Calendar cal = getToday();
+			cal.set(year, Calendar.JANUARY, 1);
+			//LocalDate firstDay = LocalDate.of(year, 1, 1);
+			//Date date = java.sql.Date.valueOf(firstDay);
+			//cal.setTime(date);
+
+			int month = getToday().get(Calendar.MONTH);
+
+			for(int i = 0; i <= month; i++){
+				Date date = cal.getTime();
+				daysInMonth = (i == month) ? cal.get(Calendar.DAY_OF_MONTH) : cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+				float monthTotalHours = getMonthTotalHours(hoursPerDay, date, daysInMonth);
+				workingHours.put( i , Math.round(monthTotalHours) );
+				cal.add(Calendar.MONTH, 1);
+			}
+
+			return workingHours;
 		}
 
 	}
