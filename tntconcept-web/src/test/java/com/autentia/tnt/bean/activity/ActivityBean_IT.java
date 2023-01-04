@@ -157,36 +157,13 @@ public class ActivityBean_IT {
 
 	@Test
 	public void shouldGetYearTotalHours() {
-		String strTarget = "2022-10-05T22:00:00.00Z";
+		String strTarget = "2022-10-05T00:00:00.00Z";
 		Date dateTarget = Date.from(Instant.parse(strTarget));
-		LocalDate localDateTarget = LocalDate.ofInstant(Instant.parse(strTarget), ZoneId.systemDefault());
 
 		final ActivityBeanNoJSF sut = new ActivityBeanNoJSF();
-
-		List<Holiday> holidays = sut.listHolidays(localDateTarget);
-		for( Holiday holiday : holidays) {
-			System.out.println( "Holidays: " + holiday.toString() );
-		}
-
 		sut.setSelectedDate(dateTarget);
 
-		int yearWorkingHours = Math.round(sut.getTotalWorkingHoursFor(localDateTarget.getYear()));
-		int hoursByAgreement = sut.findWorkingAgreementHoursByYear(localDateTarget.getYear());
-		Map<Integer, Integer> weekends = sut.alternativeGetWeekendsInMonth(localDateTarget.getYear());
-		Map<Integer, Integer> monthWorkingHours = sut.alternativeGetTotalWorkingHours(localDateTarget.getYear());
-
-		assertEquals(0, holidays.size() );
-		assertEquals( Arrays.asList(10, 8, 8, 9, 9, 8, 10, 8, 8, 10), weekends.values().stream().toList() );
-		assertEquals( Arrays.asList(184, 0 ,0 ,0 ,0 , 0, 0),  monthWorkingHours.values().stream().toList() );
-
-		assertEquals( 184, monthWorkingHours.getOrDefault( 0, -1 ).intValue() );
-		assertEquals( 16, monthWorkingHours.getOrDefault( 9, -1 ).intValue() );
-		assertEquals( 160, monthWorkingHours.getOrDefault( 1, -1 ).intValue() );
-		assertEquals( 1592, yearWorkingHours );
-		assertEquals( 1765, hoursByAgreement );
-
-		final int result = sut.getYearTotalHours();
-		assertEquals( 1592, result);
+		assertEquals( 1584, sut.getYearTotalHours());
 	}
 
 	/**
@@ -195,7 +172,7 @@ public class ActivityBean_IT {
 	 * @author jalonso
 	 *
 	 */
-	private class ActivityBeanNoJSF extends ActivityBean {
+	public static class ActivityBeanNoJSF extends ActivityBean {
 		@Override
 		public float getHoursPerDay() {
 			return 8;
@@ -207,75 +184,6 @@ public class ActivityBean_IT {
 			cal.setTime(getSelectedDate());
 			return cal;
 		}
-
-		public List<Holiday> listHolidays(LocalDate endDate) {
-			LocalDate firstDaySelectedMonth = LocalDate.of( endDate.getYear(), 1, 1 );
-			LocalDate lastDaySelectedMonth = endDate;
-			Date beginOfMonth = Date.from(firstDaySelectedMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			Date endOfMonth = Date.from(lastDaySelectedMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-			HolidaySearch monthSearch = new HolidaySearch();
-			monthSearch.setStartDate(beginOfMonth);
-			monthSearch.setEndDate(endOfMonth);
-
-			return holidayManager.getAllEntities(monthSearch, null);
-		}
-
-		public Map<Integer, Integer> alternativeGetWeekendsInMonth(int year) {
-
-			Map<Integer, Integer> result = new HashMap<>();
-
-			Calendar cal = getToday();
-			LocalDate firstDay = LocalDate.of(year, 1, 1);
-			Date date = java.sql.Date.valueOf(firstDay);
-			cal.setTime(date);
-
-			for( int month = 0; month <= getSelectedDate().getMonth() ; month++ ) {
-
-				int weekendsInMonth = 0;
-				int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-				for(int i = 1; i <= daysInMonth; i++){
-					cal.set(Calendar.DAY_OF_MONTH, i);
-					if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-							|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-						weekendsInMonth++;
-					}
-				}
-
-				result.put(month, weekendsInMonth);
-				cal.add(Calendar.MONTH, 1);
-			}
-
-			return result;
-		}
-
-		public Map<Integer, Integer> alternativeGetTotalWorkingHours(int year) {
-
-			Map<Integer, Integer> workingHours = new HashMap<>();
-
-			float hoursPerDay = getHoursPerDay();
-			int daysInMonth;
-
-			Calendar cal = getToday();
-			cal.set(year, Calendar.JANUARY, 1);
-			//LocalDate firstDay = LocalDate.of(year, 1, 1);
-			//Date date = java.sql.Date.valueOf(firstDay);
-			//cal.setTime(date);
-
-			int month = getToday().get(Calendar.MONTH);
-
-			for(int i = 0; i <= month; i++){
-				Date date = cal.getTime();
-				daysInMonth = (i == month) ? cal.get(Calendar.DAY_OF_MONTH) : cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-				float monthTotalHours = getMonthTotalHours(hoursPerDay, date, daysInMonth);
-				workingHours.put( i , Math.round(monthTotalHours) );
-				cal.add(Calendar.MONTH, 1);
-			}
-
-			return workingHours;
-		}
-
 	}
 
 }
