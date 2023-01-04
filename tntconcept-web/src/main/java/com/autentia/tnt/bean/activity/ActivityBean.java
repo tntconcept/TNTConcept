@@ -211,7 +211,7 @@ public class ActivityBean extends BaseBean{
 
     private AuthenticationManager authManager = AuthenticationManager.getDefault();
 
-    protected HolidayManager holidayManager = HolidayManager.getDefault();
+    private HolidayManager holidayManager = HolidayManager.getDefault();
 
     /** Settings manager */
     private static final SettingManager settings = SettingManager.getDefault();
@@ -1628,7 +1628,7 @@ public class ActivityBean extends BaseBean{
         return Calendar.getInstance();
     }
 
-    protected float getMonthTotalHours(float hoursPerDay, Date date, int daysInMonth){
+    private float getMonthTotalHours(float hoursPerDay, Date date, int daysInMonth){
         List<Integer> nonWorkingDays = new ArrayList<>();
 
         int weekendsInMonth = 0;
@@ -1657,7 +1657,7 @@ public class ActivityBean extends BaseBean{
         return calculateHolidays(nonWorkingDays, selectedDate, daysInMonth);
     }
 
-    protected int calculateHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
+    private int calculateHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
 
         LocalDate selectedDay = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
         LocalDate firstDaySelectedMonth = selectedDay.withDayOfMonth(1);
@@ -1692,7 +1692,7 @@ public class ActivityBean extends BaseBean{
         return calculateRequestedHolidays(nonWorkingDays, selectedDate, daysInMonth);
     }
 
-    protected int calculateRequestedHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
+    private int calculateRequestedHolidays(List<Integer> nonWorkingDays, Date date, int daysInMonth){
 
         LocalDate selectedDay = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
         LocalDate firstDaySelectedMonth = selectedDay.withDayOfMonth(1);
@@ -2170,7 +2170,7 @@ public class ActivityBean extends BaseBean{
         return yearTotalHours;
     }
 
-    protected int findWorkingAgreementHoursByYear(int year) {
+    private int findWorkingAgreementHoursByYear(int year) {
         final User user = findUser();
 
         return (int) Duration.ofMinutes(user.getYearDurationByYear(year)).toHours();
