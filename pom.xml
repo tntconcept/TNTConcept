@@ -384,7 +384,7 @@
 							<!-- Skips integration tests if the value of skip.integration.tests
 								property is true -->
 							<skipTests>${skip.integration.tests}</skipTests>
-							<testFailureIgnore>true</testFailureIgnore>
+							<testFailureIgnore>false</testFailureIgnore>
 							<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
 						</configuration>
 					</execution>

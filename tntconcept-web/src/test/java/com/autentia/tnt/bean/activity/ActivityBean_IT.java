@@ -6,14 +6,12 @@ import static org.hamcrest.Matchers.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+import java.util.*;
 
+import com.autentia.tnt.dao.search.HolidaySearch;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -159,12 +157,13 @@ public class ActivityBean_IT {
 
 	@Test
 	public void shouldGetYearTotalHours() {
+		String strTarget = "2022-10-05T00:00:00.00Z";
+		Date dateTarget = Date.from(Instant.parse(strTarget));
+
 		final ActivityBeanNoJSF sut = new ActivityBeanNoJSF();
-		sut.setSelectedDate(Date.from(Instant.parse("2000-01-01T00:00:00.00Z")));
+		sut.setSelectedDate(dateTarget);
 
-		final int result = sut.getYearTotalHours();
-
-		assertThat(result, is(1592));
+		assertEquals( 1584, sut.getYearTotalHours());
 	}
 
 	/**
@@ -173,10 +172,17 @@ public class ActivityBean_IT {
 	 * @author jalonso
 	 *
 	 */
-	private class ActivityBeanNoJSF extends ActivityBean {
+	public static class ActivityBeanNoJSF extends ActivityBean {
 		@Override
 		public float getHoursPerDay() {
 			return 8;
+		}
+
+		@Override
+		protected Calendar getToday() {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(getSelectedDate());
+			return cal;
 		}
 	}
 

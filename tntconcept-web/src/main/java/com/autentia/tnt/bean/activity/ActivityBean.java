@@ -1596,28 +1596,36 @@ public class ActivityBean extends BaseBean{
         return cal.get(Calendar.YEAR);
     }
 
-    private float getTotalWorkingHoursFor(int year){
+    protected float getTotalWorkingHoursFor(int year){
         float suma = 0;
         float hoursPerDay = getHoursPerDay();
         int daysInMonth;
-        Calendar today = Calendar.getInstance();
+
+        Calendar today = getToday();
+        int month = today.get(Calendar.MONTH);
 
         LocalDate firstDay = LocalDate.of(year, 1, 1);
         Date date = java.sql.Date.valueOf(firstDay);
 
-        cal.clear();
-        cal.setTime(date);
+        Calendar calendarByMonth = Calendar.getInstance();
+        calendarByMonth.set(year, Calendar.JANUARY, 1);
 
-        int month = today.get(Calendar.MONTH);
+        cal.clear();
+        cal.set(year, Calendar.JANUARY, 1);
 
         for(int i = 0; i <= month; i++){
-            date = cal.getTime();
-            daysInMonth = (i == month) ? today.get(Calendar.DAY_OF_MONTH) : cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+            date = calendarByMonth.getTime();
+            daysInMonth = (i == month) ? today.get(Calendar.DAY_OF_MONTH) : calendarByMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
             suma += getMonthTotalHours(hoursPerDay, date, daysInMonth);
+            calendarByMonth.add(Calendar.MONTH, 1);
             cal.add(Calendar.MONTH, 1);
         }
 
         return Math.round(suma);
+    }
+
+    protected Calendar getToday() {
+        return Calendar.getInstance();
     }
 
     private float getMonthTotalHours(float hoursPerDay, Date date, int daysInMonth){
