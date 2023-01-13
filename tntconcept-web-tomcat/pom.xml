@@ -1,70 +1,129 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.autentia.tnt</groupId>
-		<artifactId>tntconcept-parent</artifactId>
-		<version>0.47.5-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>com.autentia.tnt</groupId>
+        <artifactId>tntconcept-parent</artifactId>
+        <version>0.47.5-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>tntconcept-web-tomcat</artifactId>
-	<packaging>war</packaging>
+    <artifactId>tntconcept-web-tomcat</artifactId>
+    <packaging>war</packaging>
 
-	<name>tntconcept-web-tomcat</name>
-	<description>
-		war with tntconcept web application configured for tomcat
-	</description>
-	
-	<build>
-		<finalName>${project.final.name}-web-tomcat</finalName>
-		<plugins>
-			<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>tomcat-maven-plugin</artifactId>
-					<configuration>
-							<server>${tomcat.server.name}</server>
-							<url>${tomcat.server.url}</url>
-							<path>/tntconcept</path>
-							<update>true</update>
-					</configuration>
-			</plugin> 
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<file>
-									src/main/assemblies/installer.xml
-								</file>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-    
-	<dependencies>
-		<!-- =================== Internal dependencies =================== -->
-		<dependency>
-			<groupId>com.autentia.tnt</groupId>
-			<artifactId>tntconcept-web</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
+    <name>tntconcept-web-tomcat</name>
+    <description>
+        war with tntconcept web application configured for tomcat
+    </description>
 
-		<dependency>
-			<groupId>com.autentia.tnt</groupId>
-			<artifactId>tntconcept-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- =================== External dependencies =================== -->
-	</dependencies>
+    <properties>
+        <docker.image.from>tomcat:9.0.70-jdk17-temurin</docker.image.from>
+        <docker.tag>${project.version}</docker.tag>
+    </properties>
+
+    <build>
+        <finalName>${project.final.name}-web-tomcat</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <configuration>
+                    <server>${tomcat.server.name}</server>
+                    <url>${tomcat.server.url}</url>
+                    <path>/tntconcept</path>
+                    <update>true</update>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <file>
+                                    src/main/assemblies/installer.xml
+                                </file>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <from>
+                        <image>${docker.image.from}</image>
+                    </from>
+                    <container>
+                        <appRoot>/usr/local/tomcat/webapps/tntconcept</appRoot>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                    </container>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>dockerBuild</goal>
+                        </goals>
+                        <configuration>
+                            <to>
+                                <image>local/${project.artifactId}:${docker.tag}</image>
+                            </to>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>publish-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <to>
+                                <image>ghcr.io/autentia/${project.artifactId}</image>
+                                <auth>
+                                    <username>${env.DOCKER_REPOSITORY_USER}</username>
+                                    <password>${env.DOCKER_REPOSITORY_PASS}</password>
+                                </auth>
+                                <tags>
+                                    <tag>${docker.tag}</tag>
+                                    <tag>latest</tag>
+                                </tags>
+                            </to>
+                        </configuration>
+                    </execution>
+                </executions>
+
+
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- =================== Internal dependencies =================== -->
+        <dependency>
+            <groupId>com.autentia.tnt</groupId>
+            <artifactId>tntconcept-web</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.autentia.tnt</groupId>
+            <artifactId>tntconcept-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- =================== External dependencies =================== -->
+    </dependencies>
 
 </project>
