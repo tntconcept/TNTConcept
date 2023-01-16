@@ -5,17 +5,28 @@
 	<parent>
 		<groupId>com.autentia.tnt</groupId>
 		<artifactId>tntconcept-parent</artifactId>
-		<version>0.47.5-SNAPSHOT</version>
+		<version>0.47.7-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tntconcept-web</artifactId>
 	<packaging>war</packaging>
 
 	<name>tntconcept-web</name>
-	<description>Aplicación de TNT Concept. Genera un war para desplegar en el jboss.</description>
+	<description>Aplicación de TNT Concept. Genera un war para desplegar en tomcat.</description>
 	<build>
+
 		<finalName>${project.final.name}-web</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<server>${tomcat.server.name}</server>
+					<url>${tomcat.server.url}</url>
+					<path>/tntconcept</path>
+					<update>true</update>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>

@@ -20,11 +20,9 @@ tntconcept-web/src/main/webapp/META-INF/context.xml
 /.gitk*/
 tntconcept-core/.gitignore
 tntconcept-test/bin/.gitignore
-tntconcept-web-tomcat/bin/.gitignore
 tntconcept-web/.gitignore
 #
 bin/
-tntconcept-web-tomcat/overlays
 
 #Mac files
 **/.DS_Store
