@@ -15,7 +15,7 @@
 	<description>Aplicación de TNT Concept. Genera un war para desplegar en tomcat.</description>
 	<build>
 
-		<finalName>${project.final.name}-web-tomcat</finalName>
+		<finalName>${project.final.name}-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
