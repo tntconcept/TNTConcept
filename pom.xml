@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.47.5-SNAPSHOT</version>
+	<version>0.47.7-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
@@ -61,7 +61,6 @@
 	<modules>
 		<module>tntconcept-core</module>
 		<module>tntconcept-web</module>
-		<module>tntconcept-web-tomcat</module>
 		<module>tntconcept-test</module>
 	</modules>
 
@@ -96,18 +95,6 @@
 				</property>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-		</profile>
-		<profile>
-			<id>jboss-profile</id>
-			<activation>
-				<property>
-					<name>server</name>
-					<value>jboss</value>
-				</property>
-			</activation>
-			<properties>
-				<appserver.scope>provided</appserver.scope>
-			</properties>
 		</profile>
 		<profile>
 			<id>dev</id>
