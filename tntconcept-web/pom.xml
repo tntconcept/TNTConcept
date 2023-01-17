@@ -13,8 +13,13 @@
 
 	<name>tntconcept-web</name>
 	<description>Aplicación de TNT Concept. Genera un war para desplegar en tomcat.</description>
-	<build>
 
+	<properties>
+		<docker.image.from>tomcat:9-jdk17-corretto</docker.image.from>
+		<docker.tag>${project.version}</docker.tag>
+	</properties>
+
+	<build>
 		<finalName>${project.final.name}-web</finalName>
 		<plugins>
 			<plugin>
@@ -45,6 +50,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
@@ -174,6 +180,58 @@
 							<version>1.7.0</version>
 							<packaging>jar</packaging>
 							<file>${project.basedir}/jars_to_install/wcf-1.7.0.jar</file>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<from>
+						<image>${docker.image.from}</image>
+					</from>
+					<container>
+						<appRoot>/usr/local/tomcat/webapps/tntconcept</appRoot>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>dockerBuild</goal>
+						</goals>
+						<configuration>
+							<to>
+								<image>local/${project.artifactId}:${docker.tag}</image>
+							</to>
+						</configuration>
+					</execution>
+					<execution>
+						<id>publish-image</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+						<configuration>
+							<to>
+								<image>ghcr.io/autentia/${project.artifactId}</image>
+								<auth>
+									<username>${env.DOCKER_REPOSITORY_USER}</username>
+									<password>${env.DOCKER_REPOSITORY_PASS}</password>
+								</auth>
+								<tags>
+									<tag>${docker.tag}</tag>
+									<tag>latest</tag>
+								</tags>
+							</to>
 						</configuration>
 					</execution>
 				</executions>
