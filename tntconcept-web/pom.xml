@@ -210,7 +210,7 @@
 						</goals>
 						<configuration>
 							<to>
-								<image>local/${project.artifactId}:${docker.tag}</image>
+								<image>${project.artifactId}:${docker.tag}</image>
 							</to>
 						</configuration>
 					</execution>
