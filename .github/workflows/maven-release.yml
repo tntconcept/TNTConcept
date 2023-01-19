@@ -50,6 +50,7 @@ jobs:
           mvn -B release:prepare
           NEXT_RELEASE=$(grep -r 'scm.tag=' release.properties | sed 's/scm.tag=//')
           echo "NEXT_RELEASE=$NEXT_RELEASE" >> $GITHUB_ENV
+          mvn deploy -Dtoken=${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1

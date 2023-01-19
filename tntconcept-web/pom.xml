@@ -222,7 +222,7 @@
 						</goals>
 						<configuration>
 							<to>
-								<image>ghcr.io/autentia/${project.artifactId}</image>
+								<image>ghcr.io/autentia/tntconcept</image>
 								<auth>
 									<username>${env.DOCKER_REPOSITORY_USER}</username>
 									<password>${env.DOCKER_REPOSITORY_PASS}</password>
