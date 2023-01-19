@@ -19,8 +19,8 @@ With TNTConcept you can manage, in an integrated way, your customers, providers,
 
 ## Build requirements
 
-- TNTConcept does not compile with JDK 8+
-- Maven 2.2
+- TNTConcept compiles with JDK 17
+- Maven
 
 ## Configure docker OpenLDAP container for authentication
 
@@ -77,3 +77,10 @@ OpenLDAP provides several commands to allow us to modify the directory. The most
 
 So, if we want to push our LDIF entry into the LDAP database, we would execute the following command:
 `ldapadd -H ldap://ldaphost -x -D "cn=admin,dc=autentia,dc=com" -f addexample.ldif -W adminadmin`
+
+## Docker image
+
+Each time a release is generated a docker container is deployed in the organization package storage.
+https://github.com/orgs/autentia/packages
+
+This image does not contain the config volumes to make it work, it has to be created with the docker run command to make it work
