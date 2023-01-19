@@ -411,15 +411,15 @@
 
 	<distributionManagement>
 		<repository>
-            <id>autentia-repository</id>
-            <name>Autentia Releases Repository</name>
+            		<id>autentia-repository</id>
+            		<name>Autentia Releases Repository</name>
 			<url>${autentia.mvn.distribution}</url>
 		</repository>
-        <snapshotRepository>
-            <id>autentia-repository-snapshots</id>
-            <name>Autentia Snapshots Repository</name>
-            <url>${autentia.mvn.snapshots}</url>
-        </snapshotRepository>
+		<snapshotRepository>
+            		<id>autentia-repository-snapshots</id>
+            		<name>Autentia Snapshots Repository</name>
+			<url>${autentia.mvn.snapshots}</url>
+        		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
