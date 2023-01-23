@@ -22,6 +22,19 @@ With TNTConcept you can manage, in an integrated way, your customers, providers,
 - TNTConcept compiles with JDK 17
 - Maven
 
+## Local execution
+
+In project root there is an executable script (build-tomcat-docker.sh) that uses docker compose to create MySql, Ldap and tntconcept
+docker images and connect them in a network so that it works altogether.
+
+Go to once all is up and running
+> http://localhost:8080/tntconcept-web/consoleLogin.jsf
+
+In case there is any problem with tntconcept, outside and inside container logs can be checked using these commands
+> docker logs tntconcept
+> docker exec -t -i tntconcept /bin/bash
+> cat /usr/local/tomcat/logs/tntconcept.log
+
 ## Configure docker OpenLDAP container for authentication
 
 The [ldapTools/docker](https://github.com/autentia/TNTConcept/tree/master/ldapTools/docker) folder contains the Dockerfile for the image and a docker-compose.yml file already configured and ready to build the OpenLDAP container. This image is inspired by [dinkel/docker-openldap](https://github.com/dinkel/docker-openldap), so please check that README file in case you need to change any startup configuration.
@@ -80,7 +93,6 @@ So, if we want to push our LDIF entry into the LDAP database, we would execute t
 
 ## Docker image
 
-Each time a release is generated a docker container is deployed in the organization package storage.
-https://github.com/orgs/autentia/packages
+Each time a release is generated a docker container is deployed in the organization repository package storage.
 
 This image does not contain the config volumes to make it work, it has to be created with the docker run command to make it work
