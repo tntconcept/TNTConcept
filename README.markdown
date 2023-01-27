@@ -95,4 +95,8 @@ So, if we want to push our LDIF entry into the LDAP database, we would execute t
 
 Each time a release is generated a docker container is deployed in the organization repository package storage.
 
-This image does not contain the config volumes to make it work, it has to be created with the docker run command to make it work
+This image does not contain the config volumes to make it work, it has to be created with the docker run command adding volumes' creation to make it work
+The missing files/volumes that needs to be mounted inside the docker image are:
+context.xml file into image path -> /usr/local/tomcat/conf/
+properties and configuration xml -> /etc/tntconcept
+Create and give permissions to folders -> /usr/local/tomcat/logs and /var/autentia/tntconcept/reports

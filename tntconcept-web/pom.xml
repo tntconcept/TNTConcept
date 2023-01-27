@@ -210,7 +210,11 @@
 						</goals>
 						<configuration>
 							<to>
-								<image>${project.artifactId}:${docker.tag}</image>
+								<image>ghcr.io/autentia/tntconcept</image>
+								<tags>
+									<tag>${docker.tag}</tag>
+									<tag>latest</tag>
+								</tags>
 							</to>
 						</configuration>
 					</execution>
