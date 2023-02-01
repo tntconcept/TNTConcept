@@ -50,7 +50,10 @@ jobs:
           mvn -B release:prepare
           NEXT_RELEASE=$(grep -r 'scm.tag=' release.properties | sed 's/scm.tag=//')
           echo "NEXT_RELEASE=$NEXT_RELEASE" >> $GITHUB_ENV
-          mvn deploy -Dtoken=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create docker Release
+        run: |
+          mvn deploy -Ddocker.tag=${{ env.NEXT_RELEASE }} -Dmaven.deploy.skip=true -DDOCKER_REPOSITORY_USER=${{ secrets.DOCKER_REPOSITORY_USER }} -DDOCKER_REPOSITORY_PASS=${{ secrets.DOCKER_REPOSITORY_PASS }}
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
