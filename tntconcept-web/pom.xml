@@ -227,10 +227,6 @@
 						<configuration>
 							<to>
 								<image>ghcr.io/autentia/tntconcept</image>
-								<auth>
-									<username>${env.DOCKER_REPOSITORY_USER}</username>
-									<password>${env.DOCKER_REPOSITORY_PASS}</password>
-								</auth>
 								<tags>
 									<tag>${docker.tag}</tag>
 									<tag>latest</tag>
@@ -458,13 +454,13 @@
 			<version>2.4.0</version>
 			<scope>test</scope>
 		</dependency>
-        <!-- Database migration scripts for integration tests -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>4.2.0</version>
-            <scope>test</scope>
-        </dependency>
+		<!-- Database migration scripts for integration tests -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>4.2.0</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- WebDav -->
 		<dependency>
