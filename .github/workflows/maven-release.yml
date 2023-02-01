@@ -53,7 +53,7 @@ jobs:
 
       - name: Create docker Release
         run: |
-          mvn deploy -Ddocker.tag=${{ env.NEXT_RELEASE }} -Dmaven.deploy.skip=true -Dtoken=${{ secrets.GITHUB_TOKEN }}
+          mvn package jib:build -Ddocker.tag=${{ env.NEXT_RELEASE }} -DCONTAINER_REPOSITORY_USER=${{ secrets.CONTAINER_REPOSITORY_USER }} -DCONTAINER_REPOSITORY_PASSWORD=${{ secrets.CONTAINER_REPOSITORY_PASSWORD }}
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
