@@ -185,15 +185,21 @@
 				</executions>
 			</plugin>
 
-
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.3.1</version>
 				<configuration>
+					<skip>false</skip>
 					<from>
 						<image>${docker.image.from}</image>
 					</from>
+					<to>
+						<image>ghcr.io/autentia/tntconcept</image>
+						<tags>
+							<tag>${docker.tag}</tag>
+							<tag>latest</tag>
+						</tags>
+					</to>
 					<container>
 						<appRoot>/usr/local/tomcat/webapps/tntconcept</appRoot>
 						<ports>
@@ -201,40 +207,6 @@
 						</ports>
 					</container>
 				</configuration>
-				<executions>
-					<execution>
-						<id>build-image</id>
-						<phase>package</phase>
-						<goals>
-							<goal>dockerBuild</goal>
-						</goals>
-						<configuration>
-							<to>
-								<image>ghcr.io/autentia/tntconcept</image>
-								<tags>
-									<tag>${docker.tag}</tag>
-									<tag>latest</tag>
-								</tags>
-							</to>
-						</configuration>
-					</execution>
-					<execution>
-						<id>publish-image</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-						<configuration>
-							<to>
-								<image>ghcr.io/autentia/tntconcept</image>
-								<tags>
-									<tag>${docker.tag}</tag>
-									<tag>latest</tag>
-								</tags>
-							</to>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -261,6 +261,16 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.3.2</version>
 				</plugin>
+
+				<!-- Skip by default. Only set on tntconcept-web module -->
+				<plugin>
+					<groupId>com.google.cloud.tools</groupId>
+					<artifactId>jib-maven-plugin</artifactId>
+					<version>3.3.1</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -411,15 +421,15 @@
 
 	<distributionManagement>
 		<repository>
-            		<id>autentia-repository</id>
-            		<name>Autentia Releases Repository</name>
+			<id>autentia-repository</id>
+			<name>Autentia Releases Repository</name>
 			<url>${autentia.mvn.distribution}</url>
 		</repository>
 		<snapshotRepository>
-            		<id>autentia-repository-snapshots</id>
-            		<name>Autentia Snapshots Repository</name>
+			<id>autentia-repository-snapshots</id>
+			<name>Autentia Snapshots Repository</name>
 			<url>${autentia.mvn.snapshots}</url>
-        		</snapshotRepository>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
