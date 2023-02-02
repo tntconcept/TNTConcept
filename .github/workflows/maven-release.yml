@@ -3,15 +3,66 @@ name: Maven Release
 on:
   workflow_dispatch:
 
-jobs:
-  release:
+env:
+  GITHUB_CONTAINER_REGISTRY: 'ghcr.io'
 
+jobs:
+  prepare-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      NEXT_RELEASE: ${{ env.NEXT_RELEASE }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
+          server-id: "github"
+
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Install dependencies needed
+        run: |
+          mvn install:install-file -Dfile=./tntconcept-core/jars_to_install/jta-1.0.1B.jar -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/olap4j-0.9.6.jar -DgroupId=org.olap4j -DartifactId=olap4j -Dversion=0.9.6 -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/mondrian-3.0.0.jar -DgroupId=mondrian -DartifactId=mondrian -Dversion=3.0.0 -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/wcf-1.7.0.jar -DgroupId=com.tonbeller.wcf -DartifactId=wcf -Dversion=1.7.0 -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/jpivot-1.8.0.jar -DgroupId=com.tonbeller.jpivot -DartifactId=jpivot -Dversion=1.8.0 -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/tbutils-wcf-1.7.0.jar -DgroupId=com.tonbeller.tbutils -DartifactId=tbutils-wcf -Dversion=1.7.0 -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/javacup-0.10k.jar -DgroupId=java_cup -DartifactId=javacup -Dversion=0.10k -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-properties-1.0.jar -DgroupId=org.eigenbase.util.property -DartifactId=eigenbase-properties -Dversion=1.0   -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-resgen-1.0.jar -DgroupId=org.eigenbase.resgen -DartifactId=eigenbase-resgen -Dversion=1.0 -Dpackaging=jar
+          mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-xom-1.0.jar -DgroupId=org.eigenbase.xom -DartifactId=eigenbase-xom -Dversion=1.0 -Dpackaging=jar
+
+      - name: Prepare Maven Release
+        run: |
+          mvn --batch-mode release:prepare
+          NEXT_RELEASE=$(grep -r 'scm.tag=' release.properties | sed 's/scm.tag=//')
+          echo "NEXT_RELEASE=$NEXT_RELEASE" >> $GITHUB_ENV
+
+  upload-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    needs: [ prepare-release ]
+    env:
+      NEXT_RELEASE: ${{ needs.prepare-release.outputs.NEXT_RELEASE }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -29,35 +80,26 @@ jobs:
       - name: Install dependencies needed
         run: |
           mvn install:install-file -Dfile=./tntconcept-core/jars_to_install/jta-1.0.1B.jar -DgroupId=javax.transaction -DartifactId=jta -Dversion=1.0.1B -Dpackaging=jar
-
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/olap4j-0.9.6.jar -DgroupId=org.olap4j -DartifactId=olap4j -Dversion=0.9.6 -Dpackaging=jar
-
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/mondrian-3.0.0.jar -DgroupId=mondrian -DartifactId=mondrian -Dversion=3.0.0 -Dpackaging=jar
-
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/wcf-1.7.0.jar -DgroupId=com.tonbeller.wcf -DartifactId=wcf -Dversion=1.7.0 -Dpackaging=jar
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/jpivot-1.8.0.jar -DgroupId=com.tonbeller.jpivot -DartifactId=jpivot -Dversion=1.8.0 -Dpackaging=jar
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/tbutils-wcf-1.7.0.jar -DgroupId=com.tonbeller.tbutils -DartifactId=tbutils-wcf -Dversion=1.7.0 -Dpackaging=jar
-
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/javacup-0.10k.jar -DgroupId=java_cup -DartifactId=javacup -Dversion=0.10k -Dpackaging=jar
-
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-properties-1.0.jar -DgroupId=org.eigenbase.util.property -DartifactId=eigenbase-properties -Dversion=1.0   -Dpackaging=jar
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-resgen-1.0.jar -DgroupId=org.eigenbase.resgen -DartifactId=eigenbase-resgen -Dversion=1.0 -Dpackaging=jar
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-xom-1.0.jar -DgroupId=org.eigenbase.xom -DartifactId=eigenbase-xom -Dversion=1.0 -Dpackaging=jar
 
-
-      - name: Prepare Maven Release
-        run: |
-          mvn -B release:prepare
-          NEXT_RELEASE=$(grep -r 'scm.tag=' release.properties | sed 's/scm.tag=//')
-          echo "NEXT_RELEASE=$NEXT_RELEASE" >> $GITHUB_ENV
-
       - name: Create docker Release
         run: |
-          mvn package jib:build -Ddocker.tag=${{ env.NEXT_RELEASE }} -DCONTAINER_REPOSITORY_USER=${{ secrets.CONTAINER_REPOSITORY_USER }} -DCONTAINER_REPOSITORY_PASSWORD=${{ secrets.CONTAINER_REPOSITORY_PASSWORD }}
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          mvn --batch-mode clean install jib:build -Ddocker.tag=${{ env.NEXT_RELEASE }}
+          docker logout ghcr.io
 
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.12.0
         with:
           artifacts: "tntconcept-web/target/*.war"
           tag: ${{ env.NEXT_RELEASE }}
           token: ${{ secrets.GITHUB_TOKEN }}
+

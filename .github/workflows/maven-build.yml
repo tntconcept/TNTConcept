@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
@@ -42,4 +43,4 @@ jobs:
           mvn install:install-file -Dfile=./tntconcept-web/jars_to_install/eigenbase-xom-1.0.jar -DgroupId=org.eigenbase.xom -DartifactId=eigenbase-xom -Dversion=1.0 -Dpackaging=jar
 
       - name: Build with Maven
-        run: mvn -B -DskipITs=false verify --file pom.xml
+        run: mvn --batch-mode clean install

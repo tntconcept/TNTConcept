@@ -199,10 +199,6 @@
 							<tag>${docker.tag}</tag>
 							<tag>latest</tag>
 						</tags>
-						<auth>
-							<username>${CONTAINER_REPOSITORY_USER}</username>
-							<password>${CONTAINER_REPOSITORY_PASSWORD}</password>
-						</auth>
 					</to>
 					<container>
 						<appRoot>/usr/local/tomcat/webapps/tntconcept</appRoot>
