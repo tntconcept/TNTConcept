@@ -54,7 +54,9 @@ jobs:
 
       - name: Create docker Release
         run: |
-          mvn deploy -Ddocker.tag=${{ env.NEXT_RELEASE }} -Dmaven.deploy.skip=true -Dtoken=${{ secrets.GITHUB_TOKEN }}
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          mvn deploy -Ddocker.tag=${{ env.NEXT_RELEASE }} -Dmaven.deploy.skip=true
+          
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
