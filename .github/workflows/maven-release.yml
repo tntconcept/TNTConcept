@@ -3,9 +3,6 @@ name: Maven Release
 on:
   workflow_dispatch:
 
-env:
-  GITHUB_CONTAINER_REGISTRY: 'ghcr.io'
-
 jobs:
   prepare-release:
     runs-on: ubuntu-latest
