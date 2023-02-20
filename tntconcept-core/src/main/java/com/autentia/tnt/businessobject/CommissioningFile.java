@@ -115,7 +115,7 @@ public class CommissioningFile implements Serializable, ITransferObject {
 	/**
 	 * @param updateDate the updateDate to set
 	 */
-	public void setUpdateDate(Date updateDate) {
+    private void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
 

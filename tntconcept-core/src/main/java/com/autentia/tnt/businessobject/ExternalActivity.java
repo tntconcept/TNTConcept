@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.autentia.tnt.dao.ITransferObject;
 import com.autentia.tnt.dao.hibernate.UserDAO;
@@ -95,7 +94,7 @@ public class ExternalActivity implements Serializable, ITransferObject {
 		
 	}
 
-	public void setInsertDate(Date insertDate) {
+	private void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
 		
 	}
@@ -104,7 +103,7 @@ public class ExternalActivity implements Serializable, ITransferObject {
 		this.owner = UserDAO.getDefault().loadById(ownerId);
 	}
 
-	public void setUpdateDate(Date updateDate) {
+	private void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 		
 	}

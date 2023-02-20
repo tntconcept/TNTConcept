@@ -18,8 +18,6 @@
 package com.autentia.tnt.businessobject;
 
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;

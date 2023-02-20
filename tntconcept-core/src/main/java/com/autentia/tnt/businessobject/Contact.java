@@ -19,7 +19,6 @@ package com.autentia.tnt.businessobject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +27,6 @@ import java.util.Set;
 import com.autentia.tnt.dao.ITransferObject;
 import com.autentia.tnt.tracking.TrackingBase;
 import com.autentia.tnt.tracking.annotation.ChangesHistory;
-import com.autentia.tnt.tracking.mail.TrackChangesMailService;
 
 /**
  * Transfer object to store Contacts
