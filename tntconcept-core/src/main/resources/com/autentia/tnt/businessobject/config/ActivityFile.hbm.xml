@@ -29,8 +29,8 @@
 
 		<property name="file" type="java.lang.String" not-null="true" />
 		<property name="fileMime" type="java.lang.String" not-null="true" />
-		<property name="insertDate" type="java.util.Date" not-null="true" />
-		<property name="updateDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" not-null="true" insert="false" update="false"/>
+		<property name="updateDate" type="java.util.Date" insert="false" update="false"/>
 		<many-to-one name="externalActivity"
 			class="com.autentia.tnt.businessobject.ExternalActivity" column="externalActivityId" />
 		<many-to-one name="user"

@@ -263,6 +263,7 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
     try
     {
       session = HibernateUtil.getSessionFactory().getCurrentSession();
+
       session.save(obj);
       log.debug("objeto correctamente insertado");
     }

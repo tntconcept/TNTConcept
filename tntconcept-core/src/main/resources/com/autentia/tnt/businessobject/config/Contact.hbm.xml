@@ -52,8 +52,8 @@
 	</set> 
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 	<set name="owners" table="ContactOwner">
 		<key column="contactId"/>
 		<many-to-many column="userId" class="com.autentia.tnt.businessobject.User"/>

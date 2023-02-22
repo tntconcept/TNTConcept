@@ -41,8 +41,8 @@
 			 />
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
     
-    <property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+    <property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 	
 	<set name="files" inverse="true" cascade="all-delete-orphan"  order-by="insertDate DESC">
 		<key column="externalActivityId" />

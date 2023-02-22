@@ -30,8 +30,8 @@
 		<property name="delayedToDate" type="java.util.Date"
 			not-null="true" />
 		<property name="reason" type="java.lang.String" not-null="true" />
-		<property name="insertDate" type="java.util.Date" />
-		<property name="updateDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+		<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 		<property name="status" not-null="true">
 			<type name="com.autentia.tnt.util.GenericEnumUserType">
 				<param name="enumClassName">com.autentia.tnt.businessobject.CommissioningStatus</param>

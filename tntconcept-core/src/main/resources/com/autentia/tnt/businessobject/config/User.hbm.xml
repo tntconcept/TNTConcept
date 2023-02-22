@@ -83,8 +83,8 @@
 	<many-to-one name="agreement" class="com.autentia.tnt.businessobject.WorkingAgreement" column="agreementId" not-null="true" />
 	
 	<property name="contractObservations" type="java.lang.String"/> 
-	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 	
 	<property name="passwordExpireDate" type="java.util.Date"/>	
 	 

@@ -30,7 +30,7 @@
 	<property name="expirationDate" type="java.util.Date" not-null="true"/>
     <property name="ownerId" type="java.lang.Integer" />
 	<property name="departmentId" type="java.lang.Integer" />
-	<property name="insertDate" type="java.util.Date" />
-	<property name="updateDate" type="java.util.Date" />  
+	<property name="insertDate" type="java.util.Date" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" insert="false" update="false"/>
   </class>
 </hibernate-mapping>

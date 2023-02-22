@@ -29,8 +29,8 @@
 		<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 		<property name="name" type="java.lang.String" not-null="true" />
 		<property name="description" type="java.lang.String" />
-		<property name="insertDate" type="java.util.Date" />
-		<property name="updateDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+		<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 		<property name="deleteDate" type="java.util.Date" />
 		<set name="departments" table="Position_Department">
 			<key column="positionId"/>

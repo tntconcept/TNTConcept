@@ -33,7 +33,7 @@
     	column="organizationId" not-null="false"  />
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date"/>
-	<property name="updateDate" type="java.util.Date"/>
+	<property name="insertDate" type="java.util.Date" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" insert="false" update="false"/>
   </class>
 </hibernate-mapping>

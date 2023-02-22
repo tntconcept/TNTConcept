@@ -28,7 +28,7 @@
     <property name="user" type="java.lang.String"/>
     <property name="link" type="java.lang.String"/>
 	
-	<property name="insertDate" type="java.util.Date"/>
+	<property name="insertDate" type="java.util.Date" insert="false" update="false"/>
 	<!-- <property name="updateDate" type="java.util.Date" column="updateDate"/>-->
 	 
   </class>

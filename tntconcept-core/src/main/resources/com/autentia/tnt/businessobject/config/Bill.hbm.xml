@@ -88,8 +88,8 @@
               column="providerId" not-null="false"  />
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
     <property name="submitted" type="java.lang.Integer" column="submitted"/>
     <many-to-one name="billCategory" class="com.autentia.tnt.businessobject.BillCategory" column="billCategoryId"/>
     <many-to-one name="rectifiedBillCategory" class="com.autentia.tnt.businessobject.RectifiedBillCategory"

@@ -30,8 +30,8 @@
 		<property name="field" type="java.lang.String" not-null="true" />
 		<property name="oldValue" type="java.lang.String" not-null="true" />
 		<property name="newValue" type="java.lang.String" not-null="true" />
-		<property name="insertDate" type="java.util.Date" />
-		<property name="updateDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+		<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 		<property name="deleteDate" type="java.util.Date" />
 		<many-to-one name="commissioning"
 			class="com.autentia.tnt.businessobject.Commissioning" column="commissioningId" />

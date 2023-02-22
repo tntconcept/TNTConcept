@@ -320,7 +320,6 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
       obj.setOwnerId(principal.getId());
       obj.setDepartmentId(principal.getDepartmentId());
 
-
       session.save(obj);
       log.debug("objeto correctamente insertado");
       if(this.cacheable)
@@ -349,6 +348,7 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
     try
     {
       session = HibernateUtil.getSessionFactory().getCurrentSession();
+      obj.setUpdateDate(new Date());
       session.merge(obj);
       
       if (log.isDebugEnabled()){
@@ -373,6 +373,7 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
     try
     {
       session = HibernateUtil.getSessionFactory().getCurrentSession();
+      obj.setUpdateDate(new Date());
       ITransferObject ret = (ITransferObject) session.merge(obj);
       
       if (log.isDebugEnabled()){

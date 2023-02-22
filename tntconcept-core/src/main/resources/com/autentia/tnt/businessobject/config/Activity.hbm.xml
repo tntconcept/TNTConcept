@@ -33,8 +33,8 @@
     <many-to-one name="role" class="com.autentia.tnt.businessobject.ProjectRole" column="roleId" not-null="true" />
    
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
     <property name="hasImage" type="java.lang.Boolean" column="hasImage"/>
   </class>
 </hibernate-mapping>

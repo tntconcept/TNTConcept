@@ -29,7 +29,7 @@
 		<property name="field" type="java.lang.String" not-null="true" />
 		<property name="oldValue" type="java.lang.String" not-null="true" />
 		<property name="newValue" type="java.lang.String" not-null="true" />
-		<property name="insertDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" insert="false" update="false"/>
 		<property name="entityName" type="java.lang.String" not-null="true" />
 		<property name="entityId" type="java.lang.Integer" not-null="true" />
 		<many-to-one name="user"
