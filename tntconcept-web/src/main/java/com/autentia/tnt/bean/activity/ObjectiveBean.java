@@ -980,22 +980,10 @@ public class ObjectiveBean extends BaseBean
     public Date getInsertDate() {
     return objective.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    objective.setInsertDate( insertDate );
-  }
-        
-    
     
     public Date getUpdateDate() {
     return objective.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    objective.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
     public User getUser() {
     return objective.getUser();
   }

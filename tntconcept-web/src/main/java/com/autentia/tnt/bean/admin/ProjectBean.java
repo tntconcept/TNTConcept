@@ -965,19 +965,9 @@ public class ProjectBean extends BaseBean {
         return project.getInsertDate();
     }
 
-    public void setInsertDate(Date insertDate) {
-        project.setInsertDate(insertDate);
-    }
-
-
     public Date getUpdateDate() {
         return project.getUpdateDate();
     }
-
-    public void setUpdateDate(Date updateDate) {
-        project.setUpdateDate(updateDate);
-    }
-
 
     public Organization getClient() {
         return project.getClient();

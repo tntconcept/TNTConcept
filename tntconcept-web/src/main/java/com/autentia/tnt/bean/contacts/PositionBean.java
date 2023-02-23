@@ -133,7 +133,6 @@ public class PositionBean extends BaseBean {
 	 */
 	public String create() {
 		position = new Position();
-		position.setInsertDate(new Date());
 		return NavigationResults.CREATE;
 	}
 
@@ -520,16 +519,8 @@ public class PositionBean extends BaseBean {
 		return position.getInsertDate();
 	}
 
-	public void setInsertDate(Date insertDate) {
-		position.setInsertDate(insertDate);
-	}
-
 	public Date getUpdateDate() {
 		return position.getUpdateDate();
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		position.setUpdateDate(updateDate);
 	}
 
 	public Date getDeleteDate() {

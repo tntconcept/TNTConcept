@@ -348,7 +348,6 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
     try
     {
       session = HibernateUtil.getSessionFactory().getCurrentSession();
-      obj.setUpdateDate(new Date());
       session.merge(obj);
       
       if (log.isDebugEnabled()){
@@ -373,7 +372,6 @@ public abstract class HibernateManagerBase<T extends ITransferObject> implements
     try
     {
       session = HibernateUtil.getSessionFactory().getCurrentSession();
-      obj.setUpdateDate(new Date());
       ITransferObject ret = (ITransferObject) session.merge(obj);
       
       if (log.isDebugEnabled()){

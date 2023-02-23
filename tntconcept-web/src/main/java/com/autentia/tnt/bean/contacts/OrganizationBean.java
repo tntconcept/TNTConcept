@@ -1180,21 +1180,13 @@ public class OrganizationBean extends BaseBean {
     public Date getInsertDate() {
     return organization.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    organization.setInsertDate( insertDate );
-  }
-        
+
     
     
     public Date getUpdateDate() {
     return organization.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    organization.setUpdateDate( updateDate );
-  }
-          
-    
-    
+
   
     public OrganizationType getType() {
     return organization.getType();

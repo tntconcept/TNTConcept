@@ -463,7 +463,7 @@ public class CommissioningManager {
 			change.setField(field);
 			change.setOldValue(oldValue);
 			change.setNewValue(newValue);
-			change.setInsertDate(new Date());
+			//change.setInsertDate(new Date());
 			change.setUser(AuthenticationManager.getDefault().getCurrentPrincipal().getUser());
 		}
 		return change;

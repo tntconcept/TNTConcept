@@ -180,7 +180,7 @@ public class Book implements Serializable, ITransferObject
   public Date getInsertDate() {
     return insertDate;
   }
-  public void setInsertDate( Date insertDate ) {
+  private void setInsertDate( Date insertDate ) {
     this.insertDate = insertDate;
   }
       

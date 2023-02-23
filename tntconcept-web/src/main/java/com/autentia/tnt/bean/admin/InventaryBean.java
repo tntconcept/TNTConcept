@@ -960,22 +960,11 @@ public class InventaryBean extends BaseBean
     public Date getInsertDate() {
     return inventary.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    inventary.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return inventary.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    inventary.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
+
     public User getAssignedTo() {
     return inventary.getAssignedTo();
   }

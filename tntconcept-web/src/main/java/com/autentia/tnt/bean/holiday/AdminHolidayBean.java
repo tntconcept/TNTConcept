@@ -733,19 +733,9 @@ public class AdminHolidayBean extends BaseBean {
         return adminHoliday.getInsertDate();
     }
 
-    public void setInsertDate(Date insertDate) {
-        adminHoliday.setInsertDate(insertDate);
-    }
-
-
     public Date getUpdateDate() {
         return adminHoliday.getUpdateDate();
     }
-
-    public void setUpdateDate(Date updateDate) {
-        adminHoliday.setUpdateDate(updateDate);
-    }
-
 
     public User getUserRequest() {
         return adminHoliday.getUserRequest();

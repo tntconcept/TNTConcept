@@ -1969,16 +1969,8 @@ public class UserBean extends BaseBean {
         return user.getInsertDate();
     }
 
-    public void setInsertDate(Date insertDate) {
-        user.setInsertDate(insertDate);
-    }
-
     public Date getUpdateDate() {
         return user.getUpdateDate();
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        user.setUpdateDate(updateDate);
     }
 
     public Role getRole() {

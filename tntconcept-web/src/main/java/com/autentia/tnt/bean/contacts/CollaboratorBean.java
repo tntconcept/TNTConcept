@@ -556,19 +556,10 @@ public class CollaboratorBean extends BaseBean {
     public Date getInsertDate() {
     return collaborator.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    collaborator.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return collaborator.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    collaborator.setUpdateDate( updateDate );
-  }
-          
     
     
   

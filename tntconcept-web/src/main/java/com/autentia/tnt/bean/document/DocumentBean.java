@@ -761,16 +761,8 @@ public class DocumentBean extends BaseBean {
 		return document.getInsertDate();
 	}
 
-	public void setInsertDate(Date insertDate) {
-		document.setInsertDate(insertDate);
-	}
-
 	public Date getUpdateDate() {
 		return document.getUpdateDate();
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		document.setUpdateDate(updateDate);
 	}
 
 	public List<DocumentCategory> getCategories() {

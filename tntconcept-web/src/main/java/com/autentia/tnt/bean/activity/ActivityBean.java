@@ -930,7 +930,6 @@ public class ActivityBean extends BaseBean{
             if(uploadFile != null){
                 fileName = FileUtil.getFileName(uploadFile.getName());
                 final ActivityFile file = new ActivityFile();
-                file.setInsertDate(new Date());
                 file.setUser(authManager.getCurrentPrincipal().getUser());
                 file.setExternalActivity(externalActivity);
                 file.setFile(fileName);

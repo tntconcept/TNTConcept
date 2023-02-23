@@ -697,22 +697,11 @@ public class PublicationBean extends BaseBean
     public Date getInsertDate() {
     return publication.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    publication.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return publication.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    publication.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
+
     public Magazine getMagazine() {
     return publication.getMagazine();
   }
