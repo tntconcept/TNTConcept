@@ -78,7 +78,6 @@ public class TrackChanges {
 				change.setEntityId(dto.getId());
 				change.setUser(AuthenticationManager.getDefault()
 						.getCurrentPrincipal().getUser());
-				change.setInsertDate(new Date());
 				change.setAuxKey(StringUtils.defaultIfEmpty(keyAux, ""));
 				return change;
 			}

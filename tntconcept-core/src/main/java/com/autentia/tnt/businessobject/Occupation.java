@@ -163,7 +163,7 @@ public class Occupation implements ITransferObject {
   public Date getUpdateDate() {
     return updateDate;
   }
-  public void setUpdateDate( Date updateDate ) {
+  private void setUpdateDate( Date updateDate ) {
     this.updateDate = updateDate;
   }
         

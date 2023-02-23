@@ -739,7 +739,7 @@ public class FinancialRatio implements Serializable, ITransferObject {
   public Date getUpdateDate() {
     return updateDate;
   }
-  public void setUpdateDate( Date updateDate ) {
+  private void setUpdateDate( Date updateDate ) {
     this.updateDate = updateDate;
   }
           

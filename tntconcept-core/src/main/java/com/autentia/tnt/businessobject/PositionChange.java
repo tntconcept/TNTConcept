@@ -112,7 +112,7 @@ public class PositionChange implements Serializable, ITransferObject {
 		return insertDate;
 	}
 
-	public void setInsertDate(Date insertDate) {
+	private void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
 	}
 
