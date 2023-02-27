@@ -34,16 +34,10 @@
         <Logger name="com.autentia.tnt" level="warn" additivity="false">
             <AppenderRef ref="file"/>
         </Logger>
-        <Logger name="com.autentia.tnt.manager.data.MigrationManager" level="info" additivity="false">
-            <AppenderRef ref="migration"/>
-        </Logger>
         <Logger name="com.autentia.tnt.filter" level="info" additivity="false">
             <AppenderRef ref="file"/>
         </Logger>
         <Logger name="com.autentia.tnt.listener" level="info" additivity="false">
-            <AppenderRef ref="file"/>
-        </Logger>
-        <Logger name="com.autentia.tnt.util.ApplicationLock" level="info" additivity="false">
             <AppenderRef ref="file"/>
         </Logger>
         <Logger name="org.hibernate.impl.SessionFactoryObjectFactory" level="error" additivity="false">
