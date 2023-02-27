@@ -566,21 +566,10 @@ public class AccountBean extends BaseBean {
     public Date getInsertDate() {
     return account.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    account.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return account.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    account.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public AccountType getType() {
     return account.getType();

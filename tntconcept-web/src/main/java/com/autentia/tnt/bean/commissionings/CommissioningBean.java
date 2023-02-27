@@ -410,7 +410,6 @@ public class CommissioningBean extends BaseBean {
 				}
 
 				final CommissioningFile file = new CommissioningFile();
-				file.setInsertDate(new Date());
 				file.setUser(authManager.getCurrentPrincipal().getUser());
 				file.setCommissioning(commissioning);
 				file.setFile(fileName);
@@ -1437,16 +1436,8 @@ public class CommissioningBean extends BaseBean {
 		return commissioning.getInsertDate();
 	}
 
-	public void setInsertDate(Date insertDate) {
-		commissioning.setInsertDate(insertDate);
-	}
-
 	public Date getUpdateDate() {
 		return commissioning.getUpdateDate();
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		commissioning.setUpdateDate(updateDate);
 	}
 
 	public Project getProject() {
@@ -1813,8 +1804,6 @@ public class CommissioningBean extends BaseBean {
 		commissioning.getCommissioningDelays().add(commissioningDelay);
 
 		commissioningDelay.setCommissioning(commissioning);
-		commissioningDelay.setInsertDate(new Date());
-		commissioningDelay.setUpdateDate(new Date());
 		commissioningDelay.setOriginalDate(commissioning.getDeliveryDate());
 		commissioningDelay.setStatus(commissioning.getStatus());
 

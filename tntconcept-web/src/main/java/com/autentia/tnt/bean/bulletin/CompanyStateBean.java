@@ -501,22 +501,12 @@ public class CompanyStateBean extends BaseBean
     public Date getInsertDate() {
     return companyState.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    companyState.setInsertDate( insertDate );
-  }
-        
     
     
     public Date getUpdateDate() {
     return companyState.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    companyState.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
+
     public User getUser() {
     return companyState.getUser();
   }

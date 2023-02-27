@@ -559,22 +559,10 @@ public class DepartmentBean extends BaseBean
     public Date getInsertDate() {
     return department.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    department.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return department.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    department.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
     public Department getParent() {
     return department.getParent();
   }

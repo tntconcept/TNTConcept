@@ -233,7 +233,6 @@ public class PositionManager {
 			change.setNewValue(newValue);
 			change.setPosition(position);
 			change.setUser(authManager.getCurrentPrincipal().getUser());
-			change.setInsertDate(new Date());
 		}
 		return change;
 	}

@@ -625,21 +625,10 @@ public class IdeaBean extends BaseBean
     public Date getInsertDate() {
     return idea.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    idea.setInsertDate( insertDate );
-  }
-        
-    
     
     public Date getUpdateDate() {
     return idea.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    idea.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public User getUser() {
     return idea.getUser();

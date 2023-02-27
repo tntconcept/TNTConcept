@@ -156,7 +156,7 @@ public class Idea implements Serializable, ITransferObject
   public Date getInsertDate() {
     return insertDate;
   }
-  public void setInsertDate( Date insertDate ) {
+  private void setInsertDate( Date insertDate ) {
     this.insertDate = insertDate;
   }
       
@@ -165,7 +165,7 @@ public class Idea implements Serializable, ITransferObject
   public Date getUpdateDate() {
     return updateDate;
   }
-  public void setUpdateDate( Date updateDate ) {
+  private void setUpdateDate( Date updateDate ) {
     this.updateDate = updateDate;
   }
         

@@ -896,22 +896,10 @@ public class InteractionBean extends BaseBean
     public Date getInsertDate() {
     return interaction.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    interaction.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return interaction.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    interaction.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
     public Project getProject() {
     return interaction.getProject();
   }

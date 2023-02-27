@@ -21,7 +21,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="com.autentia.tnt.businessobject.Inventary" table="Inventory">
+  <class name="com.autentia.tnt.businessobject.Inventary" table="Inventory" >
     <id name="id" type="java.lang.Integer">
       <generator class="native" />
     </id>
@@ -46,7 +46,7 @@
     <many-to-one name="assignedTo" class="com.autentia.tnt.businessobject.User" column="asignedToId" />
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
   </class>
 </hibernate-mapping>

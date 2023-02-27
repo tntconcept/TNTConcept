@@ -63,18 +63,8 @@ public interface ITransferObject {
    * Get transfer object's Modification Date
    */
   public Date getUpdateDate();
-  
-  /** 
-   * set transfer object's Creation
-   */
-  public void setInsertDate(Date insertDate);
-  
-  /** 
-   * set transfer object's Modification
-   */
-  public void setUpdateDate(Date updateDate);
 
-  
+
   public List<Integer> getOwnersId();
   
 }

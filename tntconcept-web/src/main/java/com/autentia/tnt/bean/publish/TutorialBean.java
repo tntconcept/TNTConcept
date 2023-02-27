@@ -610,21 +610,10 @@ public class TutorialBean extends BaseBean
     public Date getInsertDate() {
     return tutorial.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    tutorial.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return tutorial.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    tutorial.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public User getUser() {
     return tutorial.getUser();

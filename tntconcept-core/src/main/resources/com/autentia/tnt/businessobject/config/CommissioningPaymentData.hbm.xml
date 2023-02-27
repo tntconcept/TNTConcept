@@ -22,13 +22,13 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.autentia.tnt.businessobject.CommissioningPaymentData"
-		table="CommissioningPaymentData">
+		table="CommissioningPaymentData" >
 		<id name="id" unsaved-value="null" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
 		
-		<property name="insertDate" type="java.util.Date" />
-		<property name="updateDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+		<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
 									
 		<many-to-one name="commissioning"
 			class="com.autentia.tnt.businessobject.Commissioning" column="commissioningId" />

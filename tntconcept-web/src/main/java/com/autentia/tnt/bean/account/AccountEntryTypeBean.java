@@ -593,21 +593,10 @@ public class AccountEntryTypeBean extends BaseBean {
     public Date getInsertDate() {
     return accountEntryType.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    accountEntryType.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return accountEntryType.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    accountEntryType.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public AccountEntryGroup getGroup() {
     return accountEntryType.getGroup();

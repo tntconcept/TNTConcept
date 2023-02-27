@@ -70,9 +70,10 @@ public class LinkBeanTest {
 	@Test
 	public void shouldCheckLinkIsOnTime() {
 		
-		Link onTimeLink = new Link();
-		onTimeLink.setInsertDate(new Date());
-		
+		Link onTimeLink = mock(Link.class);
+
+		when(onTimeLink.getInsertDate()).thenReturn(new Date());
+
 		boolean isOnTime = sut.isOnTime(onTimeLink);
 		
 		assertThat(isOnTime, is(true));
