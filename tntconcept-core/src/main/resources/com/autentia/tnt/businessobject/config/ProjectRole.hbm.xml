@@ -38,5 +38,6 @@
 	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
     <property name="requireEvidence" type="java.lang.Boolean" column="requireEvidence"/>
+    <property name="maxAllowed" type="java.lang.Integer" column="maxAllowed" not-null="true"/>
   </class>
 </hibernate-mapping>
