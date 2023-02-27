@@ -22,7 +22,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.autentia.tnt.businessobject.CommissioningPaymentData"
-		table="CommissioningPaymentData" dynamic-insert="true" dynamic-update="true">
+		table="CommissioningPaymentData" >
 		<id name="id" unsaved-value="null" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
