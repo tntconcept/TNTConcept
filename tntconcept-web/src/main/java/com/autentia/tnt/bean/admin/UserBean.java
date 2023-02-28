@@ -1670,6 +1670,9 @@ public class UserBean extends BaseBean {
             this.uploadPhoto = uploadPhoto;
             setPhoto(FileUtil.getFileName(uploadPhoto.getName()));
         }
+        else {
+            setPhoto("");
+        }
     }
 
     public UploadedFile getUploadPhoto() {
