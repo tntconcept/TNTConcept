@@ -44,6 +44,7 @@ import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SettingPath;
 import com.autentia.tnt.util.SpringUtils;
+import com.autentia.tnt.version.Version;
 
 /**
  * @author ivan
@@ -110,37 +111,44 @@ public abstract class AuthenticationManager implements UserDetailsService {
      */
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
         try {
-            log.info("loadUserByUsername - getting user " + username + " using Hibernate");
-            User user = userDAO.searchByLogin(username);
+            Version db = Version.getDatabaseVersion();
+            Version code = Version.getApplicationVersion();
 
-            GrantedAuthority[] auths = userRolesService.getAuthorities(user);
+            if (db.compareTo(code, Version.MINOR) == 0) {
+                log.info("loadUserByUsername - getting user " + username + " using Hibernate");
+                User user = userDAO.searchByLogin(username);
 
-            if (log.isDebugEnabled()) {
-                StringBuilder sb = new StringBuilder();
-                for (GrantedAuthority auth : auths) {
-                    sb.append(auth);
-                    sb.append(" ");
+                GrantedAuthority[] auths = userRolesService.getAuthorities(user);
+
+                if (log.isDebugEnabled()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (GrantedAuthority auth : auths) {
+                        sb.append(auth);
+                        sb.append(" ");
+                    }
+                    log.debug("loadUserByUsername - user roles: " + sb);
                 }
-                log.debug("loadUserByUsername - user roles: " + sb);
+
+                final Principal principal = new Principal(user, auths);
+
+                // setting user preferred Locale
+                final SettingSearch s = new SettingSearch();
+                s.setName(SettingPath.GENERAL_PREFERRED_LOCALE);
+                s.setOwnerId(user.getId());
+                final List<Setting> vals = settings.search(s, null);
+
+                final Setting val = (vals != null && vals.size() > 0) ? vals.get(0) : null;
+
+                if (val != null) {
+                    final Locale local = new Locale(val.getValue());
+                    principal.setLocale(local);
+                }
+
+                return principal;
+            } else {
+                log.info("loadUserByUsername - getting user " + username + " using JDBC");
+                return jdbcSearchByLogin(username);
             }
-
-            final Principal principal = new Principal(user, auths);
-
-            // setting user preferred Locale
-            final SettingSearch s = new SettingSearch();
-            s.setName(SettingPath.GENERAL_PREFERRED_LOCALE);
-            s.setOwnerId(user.getId());
-            final List<Setting> vals = settings.search(s, null);
-
-            final Setting val = (vals != null && vals.size() > 0) ? vals.get(0) : null;
-
-            if (val != null) {
-                final Locale local = new Locale(val.getValue());
-                principal.setLocale(local);
-            }
-
-            return principal;
-
         } catch (SecException e) {
             log.warn("loadUserByUsername - exception", e);
             throw new DataRetrievalFailureException("Error getting roles for user: " + username, e);
@@ -151,6 +159,9 @@ public abstract class AuthenticationManager implements UserDetailsService {
             log.warn("loadUserByUsername - exception", e);
             throw new UsernameNotFoundException("User not found: " + username, e);
         } catch (DataAccException e) {
+            log.warn("loadUserByUsername - exception", e);
+            throw new DataRetrievalFailureException("Error getting user: " + username, e);
+        } catch (SQLException e) {
             log.warn("loadUserByUsername - exception", e);
             throw new DataRetrievalFailureException("Error getting user: " + username, e);
         }

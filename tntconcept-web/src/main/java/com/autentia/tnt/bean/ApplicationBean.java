@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.autentia.tnt.util.ConfigurationUtil;
+import com.autentia.tnt.version.Version;
 
 /**
  * Bean con scope de Application. Soporta propiedades y métodos comunes en la aplicación
@@ -93,6 +94,14 @@ public class ApplicationBean extends BaseBean {
 	
 	public String getImagePath() {
 		return "/img";
+	}
+
+	/**
+	 * Get application build date
+	 * @return application build date
+	 */
+	public String getBuild(){
+		return Version.getApplicationVersion().toString();
 	}
 
 }

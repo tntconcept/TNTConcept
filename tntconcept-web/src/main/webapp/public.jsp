@@ -170,6 +170,7 @@
           <tr>
             <td colspan="2" class="publicVersion">            
               <h:outputText value="#{msg['entry.optimizeMessage']}" /><br>            
+              TNTConcept version </f:verbatim><h:outputText value="#{applicationBean.build}" /><f:verbatim> Copyright (C) 2007 Autentia Real Business Solution S.L.
               TNTConcept comes with ABSOLUTELY NO WARRANTY;
               <a href="gpl.txt" target="_blank" class="publicVersionEnlace">click here for details.</a> 
               <br>

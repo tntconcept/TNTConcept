@@ -26,7 +26,7 @@ limitations under the License.
     <Environment name="TNTConceptConfigDir" type="java.lang.String" value="/etc/tntconcept"/>
     <Resource name="jdbc/TNTConcept" auth="Container" type="javax.sql.DataSource"
               maxTotal="100" maxIdle="30" maxWaitMillis="10000" driverClassName="com.mysql.jdbc.Driver"
-              username="tntconcept" password="tntconcept"
+              username="tnt" password="tnt"
               url="jdbc:mysql://localhost:3306/tntconcept?autoReconnect=true"/>
 
 </Context>
