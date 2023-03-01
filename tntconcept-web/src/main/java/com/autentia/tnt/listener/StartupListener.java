@@ -18,7 +18,6 @@
 package com.autentia.tnt.listener;
 
 import com.autentia.tnt.manager.report.ReportManager;
-import com.autentia.tnt.util.ApplicationLock;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
 import org.apache.commons.logging.Log;
@@ -96,9 +95,6 @@ public class StartupListener implements ServletContextListener
     	  log.info("contextInitialized - loading reports on startup disabled");
       }
 
-      // Check database
-      log.info("contextInitialized - checking database version");
-      ApplicationLock.refresh();
     }
     catch( FileNotFoundException e )
     {
