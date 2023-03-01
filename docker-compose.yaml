@@ -1,17 +1,5 @@
 version: '3.8'
 services:
-  mysql-TNT:
-    container_name: mysql-TNT
-    image: mysql:5.6
-    environment:
-      MYSQL_DATABASE: 'tntconcept'
-      MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_USER: 'tnt'
-      MYSQL_PASSWORD: 'tnt'
-    ports:
-      - '3306:3306'
-    volumes:
-      - ./src/main/install/sql/mysql/createTables.sql:/docker-entrypoint-initdb.d/createTables.sql
   openldap:
     build: ./ldapTools/docker/openldap
     image: autentia/openldap
