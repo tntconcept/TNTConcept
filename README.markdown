@@ -32,11 +32,11 @@ To build from source checkout the code and run:
 
 ## Versioning
 
-tntconcept-api is using Semantic Versioning 2.0.0. To understand what that means, please see the specification [documentation](https://semver.org/).
+tntconcept is using Semantic Versioning 2.0.0. To understand what that means, please see the specification [documentation](https://semver.org/).
 
 ## CI
 
-[Github Actions](https://github.com/autentia/tntconcept-api/actions) are used to build the project.
+[Github Actions](https://github.com/autentia/tntconcept/actions) are used to build the project.
 
 ## Docker image
 
