@@ -75,8 +75,7 @@ public class IVAReason implements Serializable, ITransferObject {
         return insertDate;
     }
 
-    @Override
-    public void setInsertDate(Date insertDate) {
+    private void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
     }
 
@@ -85,8 +84,7 @@ public class IVAReason implements Serializable, ITransferObject {
         return updateDate;
     }
 
-    @Override
-    public void setUpdateDate(Date updateDate) {
+    private void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 

@@ -874,21 +874,10 @@ public class CreditTitleBean extends BaseBean {
     public Date getInsertDate() {
     return creditTitle.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    creditTitle.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return creditTitle.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    creditTitle.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public Organization getOrganization() {
     return creditTitle.getOrganization();

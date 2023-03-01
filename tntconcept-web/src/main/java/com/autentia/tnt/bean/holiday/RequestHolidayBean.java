@@ -741,16 +741,8 @@ public class RequestHolidayBean extends BaseBean{
         return requestHoliday.getInsertDate();
     }
 
-    public void setInsertDate(Date insertDate){
-        requestHoliday.setInsertDate(insertDate);
-    }
-
     public Date getUpdateDate(){
         return requestHoliday.getUpdateDate();
-    }
-
-    public void setUpdateDate(Date updateDate){
-        requestHoliday.setUpdateDate(updateDate);
     }
 
     public User getUserRequest(){

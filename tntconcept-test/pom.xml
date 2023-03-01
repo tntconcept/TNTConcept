@@ -4,7 +4,7 @@
     <parent>
         <artifactId>tntconcept-parent</artifactId>
         <groupId>com.autentia.tnt</groupId>
-        <version>0.47.16-SNAPSHOT</version>
+        <version>0.47.17-SNAPSHOT</version>
     </parent>
 
     <artifactId>tntconcept-test</artifactId>
@@ -28,7 +28,6 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.31</version>
         </dependency>
     </dependencies>
 </project>

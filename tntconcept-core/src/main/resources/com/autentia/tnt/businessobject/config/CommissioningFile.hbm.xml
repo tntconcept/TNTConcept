@@ -22,15 +22,15 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.autentia.tnt.businessobject.CommissioningFile"
-		table="CommissioningFile">
+		table="CommissioningFile" >
 		<id name="id" unsaved-value="null" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
 
 		<property name="file" type="java.lang.String" not-null="true" />
 		<property name="fileMime" type="java.lang.String" not-null="true" />
-		<property name="insertDate" type="java.util.Date" not-null="true" />
-		<property name="updateDate" type="java.util.Date" />
+		<property name="insertDate" type="java.util.Date" not-null="true" insert="false" update="false"/>
+		<property name="updateDate" type="java.util.Date" insert="false" update="false"/>
 		<many-to-one name="commissioning"
 			class="com.autentia.tnt.businessobject.Commissioning" column="commissioningId" />
 		<many-to-one name="user"

@@ -78,9 +78,8 @@ public class ProjectRole implements Serializable, ITransferObject
       
   private Date updateDate;
 
-        
-  
-    
+  private Integer maxAllowed = 0;
+
   private Project project;
 
   private Set<Activity> activities;
@@ -149,7 +148,7 @@ private void setId( Integer id ) {
   public Date getInsertDate() {
     return insertDate;
   }
-  public void setInsertDate( Date insertDate ) {
+  private void setInsertDate(Date insertDate) {
     this.insertDate = insertDate;
   }
       
@@ -158,7 +157,7 @@ private void setId( Integer id ) {
   public Date getUpdateDate() {
     return updateDate;
   }
-  public void setUpdateDate( Date updateDate ) {
+  private void setUpdateDate(Date updateDate) {
     this.updateDate = updateDate;
   }
         
@@ -245,7 +244,11 @@ private void setId( Integer id ) {
 		  return total/60;		
 	}
 
+	public Integer getMaxAllowed() {
+		return maxAllowed;
+	}
 
-
-
+	private void setMaxAllowed(Integer maxAllowed) {
+		this.maxAllowed = maxAllowed;
+	}
 }

@@ -620,21 +620,10 @@ public class DocumentCategoryBean extends BaseBean
     public Date getInsertDate() {
     return documentCategory.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    documentCategory.setInsertDate( insertDate );
-  }
-        
-    
-    
+
     public Date getUpdateDate() {
     return documentCategory.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    documentCategory.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public DocumentCategory getPadre() {
     return documentCategory.getPadre();

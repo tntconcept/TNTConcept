@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.autentia.tnt.dao.ITransferObject;
-import com.autentia.tnt.dao.hibernate.UserDAO;
 
 public class Link implements Serializable, ITransferObject {
 
@@ -95,7 +94,7 @@ public class Link implements Serializable, ITransferObject {
 		
 	}
 
-	public void setUpdateDate(Date updateDate) {
+	private void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 		
 	}

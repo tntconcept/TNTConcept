@@ -564,17 +564,8 @@ public class WorkingAgreementBean extends BaseBean {
         return workingAgreement.getInsertDate();
     }
 
-    public void setInsertDate(Date insertDate) {
-        workingAgreement.setInsertDate(insertDate);
-    }
-
-
     public Date getUpdateDate() {
         return workingAgreement.getUpdateDate();
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        workingAgreement.setUpdateDate(updateDate);
     }
 
     /**

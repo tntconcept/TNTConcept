@@ -673,21 +673,12 @@ public class OccupationBean extends BaseBean {
     public Date getInsertDate() {
     return occupation.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    occupation.setInsertDate( insertDate );
-  }
-        
+
     
     
     public Date getUpdateDate() {
     return occupation.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    occupation.setUpdateDate( updateDate );
-  }
-          
-    
-    
   
     public User getUser() {
     return occupation.getUser();

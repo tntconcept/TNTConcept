@@ -26,7 +26,7 @@
   <session-factory name="java:comp/env/hibernate/SessionFactory">
     
     <!-- DataSource to use -->
-    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
     <property name="connection.url">jdbc:mysql://localhost:3306/tntconcept</property>
     <property name="connection.username">tntconcept</property>
     <property name="connection.password">tntconcept</property>

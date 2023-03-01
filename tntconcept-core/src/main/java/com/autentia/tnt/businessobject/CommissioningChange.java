@@ -104,7 +104,7 @@ public class CommissioningChange implements Serializable, ITransferObject {
 	/**
 	 * @param insertDate the insertDate to set
 	 */
-	public void setInsertDate(Date insertDate) {
+	private void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
 	}
 
@@ -118,7 +118,7 @@ public class CommissioningChange implements Serializable, ITransferObject {
 	/**
 	 * @param updateDate the updateDate to set
 	 */
-	public void setUpdateDate(Date updateDate) {
+    private void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
 

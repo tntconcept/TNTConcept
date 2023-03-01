@@ -416,7 +416,6 @@ public class TagBean extends BaseBean {
 	 */
 	public String create() {
 		tag = new Tag();
-		tag.setInsertDate(new Date());
 		return NavigationResults.CREATE;
 	}
 
@@ -847,16 +846,8 @@ public class TagBean extends BaseBean {
 		return tag.getInsertDate();
 	}
 
-	public void setInsertDate(Date insertDate) {
-		tag.setInsertDate(insertDate);
-	}
-
 	public Date getUpdateDate() {
 		return tag.getUpdateDate();
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		tag.setUpdateDate(updateDate);
 	}
 
 	public List<Contact> getContactTags() {

@@ -688,22 +688,10 @@ public class BookBean extends BaseBean {
     public Date getInsertDate() {
     return book.getInsertDate();
   }
-  public void setInsertDate( Date insertDate ) {
-    book.setInsertDate( insertDate );
-  }
-        
-    
     
     public Date getUpdateDate() {
     return book.getUpdateDate();
   }
-  public void setUpdateDate( Date updateDate ) {
-    book.setUpdateDate( updateDate );
-  }
-          
-    
-    
-  
     public User getLentTo() {
     return book.getLentTo();
   }

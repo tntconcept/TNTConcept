@@ -21,7 +21,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="com.autentia.tnt.businessobject.BillBreakDown" table="BillBreakDown">
+  <class name="com.autentia.tnt.businessobject.BillBreakDown" table="BillBreakDown" >
     <id name="id" type="java.lang.Integer">
       <generator class="native" />
     </id>
@@ -33,8 +33,8 @@
     <property name="place" type="java.lang.Integer" column="place"/>    
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>	
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date" column="insertDate"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
     <many-to-one name="IVAReason" class="com.autentia.tnt.businessobject.IVAReason" column="IVAReasonId"/>
     <property name="ivaOnlySii" type="java.math.BigDecimal" column="ivaOnlySII"/>
     <many-to-one name="ivaReasonOnlySii" class="com.autentia.tnt.businessobject.IVAReason" column="IVAReasonIdOnlySii"/>

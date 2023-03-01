@@ -1287,16 +1287,8 @@ public class OfferBean extends BaseBean {
 		return offer.getInsertDate();
 	}
 
-	public void setInsertDate(Date insertDate) {
-		offer.setInsertDate(insertDate);
-	}
-
 	public Date getUpdateDate() {
 		return offer.getUpdateDate();
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		offer.setUpdateDate(updateDate);
 	}
 
 	public User getUser() {

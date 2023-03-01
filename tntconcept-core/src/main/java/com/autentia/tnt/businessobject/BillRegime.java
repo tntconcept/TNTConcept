@@ -81,13 +81,11 @@ public class BillRegime implements Serializable, ITransferObject {
         return updateDate;
     }
 
-    @Override
-    public void setInsertDate(Date insertDate) {
+    private void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
     }
 
-    @Override
-    public void setUpdateDate(Date updateDate) {
+    private void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 

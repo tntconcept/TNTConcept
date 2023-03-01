@@ -111,7 +111,7 @@ public class EntityChange implements ITransferObject {
 		return insertDate;
 	}
 
-	public void setInsertDate(Date insertDate) {
+	private void setInsertDate(Date insertDate) {
 		this.insertDate = insertDate;
 	}
 
@@ -144,7 +144,7 @@ public class EntityChange implements ITransferObject {
         return null;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    private void setUpdateDate(Date updateDate) {
     }
 
 	
