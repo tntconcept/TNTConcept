@@ -56,6 +56,9 @@
 
 		<autentia.mvn.distribution>https://autentia.no-ip.org/nexus/repository/maven-releases/</autentia.mvn.distribution>
 		<autentia.mvn.snapshots>https://autentia.no-ip.org/nexus/repository/maven-snapshots/</autentia.mvn.snapshots>
+
+		<mysql-connector-j.version>8.0.32</mysql-connector-j.version>
+
 	</properties>
 
 	<modules>
@@ -454,6 +457,12 @@
 				<artifactId>hamcrest-library</artifactId>
 				<version>${hamcrest.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.mysql</groupId>
+				<artifactId>mysql-connector-j</artifactId>
+				<version>${mysql-connector-j.version}</version>
 			</dependency>
 
 		</dependencies>
