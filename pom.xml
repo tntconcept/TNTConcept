@@ -207,6 +207,7 @@
 					<configuration>
 						<preparationGoals>package -Pwar</preparationGoals>
 						<tagNameFormat>@{project.version}</tagNameFormat>
+						<projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
 						<releaseProfiles>tomcat-profile</releaseProfiles>
 						<checkModificationExcludes>
 							<checkModificationExclude>pom.xml</checkModificationExclude>
