@@ -24,11 +24,6 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
-        <File name="migration" fileName="/usr/local/tomcat/logs/tntconcept-migration.log">
-            <PatternLayout>
-                <Pattern>%d{DATE} %m%n</Pattern>
-            </PatternLayout>
-        </File>
     </Appenders>
     <Loggers>
         <Logger name="com.autentia.tnt" level="warn" additivity="false">

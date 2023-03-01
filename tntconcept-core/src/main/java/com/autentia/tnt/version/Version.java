@@ -68,59 +68,6 @@ public class Version implements Comparable<Version>, Cloneable
     return appVersion;
   }
   
-  public static Version getDatabaseVersion() throws SQLException
-  {
-    Session ses = HibernateUtil.getSessionFactory().openSession();
-    
-    try
-    {
-      return getDatabaseVersion( ses.connection() );
-    }
-    catch( SQLException e )
-    {
-      throw e;
-    }
-    finally
-    {
-      ses.close();
-    }
-  }
-
-  public static Version getDatabaseVersion( Connection con ) throws SQLException
-  {
-    Statement stmt = null;
-    ResultSet rs = null;
-    String ret = null;
-
-    try {
-      stmt = con.createStatement();
-      rs = stmt.executeQuery("select version from Version");
-
-      if( rs.next() ){
-        ret = rs.getString("version");
-      }
-    } catch( SQLException e ) {
-      throw e;
-    } finally {
-    	if( rs!=null ){
-    		try { 
-    			rs.close(); 
-    		} catch (SQLException e){
-    	    	log.error("Error al liberar el resultset", e);
-    		}
-    	}
-    	if( stmt!=null ) {
-    		try { 
-    			stmt.close(); 
-    		} catch (SQLException e){
-    			log.error("Error al liberar el statement", e);
-    		}
-    	}
-      }
-    
-    return new Version(ret==null?"0":ret);
-  }
-  
   /** Creates a new instance of Version */
   public Version( int major, int minor, int patch )
   {
