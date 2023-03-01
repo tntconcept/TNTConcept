@@ -27,27 +27,14 @@
 <%
   String context = request.getContextPath();
   boolean loggedIn = (AuthenticationManager.getDefault().getCurrentPrincipal()!=null);
-  
-  if( ApplicationLock.isLocked() )
+
+  if( loggedIn )
   {
-    if( loggedIn )
-    {
-      response.sendRedirect(context+"/single/console.jsf");
-    }
-    else
-    {
-      response.sendRedirect(context+"/consoleLogin.jsf");
-    }
+    response.sendRedirect(context+"/pages/control_panel.jsf");
   }
   else
   {
-    if( loggedIn )
-    {
-      response.sendRedirect(context+"/pages/control_panel.jsf");
-    }
-    else
-    {
-      response.sendRedirect(context+"/root.jsf");
-    }
+    response.sendRedirect(context+"/root.jsf");
   }
+
 %>

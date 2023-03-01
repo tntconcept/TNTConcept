@@ -24,26 +24,15 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
-        <File name="migration" fileName="/usr/local/tomcat/logs/tntconcept-migration.log">
-            <PatternLayout>
-                <Pattern>%d{DATE} %m%n</Pattern>
-            </PatternLayout>
-        </File>
     </Appenders>
     <Loggers>
         <Logger name="com.autentia.tnt" level="warn" additivity="false">
             <AppenderRef ref="file"/>
         </Logger>
-        <Logger name="com.autentia.tnt.manager.data.MigrationManager" level="info" additivity="false">
-            <AppenderRef ref="migration"/>
-        </Logger>
         <Logger name="com.autentia.tnt.filter" level="info" additivity="false">
             <AppenderRef ref="file"/>
         </Logger>
         <Logger name="com.autentia.tnt.listener" level="info" additivity="false">
-            <AppenderRef ref="file"/>
-        </Logger>
-        <Logger name="com.autentia.tnt.util.ApplicationLock" level="info" additivity="false">
             <AppenderRef ref="file"/>
         </Logger>
         <Logger name="org.hibernate.impl.SessionFactoryObjectFactory" level="error" additivity="false">
