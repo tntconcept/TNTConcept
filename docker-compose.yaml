@@ -12,9 +12,3 @@ services:
       - SLAPD_ADDITIONAL_SCHEMAS=ppolicy
       - SLAPD_ADDITIONAL_MODULES=ppolicy
     container_name: autentia-ldap
-  tntconcept:
-    container_name: tntconcept
-    image: tntconcept
-    ports:
-      - '8080:8080'
-
