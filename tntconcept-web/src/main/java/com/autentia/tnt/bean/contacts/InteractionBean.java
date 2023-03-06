@@ -823,7 +823,11 @@ public class InteractionBean extends BaseBean
         this.uploadFile = uploadFile;
         setFile( FileUtil.getFileName(uploadFile.getName()) );
             setFileMime( uploadFile.getContentType() );
-          }
+      }
+      else {
+          setFile("");
+          setFileMime("");
+      }
     }
     public UploadedFile getUploadFile(){
       return uploadFile;
