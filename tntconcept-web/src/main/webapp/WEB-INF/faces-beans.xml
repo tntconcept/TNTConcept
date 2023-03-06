@@ -21,16 +21,7 @@
 <!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
-    
-  <!-- Bean for the admin console window -->
-  <managed-bean>
-    <managed-bean-name>consoleBean</managed-bean-name>
-    <managed-bean-class>
-      com.autentia.tnt.bean.single.ConsoleBean
-    </managed-bean-class>
-    <managed-bean-scope>request</managed-bean-scope>
-  </managed-bean>
-  
+
   <!-- Bean for accesing to pageScope attributes -->
   <managed-bean>
     <managed-bean-name>pageBean</managed-bean-name>

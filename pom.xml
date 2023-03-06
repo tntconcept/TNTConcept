@@ -5,7 +5,7 @@
 
 	<groupId>com.autentia.tnt</groupId>
 	<artifactId>tntconcept-parent</artifactId>
-	<version>0.47.17-SNAPSHOT</version>
+	<version>0.51.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>tntconcept-parent</name>
@@ -56,6 +56,9 @@
 
 		<autentia.mvn.distribution>https://autentia.no-ip.org/nexus/repository/maven-releases/</autentia.mvn.distribution>
 		<autentia.mvn.snapshots>https://autentia.no-ip.org/nexus/repository/maven-snapshots/</autentia.mvn.snapshots>
+
+		<mysql-connector-j.version>8.0.32</mysql-connector-j.version>
+
 	</properties>
 
 	<modules>
@@ -204,6 +207,7 @@
 					<configuration>
 						<preparationGoals>package -Pwar</preparationGoals>
 						<tagNameFormat>@{project.version}</tagNameFormat>
+						<projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
 						<releaseProfiles>tomcat-profile</releaseProfiles>
 						<checkModificationExcludes>
 							<checkModificationExclude>pom.xml</checkModificationExclude>
@@ -454,6 +458,12 @@
 				<artifactId>hamcrest-library</artifactId>
 				<version>${hamcrest.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.mysql</groupId>
+				<artifactId>mysql-connector-j</artifactId>
+				<version>${mysql-connector-j.version}</version>
 			</dependency>
 
 		</dependencies>
