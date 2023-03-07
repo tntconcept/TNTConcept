@@ -553,7 +553,7 @@
 
 			
 			<%-- Field: file --%>
-          <t:htmlTag id="files" value="tr" rendered="#{!commissioningBean.new}">
+          <t:htmlTag id="files" value="tr" rendered="#{!commissioningBean.commissioningNew}">
             <td class="editLabelRW">${msg['commissioning.files']}:</td>
             <td class="editFieldCell" colspan="2">
             

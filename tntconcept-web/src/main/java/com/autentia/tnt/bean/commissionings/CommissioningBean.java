@@ -2159,7 +2159,7 @@ public class CommissioningBean extends BaseBean {
 		return NavigationResults.EDIT;
 	}
 
-	public boolean isNew() {
+	public boolean isCommissioningNew() {
 		boolean ret = false;
 		if (commissioning == null || commissioning.getId() == null) {
 			ret = true;
