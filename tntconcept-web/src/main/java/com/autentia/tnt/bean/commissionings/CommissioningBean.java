@@ -1389,7 +1389,7 @@ public class CommissioningBean extends BaseBean {
 	}
 
 	public void setDifficultiesAppeared(String difficultiesAppeared) {
-		commissioning.setDevelopedActivities(difficultiesAppeared);
+		commissioning.setDifficultiesAppeared(difficultiesAppeared);
 	}
 
 	public String getResults() {
