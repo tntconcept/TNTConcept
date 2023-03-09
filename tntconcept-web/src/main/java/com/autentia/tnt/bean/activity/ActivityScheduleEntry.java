@@ -52,7 +52,7 @@ public class ActivityScheduleEntry implements ScheduleEntry {
 	}
 
 	public Date getStartTime() {
-		return activity.getStartDate();
+		return activity.getStart();
 	}
 
 	public String getSubtitle() {

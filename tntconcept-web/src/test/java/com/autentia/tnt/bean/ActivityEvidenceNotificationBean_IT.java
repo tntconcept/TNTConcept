@@ -100,7 +100,7 @@ public class ActivityEvidenceNotificationBean_IT {
         Activity activity = new Activity();
         activity.setDescription("Test activity");
         activity.setHasImage(false);
-        activity.setStartDate(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        activity.setStart(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         activity.setRole(role);
 
         // Even if user is set on activity, if completely ignores it, so...
@@ -118,7 +118,7 @@ public class ActivityEvidenceNotificationBean_IT {
         Activity activity = new Activity();
         activity.setDescription("Test activity 2");
         activity.setHasImage(true);
-        activity.setStartDate(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        activity.setStart(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         activity.setRole(role);
 
         // Even if user is set on activity, if completely ignores it, so...

@@ -25,7 +25,7 @@
     <id name="id" unsaved-value="null" type="java.lang.Integer">
       <generator class="native" />
     </id>
-    <property name="startDate" type="java.util.Date"/>
+    <property name="start" type="java.util.Date"/>
     <property name="duration" type="int"/>
     <property name="description" type="java.lang.String"/>
     <property name="billable" type="boolean"/>

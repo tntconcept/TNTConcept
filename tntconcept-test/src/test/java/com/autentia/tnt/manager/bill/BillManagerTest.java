@@ -185,7 +185,7 @@ public class BillManagerTest {
 		activity.setRole(role);
 		activity.setUser(SpringUtilsForTesting.createUserInContextWithRoleAndDepartment());
 		activity.setBillable(true);
-		activity.setStartDate(date);
+		activity.setStart(date);
 		activities.add(activity);
 		return activities;
 	}

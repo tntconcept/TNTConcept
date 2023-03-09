@@ -50,7 +50,7 @@ public class Activity implements Serializable, ITransferObject {
 
       
       
-  private Date startDate;
+  private Date start;
 
       
       
@@ -112,11 +112,11 @@ public class Activity implements Serializable, ITransferObject {
       
   
   
-  public Date getStartDate() {
-    return startDate;
+  public Date getStart() {
+    return start;
   }
-  public void setStartDate( Date startDate ) {
-    this.startDate = startDate;
+  public void setStart(Date start) {
+    this.start = start;
   }
       
   
@@ -228,10 +228,10 @@ public class Activity implements Serializable, ITransferObject {
 	public Date getEndDate() {
 		Calendar cal = Calendar.getInstance();
 		
-		if (getStartDate() == null)
+		if (getStart() == null)
 			return null;
 		
-		cal.setTime(getStartDate());
+		cal.setTime(getStart());
 		cal.add(Calendar.MINUTE, getDuration());
 		
 		return cal.getTime();

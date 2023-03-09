@@ -93,7 +93,6 @@ import com.autentia.tnt.manager.security.Permission;
 import com.autentia.tnt.upload.Uploader;
 import com.autentia.tnt.upload.UploaderFactory;
 import com.autentia.tnt.upload.impl.ActivityImageUploader;
-import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.DateUtils;
 import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.FileUtil;
@@ -123,8 +122,8 @@ public class ActivityBean extends BaseBean{
 
         public int compare(Activity a1, Activity a2){
 
-            calInst1.setTime(a1.getStartDate());
-            calInst2.setTime(a2.getStartDate());
+            calInst1.setTime(a1.getStart());
+            calInst2.setTime(a2.getStart());
 
             calInst1.add(Calendar.MINUTE, a1.getDuration());
             calInst2.add(Calendar.MINUTE, a2.getDuration());
@@ -684,7 +683,7 @@ public class ActivityBean extends BaseBean{
                     ((SettingBean) FacesUtils.getBean("settingBean")).getMySettings().getWorkingDayHourStarts());
         }
 
-        activity.setStartDate(cal.getTime());
+        activity.setStart(cal.getTime());
         activity.setDescription(FacesUtils.getMessage("activity.description"));
         activity.setUser(authManager.getCurrentPrincipal().getUser());
 
@@ -763,13 +762,13 @@ public class ActivityBean extends BaseBean{
                 // No externalActivities
                 // sort is descendent
                 Collections.sort(activities, new compareActivitiesByStartAndDuration());
-                activity.setStartDate(activities.get(0).getEndDate());
+                activity.setStart(activities.get(0).getEndDate());
                 externalActivity.setStartDate(activities.get(0).getEndDate());
                 externalActivity.setEndDate(activities.get(0).getEndDate());
             }else if(activities.size() <= 0 && extActivities.size() > 0){
                 // No activities
                 Collections.sort(extActivities, new compareExternalActivitiesActivitiesByStartAndDuration());
-                activity.setStartDate(extActivities.get(0).getEndDate());
+                activity.setStart(extActivities.get(0).getEndDate());
                 externalActivity.setStartDate(extActivities.get(0).getEndDate());
                 externalActivity.setEndDate(extActivities.get(0).getEndDate());
             }else if(activities.size() > 0 && extActivities.size() > 0){
@@ -782,7 +781,7 @@ public class ActivityBean extends BaseBean{
 
                 Date startDate = (lastActivityEndDate.compareTo(lastExtActivityEndDate) > 0) ? lastActivityEndDate
                         : lastExtActivityEndDate;
-                activity.setStartDate(startDate);
+                activity.setStart(startDate);
                 externalActivity.setStartDate(startDate);
                 externalActivity.setEndDate(startDate);
             }
@@ -1348,11 +1347,11 @@ public class ActivityBean extends BaseBean{
     }
 
     public Date getStartDate(){
-        return activity.getStartDate();
+        return activity.getStart();
     }
 
     public void setStartDate(Date startDate){
-        activity.setStartDate(startDate);
+        activity.setStart(startDate);
     }
 
     public Date getEndDate(){
@@ -1902,7 +1901,7 @@ public class ActivityBean extends BaseBean{
         /* load data in component */
         for(Activity actualActivity : activities){
 
-            calMin.setTime(actualActivity.getStartDate());
+            calMin.setTime(actualActivity.getStart());
             calMax.setTime(selectedDate);
 
             if(calMin.get(Calendar.MONTH) == calMax.get(Calendar.MONTH)){
