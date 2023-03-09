@@ -166,7 +166,7 @@ public class DynMenuBean extends BaseBean implements Serializable {
 				// file menu
 				if ((item = createMenuItem(creds, null, "file", null)) != null) {
 					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(Setting.class), "settings","/img/configure.png")));
-					addItem2Item(item,(createMenuItem(creds, Permission.Entity_Menu(User.class), "#{dynMenuBean.exit}","/img/exit.png")));				
+					addItem2Item(item,(createMenuItem(creds,null, "#{dynMenuBean.exit}","/img/exit.png")));
 					
 					addItem2Items(navItems,item);
 				}
