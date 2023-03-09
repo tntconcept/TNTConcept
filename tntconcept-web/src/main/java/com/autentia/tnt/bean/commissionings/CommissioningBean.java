@@ -484,6 +484,9 @@ public class CommissioningBean extends BaseBean {
 							FacesUtils
 									.formatMessage("commissioning.developedActivities"));
 		}
+		else {
+			commissioning.setDevelopedActivities("");
+		}
 
 		if (commissioning.getDifficultiesAppeared() != null
 				&& commissioning.getDifficultiesAppeared().length() >= 1024) {
@@ -495,6 +498,9 @@ public class CommissioningBean extends BaseBean {
 							FacesUtils
 									.formatMessage("commissioning.difficultiesAppeared"));
 		}
+		else {
+			commissioning.setDifficultiesAppeared("");
+		}
 
 		if (commissioning.getResults() != null
 				&& commissioning.getResults().length() >= 1024) {
@@ -502,6 +508,9 @@ public class CommissioningBean extends BaseBean {
 			FacesUtils.addErrorMessage(null,
 					"commissioning.error.textFieldTooLong", FacesUtils
 							.formatMessage("commissioning.results"));
+		}
+		else {
+			commissioning.setResults("");
 		}
 
 		if (commissioning.getConclusions() != null
@@ -511,6 +520,9 @@ public class CommissioningBean extends BaseBean {
 					"commissioning.error.textFieldTooLong", FacesUtils
 							.formatMessage("commissioning.conclusions"));
 		}
+		else {
+			commissioning.setConclusions("");
+		}
 
 		if (commissioning.getEvaluation() != null
 				&& commissioning.getEvaluation().length() >= 1024) {
@@ -518,6 +530,9 @@ public class CommissioningBean extends BaseBean {
 			FacesUtils.addErrorMessage(null,
 					"commissioning.error.textFieldTooLong", FacesUtils
 							.formatMessage("commissioning.evaluation"));
+		}
+		else {
+			commissioning.setEvaluation("");
 		}
 		return allValidationPassed;
 	}
@@ -1317,7 +1332,8 @@ public class CommissioningBean extends BaseBean {
 	}
 
 	public void setBudget(BigDecimal budget) {
-		commissioning.setBudget(budget);
+		if (budget == null) commissioning.setBudget(BigDecimal.ZERO);
+		else commissioning.setBudget(budget);
 	}
 
 	public String getNotes() {

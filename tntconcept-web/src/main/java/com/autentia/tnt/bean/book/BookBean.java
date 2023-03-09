@@ -653,7 +653,11 @@ public class BookBean extends BaseBean {
     return book.getPrice();
   }
   public void setPrice( BigDecimal price ) {
-    book.setPrice( price );
+      if (price == null) {
+          book.setPrice(BigDecimal.ZERO);
+      } else {
+          book.setPrice(price);
+      }
   }
         
     
