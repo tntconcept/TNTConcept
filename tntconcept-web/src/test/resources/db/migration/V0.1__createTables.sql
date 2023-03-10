@@ -624,15 +624,16 @@ create table ProjectRole (
   costPerHour decimal(10,2) not null,
   expectedHours int not null,
   maxAllowed int not null,
-  timeUnit varchar(10) not null ,
+  timeUnit varchar(10) not null,
+  isWorkingTime boolean not null,
   primary key (id),
   index ndx_projectRole_projectId on (projectId),
   constraint fk_projectRole_projectId foreign key (projectId) references Project (id)
 )   ;
 
 -- Create one default role per old project
-INSERT INTO ProjectRole( projectId, name, costPerHour, expectedHours, maxAllowed, timeUnit )
-  SELECT id, name, 0, 0, 0, 'MINUTES' FROM Project;
+INSERT INTO ProjectRole( projectId, name, costPerHour, expectedHours, maxAllowed, timeUnit, isWorkingTime )
+  SELECT id, name, 0, 0, 0, 'MINUTES', 1 FROM Project;
 
 
 -- -----------------------------------------------------------------------------

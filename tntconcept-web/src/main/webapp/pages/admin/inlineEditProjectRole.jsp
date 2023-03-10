@@ -140,6 +140,10 @@
 
     <%-- Ignored field: timeUnit --%>
 
+
+
+    <%-- Ignored field: isWorkingTime --%>
+
 </t:dataTable>
 
 

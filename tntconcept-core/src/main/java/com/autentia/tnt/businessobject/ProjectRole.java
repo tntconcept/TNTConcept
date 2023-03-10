@@ -88,6 +88,8 @@ public class ProjectRole implements Serializable, ITransferObject
 
   private TimeUnitType timeUnit = TimeUnitType.MINUTES;
 
+  private boolean isWorkingTime = true;
+
     // Setters and getters
   
   
@@ -179,6 +181,10 @@ private void setId( Integer id ) {
     public void setTimeUnit(TimeUnitType timeUnit) {
         this.timeUnit = timeUnit;
     }
+
+
+    public boolean getIsWorkingTime() {return isWorkingTime;}
+    public void setIsWorkingTime(boolean isWorkingTime) {this.isWorkingTime = isWorkingTime;}
 
     public Set<Activity> getActivities() {
 		return activities;

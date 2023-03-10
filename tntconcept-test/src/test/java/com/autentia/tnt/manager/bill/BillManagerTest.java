@@ -171,6 +171,7 @@ public class BillManagerTest {
 		projectRole.setActivities(createActivitiesForContext(projectRole, date));
 		projectRoleSet.add(projectRole);
 		projectRole.setTimeUnit(TimeUnitType.MINUTES);
+		projectRole.setIsWorkingTime(true);
 		return projectRoleSet;
 	}
 
