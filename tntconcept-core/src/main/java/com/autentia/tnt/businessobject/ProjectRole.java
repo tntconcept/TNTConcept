@@ -86,6 +86,8 @@ public class ProjectRole implements Serializable, ITransferObject
 
   private boolean requireEvidence;
 
+  private TimeUnitType timeUnit = TimeUnitType.MINUTES;
+
     // Setters and getters
   
   
@@ -169,9 +171,16 @@ private void setId( Integer id ) {
   public void setProject( Project project ) {
     this.project = project;
   }
-        
-      
-  public Set<Activity> getActivities() {
+
+
+    public TimeUnitType getTimeUnit() {
+        return timeUnit;
+    }
+    public void setTimeUnit(TimeUnitType timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+    public Set<Activity> getActivities() {
 		return activities;
 	}
 	public void setActivities(Set<Activity> activities) {

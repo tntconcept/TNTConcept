@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.autentia.tnt.businessobject.*;
 import org.hibernate.SessionFactory;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,12 +17,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.autentia.tnt.businessobject.Activity;
-import com.autentia.tnt.businessobject.BillBreakDown;
-import com.autentia.tnt.businessobject.Organization;
-import com.autentia.tnt.businessobject.Project;
-import com.autentia.tnt.businessobject.ProjectCost;
-import com.autentia.tnt.businessobject.ProjectRole;
 import com.autentia.tnt.dao.hibernate.OrganizationDAO;
 import com.autentia.tnt.dao.hibernate.ProjectCostDAO;
 import com.autentia.tnt.dao.hibernate.ProjectDAO;
@@ -175,6 +170,7 @@ public class BillManagerTest {
 		projectRole.setProject(project);
 		projectRole.setActivities(createActivitiesForContext(projectRole, date));
 		projectRoleSet.add(projectRole);
+		projectRole.setTimeUnit(TimeUnitType.MINUTES);
 		return projectRoleSet;
 	}
 
