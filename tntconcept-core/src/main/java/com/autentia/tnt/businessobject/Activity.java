@@ -90,6 +90,8 @@ public class Activity implements Serializable, ITransferObject {
 
   private boolean hasEvidences;
 
+  private ActivityApprovalState approvalState = ActivityApprovalState.NA;
+
 
 
     // Setters and getters
@@ -244,4 +246,12 @@ public class Activity implements Serializable, ITransferObject {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public ActivityApprovalState getApprovalState() {
+        return approvalState;
+    }
+
+    public void setApprovalState(ActivityApprovalState approvalState) {
+        this.approvalState = approvalState;
+    }
 }
