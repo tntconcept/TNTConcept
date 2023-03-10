@@ -131,6 +131,11 @@
 
 
       <%-- Ignored field: isWorkingTime --%>
+
+
+
+
+      <%-- Ignored field: isApprovalRequired --%>
   
 
 </t:dataTable>
