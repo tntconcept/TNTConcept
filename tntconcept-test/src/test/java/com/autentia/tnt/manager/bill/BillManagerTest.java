@@ -172,6 +172,7 @@ public class BillManagerTest {
 		projectRoleSet.add(projectRole);
 		projectRole.setTimeUnit(TimeUnitType.MINUTES);
 		projectRole.setIsWorkingTime(true);
+		projectRole.setIsApprovalRequired(false);
 		return projectRoleSet;
 	}
 

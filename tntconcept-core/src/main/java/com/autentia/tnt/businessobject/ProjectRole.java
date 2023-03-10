@@ -90,6 +90,8 @@ public class ProjectRole implements Serializable, ITransferObject
 
   private boolean isWorkingTime = true;
 
+  private boolean isApprovalRequired = false;
+
     // Setters and getters
   
   
@@ -185,6 +187,9 @@ private void setId( Integer id ) {
 
     public boolean getIsWorkingTime() {return isWorkingTime;}
     public void setIsWorkingTime(boolean isWorkingTime) {this.isWorkingTime = isWorkingTime;}
+
+    public boolean getIsApprovalRequired() {return isApprovalRequired;}
+    public void setIsApprovalRequired(boolean isApprovalRequired) {this.isApprovalRequired = isApprovalRequired;}
 
     public Set<Activity> getActivities() {
 		return activities;
