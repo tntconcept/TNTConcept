@@ -91,7 +91,7 @@ public class ActivityEvidenceNotificationBean {
     }
 
     private boolean doesActivitityHasEvidence(Activity activity) {
-        return activity.isHasImage() || activity.getDescription().startsWith("###Autocreated evidence###");
+        return activity.isHasEvidences() || activity.getDescription().startsWith("###Autocreated evidence###");
     }
 
     private void sendEmail(Project project, List<ProjectRole> roles, String email) throws Exception {

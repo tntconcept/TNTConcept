@@ -16,8 +16,8 @@
 --
 
 -- Update table Activity to change startTime dataType
-ALTER TABLE Activity ALTER COLUMN startDate DATETIME ;
-ALTER TABLE Activity ALTER COLUMN startDate SET DEFAULT '2000-01-01 00:00:00';
+ALTER TABLE Activity ALTER COLUMN start DATETIME ;
+ALTER TABLE Activity ALTER COLUMN start SET DEFAULT '2000-01-01 00:00:00';
 
 
 -- Adding a new field to store a customizable id for this type

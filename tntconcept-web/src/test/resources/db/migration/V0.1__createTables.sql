@@ -248,7 +248,7 @@ create table Activity (
   id int not null auto_increment,
   projectId int not null,
   userId int not null,
-  startDate date not null,
+  start date not null,
   duration int not null ,
   description varchar(2048),
   primary key (id),

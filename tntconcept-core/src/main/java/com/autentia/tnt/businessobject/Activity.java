@@ -88,18 +88,18 @@ public class Activity implements Serializable, ITransferObject {
 
 
 
-  private boolean hasImage;
+  private boolean hasEvidences;
 
 
 
     // Setters and getters
 
-    public boolean isHasImage() {
-        return hasImage;
+    public boolean isHasEvidences() {
+        return hasEvidences;
     }
 
-    public void setHasImage(boolean hasImage) {
-        this.hasImage = hasImage;
+    public void setHasEvidences(boolean hasEvidences) {
+        this.hasEvidences = hasEvidences;
     }
   
   

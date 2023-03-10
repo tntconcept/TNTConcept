@@ -568,7 +568,7 @@ public class ActivityBean extends BaseBean{
     private ActivitySearch search = new ActivitySearch();
 
     /** Default sort column */
-    private String sortColumn = "startDate";
+    private String sortColumn = "start";
 
     private int yearTotalHours;
     private double workTotalHours;
@@ -687,7 +687,7 @@ public class ActivityBean extends BaseBean{
         activity.setDescription(FacesUtils.getMessage("activity.description"));
         activity.setUser(authManager.getCurrentPrincipal().getUser());
 
-        externalActivity.setStartDate(cal.getTime());
+        externalActivity.setStart(cal.getTime());
         externalActivity.setEndDate(cal.getTime()); // it is going to end in the same day
         externalActivity.setComments(FacesUtils.getMessage("offer.observations"));
         externalActivity.setOwnerId(authManager.getCurrentPrincipal().getUser().getId());
@@ -763,13 +763,13 @@ public class ActivityBean extends BaseBean{
                 // sort is descendent
                 Collections.sort(activities, new compareActivitiesByStartAndDuration());
                 activity.setStart(activities.get(0).getEndDate());
-                externalActivity.setStartDate(activities.get(0).getEndDate());
+                externalActivity.setStart(activities.get(0).getEndDate());
                 externalActivity.setEndDate(activities.get(0).getEndDate());
             }else if(activities.size() <= 0 && extActivities.size() > 0){
                 // No activities
                 Collections.sort(extActivities, new compareExternalActivitiesActivitiesByStartAndDuration());
                 activity.setStart(extActivities.get(0).getEndDate());
-                externalActivity.setStartDate(extActivities.get(0).getEndDate());
+                externalActivity.setStart(extActivities.get(0).getEndDate());
                 externalActivity.setEndDate(extActivities.get(0).getEndDate());
             }else if(activities.size() > 0 && extActivities.size() > 0){
 
@@ -782,7 +782,7 @@ public class ActivityBean extends BaseBean{
                 Date startDate = (lastActivityEndDate.compareTo(lastExtActivityEndDate) > 0) ? lastActivityEndDate
                         : lastExtActivityEndDate;
                 activity.setStart(startDate);
-                externalActivity.setStartDate(startDate);
+                externalActivity.setStart(startDate);
                 externalActivity.setEndDate(startDate);
             }
 
@@ -877,11 +877,11 @@ public class ActivityBean extends BaseBean{
         if(activity.getId() == null){
             manager.insertEntity(activity);
             if(uploadedImage != null){
-                activity.setHasImage(ActivityImageUploader.store(uploadedImage, activity));
+                activity.setHasEvidences(ActivityImageUploader.store(uploadedImage, activity));
             }
         }else{
             if(uploadedImage != null){
-                activity.setHasImage(ActivityImageUploader.store(uploadedImage, activity));
+                activity.setHasEvidences(ActivityImageUploader.store(uploadedImage, activity));
             }
             manager.updateEntity(activity);
         }
@@ -1363,11 +1363,11 @@ public class ActivityBean extends BaseBean{
     }
 
     public Date getExternalActivityStartDate(){
-        return externalActivity.getStartDate();
+        return externalActivity.getStart();
     }
 
     public void setExternalActivityStartDate(Date startDate){
-        externalActivity.setStartDate(startDate);
+        externalActivity.setStart(startDate);
     }
 
     public Date getExternalActivityEndDate(){
@@ -2206,13 +2206,13 @@ public class ActivityBean extends BaseBean{
 
     public String deleteImageFile(){
         if(ActivityImageUploader.remove(activity)){
-            activity.setHasImage(false);
+            activity.setHasEvidences(false);
         }
         return save();
     }
 
     public boolean isImageAvailable(){
-        return activity.isHasImage();
+        return activity.isHasEvidences();
     }
 
     public Date getInsertDate(){

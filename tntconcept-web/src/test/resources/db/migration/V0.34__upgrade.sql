@@ -23,7 +23,7 @@
 -- Activity
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE Activity ADD hasImage BOOLEAN DEFAULT FALSE;
+ALTER TABLE Activity ADD hasEvidences BOOLEAN DEFAULT FALSE;
 
 -- -----------------------------------------------------------------------------
 -- Offer

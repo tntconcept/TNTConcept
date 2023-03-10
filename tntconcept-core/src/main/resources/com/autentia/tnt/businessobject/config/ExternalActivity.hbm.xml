@@ -28,7 +28,7 @@
     
     <property name="name" type="java.lang.String" column="name"/>
     <property name="category" type="java.lang.String" column="category"/>
-    <property name="startDate" type="java.util.Date" column="startDate"/>
+    <property name="start" type="java.util.Date" column="startDate"/>
     <property name="endDate" type="java.util.Date" column="endDate"/>
     <property name="location" type="java.lang.String" column="location"/>
     <property name="organizer" type="java.lang.String" column="organizer"/>
