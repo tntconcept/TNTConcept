@@ -84,13 +84,14 @@ public class ProjectRole implements Serializable, ITransferObject
 
   private Set<Activity> activities;
 
-  private boolean requireEvidence;
+  private RequireEvidenceType requireEvidence;
 
   private TimeUnitType timeUnit = TimeUnitType.MINUTES;
 
   private boolean isWorkingTime = true;
 
   private boolean isApprovalRequired = false;
+
 
     // Setters and getters
   
@@ -198,12 +199,20 @@ private void setId( Integer id ) {
 		this.activities = activities;
 	}
 
-    public boolean getRequireEvidence() {
+    public RequireEvidenceType getRequireEvidence() {
         return requireEvidence;
     }
 
-    public void setRequireEvidence(boolean requireEvidence) {
+    public void setRequireEvidence(RequireEvidenceType requireEvidence) {
         this.requireEvidence = requireEvidence;
+    }
+
+    public boolean getRequiredEvidence(){
+        return this.getRequireEvidence() != RequireEvidenceType.NO;
+    }
+
+    public void setRequiredEvidence(boolean requiredEvidence){
+        requireEvidence = requiredEvidence ? RequireEvidenceType.WEEKLY : RequireEvidenceType.NO;
     }
 
   public boolean equals( Object that )

@@ -6,8 +6,9 @@ values ('User', 'user', 'dd94709528bb1c83d08f3088d4043f4742891f4f', 1, 1, now(),
 -- ProjectRole
 -- -----------------------------------------------------------------------------
 
-ALTER TABLE ProjectRole ADD requireEvidence BOOLEAN DEFAULT FALSE;
-UPDATE ProjectRole SET requireEvidence = true WHERE (id = 3);
+ALTER TABLE ProjectRole ADD requireEvidence VARCHAR(10) NOT NULL DEFAULT 'NO';
+UPDATE ProjectRole SET requireEvidence = 'WEEKLY' WHERE (id = 3);
+
 
 
 -- -----------------------------------------------------------------------------

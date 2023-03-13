@@ -63,7 +63,7 @@
         </f:facet>
         <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="evidence"/>
-            <h:selectBooleanCheckbox id="evidence" value="#{role.requireEvidence}"/>
+            <h:selectBooleanCheckbox id="evidence" value="#{role.requiredEvidence}"/>
         </h:panelGroup>
     </h:column>
 
