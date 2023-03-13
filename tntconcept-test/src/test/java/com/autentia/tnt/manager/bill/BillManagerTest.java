@@ -173,6 +173,7 @@ public class BillManagerTest {
 		projectRole.setTimeUnit(TimeUnitType.MINUTES);
 		projectRole.setIsWorkingTime(true);
 		projectRole.setIsApprovalRequired(false);
+		projectRole.setRequireEvidence(RequireEvidenceType.WEEKLY);
 		return projectRoleSet;
 	}
 

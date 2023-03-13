@@ -37,7 +37,11 @@
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
-    <property name="requireEvidence" type="java.lang.Boolean" column="requireEvidence"/>
+    <property name="requireEvidence" not-null="true" column="requireEvidence">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.RequireEvidenceType</param>
+      </type>
+    </property>
     <property name="maxAllowed" type="java.lang.Integer" column="maxAllowed" not-null="true"/>
     <property name="isWorkingTime" type="java.lang.Boolean" column="isWorkingTime" not-null="true"/>
     <property name="isApprovalRequired" type="java.lang.Boolean" column="isApprovalRequired" not-null="true"/>
