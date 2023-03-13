@@ -84,7 +84,7 @@ IFNULL(SUM(CASE WHEN a.billable=$P{Facturable} then duration end),0) as hours
 from User u, Project p, ProjectRole r, Activity a where
 
 u.id = a.userid and p.id = r.projectId and r.id = a.roleId 
-and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+and a.start between $P{Fecha inicio} and $P{Fecha fin}
 
 group by u.name, p.name, r.name;]]></queryString>
 

@@ -72,7 +72,7 @@
 				sum(duration) as 'totalHours' 
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
-and a.startDate between $P{Fecha inicio} and $P{Fecha fin} and u.active = true
+and a.start between $P{Fecha inicio} and $P{Fecha fin} and u.active = true
 group by u.id
 order by totalHours desc, fact desc, u.id desc) as tabla;]]></queryString>
 

@@ -61,7 +61,7 @@
 	FROM Activity a LEFT JOIN ProjectRole r on a.roleId=r.id 
 	LEFT JOIN Project p on p.id=r.projectId 
 	WHERE  p.id=$P{Proyectos}
-		and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+		and a.start between $P{Fecha inicio} and $P{Fecha fin}
 group by p.id, r.name;]]></queryString>
 
 	<field name="roleName" class="java.lang.String"/>
