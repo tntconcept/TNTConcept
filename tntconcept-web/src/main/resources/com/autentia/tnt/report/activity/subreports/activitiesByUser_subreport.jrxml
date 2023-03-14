@@ -36,7 +36,7 @@
 		<![CDATA[
 			select userName,
 				   roleName,
-				   startDate,
+				   start,
 				   duration,
 				   description,
 				   COALESCE(fact / 60, 0)   as fact,
@@ -46,7 +46,7 @@
 					 SELECT u.name                         as userName,
 							r.name                         as roleName,
 							p.name                         as projectName,
-							a.startDate,
+							a.start,
 							a.duration,
 							a.description,
 							sum(CASE
@@ -62,14 +62,14 @@
 					 where u.id = a.userId
 					   and r.id = a.roleId
 					   and p.id = r.projectId
-					   and p.id = $P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+					   and p.id = $P{Proyecto} and a.start between $P{Fecha inicio} and $P{Fecha fin}
 					 group by a.id
-					 order by a.startDate, u.name) as tabla;]]>
+					 order by a.start, u.name) as tabla;]]>
 	</queryString>
 
 	<field name="userName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
-	<field name="startDate" class="java.sql.Timestamp"/>
+	<field name="start" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="fact" class="java.math.BigDecimal"/>
@@ -196,7 +196,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="textField" x="318" y="4" width="363" height="12" />

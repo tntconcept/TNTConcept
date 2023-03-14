@@ -50,7 +50,7 @@ COALESCE(noFact/60,0) as noFact,
 COALESCE(impFact/60,0) as impFact from (
 SELECT  o.name as orgName,
 				u.name as userName,
-                a.startDate,duration,a.description,
+                a.start,duration,a.description,
                 sum(CASE WHEN a.billable=1 then duration end) as 'fact',
 				sum(CASE WHEN a.billable=0 then duration end) as 'noFact',
                 sum(CASE WHEN a.billable=1 then (duration * r.costPerHour) end) as 'impFact'
@@ -62,9 +62,9 @@ p.organizationId=o.id and
 p.id=r.projectId and
 u.id=$P{Usuario} and
 p.organizationId=$P{Organizacion} and
-a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+a.start between $P{Fecha inicio} and $P{Fecha fin}
 group by o.name
-order by o.name,a.startDate,u.name) as tabla;]]></queryString>
+order by o.name,a.start,u.name) as tabla;]]></queryString>
 
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
