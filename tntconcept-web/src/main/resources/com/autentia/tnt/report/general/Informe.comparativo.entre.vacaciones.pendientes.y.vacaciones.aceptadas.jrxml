@@ -99,7 +99,7 @@ LEFT JOIN
 	a.roleId=r.id and 
 	p.id=r.projectId and 
 	a.userId=u.id and 
-	a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+	a.start between $P{Fecha inicio} and $P{Fecha fin}
        GROUP BY u.id ) as imputadas 
 
 ON imputadas.userName = aceptadas.userName
