@@ -42,7 +42,7 @@
 	<queryString><![CDATA[select
 orgName,
 userName,
-startDate,
+start,
 duration,
 description,
 COALESCE(fact/60,0) as fact,
