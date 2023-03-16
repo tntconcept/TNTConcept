@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" language="java" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="c4030137-4234-4511-9958-7daff25959d2">
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		      name="informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba"
+			  pageWidth="842"
+			  pageHeight="595"
+			  orientation="Landscape"
+			  whenNoDataType="AllSectionsNoDetail"
+			  language="java"
+			  columnWidth="782"
+			  leftMargin="30"
+			  rightMargin="30"
+			  topMargin="20"
+			  bottomMargin="20">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
 	<import value="com.autentia.tnt.util.ConfigurationUtil"/>
@@ -44,50 +56,35 @@ WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 	<field name="endContractDate" class="java.sql.Date"/>
 	<field name="endTestPeriodDate" class="java.sql.Date"/>
 	<background>
-		<band splitType="Stretch"/>
+		<band isSplitAllowed="true"/>
 	</background>
 	<title>
-		<band height="81" splitType="Stretch">
+		<band height="81" isSplitAllowed="true">
 			<image scaleImage="FillFrame" onErrorType="Blank">
-				<reportElement key="image-1" x="616" y="13" width="156" height="55" uuid="c642ee49-0767-41ac-9748-595b983ebecc"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="image-1" x="616" y="13" width="156" height="55" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 			</image>
 			<line>
-				<reportElement key="line-6" x="11" y="50" width="600" height="1" uuid="a463cc8d-5978-4567-be6b-892a83396044"/>
+				<reportElement key="line-6" x="11" y="50" width="600" height="1" />
 			</line>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-4" x="0" y="52" width="614" height="15" uuid="f2e87253-b068-4f66-b682-6e72d670316a"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-4" x="0" y="52" width="614" height="15" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font isItalic="true" pdfFontName="Helvetica-Oblique"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.description}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-23" x="5" y="30" width="609" height="20" uuid="e9e3fd45-d5b7-401f-a694-1f022932568f"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-23" x="5" y="30" width="609" height="20" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.title}]]></textFieldExpression>
 			</textField>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport-3" x="323" y="0" width="137" height="12" uuid="e2d7d1a6-13cc-411b-934b-ea488026cec6"/>
+				<reportElement key="subreport-3" x="323" y="0" width="137" height="12" />
 				<subreportParameter name="idOrg">
 					<subreportParameterExpression><![CDATA[$P{idOrg}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -97,89 +94,57 @@ WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="6" splitType="Stretch"/>
+		<band height="6" isSplitAllowed="true"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="18" splitType="Stretch">
+		<band height="18" isSplitAllowed="true">
 			<rectangle radius="3">
-				<reportElement key="rectangle-1" x="4" y="2" width="770" height="14" backcolor="#CCCCFF" uuid="d1a92714-73ba-4786-b71e-60b9e3c2046b"/>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Solid"/>
-				</graphicElement>
+				<reportElement key="rectangle-1" x="4" y="2" width="770" height="14" backcolor="#CCCCFF" />
+				<graphicElement pen="1Point" fill="Solid"/>
 			</rectangle>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-24" x="14" y="4" width="100" height="12" uuid="96cdb2ec-a8c0-47eb-abef-8a4759c3415a"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-24" x="14" y="4" width="100" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.text1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-25" x="114" y="4" width="55" height="10" uuid="a59dc0c2-0e29-4fb9-9c28-6e5fe2cfab87"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-25" x="114" y="4" width="55" height="10" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.text2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-26" x="169" y="4" width="66" height="10" uuid="fada73a4-85df-4ee5-98dd-6d45634e9227"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-26" x="169" y="4" width="66" height="10" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.text3}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-32" x="301" y="4" width="130" height="10" uuid="d6082dc5-62b7-460f-bd4e-7b0bae759e63"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-32" x="301" y="4" width="130" height="10" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.text4}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-33" x="235" y="4" width="66" height="10" uuid="1b528eb8-7eea-4866-ac9b-8d3aff1c4b29"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-33" x="235" y="4" width="66" height="10" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{informe.de.personal.ultimas.incorporaciones.por.periodo.de.prueba.text5}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="staticText-34" x="431" y="4" width="86" height="10" uuid="5099cb68-b34e-4df4-b8fc-3e97b9bfe3d2"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="staticText-34" x="431" y="4" width="86" height="10" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="6" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
@@ -188,83 +153,53 @@ WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="19" splitType="Stretch">
+		<band height="19" isSplitAllowed="true">
 			<line>
-				<reportElement key="line-7" positionType="Float" x="11" y="17" width="755" height="1" forecolor="#CCCCCC" uuid="68b13c61-49d1-48ae-b60a-531996fed808"/>
+				<reportElement key="line-7" positionType="Float" x="11" y="17" width="755" height="1" forecolor="#CCCCCC" />
 			</line>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="14" y="4" width="100" height="12" uuid="06816b46-4cd6-4ac2-9db9-8eceb4e30e92"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="14" y="4" width="100" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="114" y="4" width="55" height="12" uuid="feb7eb67-1711-4769-98ef-269f6adde428"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="114" y="4" width="55" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nif}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="169" y="4" width="66" height="12" uuid="3bd0e9e2-fa54-434b-a98b-5c788d2a8ca5"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="169" y="4" width="66" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="235" y="4" width="66" height="12" uuid="15d4a214-73ca-4083-b000-584d5138f4e1"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="235" y="4" width="66" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="textField" x="301" y="4" width="130" height="12" uuid="e936e0eb-8ce8-4954-8f5c-16406d15c272"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="301" y="4" width="130" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{endContractDate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement key="textField" x="431" y="4" width="86" height="12" uuid="d6787e77-6000-41e4-9c32-34cd920a75ee"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="431" y="4" width="86" height="12" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
@@ -273,57 +208,40 @@ WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="2" splitType="Stretch"/>
+		<band height="2" isSplitAllowed="true"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="50" splitType="Stretch">
+		<band height="50" isSplitAllowed="true">
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" x="658" y="28" width="100" height="18" uuid="f17208a9-4840-4868-bca7-dda44efb3c68"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="658" y="28" width="100" height="18" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Right">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{comun.pagina} + " " + $V{PAGE_NUMBER} + " " + $R{comun.de} + " "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement key="textField" x="760" y="28" width="20" height="18" uuid="31021c1f-3e2a-48f7-a58c-e85dbbb1f5b4"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="760" y="28" width="20" height="18" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement>
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER} + ""]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
-				<reportElement key="textField" x="14" y="28" width="250" height="18" uuid="f5c9590d-2711-47bb-9cd7-5a9fd4c2cd8c"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField" x="14" y="28" width="250" height="18" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement>
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-5" x="12" y="24" width="760" height="1" uuid="869ff26e-ddc2-4017-ae77-435548d4a19a"/>
-				<graphicElement>
-					<pen lineWidth="1.0" lineStyle="Solid"/>
-				</graphicElement>
+				<reportElement key="line-5" x="12" y="24" width="760" height="1" />
+				<graphicElement pen="1Point" fill="Solid"/>
 			</line>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport-1" x="126" y="13" width="531" height="16" uuid="75a90fce-e49a-4662-8402-1caea1deab59"/>
+				<reportElement key="subreport-1" x="126" y="13" width="531" height="16" />
 				<subreportParameter name="idOrg">
 					<subreportParameterExpression><![CDATA[$P{idOrg}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -333,51 +251,36 @@ WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 		</band>
 	</pageFooter>
 	<lastPageFooter>
-		<band height="50" splitType="Stretch">
+		<band height="50" isSplitAllowed="true">
 			<textField evaluationTime="Report" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
-				<reportElement key="textField-1" x="13" y="28" width="250" height="18" uuid="de4da883-7586-4432-9418-8d8521bc1772"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField-1" x="13" y="28" width="250" height="18" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement>
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" x="658" y="30" width="100" height="18" uuid="b9537da4-7d6d-4a58-84e4-cde578e7a019"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField-2" x="658" y="30" width="100" height="18" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Right">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{comun.pagina} + " " + $V{PAGE_NUMBER} + " " + $R{comun.de} + " "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" isBlankWhenNull="false">
-				<reportElement key="textField-3" x="760" y="30" width="20" height="18" uuid="b8a4302d-2624-4e36-89c1-dcbfb92e19d0"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
+				<reportElement key="textField-3" x="760" y="30" width="20" height="18" />
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement>
 					<font fontName="Verdana" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER} + ""]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement key="line-8" x="12" y="25" width="760" height="1" uuid="96f9d3cf-1391-4d23-b5ae-7f9e9093f5df"/>
+				<reportElement key="line-8" x="12" y="25" width="760" height="1" />
 			</line>
 			<subreport isUsingCache="true">
-				<reportElement key="subreport-2" x="126" y="13" width="531" height="16" uuid="843fb667-5a75-4547-9724-ff97e5f12e9f"/>
+				<reportElement key="subreport-2" x="126" y="13" width="531" height="16" />
 				<subreportParameter name="idOrg">
 					<subreportParameterExpression><![CDATA[$P{idOrg}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -387,6 +290,6 @@ WHERE endTestPeriodDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}]]>
 		</band>
 	</lastPageFooter>
 	<summary>
-		<band height="50" splitType="Stretch"/>
+		<band height="50" isSplitAllowed="true"/>
 	</summary>
 </jasperReport>
