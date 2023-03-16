@@ -56,6 +56,17 @@
         </h:panelGroup>
     </h:column>
 
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectRole.maxAllowed']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="maxAllowed"/>
+            <h:inputText id="maxAllowed" value="#{role.maxAllowed}" size="10" required="true" styleClass="requiredFieldClass"/>
+        </h:panelGroup>
+    </h:column>
+
 
     <h:column>
         <f:facet name="header">
