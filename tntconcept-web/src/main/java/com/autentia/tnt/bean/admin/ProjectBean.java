@@ -20,6 +20,7 @@ package com.autentia.tnt.bean.admin;
 import java.math.*;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
@@ -984,7 +985,11 @@ public class ProjectBean extends BaseBean {
     }
 
     public Set<ProjectRole> getRoles() {
-        return project.getRoles();
+
+        return project.getRoles().stream().map(pr -> {
+            pr.setMaxAllowed(pr.getMaxAllowed() / 60); // convert minutes to hours
+            return pr;
+        }).collect(Collectors.toSet());
     }
 
     public void setRoles(Set<ProjectRole> roles) {
@@ -1009,6 +1014,7 @@ public class ProjectBean extends BaseBean {
                 for (ProjectRole pr : project.getRoles()) {
                     if (pr.getProject() == null)
                         pr.setProject(project);
+                    pr.setMaxAllowed(pr.getMaxAllowed() * 60); // convert hours to minutes
 
                 }
             }
