@@ -141,7 +141,8 @@ public class PeriodicalAccountEntry implements Serializable, ITransferObject {
     return rise;
   }
   public void setRise( BigDecimal rise ) {
-    this.rise = rise;
+    if (rise == null ) this.rise = BigDecimal.ZERO;
+    else this.rise = rise;
   }
       
   

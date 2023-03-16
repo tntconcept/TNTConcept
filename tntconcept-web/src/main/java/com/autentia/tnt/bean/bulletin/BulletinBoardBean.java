@@ -604,6 +604,11 @@ public class BulletinBoardBean extends BaseBean
 			setDocumentPath( FileUtil.getFileName(uploadDocumentPath.getName()) );
 			setDocumentContentType( uploadDocumentPath.getContentType() );
 		}
+
+		else {
+			setDocumentPath("");
+			setDocumentContentType("");
+		}
 	}
 	public UploadedFile getUploadDocumentPath()
 	{
