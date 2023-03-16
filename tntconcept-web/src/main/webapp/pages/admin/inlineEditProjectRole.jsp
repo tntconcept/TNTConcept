@@ -52,7 +52,7 @@
 
         <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="name"/>
-            <h:inputText id="name" value="#{role.name}" size="10" required="true" styleClass="requiredFieldClass"/>
+            <h:inputText id="name" value="#{role.name}" size="40" required="true" styleClass="requiredFieldClass"/>
         </h:panelGroup>
     </h:column>
 
