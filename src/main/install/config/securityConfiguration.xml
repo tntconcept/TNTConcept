@@ -79,7 +79,7 @@
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all" cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 			<operation name="create" admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="true" projectManager="true"/>
+			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 		</entity>
 
 		<entity name="Department">
@@ -461,7 +461,7 @@
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all"  cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true"  super="true"  staff="true" user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="false" staff="true" user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true"  super="true"  staff="true" user="true"  cli="true" projectManager="true"/>
+			<operation name="menu"	 admin="true"  super="true"  staff="true" user="true"  cli="false" projectManager="true"/>
 		</entity>
 
 		<entity name="Inventary">
