@@ -694,7 +694,7 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="category" />
-            <h:selectOneMenu id="category" value="#{userBean.category}"  required="true" styleClass="requiredFieldClass">
+            <h:selectOneMenu id="category" value="#{userBean.category}"  required="true" styleClass="requiredFieldClass" rendered="#{userBean.categoryAvailable}">
               <f:selectItems value="#{userBean.categorys}" />
               <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
