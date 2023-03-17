@@ -63,7 +63,10 @@
 
         <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="maxAllowed"/>
-            <h:inputText id="maxAllowed" value="#{role.maxAllowed}" size="10" required="true" styleClass="requiredFieldClass"/>
+            <h:inputText id="maxAllowed" value="#{role.maxAllowed}" size="10" required="true" styleClass="requiredFieldClass">
+                <f:converter converterId="autentia.MinuteToHourConverter"/>
+                <f:validateDoubleRange minimum="0" />
+            </h:inputText>
         </h:panelGroup>
     </h:column>
 

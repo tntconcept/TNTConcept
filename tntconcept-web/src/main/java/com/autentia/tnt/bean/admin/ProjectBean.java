@@ -986,10 +986,7 @@ public class ProjectBean extends BaseBean {
 
     public Set<ProjectRole> getRoles() {
 
-        return project.getRoles().stream().map(pr -> {
-            pr.setMaxAllowed(pr.getMaxAllowed() / 60); // convert minutes to hours
-            return pr;
-        }).collect(Collectors.toSet());
+        return project.getRoles();
     }
 
     public void setRoles(Set<ProjectRole> roles) {
@@ -1014,7 +1011,6 @@ public class ProjectBean extends BaseBean {
                 for (ProjectRole pr : project.getRoles()) {
                     if (pr.getProject() == null)
                         pr.setProject(project);
-                    pr.setMaxAllowed(pr.getMaxAllowed() * 60); // convert hours to minutes
 
                 }
             }
