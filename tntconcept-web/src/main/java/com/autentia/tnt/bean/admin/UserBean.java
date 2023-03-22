@@ -142,6 +142,7 @@ public class UserBean extends BaseBean {
     public boolean isRoleAvailable() {
         return SpringUtils.isRolePermissionGranted(Permission.Action_ChangeRole);
     }
+
     /**
      * Wheter or not category field is available to user
      *
@@ -1677,8 +1678,7 @@ public class UserBean extends BaseBean {
             oldPhoto = user.getPhoto();
             this.uploadPhoto = uploadPhoto;
             setPhoto(FileUtil.getFileName(uploadPhoto.getName()));
-        }
-        else {
+        } else {
             setPhoto("");
         }
     }
@@ -1989,7 +1989,11 @@ public class UserBean extends BaseBean {
     }
 
     public void setRole(Role role) {
-        user.setRole(role);
+        if (isRoleAvailable()) {
+            user.setRole(role);
+        } else {
+            log.warn("User does not have permission to set role");
+        }
     }
 
     public UserCategory getCategory() {
@@ -1997,7 +2001,11 @@ public class UserBean extends BaseBean {
     }
 
     public void setCategory(UserCategory category) {
-        user.setCategory(category);
+        if (isCategoryAvailable()) {
+            user.setCategory(category);
+        } else {
+            log.warn("User does not have permission to set category");
+        }
     }
 
     public Province getProvince() {
