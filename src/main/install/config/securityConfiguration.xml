@@ -581,6 +581,7 @@
 		<action name="Action_ChangePassword"		admin="true" super="true" staff="true" user="true" cli="true" projectManager="true"/>
 		<action name="Action_ResetPassword"			admin="true"/>
 		<action name="Action_ChangeRole"			admin="true"/>
+		<action name="Action_ChangeCategory"		admin="true" super="true"/>
 		<action name="Action_ListQualityDocuments"  admin="true" super="true" staff="true" user="true" projectManager="true"/>
 		<action name="Action_GeneralReports"		admin="true" super="true" staff="true"/>
 		<action name="Action_BitacoreReports"		admin="true" super="true" staff="true" projectManager="true"/>

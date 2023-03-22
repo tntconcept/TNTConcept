@@ -43,6 +43,8 @@ public class Permission
   public static final GrantedAuthority Action_ResetPassword = new GrantedAuthorityImpl("ROLE_Action_ResetPassword");
   /** Change users' roles (secures role form field in editUser.jsp) */
   public static final GrantedAuthority Action_ChangeRole = new GrantedAuthorityImpl("ROLE_Action_ChangeRole");
+  /** Change users' categories (secures category form field in editUser.jsp) */
+  public static final GrantedAuthority Action_ChangeCategory = new GrantedAuthorityImpl("ROLE_Action_ChangeCategory");
   /** List quality documents */
   public static final GrantedAuthority Action_ListQualityDocuments = new GrantedAuthorityImpl("ROLE_Action_ListQualityDocuments");
   /** Execute general reports */
