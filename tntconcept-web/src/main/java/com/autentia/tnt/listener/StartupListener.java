@@ -47,7 +47,6 @@ public class StartupListener implements ServletContextListener
   {
     try
     {
-      Locale.setDefault(new Locale("es"));
       TimeZone.setDefault(TimeZone.getTimeZone(ZoneOffset.UTC));
       // Dump traces now as if nothing had happended before
       log.info("--------------------------------------------------------------------------------");

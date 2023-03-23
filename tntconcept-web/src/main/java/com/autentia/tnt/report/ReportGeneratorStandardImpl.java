@@ -118,6 +118,9 @@ public class ReportGeneratorStandardImpl implements ReportGenerator {
 			args.put(JRParameter.REPORT_RESOURCE_BUNDLE,
 					ResourceBundle.getBundle("com.autentia.tnt.resources.report", principal.getLocale()));
 
+			args.put(JRParameter.REPORT_LOCALE, principal.getLocale());
+
+
 			debug("ReportGenerator - argc " + args.size());
 			debug("ReportGenerator - iniciando conexion and BD");
 
