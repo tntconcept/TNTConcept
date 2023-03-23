@@ -24,9 +24,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
