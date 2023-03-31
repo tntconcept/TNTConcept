@@ -133,7 +133,7 @@
             <td class="editFieldCell">
               <h:panelGroup>
                 <h:message styleClass="error" showSummary="true" showDetail="false" for="description" />
-                <h:inputTextarea id="description" value="#{projectBean.description}" rows="10" cols="136"/>
+                <h:inputTextarea id="description" value="#{projectBean.description}" rows="10" cols="95"/>
               </h:panelGroup>
             </td>
           </tr>
