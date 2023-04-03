@@ -669,6 +669,7 @@
                                               
     
       <%-- Field: role --%>
+            <h:column rendered="#{userBean.roleAvailable}">
     <tr>
     	    		<td class="editLabelRW">*${msg['user.role']}:</td>
     	      
@@ -676,7 +677,7 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="role" />
-            <h:selectOneMenu id="role" value="#{userBean.role}" rendered="#{userBean.roleAvailable}" required="true" styleClass="requiredFieldClass">
+            <h:selectOneMenu id="role" value="#{userBean.role}"  required="true" styleClass="requiredFieldClass">
               <f:selectItems value="#{userBean.roles}" />
               <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
@@ -684,9 +685,10 @@
 
               </td>
     </tr>
-                                  
+            </h:column>
     
       <%-- Field: category --%>
+            <h:column rendered="#{userBean.categoryAvailable}">
     <tr>
     	    		<td class="editLabelRW">*${msg['user.category']}:</td>
     	      
@@ -694,7 +696,7 @@
 
                   <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="category" />
-            <h:selectOneMenu id="category" value="#{userBean.category}"  required="true" styleClass="requiredFieldClass">
+            <h:selectOneMenu id="category" value="#{userBean.category}"  required="true" styleClass="requiredFieldClass" >
               <f:selectItems value="#{userBean.categorys}" />
               <f:converter converterId="autentia.EntityConverter"/>
             </h:selectOneMenu>
@@ -702,6 +704,7 @@
 
               </td>
     </tr>
+            </h:column>
                                   
   
       <%-- Field: province --%>

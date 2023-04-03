@@ -29,6 +29,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.ZoneOffset;
+import java.util.TimeZone;
+
 /**
  *
  * @author Ivan Zaera Avellon
@@ -43,6 +46,7 @@ public class StartupListener implements ServletContextListener
   {
     try
     {
+      TimeZone.setDefault(TimeZone.getTimeZone(ZoneOffset.UTC));
       // Dump traces now as if nothing had happended before
       log.info("--------------------------------------------------------------------------------");
       log.info("contextInitialized - starting up application");

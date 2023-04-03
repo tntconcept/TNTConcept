@@ -277,7 +277,7 @@ private void setId( Integer id ) {
 		return maxAllowed;
 	}
 
-	private void setMaxAllowed(Integer maxAllowed) {
+	public void setMaxAllowed(Integer maxAllowed) {
 		this.maxAllowed = maxAllowed;
 	}
 }

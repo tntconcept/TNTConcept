@@ -57,20 +57,11 @@
 
 		<entity name="Project">
  			<operation name="delete" admin="all"  super="deny" staff="all" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="area" staff="all" user="deny" cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="all" staff="all" user="deny" cli="deny" projectManager="deny"/>
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all"  cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true"  super="true" staff="true" user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="true" staff="true" user="false" cli="false" projectManager="false"/>
 			<operation name="menu"   admin="true"  super="true" staff="true" user="false" cli="false" projectManager="false"/>
-		</entity>
-
-		<entity name="ProjectRole">
- 			<operation name="delete" admin="all"  super="area" staff="all"  user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="area" staff="all"  user="deny" cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"  super="area"  staff="all" user="area" cli="deny" projectManager="area"/>
-			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="create" admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true" super="true" staff="true" user="false"  cli="false" projectManager="false"/>
 		</entity>
 
 		<entity name="UserCategory">
@@ -79,7 +70,7 @@
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all" cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 			<operation name="create" admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="true" projectManager="true"/>
+			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 		</entity>
 
 		<entity name="Department">
@@ -461,7 +452,7 @@
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all"  cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true"  super="true"  staff="true" user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="false" staff="true" user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true"  super="true"  staff="true" user="true"  cli="true" projectManager="true"/>
+			<operation name="menu"	 admin="true"  super="true"  staff="true" user="true"  cli="false" projectManager="true"/>
 		</entity>
 
 		<entity name="Inventary">
@@ -581,6 +572,7 @@
 		<action name="Action_ChangePassword"		admin="true" super="true" staff="true" user="true" cli="true" projectManager="true"/>
 		<action name="Action_ResetPassword"			admin="true"/>
 		<action name="Action_ChangeRole"			admin="true"/>
+		<action name="Action_ChangeCategory"		admin="true" super="true"/>
 		<action name="Action_ListQualityDocuments"  admin="true" super="true" staff="true" user="true" projectManager="true"/>
 		<action name="Action_GeneralReports"		admin="true" super="true" staff="true"/>
 		<action name="Action_BitacoreReports"		admin="true" super="true" staff="true" projectManager="true"/>
