@@ -22,8 +22,8 @@
 	<entities>
 		<entity name="User">
 			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="own" staff="all"  user="own"  cli="deny" projectManager="own"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="own"  cli="deny" projectManager="own"/>
+			<operation name="write"  admin="all"  super="area" staff="all"  user="own"  cli="deny" projectManager="own"/>
+			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true"  super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="false" staff="false" user="false" cli="false" projectManager="false"/>
 			<operation name="menu"   admin="true"  super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
@@ -57,7 +57,7 @@
 
 		<entity name="Project">
 			<operation name="delete" admin="all"  super="deny" staff="all" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="all" staff="all" user="deny" cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="area" staff="all" user="deny" cli="deny" projectManager="deny"/>
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all"  cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true"  super="true" staff="true" user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="true" staff="true" user="false" cli="false" projectManager="false"/>
@@ -70,7 +70,7 @@
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all" cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 			<operation name="create" admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
+			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="true" projectManager="true"/>
 		</entity>
 
 		<entity name="Department">
@@ -160,47 +160,43 @@
 			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
 		</entity>
 
-		<entity name="IVAReason">
-			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="all" projectManager="all"/>
-			<operation name="list"   admin="true" super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
-		</entity>
-
-		<entity name="IVAType">
-			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="all" projectManager="all"/>
-			<operation name="list"   admin="true" super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
-		</entity>
-
-		<entity name="BillRegime">
-			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="all" projectManager="all"/>
-			<operation name="list"   admin="true" super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
+		<entity name="Bill">
+			<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
 		</entity>
 
 		<entity name="BillCategory">
-			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="all" projectManager="all"/>
-			<operation name="list"   admin="true" super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
+			<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
 		</entity>
 
 		<entity name="RectifiedBillCategory">
-			<operation name="delete" admin="deny" super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"  super="all"  staff="all"  user="all"  cli="all" projectManager="all"/>
-			<operation name="list"   admin="true" super="true"  staff="true"  user="true"  cli="false" projectManager="true"/>
-			<operation name="menu"	 admin="true" super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
+			<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
 		</entity>
 
-		<entity name="Bill">
+		<entity name="IVAReason">
+			<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="list"   admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="false" staff="true" user="false" cli="false" projectManager="false"/>
+			<operation name="menu"	 admin="true" super="true"  staff="true" user="false" cli="false" projectManager="false"/>
+		</entity>
+
+		<entity name="IVAType">
 			<operation name="delete" admin="all" super="deny"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
 			<operation name="write"  admin="all"  super="deny"  staff="all"  user="deny"  cli="deny" projectManager="deny"/>
 			<operation name="read"   admin="all"  super="all"   staff="all"  user="deny"  cli="deny" projectManager="deny"/>
@@ -366,12 +362,12 @@
 		</entity>
 
 		<entity name="Activity">
-			<operation name="delete" admin="deny"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="deny"  super="deny" staff="deny" user="deny" cli="deny" projectManager="deny"/>
+			<operation name="delete" admin="own"  super="own" staff="own" user="own" cli="deny" projectManager="own"/>
+			<operation name="write"  admin="own"  super="own" staff="own" user="own" cli="deny" projectManager="own"/>
 			<operation name="read"   admin="all"  super="area" staff="own" user="own" cli="deny" projectManager="own"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="create" admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
+			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 		</entity>
 
 		<entity name="Occupation">
@@ -429,18 +425,18 @@
 		</entity>
 
 		<entity name="RequestHoliday">
-			<operation name="delete" admin="deny"  super="deny"  staff="deny" user="deny" cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="deny"  super="deny"  staff="deny" user="deny" cli="deny" projectManager="deny"/>
+			<operation name="delete" admin="all"  super="area"  staff="all" user="own" cli="deny" projectManager="own"/>
+			<operation name="write"  admin="all"  super="area"  staff="all" user="own" cli="deny" projectManager="own"/>
 			<operation name="read"   admin="all"  super="area"  staff="all" user="own" cli="deny" projectManager="own"/>
 			<operation name="list"   admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
-			<operation name="create" admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
+			<operation name="create" admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
+			<operation name="menu"	 admin="true" super="true" staff="true" user="true" cli="false" projectManager="true"/>
 		</entity>
 
 		<entity name="AdminHoliday">
-			<operation name="delete" admin="all"   super="all"  staff="all"   user="deny"  cli="deny" projectManager="deny"/>
-			<operation name="write"  admin="all"   super="all"  staff="all"   user="deny"  cli="deny" projectManager="deny"/>
-			<operation name="read"   admin="all"   super="all"  staff="all"   user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="delete" admin="all"   super="area"  staff="all"   user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="write"  admin="all"   super="area"  staff="all"   user="deny"  cli="deny" projectManager="deny"/>
+			<operation name="read"   admin="all"   super="area"  staff="all"   user="deny"  cli="deny" projectManager="deny"/>
 			<operation name="list"   admin="true"  super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
 			<operation name="create" admin="false" super="false" staff="false" user="false" cli="false" projectManager="false"/>
 			<operation name="menu"	 admin="true"  super="true"  staff="true"  user="false" cli="false" projectManager="false"/>
@@ -452,7 +448,7 @@
 			<operation name="read"   admin="all"  super="all"  staff="all" user="all"  cli="deny" projectManager="all"/>
 			<operation name="list"   admin="true"  super="true"  staff="true" user="true"  cli="false" projectManager="true"/>
 			<operation name="create" admin="true"  super="false" staff="true" user="false" cli="false" projectManager="false"/>
-			<operation name="menu"	 admin="true"  super="true"  staff="true" user="true"  cli="false" projectManager="true"/>
+			<operation name="menu"	 admin="true"  super="true"  staff="true" user="true"  cli="true" projectManager="true"/>
 		</entity>
 
 		<entity name="Inventary">
@@ -572,7 +568,6 @@
 		<action name="Action_ChangePassword"		admin="true" super="true" staff="true" user="true" cli="true" projectManager="true"/>
 		<action name="Action_ResetPassword"			admin="true"/>
 		<action name="Action_ChangeRole"			admin="true"/>
-		<action name="Action_ChangeCategory"		admin="true" super="true"/>
 		<action name="Action_ListQualityDocuments"  admin="true" super="true" staff="true" user="true" projectManager="true"/>
 		<action name="Action_GeneralReports"		admin="true" super="true" staff="true"/>
 		<action name="Action_BitacoreReports"		admin="true" super="true" staff="true" projectManager="true"/>
