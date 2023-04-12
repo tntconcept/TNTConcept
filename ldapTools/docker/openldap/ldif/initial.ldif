@@ -14,10 +14,10 @@ objectClass: organizationalRole
 cn: reset
 userPassword: resetadmin
 
-dn: uid=test,ou=people,dc=autentia,dc=com
+dn: uid=admin,ou=people,dc=autentia,dc=com
 objectClass: inetOrgPerson
 objectClass: simpleSecurityObject
-cn: test
-sn: test
-uid: test
+cn: admin
+sn: admin
+uid: admin
 userpassword: adminadmin
