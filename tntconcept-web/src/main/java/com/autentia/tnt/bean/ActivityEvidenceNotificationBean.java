@@ -34,10 +34,9 @@ public class ActivityEvidenceNotificationBean {
     }
 
     public void checkActivitiesWithNoEvidence() throws MessagingException {
-        ConfigurationUtil configurationUtil = ConfigurationUtil.getDefault();
-        Boolean sendMailNotificationEvidences = configurationUtil.getSendMailNotificationEvidences();
-        if (!sendMailNotificationEvidences){
-            log.info("No evidence notification is disabled");
+
+        if (!ConfigurationUtil.getDefault().getSendMailNotificationEvidences()){
+            log.warn("Mail notification for evidences is disabled");
             return;
         }
         log.info("Checking for users with no activity evidence images attached for the past 7 days");
