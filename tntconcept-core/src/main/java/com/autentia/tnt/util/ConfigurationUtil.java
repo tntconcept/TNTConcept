@@ -585,4 +585,9 @@ public class ConfigurationUtil{
         }
     }
 
+    public Boolean getSendMailNotificationEvidences(){
+        return Boolean.valueOf(getProperty("sendMailNotificationEvidences", "true"));
+    }
+
+
 }

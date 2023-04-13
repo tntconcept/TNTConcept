@@ -26,12 +26,16 @@ public class ActivityEvidenceNotificationBean {
 
     private MailService mailService;
 
-
     public ActivityEvidenceNotificationBean(MailService mailService) {
         this.mailService = mailService;
     }
 
     public void checkActivitiesWithNoEvidence() throws MessagingException {
+
+        if (!ConfigurationUtil.getDefault().getSendMailNotificationEvidences()){
+            log.warn("Mail notification for evidences is disabled");
+            return;
+        }
         log.info("Checking for users with no activity evidence images attached for the past 7 days");
 
         authenticateAs(ConfigurationUtil.getDefault().getAdminUser());
@@ -85,6 +89,8 @@ public class ActivityEvidenceNotificationBean {
                 }
             }
         }
+
+
     }
 
     private boolean doesActivitityHasEvidence(Activity activity) {

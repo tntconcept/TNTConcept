@@ -495,4 +495,8 @@ public class ConfigurationUtilForTesting extends ConfigurationUtil {
 	public String getTntconceptUrl() {
 		return getProperty("tntconcept_url", "https://tnt.autentia.com/tntconcept");
 	}
+
+	public Boolean getSendMailNotificationEvidences(){
+		return Boolean.valueOf(getProperty("sendMailNotificationEvidences", "true"));
+	}
 }
