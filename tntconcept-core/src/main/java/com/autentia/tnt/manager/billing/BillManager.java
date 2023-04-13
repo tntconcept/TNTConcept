@@ -152,7 +152,7 @@ public class BillManager {
 		for (ProjectRole proyRole : roles) {
 			actSearch.setRole(proyRole);
 			List<Activity> actividades = activityDAO.search(actSearch,
-					new SortCriteria("startDate", false));
+					new SortCriteria("start", false));
 			actividadesTotal.addAll(actividades);
 		}
 
@@ -182,7 +182,7 @@ public class BillManager {
 			actSearch.setRole(pR);
 			actSearch.setUser(u);
 			List<Activity> actividadesUsuarioRol = activityDAO.search(
-					actSearch, new SortCriteria("startDate", false));
+					actSearch, new SortCriteria("start", false));
 
 			BillBreakDown brd = new BillBreakDown();
 			brd.setConcept("Imputaciones (usuario - rol): " + u.getName()

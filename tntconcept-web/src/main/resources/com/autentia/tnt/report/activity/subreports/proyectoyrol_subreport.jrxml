@@ -44,8 +44,8 @@
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[SELECT
-			startDate,
-			startDate + INTERVAL duration MINUTE as endDate,
+			start,
+			start + INTERVAL duration MINUTE as endDate,
 			duration,
 			description,
 			COALESCE(fact,0) as fact,
@@ -53,7 +53,7 @@
              COALESCE(impFact/60,0) as impFact from (
 
 			select
- 					a.startDate,
+ 					a.start,
  					a.duration,
  					a.description,
  					sum(CASE WHEN a.billable=1 then duration end) as 'fact',
@@ -69,15 +69,15 @@
 					p.id=r.projectId and
 					p.id=$P{idProyecto} and
                     r.id=$P{idRol} and
-					a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+					a.start between $P{Fecha inicio} and $P{Fecha fin}
 
 			GROUP BY a.id
 
-			ORDER BY 	a.startDate,
+			ORDER BY 	a.start,
 						o.name,
 						u.name) as tabla;]]></queryString>
 
-	<field name="startDate" class="java.sql.Timestamp"/>
+	<field name="start" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
@@ -199,7 +199,7 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

@@ -51,18 +51,24 @@
 	<parameter name="idOrg" isForPrompting="false" class="java.lang.Integer">
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 	</parameter>
-	<queryString><![CDATA[SELECT p.name as project, r.name AS 'roleName' , r.expectedHours as hours ,
+	<queryString><![CDATA[
+	SELECT project,
+		roleName,
+		hours,
+		report.fact/60 as fact,
+		report.noFact/60 as noFact,
+		((report.fact / 60) / report.hours) * 100.0 as 'percentage'
+	FROM(
+	SELECT p.name as project, r.name AS 'roleName' , r.expectedHours as hours ,
 		 IFNULL(sum(CASE WHEN a.billable=1
     		 then duration end),0) as 'fact',
  		 IFNULL(sum(CASE WHEN a.billable=0
- 		  then duration end),0) as 'noFact',
- 		 IFNULL((( sum(CASE WHEN a.billable=1
-    		 then duration end) / r.expectedHours) * 100.0),0) as 'percentage'
-	FROM Activity a LEFT JOIN ProjectRole r on a.roleId=r.id 
-	LEFT JOIN Project p on p.id=r.projectId 
+ 		  then duration end),0) as 'noFact'
+	FROM Activity a LEFT JOIN ProjectRole r on a.roleId=r.id
+	LEFT JOIN Project p on p.id=r.projectId
 	WHERE  p.id=$P{Proyectos}
-		and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
-group by p.id, r.name;]]></queryString>
+		and a.start between $P{Fecha inicio} and $P{Fecha fin}
+	group by p.id, r.name) as report;]]></queryString>
 
 	<field name="roleName" class="java.lang.String"/>
 	<field name="project" class="java.lang.String"/>

@@ -57,9 +57,9 @@
 	orgName,
 	userName,
 	roleName,
-	startDate,
-	startDate + INTERVAL duration MINUTE as endDate,
-	hasImage,
+	start,
+	start + INTERVAL duration MINUTE as endDate,
+	hasEvidences,
 	insertDate,
 	activityId,
 	duration,
@@ -73,10 +73,10 @@ from (
 		o.name as orgName,
 		u.name as userName,
 		r.name as roleName,
-		a.startDate,
+		a.start,
 		a.insertDate,
 		a.duration,
-		a.hasImage,
+		a.hasEvidences,
 		a.description,
 		a.id as activityId,
 		p.name as proName,
@@ -91,25 +91,25 @@ from (
 		r.id=a.roleId and
 		p.organizationId=o.id and
 		p.id=r.projectId and
-		a.startDate between $P{Fecha inicio} and $P{Fecha fin} and
+		a.start between $P{Fecha inicio} and $P{Fecha fin} and
 		u.id=$P{Usuario}
 	group by
 		a.id
 	order by
 		o.name,
-		a.startDate,
+		a.start,
 		u.name
 ) as tabla]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
-	<field name="startDate" class="java.sql.Timestamp"/>
+	<field name="start" class="java.sql.Timestamp"/>
 	<field name="insertDate" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="hasImage" class="java.lang.Integer"/>
+	<field name="hasEvidences" class="java.lang.Integer"/>
 	<field name="activityId" class="java.lang.Integer"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
@@ -437,7 +437,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
 				<reportElement
@@ -450,8 +450,8 @@ from (
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]> </textFieldExpression>
-				<hyperlinkReferenceExpression> <![CDATA[$F{hasImage}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]>
+				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]>
 				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >

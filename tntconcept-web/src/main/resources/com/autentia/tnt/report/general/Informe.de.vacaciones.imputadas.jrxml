@@ -70,7 +70,7 @@
 FROM ( SELECT u.name AS 'userName',count(*) AS 'vacaciones'
 	FROM Project p, Activity a, ProjectRole r, User u 
 	WHERE p.name LIKE '%Vacaciones' and a.roleId=r.id and p.id=r.projectId and a.userId=u.id 
-	and a.startDate between $P{Fecha inicio} and $P{Fecha fin} 
+	and a.start between $P{Fecha inicio} and $P{Fecha fin}
 	GROUP BY u.id ) as tabla 
 	ORDER BY vacaciones DESC;]]></queryString>
 

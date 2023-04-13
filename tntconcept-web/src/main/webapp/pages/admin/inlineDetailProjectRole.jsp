@@ -121,7 +121,21 @@
   
   
       <%-- Ignored field: project --%>
-  
+
+
+
+
+      <%-- Ignored field: timeUnit --%>
+
+
+
+
+      <%-- Ignored field: isWorkingTime --%>
+
+
+
+
+      <%-- Ignored field: isApprovalRequired --%>
   
 
 </t:dataTable>

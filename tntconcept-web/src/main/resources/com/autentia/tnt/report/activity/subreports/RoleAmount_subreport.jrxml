@@ -39,14 +39,14 @@
 COALESCE(impFact/60,0) as impFact from (
 
 	SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as projectName,
-		a.startDate,a.duration,a.description,
+		a.start,a.duration,a.description,
         sum(CASE WHEN a.billable=1 then (duration * r.costPerHour) end) as 'impFact'
 	FROM Activity a, Organization o,User u,Project p,ProjectRole r 
 	where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
-	and p.id= $P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+	and p.id= $P{Proyecto} and a.start between $P{Fecha inicio} and $P{Fecha fin}
 
 	group by r.id
-	order by a.startDate,u.name) as tabla;]]></queryString>
+	order by a.start,u.name) as tabla;]]></queryString>
 
 	<field name="roleName" class="java.lang.String"/>
 	<field name="impFact" class="java.math.BigDecimal"/>

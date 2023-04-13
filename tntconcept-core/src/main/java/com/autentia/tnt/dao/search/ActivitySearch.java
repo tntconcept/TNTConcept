@@ -69,17 +69,17 @@ public class ActivitySearch extends SearchCriteria
       if( isStartStartDateSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
       if( startStartDate == null ){
-        ret.append( "startDate=:arg"+(iArgNum++) );
+        ret.append( "start=:arg"+(iArgNum++) );
       } else {
-        ret.append( "startDate>=:arg"+(iArgNum++) );
+        ret.append( "start>=:arg"+(iArgNum++) );
       }
     }
     if( isEndStartDateSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
       if( endStartDate == null ){
-        ret.append( "startDate=:arg"+(iArgNum++) );
+        ret.append( "start=:arg"+(iArgNum++) );
       } else {
-        ret.append( "startDate<=:arg"+(iArgNum++) );
+        ret.append( "start<=:arg"+(iArgNum++) );
       }
     }
 

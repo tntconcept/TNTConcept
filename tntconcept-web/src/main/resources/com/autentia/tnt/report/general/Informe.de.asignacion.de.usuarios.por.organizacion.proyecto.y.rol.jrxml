@@ -61,7 +61,7 @@ FROM
     INNER JOIN UserCategory ON User.categoryId = UserCategory.id) u
         INNER JOIN
     (SELECT 
-        userId, orgName, projName, roleName, startDate
+        userId, orgName, projName, roleName, start
     FROM
         Activity a
     INNER JOIN (SELECT 
@@ -75,9 +75,9 @@ FROM
     FROM
         Project
     INNER JOIN Organization ON organizationId = Organization.id) s ON p.projectId = s.id) r ON r.id = a.roleId) o ON u.id = o.userId
-		WHERE startDate between $P{Fecha inicio} and $P{Fecha fin}
+		WHERE start between $P{Fecha inicio} and $P{Fecha fin}
 		GROUP BY login, uname, ucname, orgName, projName, roleName 
-		ORDER BY uname, startDate;]]></queryString>
+		ORDER BY uname, start;]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="login" class="java.lang.String"/>

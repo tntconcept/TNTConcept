@@ -8,7 +8,7 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License.
 
-    This program is distributed in the hope that it will be useful,
+    This program is dist	ributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
@@ -74,7 +74,7 @@ FROM (SELECT sum(duration) as 'hours',p.name AS 'projectName',
 		  then duration end) as 'noFact'
 	FROM Activity a,Project p,ProjectRole r 
 	WHERE a.roleId=r.id and p.id=r.projectId 
-	and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+	and a.start between $P{Fecha inicio} and $P{Fecha fin}
 	GROUP BY p.id 
 	ORDER BY hours desc) as tabla;]]></queryString>
 

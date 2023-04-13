@@ -84,7 +84,7 @@ IFNULL(SUM(CASE WHEN a.billable=$P{Facturable} then duration end),0) as hours
 from User u, Project p, ProjectRole r, Activity a where
 
 u.id = a.userid and p.id = r.projectId and r.id = a.roleId 
-and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+and a.start between $P{Fecha inicio} and $P{Fecha fin}
 
 group by u.name, p.name, r.name;]]></queryString>
 
@@ -92,7 +92,6 @@ group by u.name, p.name, r.name;]]></queryString>
 	<field name="projectName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
 	<field name="hours" class="java.lang.Integer"/>
-
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -382,7 +381,7 @@ group by u.name, p.name, r.name;]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[($F{hours})]]></textFieldExpression>
+				<textFieldExpression  class="java.lang.Double"><![CDATA[new java.lang.Double(($F{hours}.doubleValue())/60.0)]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

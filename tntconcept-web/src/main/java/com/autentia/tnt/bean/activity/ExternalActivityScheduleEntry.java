@@ -48,7 +48,7 @@ public class ExternalActivityScheduleEntry implements ScheduleEntry {
 	}
 
 	public Date getStartTime() {
-		return externalActivity.getStartDate();
+		return externalActivity.getStart();
 	}
 
 	public String getSubtitle() {

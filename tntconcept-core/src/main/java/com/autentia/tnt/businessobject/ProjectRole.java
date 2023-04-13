@@ -84,7 +84,14 @@ public class ProjectRole implements Serializable, ITransferObject
 
   private Set<Activity> activities;
 
-  private boolean requireEvidence;
+  private RequireEvidenceType requireEvidence;
+
+  private TimeUnitType timeUnit = TimeUnitType.MINUTES;
+
+  private boolean isWorkingTime = true;
+
+  private boolean isApprovalRequired = false;
+
 
     // Setters and getters
   
@@ -169,21 +176,43 @@ private void setId( Integer id ) {
   public void setProject( Project project ) {
     this.project = project;
   }
-        
-      
-  public Set<Activity> getActivities() {
+
+
+    public TimeUnitType getTimeUnit() {
+        return timeUnit;
+    }
+    public void setTimeUnit(TimeUnitType timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+
+    public boolean getIsWorkingTime() {return isWorkingTime;}
+    public void setIsWorkingTime(boolean isWorkingTime) {this.isWorkingTime = isWorkingTime;}
+
+    public boolean getIsApprovalRequired() {return isApprovalRequired;}
+    public void setIsApprovalRequired(boolean isApprovalRequired) {this.isApprovalRequired = isApprovalRequired;}
+
+    public Set<Activity> getActivities() {
 		return activities;
 	}
 	public void setActivities(Set<Activity> activities) {
 		this.activities = activities;
 	}
 
-    public boolean getRequireEvidence() {
+    public RequireEvidenceType getRequireEvidence() {
         return requireEvidence;
     }
 
-    public void setRequireEvidence(boolean requireEvidence) {
+    public void setRequireEvidence(RequireEvidenceType requireEvidence) {
         this.requireEvidence = requireEvidence;
+    }
+
+    public boolean getRequiredEvidence(){
+        return this.getRequireEvidence() != RequireEvidenceType.NO;
+    }
+
+    public void setRequiredEvidence(boolean requiredEvidence){
+        requireEvidence = requiredEvidence ? RequireEvidenceType.WEEKLY : RequireEvidenceType.NO;
     }
 
   public boolean equals( Object that )

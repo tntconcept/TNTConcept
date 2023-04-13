@@ -25,7 +25,7 @@
     <id name="id" unsaved-value="null" type="java.lang.Integer">
       <generator class="native" />
     </id>
-    <property name="startDate" type="java.util.Date"/>
+    <property name="start" type="java.util.Date"/>
     <property name="duration" type="int"/>
     <property name="description" type="java.lang.String"/>
     <property name="billable" type="boolean"/>
@@ -35,6 +35,11 @@
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
-    <property name="hasImage" type="java.lang.Boolean" column="hasImage"/>
+    <property name="hasEvidences" type="java.lang.Boolean" column="hasEvidences"/>
+    <property name="approvalState" not-null="true" column="approvalState">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.ActivityApprovalState</param>
+      </type>
+    </property>
   </class>
 </hibernate-mapping>

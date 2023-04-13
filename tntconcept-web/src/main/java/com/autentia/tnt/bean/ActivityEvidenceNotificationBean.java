@@ -1,9 +1,6 @@
 package com.autentia.tnt.bean;
 
-import com.autentia.tnt.businessobject.Activity;
-import com.autentia.tnt.businessobject.Project;
-import com.autentia.tnt.businessobject.ProjectRole;
-import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.search.ActivitySearch;
 import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.mail.MailService;
@@ -71,12 +68,12 @@ public class ActivityEvidenceNotificationBean {
             HashMap<Project, List<Activity>> groupedActivities = groupedActivitiesByProject(activities);
             for (Project project : groupedActivities.keySet()) {
                 List<Activity> prjActivities = groupedActivities.get(project);
-                if (prjActivities.stream().anyMatch(activity -> activity.getRole().getRequireEvidence())
+                if (prjActivities.stream().anyMatch(activity -> activity.getRole().getRequireEvidence() == RequireEvidenceType.WEEKLY)
                         && prjActivities.stream().noneMatch(this::doesActivitityHasEvidence)) {
                     List<ProjectRole> roles = prjActivities
                             .stream()
                             .map(Activity::getRole)
-                            .filter(ProjectRole::getRequireEvidence)
+                            .filter(ProjectRole -> ProjectRole.getRequireEvidence() == RequireEvidenceType.WEEKLY)
                             .collect(Collectors.toList());
 
                     prjActivities
@@ -97,7 +94,7 @@ public class ActivityEvidenceNotificationBean {
     }
 
     private boolean doesActivitityHasEvidence(Activity activity) {
-        return activity.isHasImage() || activity.getDescription().startsWith("###Autocreated evidence###");
+        return activity.isHasEvidences() || activity.getDescription().startsWith("###Autocreated evidence###");
     }
 
     private void sendEmail(Project project, List<ProjectRole> roles, String email) throws Exception {
@@ -126,7 +123,7 @@ public class ActivityEvidenceNotificationBean {
     }
 
     private boolean doesProjectContainRoleWithRequiredEvidence(Project project) {
-        return project.getRoles().stream().anyMatch(ProjectRole::getRequireEvidence);
+        return project.getRoles().stream().anyMatch(ProjectRole -> ProjectRole.getRequireEvidence() == RequireEvidenceType.WEEKLY);
     }
 
     // TODO Extract to a Security Utils Class or similar

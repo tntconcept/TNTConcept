@@ -75,7 +75,7 @@
 				      then duration end) as 'noFact'
 	FROM Activity a,Organization o,Project p,ProjectRole r,OrganizationType t 
 	where r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId and t.id=o.organizationTypeId 
-		and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+		and a.start between $P{Fecha inicio} and $P{Fecha fin}
 	group by o.id  order by orgName) as tabla;]]></queryString>
 
 	<field name="duration" class="java.lang.Integer"/>

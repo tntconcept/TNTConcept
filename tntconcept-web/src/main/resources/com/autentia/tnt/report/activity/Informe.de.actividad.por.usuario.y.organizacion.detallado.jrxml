@@ -81,9 +81,9 @@
 					o.id=p.organizationId and
 					p.id=r.projectId and
 					u.id=$P{Usuario} and
-					a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+					a.start between $P{Fecha inicio} and $P{Fecha fin}
 			group by a.roleId
-			order by o.name,a.startDate,u.name,p.name;]]></queryString>
+			order by o.name,a.start,u.name,p.name;]]></queryString>
 
 	<field name="OrgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>

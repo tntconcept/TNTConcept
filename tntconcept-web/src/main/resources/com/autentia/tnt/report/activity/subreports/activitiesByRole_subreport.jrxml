@@ -54,7 +54,7 @@
                           ProjectRole r
                      where r.id = a.roleId
                        and p.id = r.projectId
-                       and p.id = $P{Proyecto} and a.startDate between $P{Fecha inicio} and $P{Fecha fin}
+                       and p.id = $P{Proyecto} and a.start between $P{Fecha inicio} and $P{Fecha fin}
                      group by roleName
                      order by roleName) as tabla;]]>
     </queryString>

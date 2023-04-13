@@ -50,7 +50,7 @@ public class Activity implements Serializable, ITransferObject {
 
       
       
-  private Date startDate;
+  private Date start;
 
       
       
@@ -88,18 +88,20 @@ public class Activity implements Serializable, ITransferObject {
 
 
 
-  private boolean hasImage;
+  private boolean hasEvidences;
+
+  private ActivityApprovalState approvalState = ActivityApprovalState.NA;
 
 
 
     // Setters and getters
 
-    public boolean isHasImage() {
-        return hasImage;
+    public boolean isHasEvidences() {
+        return hasEvidences;
     }
 
-    public void setHasImage(boolean hasImage) {
-        this.hasImage = hasImage;
+    public void setHasEvidences(boolean hasEvidences) {
+        this.hasEvidences = hasEvidences;
     }
   
   
@@ -112,11 +114,11 @@ public class Activity implements Serializable, ITransferObject {
       
   
   
-  public Date getStartDate() {
-    return startDate;
+  public Date getStart() {
+    return start;
   }
-  public void setStartDate( Date startDate ) {
-    this.startDate = startDate;
+  public void setStart(Date start) {
+    this.start = start;
   }
       
   
@@ -228,10 +230,10 @@ public class Activity implements Serializable, ITransferObject {
 	public Date getEndDate() {
 		Calendar cal = Calendar.getInstance();
 		
-		if (getStartDate() == null)
+		if (getStart() == null)
 			return null;
 		
-		cal.setTime(getStartDate());
+		cal.setTime(getStart());
 		cal.add(Calendar.MINUTE, getDuration());
 		
 		return cal.getTime();
@@ -244,4 +246,12 @@ public class Activity implements Serializable, ITransferObject {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public ActivityApprovalState getApprovalState() {
+        return approvalState;
+    }
+
+    public void setApprovalState(ActivityApprovalState approvalState) {
+        this.approvalState = approvalState;
+    }
 }

@@ -130,6 +130,7 @@ public class ReportGeneratorStandardImpl implements ReportGenerator {
 			debug("ReportGenerator - finalización del informe");
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			log.error("ReportGenerator - exception", e);
 			this.throwError("Exception");
 			/*

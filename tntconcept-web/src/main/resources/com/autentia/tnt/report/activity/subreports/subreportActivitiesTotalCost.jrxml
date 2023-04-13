@@ -45,7 +45,7 @@
 	<parameter name="eurosPerHour" isForPrompting="true" class="java.lang.Double"/>
 	<parameter name="idUser" isForPrompting="true" class="java.lang.Integer"/>
 	<parameter name="idProject" isForPrompting="true" class="java.lang.Integer"/>
-	<parameter name="startDate" isForPrompting="true" class="java.util.Date"/>
+	<parameter name="start" isForPrompting="true" class="java.util.Date"/>
 	<parameter name="endDate" isForPrompting="true" class="java.util.Date"/>
 	<parameter name="billable" isForPrompting="true" class="java.lang.Integer"/>
 	<queryString><![CDATA[select sum(duration)/60 as hours, sum(cost) as cost from (

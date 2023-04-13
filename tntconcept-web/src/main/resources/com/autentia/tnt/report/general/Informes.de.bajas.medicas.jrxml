@@ -70,7 +70,7 @@
 FROM ( SELECT u.name AS 'userName',count(*) AS 'baja' 
 	FROM Project p, Activity a, User u, ProjectRole r 
 	WHERE p.name LIKE 'Baja por enfermedad%' and a.roleId=r.id and a.userId=u.id and p.id=r.projectId 
-	and a.startDate between $P{Fecha inicio} and $P{Fecha fin} 
+	and a.start between $P{Fecha inicio} and $P{Fecha fin}
 	GROUP BY u.id ) as tabla 
 	ORDER BY baja DESC;]]></queryString>
 

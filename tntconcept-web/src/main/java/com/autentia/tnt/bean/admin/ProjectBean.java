@@ -267,7 +267,8 @@ public class ProjectBean extends BaseBean {
      */
     public String deleteRoles() {
         UIData table = (UIData) FacesUtils.getComponent("project:roles");
-        project.getRoles().remove(table.getRowData());
+        ProjectRole pr = (ProjectRole) table.getRowData();
+        project.getRoles().remove(pr);
         return null;
     }
 

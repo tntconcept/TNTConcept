@@ -56,8 +56,8 @@
 	orgName,
 	userName,
 	roleName,
-	startDate,
-	startDate + INTERVAL duration MINUTE as endDate,
+	start,
+	start + INTERVAL duration MINUTE as endDate,
 	duration,
 	description,
 	COALESCE(fact/60,0) as fact,
@@ -69,7 +69,7 @@ from (
 		o.name as orgName,
 		u.name as userName,
 		r.name as roleName,
-		a.startDate,
+		a.start,
 		a.duration,
 		a.description,
 		a.id,
@@ -85,19 +85,19 @@ from (
 		r.id=a.roleId and
 		p.organizationId=o.id and
 		p.id=r.projectId and
-		a.startDate between $P{Fecha inicio} and $P{Fecha fin} and
+		a.start between $P{Fecha inicio} and $P{Fecha fin} and
 		u.id=$P{Usuario}
 	group by
 		a.id
 	order by
-	    a.startDate,
+	    a.start,
 		o.name
 ) as tabla]]></queryString>
 
     <field name="orgName" class="java.lang.String"/>
     <field name="userName" class="java.lang.String"/>
     <field name="roleName" class="java.lang.String"/>
-    <field name="startDate" class="java.sql.Timestamp"/>
+    <field name="start" class="java.sql.Timestamp"/>
     <field name="endDate" class="java.sql.Timestamp"/>
     <field name="duration" class="java.lang.Integer"/>
     <field name="description" class="java.lang.String"/>
@@ -414,7 +414,7 @@ from (
                 <textElement textAlignment="Center">
                     <font fontName="Verdana" size="8"/>
                 </textElement>
-                <textFieldExpression   class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
+                <textFieldExpression   class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
                 <reportElement

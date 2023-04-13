@@ -46,7 +46,7 @@ public class ExternalActivity implements Serializable, ITransferObject {
 	
 	private String category;
 	
-	private Date startDate;
+	private Date start;
 	
 	private Date endDate;
 	
@@ -116,12 +116,12 @@ public class ExternalActivity implements Serializable, ITransferObject {
 		this.category = category;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public Date getStart() {
+		return start;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStart(Date start) {
+		this.start = start;
 	}
 
 	
@@ -206,7 +206,7 @@ public class ExternalActivity implements Serializable, ITransferObject {
         final HashCodeBuilder hcb = new HashCodeBuilder();
         hcb.append(getName());
         hcb.append(getCategory());
-        hcb.append(getStartDate());
+        hcb.append(getStart());
         hcb.append(getEndDate());
         hcb.append(getLocation());
         hcb.append(getOrganizer());
@@ -228,7 +228,7 @@ public class ExternalActivity implements Serializable, ITransferObject {
             final EqualsBuilder eqb = new EqualsBuilder();
             eqb.append(getName(), other.getName());
             eqb.append(getCategory(), other.getCategory());
-            eqb.append(getStartDate(), other.getStartDate());
+            eqb.append(getStart(), other.getStart());
             eqb.append(getEndDate(), other.getEndDate());
             eqb.append(getLocation(), other.getLocation());
             eqb.append(getOrganizer(), other.getOrganizer());

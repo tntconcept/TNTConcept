@@ -27,7 +27,7 @@ public class ActivityImageUploaderTest {
         UploadedFile file = mock(UploadedFile.class);
 
         when(activity.getId()).thenReturn(666);
-        when(activity.getStartDate()).thenReturn(new Date());
+        when(activity.getStart()).thenReturn(new Date());
         when(activity.getEndDate()).thenReturn(new Date());
         when(activity.getInsertDate()).thenReturn(new Date());
         InputStream inputStream = getClass()
