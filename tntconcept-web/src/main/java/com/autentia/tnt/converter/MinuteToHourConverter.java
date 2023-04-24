@@ -39,7 +39,7 @@ public class MinuteToHourConverter implements Converter {
   
   public Object getAsObject( FacesContext context, UIComponent component, String value ) throws ConverterException {
     log.debug("getAsObject - value="+value);
-    String allowDecimal= component.getAttributes().get("allowDecimal") == null ? "false"
+    String allowDecimal= component.getAttributes().get("allowDecimal") == null ? "true"
             : component.getAttributes().get("allowDecimal").toString();
     if( value==null ){
       return null;
@@ -70,7 +70,7 @@ public class MinuteToHourConverter implements Converter {
   }
   
   public String getAsString( FacesContext context, UIComponent component, Object value ) throws ConverterException {
-    String allowDecimal= component.getAttributes().get("allowDecimal") == null ? "false"
+    String allowDecimal= component.getAttributes().get("allowDecimal") == null ? "true"
             : component.getAttributes().get("allowDecimal").toString();
     if( value instanceof Integer ) {
       int val = (Integer) value;
