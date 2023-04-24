@@ -17,6 +17,7 @@
 
 package com.autentia.tnt.converter;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -24,34 +25,61 @@ import javax.faces.convert.ConverterException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.myfaces.shared_tomahawk.util.MessageUtils;
 
 /**
  * JSF converter to change minutes into dates
  * @author ivan
  */
 public class MinuteToHourConverter implements Converter {
+  private static final String	REQUIRED_MESSAGE_ID	= "javax.faces.component.UIInput.REQUIRED";
+  private static final String	CONVERSION_MESSAGE_ID	= "javax.faces.component.UIInput.CONVERSION";
+
   private static Log log = LogFactory.getLog(MinuteToHourConverter.class);
   
   public Object getAsObject( FacesContext context, UIComponent component, String value ) throws ConverterException {
     log.debug("getAsObject - value="+value);
-    
+    String allowDecimal= component.getAttributes().get("allowDecimal") == null ? "false"
+            : component.getAttributes().get("allowDecimal").toString();
     if( value==null ){
       return null;
     } else {
-      try {
-        double val = Double.parseDouble(value.replaceAll(",","."));
-        return Integer.valueOf((int)(val*60));
-      } catch( NumberFormatException e ){
-        throw new ConverterException("Error converting minutes: "+value,e);
-      }
+        if (!Boolean.parseBoolean(allowDecimal)&&(value.contains(".")||value.contains(","))) {
+            FacesMessage msg;
+            msg = MessageUtils.getMessage(CONVERSION_MESSAGE_ID, new Object[]{
+                    component.getId(), value});
+            throw new ConverterException(msg);
+
+        }else{
+            try {
+            return Integer.valueOf((int)(Double.parseDouble(value.replaceAll(",","."))*60));
+            } catch( NumberFormatException e ){
+                FacesMessage msg;
+                if (value.equals("")){
+                    msg = MessageUtils.getMessage(REQUIRED_MESSAGE_ID, new Object[]{
+                            component.getId(), value});
+                }else {
+                    msg = MessageUtils.getMessage(CONVERSION_MESSAGE_ID, new Object[]{
+                            component.getId(), value});
+                }
+                throw new ConverterException(msg,e);
+
+            }
+        }
     }
   }
   
   public String getAsString( FacesContext context, UIComponent component, Object value ) throws ConverterException {
-    if( value instanceof Integer ){
-      int val = ((Integer)value).intValue();
-      return Double.toString( val/60.0 );
-    } else {
+    String allowDecimal= component.getAttributes().get("allowDecimal") == null ? "false"
+            : component.getAttributes().get("allowDecimal").toString();
+    if( value instanceof Integer ) {
+      int val = (Integer) value;
+      if (!Boolean.parseBoolean(allowDecimal)){
+        return Integer.toString(val / 60);
+      }else {
+        return Double.toString( val/60.0 );
+      }
+    }else{
       return (String)value;
     }
   }
