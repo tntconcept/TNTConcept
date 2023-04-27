@@ -44,13 +44,14 @@ public class MinuteToHourConverter implements Converter {
     public MinuteToHourConverter() {
         this(new MinuteToHourConverterMessageHandlerImpl());
     }
-
+    // This constructor is used for testing purposes
     MinuteToHourConverter(MinuteToHourConverterMessageHandler minuteToHourConverterMessageHandler) {
         this.minuteToHourConverterMessageHandler = minuteToHourConverterMessageHandler;
     }
 
     public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
         log.debug("getAsObject - value=" + value);
+
 
         if (value == null) {
             return null;
