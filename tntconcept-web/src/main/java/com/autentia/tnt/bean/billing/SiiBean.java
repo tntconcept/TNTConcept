@@ -79,38 +79,6 @@ public class SiiBean extends BaseBean {
      */
     private static BillManager manager = BillManager.getDefault();
 
-    public void sendReportWebDav() {
-        String report = getReport();
-
-        sendReportEmail(report);
-
-        if (report != null) {
-            String url = configurationUtil.getWebdavHost();
-            String username = configurationUtil.getWebdavUser();
-            String password = configurationUtil.getWebdavPassword();
-            Sardine sardine = SardineFactory.begin(username, password);
-            InputStream file = getStreamReport(report);
-            try {
-                sardine.put(url + reportName(), file, "text/csv");
-
-                if (bills != null) {
-                    for (Bill bill : bills) {
-                        bill.setSubmitted(1);
-                        manager.updateEntity(bill);
-                    }
-                }
-
-                context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informe enviado correctamente", null));
-
-            } catch (IOException ioe) {
-                context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Se ha producido un error al enviar el informe", null));
-
-            }
-        }
-    }
-
     public void sendReportEmail(String report) {
 
         if (report != null) {

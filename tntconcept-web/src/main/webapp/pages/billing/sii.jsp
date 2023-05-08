@@ -73,14 +73,6 @@
                                  title="Comprobar informe" value="Comprobar informe" />
             </h:panelGrid>
 
-            <h:panelGrid columns="2" cellpadding="5" cellspacing="5" >
-                <h:outputText styleClass="warning2" value="Al enviar el informe a la gestoría, las facturas quedarán como emitidas"/>
-
-                <h:commandButton actionListener="#{siiBean.sendReportWebDav()}"
-                                 onclick="return confirm('#{msg['question.confirmSend']}');"
-                                 title="Enviar informe" value="Enviar informe" />
-            </h:panelGrid>
-
         </h:form>
     </i:titleBar>
     <h:messages style="color:red" globalOnly="true" />
