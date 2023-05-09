@@ -539,18 +539,6 @@ public class ConfigurationUtil{
         return getProperty("sii.recipients", "word@word.com");
     }
 
-    public String getWebdavHost(){
-        return getProperty("sii.webdav.host", "");
-    }
-
-    public String getWebdavUser(){
-        return getProperty("sii.webdav.user", "");
-    }
-
-    public String getWebdavPassword(){
-        return getProperty("sii.webdav.password", "");
-    }
-
     public Boolean getReadOnlyBill(){
         return Boolean.valueOf(getProperty("readOnlyBill", "true"));
     }
