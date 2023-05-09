@@ -57,14 +57,6 @@
 		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
 
-
-<!--	<queryString>-->
-<!--		<![CDATA[select o.name as orgName, p.name as projectName-->
-<!--			from Organization o,Project p-->
-<!--			where p.organizationId=o.id and p.id=$P{Proyecto}-->
-<!--			]]>-->
-
-<!--	</queryString>-->
 	<queryString><![CDATA[
 	SELECT
 		orgName,
