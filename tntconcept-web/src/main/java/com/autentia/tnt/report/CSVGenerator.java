@@ -6,10 +6,7 @@ import java.util.Map;
 
 import com.autentia.tnt.util.ConfigurationUtil;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 
@@ -17,8 +14,8 @@ public class CSVGenerator extends TypeGenerator {
 
 	@Override
 	void generate(OutputStream outputStream, JasperReport report, Map args, Connection con) throws JRException {
-		//debug("doGet - tipo csv");
 
+		args.put(JRParameter.IS_IGNORE_PAGINATION, true);
 		JasperPrint print = JasperFillManager.fillReport(report, args, con);
 		JRCsvExporter exporter = new JRCsvExporter();
 		exporter.setParameter(JRCsvExporterParameter.JASPER_PRINT, print);
