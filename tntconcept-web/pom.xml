@@ -348,7 +348,7 @@
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.9</version>
+			<version>1.0.13</version>
 		</dependency>
 
 		<!-- No están en repositorios públicos, hay que añadirlos manualmente a
