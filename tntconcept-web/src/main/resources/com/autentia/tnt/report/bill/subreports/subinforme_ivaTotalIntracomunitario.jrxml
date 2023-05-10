@@ -93,7 +93,7 @@ AND b.creationDate between $P{Fecha inicio} and $P{Fecha fin}) AS ivaDesgravable
 						key="staticText"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="" size="10"/>
+						<font fontName="Verdana" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text23}]]></textFieldExpression>
 				</textField>
@@ -123,7 +123,7 @@ AND b.creationDate between $P{Fecha inicio} and $P{Fecha fin}) AS ivaDesgravable
 						key="textField-2"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="" size="10"/>
+						<font fontName="Verdana" size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.global.de.facturas.recibidas.text24}]]></textFieldExpression>
 				</textField>
