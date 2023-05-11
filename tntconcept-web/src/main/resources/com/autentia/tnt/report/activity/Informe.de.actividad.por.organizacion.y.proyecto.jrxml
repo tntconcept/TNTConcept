@@ -36,6 +36,8 @@
 		whenNoDataType="AllSectionsNoDetail"
 		isTitleNewPage="false"
 		isSummaryNewPage="false">
+	<property name="net.sf.jasperreports.export.csv.exclude.origin.band.activitiesbyrole" value="detail" />
+	<property name="net.sf.jasperreports.export.csv.exclude.origin.report.activitiesbyrole" value="activitiesByRole_subreport" />
 	<property name="ireport.scriptlethandling" value="0" />
 	<property name="ireport.encoding" value="UTF-8" />
 	<import value="java.util.*" />
@@ -324,7 +326,7 @@
 		</band>
 	</pageHeader>
 
-	<detail >
+	<detail>
 		<band height="100" isSplitAllowed="true" >
 			<subreport isUsingCache="true">
 				<reportElement x="5" y="0" width="200" height="100" />

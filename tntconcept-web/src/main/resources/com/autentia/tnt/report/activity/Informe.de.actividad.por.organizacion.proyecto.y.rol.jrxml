@@ -36,6 +36,8 @@
 		 whenNoDataType="AllSectionsNoDetail"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
+	<property name="net.sf.jasperreports.export.csv.exclude.origin.band.columnHeader" value="columnHeader" />
+	<property name="net.sf.jasperreports.export.csv.exclude.origin.band.summary" value="summary" />
 	<property name="ireport.scriptlethandling" value="0" />
 	<property name="ireport.encoding" value="UTF-8" />
 	<import value="java.util.*" />
