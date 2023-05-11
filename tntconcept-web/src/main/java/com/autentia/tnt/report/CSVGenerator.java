@@ -16,6 +16,17 @@ public class CSVGenerator extends TypeGenerator {
 	void generate(OutputStream outputStream, JasperReport report, Map args, Connection con) throws JRException {
 
 		args.put(JRParameter.IS_IGNORE_PAGINATION, true);
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.band.title", "title");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.band.lastPageFooter", "lastPageFooter");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.band.orgsubreport", "detail");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.report.orgsubreport", "ourOrganization_subreport");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.band.orgnamesubreport", "detail");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.report.orgnamesubreport", "ourOrganizationName_subreport");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.band.columnheaders", "columnHeader");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.report.columnheaders", "*");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.band.pagefooters", "pageFooter");
+		report.setProperty("net.sf.jasperreports.export.csv.exclude.origin.report.pagefooters", "*");
+
 		JasperPrint print = JasperFillManager.fillReport(report, args, con);
 		JRCsvExporter exporter = new JRCsvExporter();
 		exporter.setParameter(JRCsvExporterParameter.JASPER_PRINT, print);
