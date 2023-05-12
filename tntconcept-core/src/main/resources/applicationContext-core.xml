@@ -141,6 +141,8 @@
 	<bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
 		<constructor-arg ref="daoUser" />
 	</bean>
+	<bean id="managerArchimedes" class="com.autentia.tnt.manager.admin.ArchimedesManager">
+	</bean>
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
 		<constructor-arg ref="daoBill" />
 	</bean>
@@ -342,6 +344,7 @@
 	<bean id="managerLink" class="com.autentia.tnt.manager.admin.LinkManager">
 		<constructor-arg ref="daoLink" />
 	</bean>
+
 
 	<!-- Mail Service  -->
 	<bean id="mailService" class="com.autentia.tnt.mail.DefaultMailService"

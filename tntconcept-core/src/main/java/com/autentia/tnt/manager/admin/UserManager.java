@@ -91,6 +91,8 @@ public class UserManager{
      */
     public void insertEntity(User user, boolean agreementYearDuration){
         this.doBeforeSave(user, agreementYearDuration);
+        ArchimedesManager archimedesManager = ArchimedesManager.getDefault();
+        archimedesManager.insert(user);
         userDAO.insert(user);
     }
 
