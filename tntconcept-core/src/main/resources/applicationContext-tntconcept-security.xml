@@ -500,6 +500,9 @@
                 com.autentia.tnt.manager.admin.LinkManager.getAllEntities=IS_AUTHENTICATED_ANONYMOUSLY
                 com.autentia.tnt.manager.admin.LinkManager.deleteEntity=IS_AUTHENTICATED_ANONYMOUSLY
 
+                <!-- ARCHIMEDES MANAGER -->
+                com.autentia.tnt.manager.admin.ArchimedesManager.insertSubjectForUser=IS_AUTHENTICATED_ANONYMOUSLY
+                com.autentia.tnt.manager.admin.ArchimedesManager.removeSubjectForUser=ACL_DELETE
 
 
 
