@@ -1,7 +1,6 @@
 package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.ArchimedesSecuritySubject;
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.DataAccException;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
@@ -9,6 +8,7 @@ import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
 import org.apache.commons.lang.NotImplementedException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,6 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
 
 
     public void insert(ArchimedesSecuritySubject archimedesSecuritySubject) {
-        // TODO asegurarse de que realmente inserta
         super.insert(archimedesSecuritySubject);
     }
 
@@ -52,17 +51,23 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
     }
 
     @Override
-    public void update(final ArchimedesSecuritySubject to) throws DataAccException {
+    public void update(final ArchimedesSecuritySubject archimedesSecuritySubject) throws DataAccException {
         throw new NotImplementedException();
     }
 
     @Override
-    public void delete(final ArchimedesSecuritySubject to) throws DataAccException {
-        // TODO hacer
+    public void delete(final ArchimedesSecuritySubject archimedesSecuritySubject) throws DataAccException {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.delete(archimedesSecuritySubject);
     }
 
     public Optional<ArchimedesSecuritySubject> findByPrincipalName(final String principalName) {
-        // TODO hacer
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        var findCriteria = session.createCriteria(ArchimedesSecuritySubject.class)
+                .add(Restrictions.eq("principalName", principalName));
+        findCriteria.setMaxResults(1);
+        final var results = (List<ArchimedesSecuritySubject>) findCriteria.list();
+
+        return results.stream().findFirst();
     }
 }

@@ -1306,6 +1306,12 @@
                     </key>
                     <ref bean="daoTag"/>
                 </entry>
+                <entry>
+                    <key>
+                        <value>com.autentia.tnt.businessobject.ArchimedesSecuritySubject</value>
+                    </key>
+                    <ref bean="daoArchimedesSecuritySubject" />
+                </entry>
 
             </map>
         </constructor-arg>

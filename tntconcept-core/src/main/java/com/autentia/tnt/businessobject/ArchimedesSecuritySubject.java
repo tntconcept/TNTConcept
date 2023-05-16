@@ -1,15 +1,12 @@
 package com.autentia.tnt.businessobject;
 
 import com.autentia.tnt.dao.ITransferObject;
-import net.sf.cglib.core.Local;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-public class ArchimedesSecuritySubject  implements Serializable, ITransferObject {
+public class ArchimedesSecuritySubject implements Serializable, ITransferObject {
 
     private static final long serialVersionUID = -1L;
 
@@ -17,23 +14,12 @@ public class ArchimedesSecuritySubject  implements Serializable, ITransferObject
     private String principalName;
     private String attributes;
 
-    public ArchimedesSecuritySubject(){
-
-    }
-
-    public ArchimedesSecuritySubject(final String principalName, final String attributes) {
-        this.principalName = principalName;
-        this.attributes = attributes;
-    }
-
-
-
     @Override
     public Integer getId() {
         return id;
     }
 
-   public String getPrincipalName() {
+    public String getPrincipalName() {
         return principalName;
     }
 
@@ -41,7 +27,17 @@ public class ArchimedesSecuritySubject  implements Serializable, ITransferObject
         return attributes;
     }
 
-    /** MÉTODOS QUE SE QUEDAN VACÍOS POR ITRANSFER OBJECT */
+    public static ArchimedesSecuritySubject from(final String principalName, final String subject) {
+        final ArchimedesSecuritySubject entity = new ArchimedesSecuritySubject();
+        entity.principalName = principalName;
+        entity.attributes = subject;
+        return entity;
+    }
+
+
+    /**
+     * MÉTODOS QUE SE QUEDAN VACÍOS POR ITRANSFER OBJECT
+     */
     @Override
     public Integer getOwnerId() {
         return null;
