@@ -77,7 +77,8 @@
   <bean id="daoTutorial" class="com.autentia.tnt.dao.hibernate.TutorialDAO" />
   <bean id="daoUserCategory" class="com.autentia.tnt.dao.hibernate.UserCategoryDAO" />
   <bean id="daoUser" class="com.autentia.tnt.dao.hibernate.UserDAO" />
-  <bean id="daoFrequency" class="com.autentia.tnt.dao.hibernate.FrequencyDAO" />
+	<bean id="daoArchimedesSecuritySubject" class="com.autentia.tnt.dao.hibernate.ArchimedesSecuritySubjectDAO" />
+	<bean id="daoFrequency" class="com.autentia.tnt.dao.hibernate.FrequencyDAO" />
   <bean id="daoOfferRejectReason" class="com.autentia.tnt.dao.hibernate.OfferRejectReasonDAO" />
   <bean id="daoOffer" class="com.autentia.tnt.dao.hibernate.OfferDAO" />
   <bean id="daoBillBreakDown" class="com.autentia.tnt.dao.hibernate.BillBreakDownDAO" />
@@ -140,8 +141,7 @@
 	</bean>
 	<bean id="managerUser" class="com.autentia.tnt.manager.admin.UserManager">
 		<constructor-arg ref="daoUser" />
-	</bean>
-	<bean id="managerArchimedes" class="com.autentia.tnt.manager.admin.ArchimedesManager">
+		<constructor-arg ref="daoArchimedesSecuritySubject" />
 	</bean>
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
 		<constructor-arg ref="daoBill" />
