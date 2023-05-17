@@ -30,6 +30,11 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
     }
 
     @Override
+    public void update(ArchimedesSecuritySubject to) throws DataAccException {
+        throw new NotImplementedException();
+    }
+
+    @Override
     public ArchimedesSecuritySubject getById(final int id) throws DataAccException {
         throw new NotImplementedException();
     }
@@ -50,24 +55,32 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
         throw new NotImplementedException();
     }
 
+    public void update(final String principalName,final String newPrincipalName) throws DataAccException {
+        ArchimedesSecuritySubject archimedesSecuritySubject = findByPrincipalName(principalName).orElseThrow();
+        archimedesSecuritySubject.setPrincipalName(newPrincipalName);
+        super.update(archimedesSecuritySubject,archimedesSecuritySubject.getId());
+    }
+
     @Override
-    public void update(final ArchimedesSecuritySubject archimedesSecuritySubject) throws DataAccException {
+    public void delete(ArchimedesSecuritySubject to) throws DataAccException {
         throw new NotImplementedException();
     }
 
-    @Override
-    public void delete(final ArchimedesSecuritySubject archimedesSecuritySubject) throws DataAccException {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.delete(archimedesSecuritySubject);
+
+    public void delete(final String principalName) throws DataAccException {
+        ArchimedesSecuritySubject archimedesSecuritySubject = findByPrincipalName(principalName).orElseThrow();
+        super.delete(archimedesSecuritySubject,archimedesSecuritySubject.getId());
     }
 
     public Optional<ArchimedesSecuritySubject> findByPrincipalName(final String principalName) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        var findCriteria = session.createCriteria(ArchimedesSecuritySubject.class)
-                .add(Restrictions.eq("principalName", principalName));
-        findCriteria.setMaxResults(1);
-        final var results = (List<ArchimedesSecuritySubject>) findCriteria.list();
-
-        return results.stream().findFirst();
+        String columName = "principal_name";
+        String tableName = "ArchimedesSecuritySubject";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        // where principal_name = principalName
+        ArchimedesSecuritySubject archimedesSecuritySubject = (ArchimedesSecuritySubject) session.createQuery("from " + tableName + " where " + columName + " = :principalName")
+                .setParameter("principalName", principalName)
+                .uniqueResult();
+        session.close();
+        return Optional.ofNullable(archimedesSecuritySubject);
     }
 }

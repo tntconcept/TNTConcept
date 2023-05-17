@@ -72,4 +72,16 @@ public class ArchimedesSecuritySubject implements Serializable, ITransferObject 
     public List<Integer> getOwnersId() {
         return null;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setPrincipalName(String principalName) {
+        this.principalName = principalName;
+    }
+
+    public void setAttributes(String attributes) {
+        this.attributes = attributes;
+    }
 }
