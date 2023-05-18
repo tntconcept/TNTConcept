@@ -31,7 +31,7 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
 
     @Override
     public void update(ArchimedesSecuritySubject to) throws DataAccException {
-        throw new NotImplementedException();
+        super.update(to, to.getId());
     }
 
     @Override
@@ -55,22 +55,11 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
         throw new NotImplementedException();
     }
 
-    public void update(final String principalName,final String newPrincipalName) throws DataAccException {
-        ArchimedesSecuritySubject archimedesSecuritySubject = findByPrincipalName(principalName).orElseThrow();
-        archimedesSecuritySubject.setPrincipalName(newPrincipalName);
-        super.update(archimedesSecuritySubject,archimedesSecuritySubject.getId());
-    }
-
     @Override
     public void delete(ArchimedesSecuritySubject to) throws DataAccException {
         throw new NotImplementedException();
     }
 
-
-    public void delete(final String principalName) throws DataAccException {
-        ArchimedesSecuritySubject archimedesSecuritySubject = findByPrincipalName(principalName).orElseThrow();
-        super.delete(archimedesSecuritySubject,archimedesSecuritySubject.getId());
-    }
 
     public Optional<ArchimedesSecuritySubject> findByPrincipalName(final String principalName) {
         String columName = "principal_name";
