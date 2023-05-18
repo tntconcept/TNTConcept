@@ -69,7 +69,6 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
         ArchimedesSecuritySubject archimedesSecuritySubject = (ArchimedesSecuritySubject) session.createQuery("from " + tableName + " where " + columName + " = :principalName")
                 .setParameter("principalName", principalName)
                 .uniqueResult();
-        session.close();
         return Optional.ofNullable(archimedesSecuritySubject);
     }
 }
