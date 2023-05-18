@@ -2,13 +2,13 @@ package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.ArchimedesSecuritySubject;
 import com.autentia.tnt.dao.DataAccException;
+import com.autentia.tnt.dao.DataNotFoundException;
 import com.autentia.tnt.dao.SearchCriteria;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
 import org.apache.commons.lang.NotImplementedException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +61,7 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
     }
 
 
-    public Optional<ArchimedesSecuritySubject> findByPrincipalName(final String principalName) {
+    public ArchimedesSecuritySubject getByPrincipalName(final String principalName) throws DataNotFoundException {
         String columName = "principal_name";
         String tableName = "ArchimedesSecuritySubject";
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -69,6 +69,10 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
         ArchimedesSecuritySubject archimedesSecuritySubject = (ArchimedesSecuritySubject) session.createQuery("from " + tableName + " where " + columName + " = :principalName")
                 .setParameter("principalName", principalName)
                 .uniqueResult();
-        return Optional.ofNullable(archimedesSecuritySubject);
+
+        if (archimedesSecuritySubject == null) {
+            throw new DataNotFoundException(ArchimedesSecuritySubject.class,principalName);
+        }
+        return archimedesSecuritySubject;
     }
 }
