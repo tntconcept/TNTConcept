@@ -117,10 +117,11 @@ public class UserManager {
         final var principalName = getPrincipalName(oldUser);
         final var newPrincipalName = getPrincipalName(user);
         userDAO.update(user);
-        ArchimedesSecuritySubject archimedesSecuritySubject = archimedesSecuritySubjectDAO.getByPrincipalName(principalName);
-        archimedesSecuritySubject.setPrincipalName(newPrincipalName);
-        archimedesSecuritySubjectDAO.update(archimedesSecuritySubject);
-
+        if (!principalName.equals(newPrincipalName)) {
+            ArchimedesSecuritySubject archimedesSecuritySubject = archimedesSecuritySubjectDAO.getByPrincipalName(principalName);
+            archimedesSecuritySubject.setPrincipalName(newPrincipalName);
+            archimedesSecuritySubjectDAO.update(archimedesSecuritySubject);
+        }
     }
 
     /**
