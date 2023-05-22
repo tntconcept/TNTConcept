@@ -5,10 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
+import com.autentia.tnt.test.utils.TestContainer;
+import com.autentia.tnt.util.HibernateUtil;
 import org.flywaydb.core.Flyway;
+import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.autentia.tnt.bean.billing.BillBean;
@@ -17,7 +20,7 @@ import com.autentia.tnt.businessobject.OfferCost;
 import com.autentia.tnt.businessobject.OfferRole;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 
-public class OfferBeanTest {
+public class OfferBean_IT extends TestContainer {
 
 	private final BigDecimal IVA16 = new BigDecimal("16");
 
@@ -26,15 +29,15 @@ public class OfferBeanTest {
 	private final BigDecimal IVA21 = new BigDecimal("21");
 
 	@BeforeClass
-    public static void init() throws Exception {
+    public static void init2() throws Exception {
 
-		Flyway flyway = Flyway.configure()
-				.dataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "").load();
-		flyway.migrate();
+    }
 
+	@Before
+	public void setup() {
 		SpringUtilsForTesting.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
 		SpringUtilsForTesting.loadPrincipalInSecurityContext("admin");
-    }
+	}
 
 	@Test
 	public void createRolesIn2009Test() {

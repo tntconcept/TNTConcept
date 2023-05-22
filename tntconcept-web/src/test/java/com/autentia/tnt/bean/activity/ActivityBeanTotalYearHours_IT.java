@@ -7,6 +7,7 @@ import com.autentia.tnt.dao.search.HolidaySearch;
 import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
+import com.autentia.tnt.test.utils.TestContainer;
 import com.autentia.tnt.util.HibernateUtil;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
@@ -29,16 +30,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
-public class ActivityBeanTotalYearHours_IT {
+public class ActivityBeanTotalYearHours_IT extends TestContainer {
 
 	private static SessionFactory sessionFactory;
 
-	@BeforeClass
-	public static void initDB() {
-		Flyway flyway = Flyway.configure()
-				.dataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "").load();
-		flyway.migrate();
-	}
 
 	@Before
 	public void setup() {

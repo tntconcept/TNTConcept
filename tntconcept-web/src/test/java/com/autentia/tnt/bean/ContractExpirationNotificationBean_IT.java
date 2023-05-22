@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.mail.MessagingException;
 
+import com.autentia.tnt.test.utils.TestContainer;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -26,18 +27,11 @@ import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
 
-public class ContractExpirationNotificationBean_IT {
+public class ContractExpirationNotificationBean_IT extends TestContainer {
 
 	private static SessionFactory sessionFactory;
 
 	private MailService mailService = Mockito.mock(MailService.class);
-
-	@BeforeClass
-	public static void initDB() {
-		Flyway flyway = Flyway.configure()
-				.dataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "").load();
-		flyway.migrate();
-	}
 
 	@Before
 	public void setup() {

@@ -7,6 +7,7 @@ import com.autentia.tnt.manager.admin.UserManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
+import com.autentia.tnt.test.utils.TestContainer;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
 import org.acegisecurity.Authentication;
@@ -33,17 +34,10 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class ActivityEvidenceNotificationBean_IT {
+public class ActivityEvidenceNotificationBean_IT extends TestContainer {
     private static SessionFactory sessionFactory;
 
     private MailService mailService;
-
-    @BeforeClass
-    public static void initDB() {
-        Flyway flyway = Flyway.configure()
-                .dataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "").load();
-        flyway.migrate();
-    }
 
     @Before
     public void setup() {

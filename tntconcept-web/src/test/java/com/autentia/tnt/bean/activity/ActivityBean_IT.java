@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import com.autentia.tnt.dao.search.HolidaySearch;
+import com.autentia.tnt.test.utils.TestContainer;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.junit.*;
@@ -26,30 +27,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
 
-public class ActivityBean_IT {
+public class ActivityBean_IT extends TestContainer {
 
 	private static SessionFactory sessionFactory;
-
-	static final public MySQLContainer<?> mysql = new MySQLContainer<>(
-			"mysql:8.0.32")
-			.withDatabaseName("tntconcept")
-			.withUsername("tntconcept")
-			.withPassword("tntconcept")
-			.withPrivilegedMode(true)
-			.withExposedPorts(3306)
-			.waitingFor(Wait.forHttp("/").forPort(3306));
-
-
-
-	@BeforeClass
-	public static void initDB() {
-		mysql.start();
-		Flyway flyway = Flyway.configure()
-				.dataSource("jdbc:tc:mysql:8.0.32:///tntconcept?useSSL=false&serverTimezone=UTC&TC_MY_CNF=testcontainers/mysql", "tntconcept", "tntconcept").load();
-			flyway.migrate();
-
-
-	}
 
 	@Before
 	public void setup() {
