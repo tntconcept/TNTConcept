@@ -116,6 +116,8 @@
     <mapping resource="com/autentia/tnt/businessobject/config/Tag.hbm.xml"/>
     <mapping resource="com/autentia/tnt/businessobject/config/EntityChange.hbm.xml"/>
     <mapping resource="com/autentia/tnt/businessobject/config/BillPayment.hbm.xml" />
-    
+    <mapping resource="com/autentia/tnt/businessobject/config/ArchimedesSecuritySubject.hbm.xml" />
+
+
   </session-factory>
 </hibernate-configuration>

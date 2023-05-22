@@ -127,6 +127,8 @@
     <mapping resource="com/autentia/tnt/businessobject/config/EntityChange.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/BillPayment.hbm.xml" />
     <mapping resource="com/autentia/tnt/businessobject/config/Link.hbm.xml" />
+    <mapping resource="com/autentia/tnt/businessobject/config/ArchimedesSecuritySubject.hbm.xml" />
+
 
     <listener class="com.autentia.tnt.tracking.hibernate.listener.TrackChangesLoadListener" type="post-load"/>
     <listener class="com.autentia.tnt.tracking.hibernate.listener.TrackChangesMergeListener" type="merge"/>
