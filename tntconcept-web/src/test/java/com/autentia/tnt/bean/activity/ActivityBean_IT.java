@@ -22,16 +22,33 @@ import com.autentia.tnt.manager.holiday.HolidayManager;
 import com.autentia.tnt.manager.holiday.RequestHolidayManager;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 import com.autentia.tnt.util.HibernateUtil;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.utility.MountableFile;
 
 public class ActivityBean_IT {
 
 	private static SessionFactory sessionFactory;
 
+	static final public MySQLContainer<?> mysql = new MySQLContainer<>(
+			"mysql:8.0.32")
+			.withDatabaseName("tntconcept")
+			.withUsername("tntconcept")
+			.withPassword("tntconcept")
+			.withPrivilegedMode(true)
+			.withExposedPorts(3306)
+			.waitingFor(Wait.forHttp("/").forPort(3306));
+
+
+
 	@BeforeClass
 	public static void initDB() {
-		Flyway flyway = new Flyway();
-		flyway.setDataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "");
-		flyway.migrate();
+		mysql.start();
+		Flyway flyway = Flyway.configure()
+				.dataSource("jdbc:tc:mysql:8.0.32:///tntconcept?useSSL=false&serverTimezone=UTC&TC_MY_CNF=testcontainers/mysql", "tntconcept", "tntconcept").load();
+			flyway.migrate();
+
+
 	}
 
 	@Before

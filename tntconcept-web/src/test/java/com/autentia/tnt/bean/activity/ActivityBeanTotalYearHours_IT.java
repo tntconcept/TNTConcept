@@ -35,8 +35,8 @@ public class ActivityBeanTotalYearHours_IT {
 
 	@BeforeClass
 	public static void initDB() {
-		Flyway flyway = new Flyway();
-		flyway.setDataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "");
+		Flyway flyway = Flyway.configure()
+				.dataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "").load();
 		flyway.migrate();
 	}
 
