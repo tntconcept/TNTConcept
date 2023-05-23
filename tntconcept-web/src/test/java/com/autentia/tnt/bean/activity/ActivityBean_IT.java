@@ -9,9 +9,10 @@ import java.time.ZoneId;
 import java.util.*;
 
 import com.autentia.tnt.dao.search.HolidaySearch;
-import com.autentia.tnt.test.utils.TestContainer;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.junit.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,18 +28,50 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
 
-public class ActivityBean_IT extends TestContainer {
+import javax.sql.DataSource;
+
+public class ActivityBean_IT {
 
 	private static SessionFactory sessionFactory;
 
+	static final public MySQLContainer<?> mysql = new MySQLContainer<>(
+			"mysql:8.0.32")
+			.withDatabaseName("tntconcept")
+			.withUsername("tntconcept")
+			.withPassword("tntconcept")
+			.withCopyFileToContainer(MountableFile.forClasspathResource("testcontainers/mysql/extra.cnf"), "/etc/mysql/conf.d/extra.cnf")
+			.withExposedPorts(3306)
+			.waitingFor(Wait.forHttp("/").forPort(3306));
+
+
 	@Before
 	public void setup() {
+		mysql.start();
+		MysqlDataSource dataSource = new MysqlDataSource();
+		dataSource.setURL(mysql.getJdbcUrl());
+		dataSource.setUser(mysql.getUsername());
+		dataSource.setPassword(mysql.getPassword());
+		// migrate the database
+		Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+		flyway.migrate();
+
 		// test application context
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext-test.xml");
 		SpringUtilsForTesting.configure(appCtx);
 
+
+		Configuration cfg = new Configuration();
+		cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+		cfg.setProperty("connection.url",mysql.getJdbcUrl() );
+		cfg.setProperty("connection.username", mysql.getUsername());
+		cfg.setProperty("connection.password", mysql.getPassword());
+		cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+
+
+
+
 		// prepare hibernate
-		sessionFactory = HibernateUtil.getSessionFactory();
+		sessionFactory = cfg.buildSessionFactory();
 		sessionFactory.openSession();
 		sessionFactory.getCurrentSession().beginTransaction();
 
