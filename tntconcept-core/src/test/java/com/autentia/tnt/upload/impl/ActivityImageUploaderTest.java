@@ -1,7 +1,6 @@
-package com.autentia.tnt.com.autentia.tnt.upload.impl;
+package com.autentia.tnt.upload.impl;
 
 import com.autentia.tnt.businessobject.Activity;
-import com.autentia.tnt.upload.impl.ActivityImageUploader;
 import com.autentia.tnt.util.testing.SpringUtilsForTesting;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.junit.BeforeClass;
@@ -16,6 +15,7 @@ import static org.mockito.Mockito.*;
 
 
 public class ActivityImageUploaderTest {
+
     @BeforeClass
     public static void init() {
         SpringUtilsForTesting.configure(new ClassPathXmlApplicationContext("applicationContext-test.xml"));
@@ -35,6 +35,5 @@ public class ActivityImageUploaderTest {
         when(file.getInputStream()).thenReturn(inputStream);
 
         ActivityImageUploader.store(file,activity);
-
     }
 }

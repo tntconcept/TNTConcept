@@ -22,14 +22,16 @@
 <beans>
 
   <bean id="changesAspect" class="com.autentia.tnt.tracking.annotation.ChangesHistoryAspect" />
-  
-  <!-- Configuration bean -->
-  <bean id="configuration" class="com.autentia.tnt.util.ConfigurationUtil">
-    <!-- JNDI variable holding configuration directory -->
-    <constructor-arg value="java:comp/env/TNTConceptConfigDir"/> 
-    <!-- Configuration file -->
-    <constructor-arg value="autentia.properties"/> 
-  </bean>
+
+	<!-- Configuration bean -->
+	<bean id="configuration"
+		  class="com.autentia.tnt.util.testing.ConfigurationUtilForTesting">
+		<constructor-arg
+				value="/src/test/resources/configForTesting/" />
+
+		<!-- Configuration file -->
+		<constructor-arg value="autentia-test.properties" />
+	</bean>
 
 	<!-- DAOs -->
   <bean id="daoAccount" class="com.autentia.tnt.dao.hibernate.AccountDAO" />
@@ -137,9 +139,6 @@
 	<bean id="managerUserCategory" class="com.autentia.tnt.manager.admin.UserCategoryManager">
 		<constructor-arg ref="daoUserCategory" />
 	</bean>
-	<bean id="userManager" class="com.autentia.tnt.manager.admin.UserManager">
-		<constructor-arg ref="daoUser" />
-	</bean>
 	<bean id="managerBill" class="com.autentia.tnt.manager.billing.BillManager">
 		<constructor-arg ref="daoBill" />
 	</bean>
@@ -174,10 +173,6 @@
 	</bean>
 	<bean id="managerCompanyState" class="com.autentia.tnt.manager.bulletin.CompanyStateManager">
 		<constructor-arg ref="daoCompanyState" />
-	</bean>
-	<bean id="managerContact" class="com.autentia.tnt.manager.contacts.ContactManager">
-		<constructor-arg ref="daoContact" />
-        <property name="authManager" ref="userDetailsService"/>
 	</bean>
 	<bean id="managerInteraction" class="com.autentia.tnt.manager.contacts.InteractionManager">
 		<constructor-arg ref="daoInteraction" />
@@ -296,11 +291,6 @@
 		<constructor-arg ref="daoWorkingAgreement" />
 	</bean>
 
-	<bean id="managerUserHolidaysState"
-		class="com.autentia.tnt.manager.holiday.UserHolidaysStateManager" >
-        <constructor-arg ref="daoUser" />
-    </bean>
-
 	<bean id="managerCollaborator" class="com.autentia.tnt.manager.contacts.CollaboratorManager">
 		<constructor-arg ref="daoCollaborator" />
 	</bean>
@@ -329,12 +319,6 @@
 		<constructor-arg ref="daoActivityFile" />
 	</bean>
 
-	<bean id="managerPosition" class="com.autentia.tnt.manager.contacts.PositionManager">
-		<constructor-arg ref="daoPosition" />
-		<property name="authManager" ref="userDetailsService"/>
-		<property name="contactDAO" ref="daoContact"></property>
-	</bean>
-
 	<bean id="managerTag" class="com.autentia.tnt.manager.tags.TagManager">
 		<constructor-arg ref="daoTag" />
         <property name="contactDAO" ref="daoContact"></property>
@@ -351,30 +335,5 @@
 	<bean id="changesMailService" class="com.autentia.tnt.tracking.mail.TrackChangesMailService">
 		<property name="mailService" ref="mailService" />
 	</bean>
-	
-	<!--
-	<bean id="billExpirationDateBean" class="com.autentia.tnt.bean.billing.BillExpirationDateBean" />
-  		
-  		<bean id="jobBillingExpirationDate" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		  	 <property name="targetObject" ref="billExpirationDateBean" />  
-			 <property name="targetMethod" value="updateExpirationDate" />  
-  		</bean>
-  		
-  		<bean id="cronBillExpirationDateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		  	<property name="jobDetail" ref="jobBillingExpirationDate" />
-		  	<property name="cronExpression" value="00 57 14 * * ?"/>
-  		</bean>
-   		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
-    		<property name="triggers">  
-         		<ref bean="cronBillExpirationDateTrigger" />  
-     		</property>  
- 		</bean>  
- 		
- 		-->
-
-	<!--
-		TODO: instantiate managerReport <bean id="managerReport"
-		class="com.autentia.tnt.manager.report.ReportManager" />
-	-->
 
 </beans>
