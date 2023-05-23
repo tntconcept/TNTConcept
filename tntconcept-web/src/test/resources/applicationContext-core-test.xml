@@ -118,7 +118,6 @@
     <!-- added for ActivtyBean integration tests -->
     <bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
         <constructor-arg ref="daoActivity" />
-		<constructor-arg ref="configuration" />
     </bean>
     <bean id="managerExternalActivity"
         class="com.autentia.tnt.manager.activity.ExternalActivityManager">

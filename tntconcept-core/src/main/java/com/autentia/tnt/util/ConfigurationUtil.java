@@ -563,16 +563,6 @@ public class ConfigurationUtil{
         return getProperty("tntconcept_url", "https://tnt.autentia.com/tntconcept");
     }
 
-    public List<Integer> getNotWorkingTimeProjectIds(){
-        final String ids = getProperty("notWorkingTimeProjectIds", null);
-
-        if(ids == null){
-            return Collections.emptyList();
-        }else{
-            return Arrays.asList(ids.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList());
-        }
-    }
-
     public Boolean getSendMailNotificationEvidences(){
         return Boolean.valueOf(getProperty("sendMailNotificationEvidences", "true"));
     }
