@@ -1,0 +1,13 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>github-tntconcept-api</id>
+            <username>fjmpaez</username>
+            <password>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</password>
+        </server>
+    </servers>
+
+</settings>
