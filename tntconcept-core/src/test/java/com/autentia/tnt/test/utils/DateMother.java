@@ -1,4 +1,4 @@
-package com.autentia.tnt.util;
+package com.autentia.tnt.test.utils;
 
 import java.util.Calendar;
 import java.util.Date;

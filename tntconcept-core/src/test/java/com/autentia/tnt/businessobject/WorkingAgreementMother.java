@@ -1,6 +1,6 @@
 package com.autentia.tnt.businessobject;
 
-import com.autentia.tnt.util.DateMother;
+import com.autentia.tnt.test.utils.DateMother;
 import org.apache.commons.lang.math.RandomUtils;
 
 import java.time.Duration;

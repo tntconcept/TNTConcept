@@ -5,7 +5,7 @@ import com.autentia.tnt.businessobject.*;
 import com.autentia.tnt.dao.hibernate.WorkingAgreementDAO;
 import com.autentia.tnt.dao.search.HolidaySearch;
 import com.autentia.tnt.dao.search.RequestHolidaySearch;
-import com.autentia.tnt.util.DateMother;
+import com.autentia.tnt.test.utils.DateMother;
 import com.autentia.tnt.util.DateUtils;
 import com.autentia.tnt.util.SpringUtils;
 import org.junit.Before;
@@ -17,19 +17,70 @@ import java.time.Duration;
 import java.time.Month;
 import java.util.*;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class UserHolidaysStateManagerTest {
 
 
+    private static final Date now = DateMother.from(2022, Month.JANUARY.getValue(), 1, 0, 0);
+    private static final Long annualWorkingTime = Duration.ofHours(1765).toMinutes();
+    private static final Set<WorkingAgreementTerms> terms = new HashSet<>(
+            Arrays.asList(
+                    WorkingAgreementTermsMother.random(annualWorkingTime, 22, DateMother.from(1970, 1, 1)),
+                    WorkingAgreementTermsMother.random(annualWorkingTime, 21, DateMother.from(1999, 8, 1)),
+                    WorkingAgreementTermsMother.random(annualWorkingTime, 20, DateMother.from(1999, 10, 1)),
+                    WorkingAgreementTermsMother.random(annualWorkingTime, 22, DateMother.from(2001, 2, 1)),
+                    WorkingAgreementTermsMother.random(annualWorkingTime, 23, DateMother.from(2022, 7, 1))
+            )
+    );
+    private static final WorkingAgreement workingAgreement = WorkingAgreementMother.random(terms);
+    private static final User user = UserMother.random(workingAgreement, DateMother.from(2019, Month.JANUARY.getValue(), 1, 1, 0));
+    private static final RequestHolidaySearch expectedRequestHolidaySearch = buildRequestHolidays(now);
+    private static final HolidaySearch expectedHolidaySearch = buildHolidaySearch(now);
+    private static final List<Holiday> holidays = Arrays.asList(HolidayMother.random(DateMother.from(2022, Month.JANUARY.getValue(), 3)), HolidayMother.random(DateMother.from(2022, Month.JANUARY.getValue(), 4)));
+    private static final List<RequestHoliday> requestHolidays = Collections.singletonList(RequestHolidayMother.random(DateMother.from(2022, Month.JANUARY.getValue(), 1), DateMother.from(2022, Month.JANUARY.getValue(), 10)));
     private final ApplicationContext context = mock(ApplicationContext.class);
     private final WorkingAgreementDAO workingAgreementDAO = mock(WorkingAgreementDAO.class);
     private final HolidayManager holidayManager = mock(HolidayManager.class);
     private final RequestHolidayManager requestHolidayManager = mock(RequestHolidayManager.class);
-
     private final UserHolidaysStateManager sut = new UserHolidaysStateManager();
+
+    private static void verifyRequestHolidays(RequestHolidaySearch requestHolidaySearch, RequestHolidaySearch expectedRequestHolidaySearch) {
+        assertThat(requestHolidaySearch.getState(), equalTo(expectedRequestHolidaySearch.getState()));
+        assertThat(requestHolidaySearch.getStartBeginDate(), equalTo(expectedRequestHolidaySearch.getStartBeginDate()));
+        assertThat(requestHolidaySearch.getEndFinalDate(), equalTo(expectedRequestHolidaySearch.getEndFinalDate()));
+    }
+
+    private static void verifyHolidaysSearch(HolidaySearch holidaySearch, HolidaySearch expectedHolidaySearch) {
+        assertThat(holidaySearch.getStartDate(), equalTo(expectedHolidaySearch.getStartDate()));
+        assertThat(holidaySearch.getEndDate(), equalTo(expectedHolidaySearch.getEndDate()));
+    }
+
+    private static RequestHolidaySearch buildRequestHolidays(Date date) {
+        RequestHolidaySearch requestHolidaySearch = new RequestHolidaySearch();
+        requestHolidaySearch.setUserRequest(user);
+        requestHolidaySearch.setState(HolidayState.ACCEPT);
+        requestHolidaySearch.setStartChargeYear(DateUtils.getFirstDayOfYear(date));
+        requestHolidaySearch.setEndChargeYear(DateUtils.getLastDayOfYear(date));
+        return requestHolidaySearch;
+    }
+
+    private static HolidaySearch buildHolidaySearch(Date date) {
+        HolidaySearch holidaySearch = new HolidaySearch();
+        holidaySearch.setStartDate(plusYears(DateUtils.getFirstDayOfYear(date), -1));
+        holidaySearch.setEndDate(plusYears(DateUtils.getLastDayOfYear(date), 1));
+        return holidaySearch;
+    }
+
+    public static Date plusYears(Date date, int years) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR, years);
+        return calendar.getTime();
+    }
 
     @Before
     public void setUp() {
@@ -226,57 +277,5 @@ public class UserHolidaysStateManagerTest {
         assertThat(result.getTotalAccepted(), is(0));
         assertThat(result.getTotalYear(), is(23));
         assertThat(result.getYearAgreementHolidays(), is(23));
-    }
-
-    private static void verifyRequestHolidays(RequestHolidaySearch requestHolidaySearch, RequestHolidaySearch expectedRequestHolidaySearch) {
-        assertThat(requestHolidaySearch.getState(), equalTo(expectedRequestHolidaySearch.getState()));
-        assertThat(requestHolidaySearch.getStartBeginDate(), equalTo(expectedRequestHolidaySearch.getStartBeginDate()));
-        assertThat(requestHolidaySearch.getEndFinalDate(), equalTo(expectedRequestHolidaySearch.getEndFinalDate()));
-    }
-
-    private static void verifyHolidaysSearch(HolidaySearch holidaySearch, HolidaySearch expectedHolidaySearch) {
-        assertThat(holidaySearch.getStartDate(), equalTo(expectedHolidaySearch.getStartDate()));
-        assertThat(holidaySearch.getEndDate(), equalTo(expectedHolidaySearch.getEndDate()));
-    }
-
-    private static final Date now = DateMother.from(2022, Month.JANUARY.getValue(), 1, 0, 0);
-    private static final Long annualWorkingTime = Duration.ofHours(1765).toMinutes();
-    private static final Set<WorkingAgreementTerms> terms = new HashSet<>(
-            Arrays.asList(
-                    WorkingAgreementTermsMother.random(annualWorkingTime, 22, DateMother.from(1970, 1, 1)),
-                    WorkingAgreementTermsMother.random(annualWorkingTime, 21, DateMother.from(1999, 8, 1)),
-                    WorkingAgreementTermsMother.random(annualWorkingTime, 20, DateMother.from(1999, 10, 1)),
-                    WorkingAgreementTermsMother.random(annualWorkingTime, 22, DateMother.from(2001, 2, 1)),
-                    WorkingAgreementTermsMother.random(annualWorkingTime, 23, DateMother.from(2022, 7, 1))
-            )
-    );
-    private static final WorkingAgreement workingAgreement = WorkingAgreementMother.random(terms);
-    private static final User user = UserMother.random(workingAgreement, DateMother.from(2019, Month.JANUARY.getValue(), 1, 1, 0));
-    private static final HolidaySearch expectedHolidaySearch = buildHolidaySearch(now);
-    private static final RequestHolidaySearch expectedRequestHolidaySearch = buildRequestHolidays(now);
-    private static final List<Holiday> holidays = Arrays.asList(HolidayMother.random(DateMother.from(2022, Month.JANUARY.getValue(), 3)), HolidayMother.random(DateMother.from(2022, Month.JANUARY.getValue(), 4)));
-    private static final List<RequestHoliday> requestHolidays = Collections.singletonList(RequestHolidayMother.random(DateMother.from(2022, Month.JANUARY.getValue(), 1), DateMother.from(2022, Month.JANUARY.getValue(), 10)));
-
-    private static RequestHolidaySearch buildRequestHolidays(Date date) {
-        RequestHolidaySearch requestHolidaySearch = new RequestHolidaySearch();
-        requestHolidaySearch.setUserRequest(user);
-        requestHolidaySearch.setState(HolidayState.ACCEPT);
-        requestHolidaySearch.setStartChargeYear(DateUtils.getFirstDayOfYear(date));
-        requestHolidaySearch.setEndChargeYear(DateUtils.getLastDayOfYear(date));
-        return requestHolidaySearch;
-    }
-
-    private static HolidaySearch buildHolidaySearch(Date date) {
-        HolidaySearch holidaySearch = new HolidaySearch();
-        holidaySearch.setStartDate(plusYears(DateUtils.getFirstDayOfYear(date), -1));
-        holidaySearch.setEndDate(plusYears(DateUtils.getLastDayOfYear(date), 1));
-        return holidaySearch;
-    }
-
-    public static Date plusYears(Date date, int years) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.YEAR, years);
-        return calendar.getTime();
     }
 }
