@@ -23,12 +23,12 @@
   <session-factory name="java:comp/env/hibernate/SessionFactory">
 
     <!-- DataSource to use -->
-    <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <property name="connection.url">jdbc:hsqldb:mem:tnt</property>
-    <property name="connection.username">sa</property>
-    <property name="connection.password"></property>
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:50400/tntconcept?useSSL=false</property>
+    <property name="connection.username">tntconcept</property>
+    <property name="connection.password">tntconcept</property>
     <property name="connection.pool_size">20</property>
-    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
     <!-- Automatic context administration -->
     <property name="current_session_context_class">thread</property>
