@@ -29,3 +29,5 @@ jobs:
 
       - name: Build with Maven
         run: ./mvnw --batch-mode clean install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
