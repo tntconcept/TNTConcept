@@ -26,6 +26,7 @@
       <generator class="native" />
     </id>
     <property name="start" type="java.util.Date"/>
+    <property name="end" type="java.util.Date"/>
     <property name="duration" type="int"/>
     <property name="description" type="java.lang.String"/>
     <property name="billable" type="boolean"/>
