@@ -43,9 +43,9 @@ public class ActivityBean_IT {
 			.withExposedPorts(3306)
 			.waitingFor(Wait.forHttp("/").forPort(3306));
 
-
-	@Before
-	public void setup() {
+	@BeforeClass
+	public static void initDB() {
+		mysql.setPortBindings(List.of("50400:3306"));
 		mysql.start();
 		MysqlDataSource dataSource = new MysqlDataSource();
 		dataSource.setURL(mysql.getJdbcUrl());
@@ -54,24 +54,16 @@ public class ActivityBean_IT {
 		// migrate the database
 		Flyway flyway = Flyway.configure().dataSource(dataSource).load();
 		flyway.migrate();
+	}
 
+	@Before
+	public void setup() {
 		// test application context
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext-test.xml");
 		SpringUtilsForTesting.configure(appCtx);
 
-
-		Configuration cfg = new Configuration();
-		cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		cfg.setProperty("connection.url",mysql.getJdbcUrl() );
-		cfg.setProperty("connection.username", mysql.getUsername());
-		cfg.setProperty("connection.password", mysql.getPassword());
-		cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-
-
-
-
 		// prepare hibernate
-		sessionFactory = cfg.buildSessionFactory();
+		sessionFactory = HibernateUtil.getSessionFactory();
 		sessionFactory.openSession();
 		sessionFactory.getCurrentSession().beginTransaction();
 
