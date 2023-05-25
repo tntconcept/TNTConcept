@@ -36,7 +36,7 @@ public class ArchimedesSecuritySubject implements Serializable, ITransferObject 
 
 
     /**
-     * M…TODOS QUE SE QUEDAN VACÕOS POR ITRANSFER OBJECT
+     * M√âTODOS QUE SE QUEDAN VAC√çOS POR ITRANSFER OBJECT
      */
     @Override
     public Integer getOwnerId() {
