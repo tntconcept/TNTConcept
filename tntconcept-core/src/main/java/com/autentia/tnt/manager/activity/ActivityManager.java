@@ -38,7 +38,7 @@ public class ActivityManager{
 
     /** Activity DAO **/
     private ActivityDAO activityDAO;
-    private ConfigurationUtil configurationUtil;
+
 
     /**
      * Get default ActivityManager as defined in Spring's configuration file.
@@ -58,9 +58,8 @@ public class ActivityManager{
      * Default constructor
      * do not construct managers alone: use Spring's declared beans
      */
-    public ActivityManager(ActivityDAO activityDAO, ConfigurationUtil configurationUtil){
+    public ActivityManager(ActivityDAO activityDAO){
         this.activityDAO = activityDAO;
-        this.configurationUtil = configurationUtil;
     }
 
     /**
@@ -82,17 +81,13 @@ public class ActivityManager{
     public long workedTime(final List<Activity> activities){
         long duration = 0L;
 
-        List<Integer> notWorkableProjectIds = ConfigurationUtil.getDefault().getNotWorkingTimeProjectIds();
-
-
         for(Activity activity : activities){
-            if(!notWorkableProjectIds.contains(activity.getRole().getProject().getId())){
+            if(activity.getRole().getIsWorkingTime()){
                 duration += activity.getDuration();
             }
         }
 
         return duration;
-
     }
 
     /**

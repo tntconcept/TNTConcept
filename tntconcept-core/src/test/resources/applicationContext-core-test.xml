@@ -263,22 +263,21 @@
         <constructor-arg ref="daoOffer"/>
     </bean>
 
-    <bean id="managerFinancialRatio" class="com.autentia.tnt.manager.billing.FinancialRatioManager">
-        <constructor-arg ref="daoFinancialRatio"/>
-    </bean>
-    <bean id="managerOfferRole" class="com.autentia.tnt.manager.contacts.OfferRoleManager">
-        <constructor-arg ref="daoOfferRole"/>
-    </bean>
-    <bean id="managerOfferCost" class="com.autentia.tnt.manager.contacts.OfferCostManager">
-        <constructor-arg ref="daoOfferCost"/>
-    </bean>
-    <bean id="managerSetting" class="com.autentia.tnt.manager.admin.SettingManager">
-        <constructor-arg ref="daoSetting"/>
-    </bean>
-    <bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
-        <constructor-arg ref="daoActivity"/>
-        <constructor-arg ref="configuration"/>
-    </bean>
+	<bean id="managerFinancialRatio" class="com.autentia.tnt.manager.billing.FinancialRatioManager">
+		<constructor-arg ref="daoFinancialRatio" />
+	</bean>
+	<bean id="managerOfferRole" class="com.autentia.tnt.manager.contacts.OfferRoleManager">
+		<constructor-arg ref="daoOfferRole" />
+	</bean>
+	<bean id="managerOfferCost" class="com.autentia.tnt.manager.contacts.OfferCostManager">
+		<constructor-arg ref="daoOfferCost" />
+	</bean>
+	<bean id="managerSetting" class="com.autentia.tnt.manager.admin.SettingManager">
+		<constructor-arg ref="daoSetting" />
+	</bean>
+	<bean id="managerActivity" class="com.autentia.tnt.manager.activity.ActivityManager">
+		<constructor-arg ref="daoActivity" />
+	</bean>
 
     <bean id="managerGlobalHoursReport"
           class="com.autentia.tnt.manager.activity.GlobalHourReportManager"/>
@@ -287,8 +286,12 @@
         <constructor-arg ref="daoOccupation"/>
     </bean>
 
-    <bean id="managerWorkingAgreement" class="com.autentia.tnt.manager.admin.WorkingAgreementManager">
-        <constructor-arg ref="daoWorkingAgreement"/>
+	<bean id="managerWorkingAgreement" class="com.autentia.tnt.manager.admin.WorkingAgreementManager">
+		<constructor-arg ref="daoWorkingAgreement"/>
+	</bean>
+
+	<bean id="managerUserHolidaysState"
+		class="com.autentia.tnt.manager.holiday.UserHolidaysStateManager" >
     </bean>
 
     <bean id="managerCollaborator" class="com.autentia.tnt.manager.contacts.CollaboratorManager">
