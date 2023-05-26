@@ -528,7 +528,7 @@
 		-->
 		<repository>
 			<id>github-tntconcept-api</id>
-			<url>https://public:&#103;@maven.pkg.github.com/autentia/tntconcept-api</url>
+			<url>https://public:&#103;ithub_pat_11AAGBHIY0nKhbOITvqCaW_nrJFjiSA1JVvmwgvil5cRqzQLTlKFK6iZswJwOOcLBl5N3T4YEQjJeQrCLJ@maven.pkg.github.com/autentia/tntconcept-api</url>
 		</repository>
 	</repositories>
 
