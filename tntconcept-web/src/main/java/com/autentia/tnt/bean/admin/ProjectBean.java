@@ -186,8 +186,8 @@ public class ProjectBean extends BaseBean {
      * @return the list of all projects sorted by requested criterion
      */
     public List<Project> getAll() {
-        // Forzamos a que la cache de EntityManager tenga todas las oragnizaciones antes de
-        // obtener los proyectos, para asi evitar lanzar una query por cada proyecto.
+        // We force the EntityManager cache to have all the organizations before the projects,
+        // to avoid running a query for each project.
         OrganizationManager.getDefault().getAllEntities(null, new SortCriteria("name"));
         return manager.getAllEntities(search, new SortCriteria(sortColumn, sortAscending));
     }
