@@ -211,9 +211,6 @@
                 </t:commandLink>
 
             </h:column>
-
-
-            <%-- Field: worked hours --%>
         </t:dataTable>
 
         <%-- Paginator control --%>
