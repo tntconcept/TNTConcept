@@ -240,6 +240,7 @@ public class ProjectBean extends BaseBean {
     public String createRoles() {
         ProjectRole item = new ProjectRole();
         item.setProject(project);
+        item.setRequiredEvidence(true);
         if (project.getRoles() == null) {
             project.setRoles(new HashSet());
         }
