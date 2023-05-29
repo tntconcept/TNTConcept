@@ -525,17 +525,31 @@
 
     </dependencies>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mc-release</id>
-            <name>Local Maven repository of releases</name>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<!--
+		It's not allowed unauthorized access to public maven github repositories.
+		We are using a PAT (XML encoded) that only allow read metadata access to the public autentia/tntconcept-api repository
+		Read discussion: https://github.com/orgs/community/discussions/26634
+		-->
+		<repository>
+			<id>github-tntconcept-api</id>
+			<url>https://public:&#103;ithub_pat_11AAGBHIY0nKhbOITvqCaW_nrJFjiSA1JVvmwgvil5cRqzQLTlKFK6iZswJwOOcLBl5N3T4YEQjJeQrCLJ@maven.pkg.github.com/autentia/tntconcept-api</url>
+		</repository>
+	</repositories>
+
+
 </project>
