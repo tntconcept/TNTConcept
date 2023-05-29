@@ -1,23 +1,22 @@
 /**
  * TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
  * Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.autentia.tnt.bean.contacts;
 
-import com.autentia.tnt.bean.BaseBean;
 import com.autentia.tnt.bean.NavigationResults;
 import com.autentia.tnt.businessobject.Department;
 import com.autentia.tnt.businessobject.Organization;
@@ -26,16 +25,17 @@ import com.autentia.tnt.businessobject.Tag;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.AdvancedSearchContactSearch;
 import com.autentia.tnt.manager.admin.DepartmentManager;
-import com.autentia.tnt.manager.contacts.advancedsearch.ContactPositionManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
 import com.autentia.tnt.manager.contacts.PositionManager;
 import com.autentia.tnt.manager.contacts.advancedsearch.ContactPosition;
+import com.autentia.tnt.manager.contacts.advancedsearch.ContactPositionManager;
 import com.autentia.tnt.util.FacesUtils;
+
+import javax.faces.model.SelectItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.faces.model.SelectItem;
 
 public class AdvancedSearchContactBean {
 
@@ -55,7 +55,7 @@ public class AdvancedSearchContactBean {
     public static final String MESSAGE_CONTACT_POSTALCODE = "contact.postalCode";
     public static final String MESSAGE_CONTACT_ADDRESS = "contact.address";
 
-    private AdvancedSearchContactSearch search;
+    private final AdvancedSearchContactSearch search;
     private List<ContactPosition> contactPositions;
     private boolean launchCSV = false;
 
@@ -79,13 +79,13 @@ public class AdvancedSearchContactBean {
         return NavigationResults.ADVANCED_SEARCH;
     }
 
-    public void exportCSV () {
-		launchCSV = true;
+    public void exportCSV() {
+        launchCSV = true;
         FacesUtils.putInSession(CONTACTS_SESSION_KEY, contactPositions);
         FacesUtils.putInSession(MESSAGES_SESSION_KEY, this.populateCSVHeaderTexts());
     }
 
-    private Map<String, String> populateCSVHeaderTexts () {
+    private Map<String, String> populateCSVHeaderTexts() {
         final Map<String, String> texts = new HashMap<String, String>();
         texts.put(MESSAGE_CONTACT_NAME, FacesUtils.getMessage("contact.name"));
         texts.put(MESSAGE_CONTACT_POSITION, FacesUtils.getMessage("contact.position"));
@@ -178,7 +178,7 @@ public class AdvancedSearchContactBean {
     }
 
     public void setSearchPositions(List<Position> val) {
-        if (this.search.isPositionsSet()) {
+        if (!this.search.isPositionsSet()) {
             this.search.setPositions(val);
         }
     }
@@ -222,7 +222,7 @@ public class AdvancedSearchContactBean {
     }
 
     public void setSearchCountry(String val) {
-        if (this.search.isCountrySet()) {
+        if (!this.search.isCountrySet()) {
             this.search.setCountry(val);
         }
     }

@@ -1,510 +1,529 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.autentia.tnt</groupId>
-	<artifactId>tntconcept-parent</artifactId>
-	<version>0.59.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.autentia.tnt</groupId>
+    <artifactId>tntconcept-parent</artifactId>
+    <version>0.59.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>tntconcept-parent</name>
-	<description>
-		TnTConcept es una aplicación open-source de gestión interna para la pequeña
-		y mediana empresa (PYME) y/o profesional independiente.
-	</description>
-	<url>http://tntconcept.sourceforge.net/</url>
+    <name>tntconcept-parent</name>
+    <description>
+        TnTConcept es una aplicación open-source de gestión interna para la pequeña
+        y mediana empresa (PYME) y/o profesional independiente.
+    </description>
+    <url>http://tntconcept.sourceforge.net/</url>
 
-	<properties>
+    <properties>
 
-		<messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
-		<sourceEncoding>UTF-8</sourceEncoding>
-		<java.release>17</java.release>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <messageResourcesEncoding>ISO-8859-1</messageResourcesEncoding>
+        <sourceEncoding>UTF-8</sourceEncoding>
+        <java.release>17</java.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
-		<maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
-		<maven.install.plugin.version>3.1.0</maven.install.plugin.version>
+        <maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
+        <maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
+        <maven.install.plugin.version>3.1.0</maven.install.plugin.version>
 
-		<!-- jacoco options -->
-		<jacoco.version>0.8.8</jacoco.version>
-		<jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
-		<jacoco.utreportpath>${project.build.directory}/jacoco</jacoco.utreportpath>
-		<jacoco.utreportfile>${jacoco.utreportpath}/jacoco.exec</jacoco.utreportfile>
-		<jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
-		<jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>
+        <!-- jacoco options -->
+        <jacoco.version>0.8.8</jacoco.version>
+        <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
+        <jacoco.utreportpath>${project.build.directory}/jacoco</jacoco.utreportpath>
+        <jacoco.utreportfile>${jacoco.utreportpath}/jacoco.exec</jacoco.utreportfile>
+        <jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
+        <jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>
 
-		<!-- Sonar options -->
-		<sonar.jacoco.reportPath>${jacoco.utreportpath}/jacoco.exec</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>${jacoco.itreportpath}/jacoco-it.exec</sonar.jacoco.itReportPath>
-		<sonar.languaje>java</sonar.languaje>
-		<sonar.excludePlugins>android,branding,buildstability,checkstyle,css,fbcontrib,javascript,ldap,motionchart,pmd,scmstats,tabmetrics,timeline,uselesscodetracker,web,widgetlab,xml</sonar.excludePlugins>
-		<sonar.exclusions />
+        <!-- Sonar options -->
+        <sonar.jacoco.reportPath>${jacoco.utreportpath}/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${jacoco.itreportpath}/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.languaje>java</sonar.languaje>
+        <sonar.excludePlugins>
+            android,branding,buildstability,checkstyle,css,fbcontrib,javascript,ldap,motionchart,pmd,scmstats,tabmetrics,timeline,uselesscodetracker,web,widgetlab,xml
+        </sonar.excludePlugins>
+        <sonar.exclusions/>
 
-		<!-- test -->
-		<junit.version>4.13.2</junit.version>
-		<mockito.version>1.10.19</mockito.version>
-		<hamcrest.version>1.3</hamcrest.version>
-		<skip.unit.tests>false</skip.unit.tests>
-		<skip.integration.tests>false</skip.integration.tests>
+        <!-- test -->
+        <junit.version>4.13.2</junit.version>
+        <mockito.version>1.10.19</mockito.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
 
-		<!-- Deploy properties -->
-		<project.final.name>tntconcept</project.final.name>
+        <!-- Deploy properties -->
+        <project.final.name>tntconcept</project.final.name>
 
-		<appserver.scope>compile</appserver.scope>
+        <appserver.scope>compile</appserver.scope>
 
-		<mysql-connector-j.version>8.0.32</mysql-connector-j.version>
+        <autentia.mvn.distribution>https://autentia.no-ip.org/nexus/repository/maven-releases/
+        </autentia.mvn.distribution>
+        <autentia.mvn.snapshots>https://autentia.no-ip.org/nexus/repository/maven-snapshots/</autentia.mvn.snapshots>
 
-	</properties>
+        <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
 
-	<modules>
-		<module>tntconcept-core</module>
-		<module>tntconcept-web</module>
-		<module>tntconcept-test</module>
-	</modules>
+    </properties>
 
-	<organization>
-		<name>Autentia Real Business Solutions</name>
-		<url>http://www.autentia.com/</url>
-	</organization>
+    <modules>
+        <module>tntconcept-core</module>
+        <module>tntconcept-web</module>
+    </modules>
 
-	<inceptionYear>2007</inceptionYear>
-	<licenses>
-		<license>
-			<name>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
-			<url>LICENSE.txt</url>
-			<distribution>manual</distribution>
-		</license>
-	</licenses>
+    <organization>
+        <name>Autentia Real Business Solutions</name>
+        <url>http://www.autentia.com/</url>
+    </organization>
 
-	<scm>
-		<connection>scm:git:https://github.com/autentia/TNTConcept</connection>
-		<developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
-		<url>https://github.com/autentia/TNTConcept</url>
-		<tag>tntconcept-parent-0.27.5</tag>
-	</scm>
+    <inceptionYear>2007</inceptionYear>
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
+            <url>LICENSE.txt</url>
+            <distribution>manual</distribution>
+        </license>
+    </licenses>
 
-	<profiles>
-		<profile>
-			<id>tomcat-profile</id>
-			<activation>
-				<property>
-					<name>server</name>
-					<value>tomcat</value>
-				</property>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<profile.env>dev</profile.env>
-				<project.final.name>tntconcept-${project.version}</project.final.name>
-			</properties>
-		</profile>
-		<profile>
-			<id>pre</id>
-			<properties>
-				<profile.env>pre</profile.env>
-			</properties>
-		</profile>
-		<profile>
-			<id>pro</id>
-			<properties>
-				<profile.env>pro</profile.env>
-			</properties>
-		</profile>
+    <scm>
+        <connection>scm:git:https://github.com/autentia/TNTConcept</connection>
+        <developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
+        <url>https://github.com/autentia/TNTConcept</url>
+        <tag>tntconcept-parent-0.27.5</tag>
+    </scm>
 
-	</profiles>
+    <profiles>
+        <profile>
+            <id>tomcat-profile</id>
+            <activation>
+                <property>
+                    <name>server</name>
+                    <value>tomcat</value>
+                </property>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profile.env>dev</profile.env>
+                <project.final.name>tntconcept-${project.version}</project.final.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <properties>
+                <profile.env>pre</profile.env>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profile.env>pro</profile.env>
+            </properties>
+        </profile>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+    </profiles>
 
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.10.1</version>
-					<configuration>
-						<release>${java.release}</release>
-						<encoding>${sourceEncoding}</encoding>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>${maven.resources.plugin.version}</version>
-					<configuration>
-						<encoding>${messageResourcesEncoding}</encoding>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>4.0.0-M3</version>
-					<configuration>
-						<inputEncoding>${sourceEncoding}</inputEncoding>
-						<outputEncoding>${sourceEncoding}</outputEncoding>
-					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.maven.wagon</groupId>
-							<artifactId>wagon-webdav-jackrabbit</artifactId>
-							<version>3.5.2</version>
-						</dependency>
-					</dependencies>
-				</plugin>
-				<plugin>
-					<groupId>com.mycila</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>4.1</version>
-					<inherited>false</inherited>
-					<configuration>
-						<strictCheck>true</strictCheck>
-						<failIfMissing>true</failIfMissing>
-						<header>${basedir}/src/main/config/copyrightNotice.txt</header>
-						<excludes>
-							<exclude>**/LICENSE.txt</exclude>
-							<exclude>**/COPYING.LESSER</exclude>
-							<exclude>**/COPYING</exclude>
-							<exclude>**/*.odt</exclude>
-							<exclude>**/*.ods</exclude>
-							<exclude>**/*.pdf</exclude>
-							<exclude>**/*.mwb</exclude>
-							<exclude>**/*.gitignore</exclude>
-							<exclude>**/*.markdown</exclude>
-						</excludes>
-						<mapping>
-							<tld>XML_STYLE</tld>
-							<jrxml>XML_STYLE</jrxml>
-						</mapping>
-					</configuration>
-					<executions>
-						<execution>
-							<id>check-headers</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>3.0.0-M7</version>
-					<configuration>
-						<preparationGoals>package -Pwar</preparationGoals>
-						<tagNameFormat>@{project.version}</tagNameFormat>
-						<projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
-						<releaseProfiles>tomcat-profile</releaseProfiles>
-						<checkModificationExcludes>
-							<checkModificationExclude>pom.xml</checkModificationExclude>
-						</checkModificationExcludes>
-					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.maven.scm</groupId>
-							<artifactId>maven-scm-api</artifactId>
-							<version>2.0.0-M3</version>
-						</dependency>
-						<dependency>
-							<groupId>org.apache.maven.scm</groupId>
-							<artifactId>maven-scm-provider-gitexe</artifactId>
-							<version>2.0.0-M3</version>
-						</dependency>
-					</dependencies>
-				</plugin>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.10.1</version>
+                    <configuration>
+                        <release>${java.release}</release>
+                        <encoding>${sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.plugin.version}</version>
+                    <configuration>
+                        <encoding>${messageResourcesEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>4.0.0-M3</version>
+                    <configuration>
+                        <inputEncoding>${sourceEncoding}</inputEncoding>
+                        <outputEncoding>${sourceEncoding}</outputEncoding>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.wagon</groupId>
+                            <artifactId>wagon-webdav-jackrabbit</artifactId>
+                            <version>3.5.2</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>4.1</version>
+                    <inherited>false</inherited>
+                    <configuration>
+                        <strictCheck>true</strictCheck>
+                        <failIfMissing>true</failIfMissing>
+                        <header>${basedir}/src/main/config/copyrightNotice.txt</header>
+                        <excludes>
+                            <exclude>**/LICENSE.txt</exclude>
+                            <exclude>**/COPYING.LESSER</exclude>
+                            <exclude>**/COPYING</exclude>
+                            <exclude>**/*.odt</exclude>
+                            <exclude>**/*.ods</exclude>
+                            <exclude>**/*.pdf</exclude>
+                            <exclude>**/*.mwb</exclude>
+                            <exclude>**/*.gitignore</exclude>
+                            <exclude>**/*.markdown</exclude>
+                        </excludes>
+                        <mapping>
+                            <tld>XML_STYLE</tld>
+                            <jrxml>XML_STYLE</jrxml>
+                        </mapping>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>check-headers</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>aspectj-maven-plugin</artifactId>
-										<versionRange>1.8</versionRange>
-										<goals>
-											<goal>test-compile</goal>
-											<goal>compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven.javadoc.plugin.version}</version>
-					<configuration>
-						<additionalparam>-Xdoclint:none</additionalparam>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>3.3.2</version>
-				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.0-M7</version>
+                    <configuration>
+                        <preparationGoals>package -Pwar</preparationGoals>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                        <projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
+                        <releaseProfiles>tomcat-profile</releaseProfiles>
+                        <checkModificationExcludes>
+                            <checkModificationExclude>pom.xml</checkModificationExclude>
+                        </checkModificationExcludes>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-api</artifactId>
+                            <version>2.0.0-M3</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>2.0.0-M3</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
 
-				<!-- Skip by default. Only set on tntconcept-web module -->
-				<plugin>
-					<groupId>com.google.cloud.tools</groupId>
-					<artifactId>jib-maven-plugin</artifactId>
-					<version>3.3.1</version>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<executions>
-					<!-- Prepares a variable, jacoco.agent.ut.arg, that contains the info
-						to be passed to the JVM hosting the code being tested. -->
-					<execution>
-						<id>pre-unit-test</id>
-						<phase>process-test-classes</phase>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<propertyName>surefireArgLine</propertyName>
-							<destFile>${jacoco.utreportfile}</destFile>
-							<append>true</append>
-						</configuration>
-					</execution>
-					<!-- Ensures that the code coverage report for unit tests after unit
-						tests have been run. -->
-					<execution>
-						<id>post-unit-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<!-- output file with report data. -->
-							<dataFile>${jacoco.utreportfile}</dataFile>
-							<!-- output directory for the reports. -->
-							<outputDirectory>${jacoco.utreportpath}</outputDirectory>
-						</configuration>
-					</execution>
-					<!-- Prepares the property pointing to the JaCoCo runtime agent which
-						is passed as VM argument when Maven the Failsafe plugin is executed. -->
-					<execution>
-						<id>pre-integration-test</id>
-						<goals>
-							<goal>prepare-agent-integration</goal>
-						</goals>
-						<configuration>
-							<propertyName>failsafeArgLine</propertyName>
-							<destFile>${jacoco.itreportfile}</destFile>
-							<append>true</append>
-						</configuration>
-					</execution>
-					<!-- Ensures that the code coverage report for integration tests after
-						integration tests have been run. -->
-					<execution>
-						<id>post-integration-test</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<!-- Sets the path to the file which contains the execution data. -->
-							<dataFile>${jacoco.itreportfile}</dataFile>
-							<!-- Sets the output directory for the code coverage report. -->
-							<outputDirectory>${jacoco.itreportpath}</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>aspectj-maven-plugin</artifactId>
+                                        <versionRange>1.8</versionRange>
+                                        <goals>
+                                            <goal>test-compile</goal>
+                                            <goal>compile</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.plugin.version}</version>
+                    <configuration>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.3.2</version>
+                </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M7</version>
-				<configuration>
-					<!-- Sets the VM argument line used when unit tests are run. -->
-					<argLine>${surefireArgLine}</argLine>
-					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
-					<skipTests>${skip.unit.tests}</skipTests>
-					<!-- Excludes integration tests when unit tests are run. -->
-					<excludes>
-						<exclude>**/*IT.java</exclude>
-					</excludes>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.0.0-M7</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>3.0.0-M7</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<!-- Ensures that both integration-test and verify goals of the Failsafe
-						Maven plugin are executed. -->
-					<execution>
-						<id>integration-tests</id>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-						<configuration>
-							<!-- Sets the VM argument line used when integration tests are run. -->
-							<argLine>${failsafeArgLine}</argLine>
-							<!-- Skips integration tests if the value of skip.integration.tests
-								property is true -->
-							<skipTests>${skip.integration.tests}</skipTests>
-							<testFailureIgnore>false</testFailureIgnore>
-							<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                <!-- Skip by default. Only set on tntconcept-web module -->
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>3.3.1</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <!-- Prepares a variable, jacoco.agent.ut.arg, that contains the info
+                        to be passed to the JVM hosting the code being tested. -->
+                    <execution>
+                        <id>pre-unit-test</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>surefireArgLine</propertyName>
+                            <destFile>${jacoco.utreportfile}</destFile>
+                            <append>true</append>
+                        </configuration>
+                    </execution>
+                    <!-- Ensures that the code coverage report for unit tests after unit
+                        tests have been run. -->
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- output file with report data. -->
+                            <dataFile>${jacoco.utreportfile}</dataFile>
+                            <!-- output directory for the reports. -->
+                            <outputDirectory>${jacoco.utreportpath}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <!-- Prepares the property pointing to the JaCoCo runtime agent which
+                        is passed as VM argument when Maven the Failsafe plugin is executed. -->
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>failsafeArgLine</propertyName>
+                            <destFile>${jacoco.itreportfile}</destFile>
+                            <append>true</append>
+                        </configuration>
+                    </execution>
+                    <!-- Ensures that the code coverage report for integration tests after
+                        integration tests have been run. -->
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <dataFile>${jacoco.itreportfile}</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>${jacoco.itreportpath}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <!-- Sets the VM argument line used when unit tests are run. -->
+                    <argLine>${surefireArgLine}</argLine>
+                    <!-- Skips unit tests if the value of skip.unit.tests property is true -->
+                    <skipTests>${skip.unit.tests}</skipTests>
+                    <!-- Excludes integration tests when unit tests are run. -->
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                    </excludes>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>3.0.0-M7</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <!-- Ensures that both integration-test and verify goals of the Failsafe
+                        Maven plugin are executed. -->
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the VM argument line used when integration tests are run. -->
+                            <argLine>${failsafeArgLine}</argLine>
+                            <!-- Skips integration tests if the value of skip.integration.tests
+                                property is true -->
+                            <skipTests>${skip.integration.tests}</skipTests>
+                            <testFailureIgnore>false</testFailureIgnore>
+                            <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>taglist-maven-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<tags>
-						<tag>TODO</tag>
-						<tag>FIXME</tag>
-						<tag>XXX</tag>
-						<tag>NOPMD</tag>
-					</tags>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>3.3.0</version>
-			</plugin>
-		</plugins>
-	</reporting>
+        </plugins>
+    </build>
 
-	<dependencyManagement>
-		<dependencies>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <tags>
+                        <tag>TODO</tag>
+                        <tag>FIXME</tag>
+                        <tag>XXX</tag>
+                        <tag>NOPMD</tag>
+                    </tags>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
+    <distributionManagement>
+        <repository>
+            <id>autentia-repository</id>
+            <name>Autentia Releases Repository</name>
+            <url>${autentia.mvn.distribution}</url>
+        </repository>
+        <snapshotRepository>
+            <id>autentia-repository-snapshots</id>
+            <name>Autentia Snapshots Repository</name>
+            <url>${autentia.mvn.snapshots}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>${mockito.version}</version>
-				<scope>test</scope>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
 
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-library</artifactId>
-				<version>${hamcrest.version}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>com.mysql</groupId>
-				<artifactId>mysql-connector-j</artifactId>
-				<version>${mysql-connector-j.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-	<dependencies>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-		</dependency>
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${mysql-connector-j.version}</version>
+            </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
+        </dependencies>
+    </dependencyManagement>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>${hamcrest.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>quartz</groupId>
-			<artifactId>quartz</artifactId>
-			<version>1.5.2</version>
-		</dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest.version}</version>
+        </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>quartz</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+    </dependencies>
 
 	<pluginRepositories>
 		<pluginRepository>

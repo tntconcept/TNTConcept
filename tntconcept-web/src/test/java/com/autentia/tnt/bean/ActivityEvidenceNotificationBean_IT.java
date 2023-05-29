@@ -1,52 +1,41 @@
 package com.autentia.tnt.bean;
 
-import com.autentia.tnt.businessobject.*;
-import com.autentia.tnt.dao.hibernate.*;
+import com.autentia.tnt.businessobject.Activity;
+import com.autentia.tnt.businessobject.ProjectRole;
+import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.dao.hibernate.ActivityDAO;
+import com.autentia.tnt.dao.hibernate.ProjectRoleDAO;
+import com.autentia.tnt.dao.hibernate.UserDAO;
 import com.autentia.tnt.mail.MailService;
 import com.autentia.tnt.manager.admin.UserManager;
-import com.autentia.tnt.manager.security.AuthenticationManager;
-import com.autentia.tnt.manager.security.Principal;
 import com.autentia.tnt.test.utils.SpringUtilsForTesting;
+import com.autentia.tnt.test.utils.TestContainer;
 import com.autentia.tnt.util.HibernateUtil;
 import com.autentia.tnt.util.SpringUtils;
-import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContextHolder;
-import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
-import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.mail.MessagingException;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
-public class ActivityEvidenceNotificationBean_IT {
+public class ActivityEvidenceNotificationBean_IT extends TestContainer {
     private static SessionFactory sessionFactory;
 
-    private MailService mailService;
-
-    @BeforeClass
-    public static void initDB() {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource("jdbc:hsqldb:mem:tnt;DB_CLOSE_DELAY=-1;sql.syntax_mys=true", "sa", "");
-        flyway.migrate();
-    }
+    private final MailService mailService = Mockito.mock(MailService.class);
 
     @Before
-    public void setup() {
+    public void setup() throws MessagingException {
         // load test application context including security configuration
         ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext-test.xml");
         SpringUtilsForTesting.configure(appCtx);
@@ -58,8 +47,7 @@ public class ActivityEvidenceNotificationBean_IT {
 
         // a user is required in the database to load the security context
         SpringUtilsForTesting.loadPrincipalInSecurityContext("admin");
-
-        mailService = Mockito.mock(MailService.class);
+        doNothing().when(mailService).send(anyString(), anyString(), anyString());
     }
 
     @After
@@ -75,7 +63,7 @@ public class ActivityEvidenceNotificationBean_IT {
 
         ActivityEvidenceNotificationBean bean = new ActivityEvidenceNotificationBean(mailService);
         bean.checkActivitiesWithNoEvidence();
-        verify(mailService).send(eq(user.getEmail()),anyString(),anyString());
+        verify(mailService, never()).send(eq(user.getEmail()), anyString(), anyString());
     }
 
     @Test
@@ -86,27 +74,29 @@ public class ActivityEvidenceNotificationBean_IT {
 
         ActivityEvidenceNotificationBean bean = new ActivityEvidenceNotificationBean(mailService);
         bean.checkActivitiesWithNoEvidence();
-        verify(mailService, times(0)).send(eq(user.getEmail()),anyString(),anyString());
+        verify(mailService, times(0)).send(eq(user.getEmail()), anyString(), anyString());
     }
 
     private User testUser() {
         UserManager userManager = (UserManager) SpringUtils.getSpringBean("managerUser");
+        User user = SpringUtilsForTesting.createUser("user");
+        UserDAO userDAO = (UserDAO) SpringUtils.getSpringBean("daoUser");
+        userDAO.insert(user);
+
         return userManager.getUserByLogin("user");
     }
 
     private void insertActivityWithRequiredEvidence(User user) {
         ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(3);
-
         Activity activity = new Activity();
         activity.setDescription("Test activity");
         activity.setHasEvidences(false);
         activity.setStart(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         activity.setRole(role);
-
-        // Even if user is set on activity, if completely ignores it, so...
-        final Principal principal = (Principal) AuthenticationManager.getDefault().loadUserByUsername(user.getLogin());
-        Authentication auth = new UsernamePasswordAuthenticationToken(principal, principal.getUser().getPassword(),principal.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        activity.setDuration(32);
+        activity.setBillable(true);
+        activity.setDescription("");
+        activity.setHasEvidences(true);
 
         ActivityDAO activityDAO = (ActivityDAO) SpringUtils.getSpringBean("daoActivity");
         activityDAO.insert(activity);
@@ -120,11 +110,11 @@ public class ActivityEvidenceNotificationBean_IT {
         activity.setHasEvidences(true);
         activity.setStart(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
         activity.setRole(role);
+        activity.setDuration(32);
+        activity.setBillable(true);
+        activity.setDescription("");
+        activity.setHasEvidences(true);
 
-        // Even if user is set on activity, if completely ignores it, so...
-        final Principal principal = (Principal) AuthenticationManager.getDefault().loadUserByUsername(user.getLogin());
-        Authentication auth = new UsernamePasswordAuthenticationToken(principal, principal.getUser().getPassword(),principal.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
 
         ActivityDAO activityDAO = (ActivityDAO) SpringUtils.getSpringBean("daoActivity");
         activityDAO.insertWithoutUser(activity);
