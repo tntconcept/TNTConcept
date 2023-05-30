@@ -132,5 +132,40 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.autentia.tnt</groupId>
+			<artifactId>tntconcept-ddbb</artifactId>
+			<version>1.12.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Database migration scripts for integration tests -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>8.5.13</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+			<version>8.5.13</version>
+		</dependency>
+
+		<!-- For testing database -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>mysql</artifactId>
+			<version>1.18.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.32</version>
+		</dependency>
+
 	</dependencies>
 </project>
