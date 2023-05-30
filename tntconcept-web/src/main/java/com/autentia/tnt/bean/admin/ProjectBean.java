@@ -168,15 +168,10 @@ public class ProjectBean extends BaseBean {
     private Character letter;
 
     private HtmlInputText offerNumberInput = new HtmlInputText();
-    private List<Organization> clients;
-    private List<Organization> allClients;
 
     private List<Offer> offerNumberList = new ArrayList<>();
 
-
     public ProjectBean() {
-        allClients = OrganizationManager.getDefault().getAllEntities(null, new SortCriteria("name"));
-        clients = allClients;
         search.setOpen(Boolean.TRUE);
     }
 
@@ -186,7 +181,7 @@ public class ProjectBean extends BaseBean {
      * @return the list of all projects sorted by requested criterion
      */
     public List<Project> getAll() {
-        // We force the EntityManager cache to have all the organizations before the projects,
+        // Force the EntityManager cache to have all the organizations before the projects,
         // to avoid running a query for each project.
         OrganizationManager.getDefault().getAllEntities(null, new SortCriteria("name"));
         return manager.getAllEntities(search, new SortCriteria(sortColumn, sortAscending));
@@ -196,6 +191,7 @@ public class ProjectBean extends BaseBean {
 
 
     public List<SelectItem> getClients() {
+        final var clients = OrganizationManager.getDefault().getAllEntities(null, new SortCriteria("name"));
 
         ArrayList<SelectItem> ret = new ArrayList<>();
 
@@ -216,11 +212,6 @@ public class ProjectBean extends BaseBean {
         return ret;
     }
 
-    public void setClients(List<Organization> clients) {
-        this.clients = clients;
-    }
-
-
     /**
      * Get the list of all roless
      *
@@ -235,7 +226,6 @@ public class ProjectBean extends BaseBean {
         }
         return ret;
     }
-
 
     /**
      * Get the list of all costss
