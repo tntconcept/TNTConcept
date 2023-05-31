@@ -26,18 +26,9 @@ public class InventaryDAO_IT extends IntegrationTest {
         inventaryDAO = (InventaryDAO) SpringUtils.getSpringBean("daoInventary");
     }
 
-    @Override
-    public void rollback() throws SQLException {
-        super.rollback();
-        sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().connection().prepareStatement("ALTER TABLE Inventory AUTO_INCREMENT=0").execute();
-    }
-
 
     @Test
     public void shouldLoadById() {
-        insertInventary(expected);
-
         final Inventary result = inventaryDAO.loadById(1);
 
         assertEquals(expected, result.getDescription());
@@ -45,8 +36,6 @@ public class InventaryDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldGetById() {
-        insertInventary(expected);
-
         final Inventary result = inventaryDAO.getById(1);
 
         assertEquals(expected, result.getDescription());
@@ -54,8 +43,6 @@ public class InventaryDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindInventories() {
-        insertInventary(expected);
-
         final List<Inventary> result = inventaryDAO.search(new SortCriteria());
 
         assert (result.size() > 0);
@@ -63,7 +50,6 @@ public class InventaryDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindByCriteria() {
-        insertInventary(expected);
         final InventarySearch inventarySearch = new InventarySearch();
         inventarySearch.setDescription(expected);
 
@@ -74,7 +60,6 @@ public class InventaryDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldNotFindIfCriteriaDoesntMatch() {
-        insertInventary(expected);
         final InventarySearch inventarySearch = new InventarySearch();
         inventarySearch.setDescription("NoMatch");
 
@@ -85,7 +70,6 @@ public class InventaryDAO_IT extends IntegrationTest {
 
     @Test
     public void updateShouldChangeObject() {
-        insertInventary(expected);
         final String updatedDescription = "change";
 
         final Inventary inventary = inventaryDAO.loadById(1);
@@ -99,9 +83,7 @@ public class InventaryDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldDelete() {
-        insertInventary(expected);
-
-        final Inventary inventary = inventaryDAO.loadById(1);
+        final Inventary inventary = inventaryDAO.getById(1);
         inventaryDAO.delete(inventary);
 
         assertThrows(DataAccException.class, () -> {
@@ -109,23 +91,4 @@ public class InventaryDAO_IT extends IntegrationTest {
         });
     }
 
-    private void insertInventary(String description) {
-        final Inventary inventary = new Inventary();
-        inventary.setBuyDate(Date.from(Instant.now()));
-        inventary.setRenting(true);
-        inventary.setCost(BigDecimal.TEN);
-        inventary.setAmortizable(true);
-        inventary.setSerialNumber("1234");
-        inventary.setType(InventaryType.PC);
-        inventary.setProvider("provider");
-        inventary.setTrademark("trademark");
-        inventary.setModel("model");
-        inventary.setSpeed("speed");
-        inventary.setStorage("storage");
-        inventary.setRam("ram");
-        inventary.setLocation("location");
-        inventary.setDescription(description);
-
-        inventaryDAO.insert(inventary);
-    }
 }
