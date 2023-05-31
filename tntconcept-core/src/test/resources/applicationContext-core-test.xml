@@ -101,6 +101,7 @@
     <bean id="daoPosition" class="com.autentia.tnt.dao.hibernate.PositionDAO"/>
     <bean id="daoTag" class="com.autentia.tnt.dao.hibernate.TagDAO"/>
     <bean id="daoEntityChange" class="com.autentia.tnt.tracking.hibernate.dao.EntityChangeDAO"/>
+    <bean id="daoLink" class="com.autentia.tnt.dao.hibernate.LinkDAO"/>
 
     <!-- Managers -->
     <bean id="managerAccountEntry" class="com.autentia.tnt.manager.account.AccountEntryManager">
