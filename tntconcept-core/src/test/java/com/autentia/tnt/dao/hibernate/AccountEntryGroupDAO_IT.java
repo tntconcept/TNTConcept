@@ -24,66 +24,66 @@ public class AccountEntryGroupDAO_IT extends IntegrationTest {
     public void loadByIdShouldLoadAccountEntryGroup() {
         final int accountEntryGroupId = 1;
 
-        final AccountEntryGroup account = accountEntryGroupDAO.loadById(accountEntryGroupId);
+        final AccountEntryGroup accountEntryGroup = accountEntryGroupDAO.loadById(accountEntryGroupId);
 
-        assertEquals("Ingreso", account.getName());
+        assertEquals("Ingreso", accountEntryGroup.getName());
     }
 
     @Test(expected = ObjectNotFoundException.class)
     public void loadByIdShouldGetNullAccountEntryGroup() {
-        final int accountId = Integer.MAX_VALUE;
+        final int accountEntryGroupId = Integer.MAX_VALUE;
 
-        final AccountEntryGroup account = accountEntryGroupDAO.loadById(accountId);
+        final AccountEntryGroup accountEntryGroup = accountEntryGroupDAO.loadById(accountEntryGroupId);
 
-        assertNull(account);
+        assertNull(accountEntryGroup);
     }
 
     @Test
     public void getByIdShouldGetAccountEntryGroup() {
-        final int accountId = 1;
+        final int accountEntryGroupId = 1;
 
-        final AccountEntryGroup account = accountEntryGroupDAO.getById(accountId);
+        final AccountEntryGroup accountEntryGroup = accountEntryGroupDAO.getById(accountEntryGroupId);
 
-        assertEquals("Ingreso", account.getName());
+        assertEquals("Ingreso", accountEntryGroup.getName());
     }
 
     @Test
     public void getByIdShouldGetNullAccountEntryGroup() {
-        final int accountId = Integer.MAX_VALUE;
+        final int accountEntryGroupId = Integer.MAX_VALUE;
 
-        final AccountEntryGroup account = accountEntryGroupDAO.getById(accountId);
+        final AccountEntryGroup accountEntryGroup = accountEntryGroupDAO.getById(accountEntryGroupId);
 
-        assertNull(account);
+        assertNull(accountEntryGroup);
     }
 
     @Test
     public void searchShouldReturnMoreThanTheDefaultAccountEntryGroup() {
-        AccountEntryGroup account = createAccountEntryGroup();
-        accountEntryGroupDAO.insert(account);
+        AccountEntryGroup accountEntryGroup = createAccountEntryGroup();
+        accountEntryGroupDAO.insert(accountEntryGroup);
 
-        List<AccountEntryGroup> accounts = accountEntryGroupDAO.search(new SortCriteria());
+        List<AccountEntryGroup> accountEntryGroups = accountEntryGroupDAO.search(new SortCriteria());
 
-        assert(accounts.size() > 1);
+        assert (accountEntryGroups.size() > 1);
     }
 
     @Test
     public void searchByCriteriaShouldReturnExpectedAccountEntryGroup() {
-        AccountEntryGroup account = createAccountEntryGroup();
-        accountEntryGroupDAO.insert(account);
+        AccountEntryGroup accountEntryGroup = createAccountEntryGroup();
+        accountEntryGroupDAO.insert(accountEntryGroup);
 
-        AccountEntryGroupSearch accountSearch = new AccountEntryGroupSearch();
-        accountSearch.setName(account.getName());
-        List<AccountEntryGroup> accounts = accountEntryGroupDAO.search(accountSearch, new SortCriteria());
+        AccountEntryGroupSearch accountEntryGroupSearch = new AccountEntryGroupSearch();
+        accountEntryGroupSearch.setName(accountEntryGroup.getName());
+        List<AccountEntryGroup> accounts = accountEntryGroupDAO.search(accountEntryGroupSearch, new SortCriteria());
 
-        assert(accounts.size() == 1);
+        assert (accounts.size() == 1);
     }
 
     @Test
     public void updateShouldChangeAccountEntryGroupName() {
-        AccountEntryGroup accountToUpdate = accountEntryGroupDAO.getById(1);
-        accountToUpdate.setName("Update");
+        AccountEntryGroup accountEntryGroupToUpdate = accountEntryGroupDAO.getById(1);
+        accountEntryGroupToUpdate.setName("Update");
 
-        accountEntryGroupDAO.update(accountToUpdate);
+        accountEntryGroupDAO.update(accountEntryGroupToUpdate);
 
         AccountEntryGroup updatedAccountEntryGroup = accountEntryGroupDAO.getById(1);
         assertEquals("Update", updatedAccountEntryGroup.getName());
@@ -91,9 +91,9 @@ public class AccountEntryGroupDAO_IT extends IntegrationTest {
 
     @Test
     public void deleteShouldRemoveAccountEntryGroup() {
-        AccountEntryGroup accountToDelete = accountEntryGroupDAO.getById(1);
+        AccountEntryGroup accountEntryGroupToDelete = accountEntryGroupDAO.getById(1);
 
-        accountEntryGroupDAO.delete(accountToDelete);
+        accountEntryGroupDAO.delete(accountEntryGroupToDelete);
 
         assertNull(accountEntryGroupDAO.getById(1));
     }
