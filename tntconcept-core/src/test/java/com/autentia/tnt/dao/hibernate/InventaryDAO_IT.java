@@ -1,7 +1,9 @@
-package com.autentia.tnt.dao;
+package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.Inventary;
 import com.autentia.tnt.businessobject.InventaryType;
+import com.autentia.tnt.dao.DataAccException;
+import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.InventaryDAO;
 import com.autentia.tnt.dao.search.InventarySearch;
 import com.autentia.tnt.test.utils.IntegrationTest;

@@ -1,8 +1,9 @@
-package com.autentia.tnt.dao;
+package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.Interaction;
 import com.autentia.tnt.businessobject.InteractionInterest;
 import com.autentia.tnt.businessobject.Project;
+import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.InteractionDAO;
 import com.autentia.tnt.dao.search.InteractionSearch;
 import com.autentia.tnt.test.utils.IntegrationTest;

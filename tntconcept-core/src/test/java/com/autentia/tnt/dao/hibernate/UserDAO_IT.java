@@ -1,6 +1,9 @@
-package com.autentia.tnt.dao;
+package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.User;
+import com.autentia.tnt.dao.DataIntegrityException;
+import com.autentia.tnt.dao.DataNotFoundException;
+import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.hibernate.UserDAO;
 import com.autentia.tnt.dao.search.UserSearch;
 import com.autentia.tnt.test.utils.IntegrationTest;
