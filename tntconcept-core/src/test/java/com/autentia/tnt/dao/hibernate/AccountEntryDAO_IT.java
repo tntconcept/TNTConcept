@@ -11,7 +11,6 @@ import org.hibernate.ObjectNotFoundException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -25,61 +24,50 @@ public class AccountEntryDAO_IT extends IntegrationTest {
         accountEntryDAO = (AccountEntryDAO) SpringUtils.getSpringBean("daoAccountEntry");
     }
 
-    @Override
-    public void rollback() throws SQLException {
-        super.rollback();
-        sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().connection().prepareStatement("ALTER TABLE AccountEntry AUTO_INCREMENT=0").execute();
-    }
-
     @Test
     public void loadByIdShouldLoadAccountEntry() {
-        AccountEntry accountEntryToInsert = createAccountEntry();
-        accountEntryDAO.insert(accountEntryToInsert);
+        final int accountEntryId = 1;
 
-        AccountEntry accountEntry = accountEntryDAO.loadById(1);
+        AccountEntry accountEntry = accountEntryDAO.loadById(accountEntryId);
 
         assertEquals("Test", accountEntry.getConcept());
     }
 
     @Test(expected = ObjectNotFoundException.class)
     public void loadByIdShouldThrowAnException() {
-        AccountEntry accountEntryToInsert = createAccountEntry();
-        accountEntryDAO.insert(accountEntryToInsert);
+        final int accountEntryId = Integer.MAX_VALUE;
 
-        AccountEntry accountEntry = accountEntryDAO.loadById(2);
+        AccountEntry accountEntry = accountEntryDAO.loadById(accountEntryId);
 
         assertNull(accountEntry);
     }
 
     @Test
     public void getByIdShouldGetAccountEntry() {
-        AccountEntry accountEntryToInsert = createAccountEntry();
-        accountEntryDAO.insert(accountEntryToInsert);
+        final int accountEntryId = 1;
 
-        AccountEntry accountEntry = accountEntryDAO.getById(1);
+        AccountEntry accountEntry = accountEntryDAO.getById(accountEntryId);
 
         assertEquals("Test", accountEntry.getConcept());
     }
 
     @Test
     public void getByIdShouldGetNullAccountEntry() {
-        AccountEntry accountEntryToInsert = createAccountEntry();
-        accountEntryDAO.insert(accountEntryToInsert);
+        final int accountEntryId = Integer.MAX_VALUE;
 
-        AccountEntry accountEntry = accountEntryDAO.getById(2);
+        AccountEntry accountEntry = accountEntryDAO.getById(accountEntryId);
 
         assertNull(accountEntry);
     }
 
     @Test
-    public void searchShouldReturnAccountEntry() {
+    public void searchShouldReturnMoreThanTheDefaultAccountEntry() {
         AccountEntry accountEntryToInsert = createAccountEntry();
         accountEntryDAO.insert(accountEntryToInsert);
 
         List<AccountEntry> accountEntries = accountEntryDAO.search(new SortCriteria());
 
-        assertTrue(accountEntries.size() > 0);
+        assertTrue(accountEntries.size() > 1);
     }
 
     @Test
@@ -96,8 +84,8 @@ public class AccountEntryDAO_IT extends IntegrationTest {
 
     @Test
     public void updateShouldChangeAccountEntryConcept() {
-        AccountEntry accountEntry = createAccountEntry();
-        accountEntryDAO.insert(accountEntry);
+        final int accountEntryId = 1;
+        AccountEntry accountEntry = accountEntryDAO.loadById(accountEntryId);
         
         accountEntry.setConcept("Update");
         accountEntryDAO.update(accountEntry);
@@ -109,10 +97,9 @@ public class AccountEntryDAO_IT extends IntegrationTest {
 
     @Test
     public void deleteShouldRemoveAccountEntry() {
-        AccountEntry accountEntryToInsert = createAccountEntry();
-        accountEntryDAO.insert(accountEntryToInsert);
+        final int accountEntryId = 1;
+        AccountEntry accountEntry = accountEntryDAO.getById(accountEntryId);
 
-        AccountEntry accountEntry = accountEntryDAO.getById(1);
         accountEntryDAO.delete(accountEntry);
 
         assertNull(accountEntryDAO.getById(1));
