@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThrows;
 
 public class UserDAO_IT extends IntegrationTest {
 
-    final UserDAO userDAO;
+    private final UserDAO userDAO;
 
     public UserDAO_IT() {
         userDAO = (UserDAO) SpringUtils.getSpringBean("daoUser");

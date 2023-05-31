@@ -54,7 +54,8 @@ public class IntegrationTest {
 
         // Security context
         final AuthenticationManager authManager = mock(AuthenticationManager.class);
-        final User user = mock(User.class);
+        final UserForTesting user = new UserForTesting();
+        user.setId(1);
         final Principal principal = mock(Principal.class);
 
         SecurityContext securityCtx = mock(SecurityContext.class);
@@ -63,6 +64,7 @@ public class IntegrationTest {
         when(authentication.getPrincipal()).thenReturn(principal);
         when(authManager.getCurrentPrincipal()).thenReturn(principal);
         when(principal.getUser()).thenReturn(user);
+        when(principal.getId()).thenReturn(1);
         SecurityContextHolder.setContext(securityCtx);
 
         // App context
