@@ -1,0 +1,1 @@
+insert into Idea (userId, creationDate, description, cost, benefits, name) values (1, CURRENT_TIMESTAMP, 'description', 'cost', 'benefits', 'name')

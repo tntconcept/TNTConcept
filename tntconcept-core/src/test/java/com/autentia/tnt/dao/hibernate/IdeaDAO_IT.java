@@ -1,7 +1,6 @@
 package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.Idea;
-import com.autentia.tnt.businessobject.User;
 import com.autentia.tnt.dao.DataAccException;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.IdeaSearch;
@@ -11,8 +10,6 @@ import com.autentia.tnt.util.SpringUtils;
 import org.junit.Test;
 
 import java.sql.SQLException;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -41,8 +38,6 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldLoadById() {
-        insertIdea(expected, user);
-
         final Idea result = ideaDAO.loadById(1);
 
         assertEquals(expected, result.getDescription());
@@ -50,8 +45,6 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldGetById() {
-        insertIdea(expected, user);
-
         final Idea result = ideaDAO.getById(1);
 
         assertEquals(expected, result.getDescription());
@@ -59,8 +52,6 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindIdeas() {
-        insertIdea(expected, user);
-
         final List<Idea> result = ideaDAO.search(new SortCriteria());
 
         assert (result.size() > 0);
@@ -68,7 +59,6 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindByCriteria() {
-        insertIdea(expected, user);
         final IdeaSearch ideaSearch = new IdeaSearch();
         ideaSearch.setDescription(expected);
 
@@ -79,7 +69,6 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     @Test
     public void updateShouldChangeObject() {
-        insertIdea(expected, user);
         final String updatedDescription = "change";
 
         final Idea idea = ideaDAO.getById(1);
@@ -91,8 +80,6 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldNotFindAfterDelete() {
-        insertIdea(expected, user);
-
         final Idea idea = ideaDAO.getById(1);
         ideaDAO.delete(idea);
 
@@ -101,15 +88,4 @@ public class IdeaDAO_IT extends IntegrationTest {
         });
     }
 
-    private void insertIdea(String description, User user) throws DataAccException {
-        final Idea idea = new Idea();
-        idea.setUser(user);
-        idea.setCreationDate(Date.from(Instant.now()));
-        idea.setDescription(description);
-        idea.setCost("cost");
-        idea.setBenefits("benefits");
-        idea.setName("name");
-
-        ideaDAO.insert(idea);
-    }
 }
