@@ -18,12 +18,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class InteractionDao_IT extends IntegrationTest {
+public class InteractionDAO_IT extends IntegrationTest {
 
     private final InteractionDAO interactionDAO;
     private final String expected = "test";
 
-    public InteractionDao_IT() {
+    public InteractionDAO_IT() {
         interactionDAO = (InteractionDAO) SpringUtils.getSpringBean("daoInteraction");
     }
 
