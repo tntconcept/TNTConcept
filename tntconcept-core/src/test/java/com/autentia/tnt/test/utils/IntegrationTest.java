@@ -19,6 +19,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 public class IntegrationTest {
 
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     static final public MySQLContainer<?> mysql = new MySQLContainer<>(
             "mysql:8.0.32")
@@ -78,7 +79,7 @@ public class IntegrationTest {
     }
 
     @After
-    public void rollback() {
+    public void rollback() throws SQLException {
         sessionFactory = HibernateUtil.getSessionFactory();
         sessionFactory.getCurrentSession().getTransaction().rollback();
     }

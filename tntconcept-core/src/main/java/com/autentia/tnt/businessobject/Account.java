@@ -88,7 +88,7 @@ public class Account implements Serializable, ITransferObject
   public Integer getId() {
     return id;
   }
-  private void setId( Integer id ) {
+  protected void setId( Integer id ) {
     this.id = id;
   }
       
