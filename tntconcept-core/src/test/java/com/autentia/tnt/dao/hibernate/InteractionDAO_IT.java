@@ -37,8 +37,6 @@ public class InteractionDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldLoadById() {
-        insertInteraction(expected);
-
         Interaction interaction = interactionDAO.loadById(1);
 
         assertEquals(expected, interaction.getDescription());
@@ -46,8 +44,6 @@ public class InteractionDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldGetById() {
-        insertInteraction(expected);
-
         Interaction interaction = interactionDAO.getById(1);
 
         assertEquals(expected, interaction.getDescription());
@@ -55,8 +51,6 @@ public class InteractionDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindInteraction() {
-        insertInteraction(expected);
-
         List<Interaction> interactionList = interactionDAO.search(new SortCriteria());
 
         assert (interactionList.size() > 0);
@@ -64,7 +58,6 @@ public class InteractionDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindByDescription() {
-        insertInteraction(expected);
         InteractionSearch searchCriteria = new InteractionSearch();
         searchCriteria.setDescription(expected);
 
@@ -75,7 +68,6 @@ public class InteractionDAO_IT extends IntegrationTest {
 
     @Test
     public void updateShouldChangeRow() {
-        insertInteraction(expected);
         String expectedChange = "test2";
 
         Interaction interaction = interactionDAO.loadById(1);
@@ -88,7 +80,6 @@ public class InteractionDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldDelete() {
-        insertInteraction(expected);
         InteractionSearch searchCriteria = new InteractionSearch();
         searchCriteria.setDescription(expected);
 
@@ -97,29 +88,6 @@ public class InteractionDAO_IT extends IntegrationTest {
         interactionList = interactionDAO.search(searchCriteria, new SortCriteria());
 
         assert (interactionList.size() == 0);
-    }
-
-    private void insertInteraction(String description) {
-        Interaction interaction = new Interaction();
-        interaction.setCreationDate(Date.from(Instant.now()));
-        interaction.setInterest(InteractionInterest.LOW);
-        interaction.setDescription(description);
-        interaction.setFile("asd");
-        interaction.setFileMime("jpg");
-
-        Project project = new Project();
-        project.setId(1);
-        interaction.setProject(project);
-
-        UserForTesting user = new UserForTesting();
-        user.setId(1);
-        interaction.setUser(user);
-
-        InteractionTypeForTesting interactionType = new InteractionTypeForTesting();
-        interactionType.setId(1);
-        interaction.setType(interactionType);
-
-        interactionDAO.insert(interaction);
     }
 
 }
