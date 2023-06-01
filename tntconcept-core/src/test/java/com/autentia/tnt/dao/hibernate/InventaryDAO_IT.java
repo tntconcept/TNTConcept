@@ -91,4 +91,32 @@ public class InventaryDAO_IT extends IntegrationTest {
         });
     }
 
+    @Test
+    public void insertShouldPersistInventory() {
+        final String expectedDescription = "desc";
+        final Inventary inventary = createInventary(expectedDescription);
+
+        inventaryDAO.insert(inventary);
+        final List<Inventary> result = inventaryDAO.search(new SortCriteria());
+
+        assertEquals(expectedDescription, result.get(result.size()-1).getDescription());
+    }
+
+    private Inventary createInventary(String description) {
+        final Inventary inventary = new Inventary();
+        inventary.setBuyDate(Date.from(Instant.now()));
+        inventary.setCost(BigDecimal.TEN);
+        inventary.setSerialNumber("serial");
+        inventary.setType(InventaryType.PC);
+        inventary.setProvider("provider");
+        inventary.setTrademark("trademark");
+        inventary.setModel("model");
+        inventary.setSpeed("speed");
+        inventary.setStorage("storage");
+        inventary.setRam("ram");
+        inventary.setLocation("location");
+        inventary.setDescription(description);
+        return inventary;
+    }
+
 }

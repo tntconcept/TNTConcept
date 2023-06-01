@@ -9,7 +9,8 @@ import com.autentia.tnt.test.utils.UserForTesting;
 import com.autentia.tnt.util.SpringUtils;
 import org.junit.Test;
 
-import java.sql.SQLException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -21,12 +22,8 @@ public class IdeaDAO_IT extends IntegrationTest {
 
     private final String expected = "description";
 
-    private final UserForTesting user;
-
     public IdeaDAO_IT() {
         ideaDAO = (IdeaDAO) SpringUtils.getSpringBean("daoIdea");
-        user = new UserForTesting();
-        user.setId(1);
     }
 
     @Test
@@ -79,6 +76,32 @@ public class IdeaDAO_IT extends IntegrationTest {
         assertThrows(DataAccException.class, () -> {
             final Idea result = ideaDAO.loadById(1);
         });
+    }
+
+    @Test
+    public void insertShouldPersistIdea() {
+        final String expectedName = "name";
+        final Idea idea = createIdea(expectedName);
+
+        ideaDAO.insert(idea);
+
+        final List<Idea> result = ideaDAO.search(new SortCriteria());
+
+        assertEquals(expectedName, result.get(result.size() - 1).getName());
+    }
+
+    private Idea createIdea(String name) {
+        final UserForTesting user = new UserForTesting();
+        user.setId(1);
+
+        final Idea idea = new Idea();
+        idea.setUser(user);
+        idea.setCreationDate(Date.from(Instant.now()));
+        idea.setDescription("description");
+        idea.setCost("cost");
+        idea.setBenefits("benefits");
+        idea.setName(name);
+        return idea;
     }
 
 }

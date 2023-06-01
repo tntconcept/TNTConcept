@@ -1,14 +1,19 @@
 package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.Objective;
+import com.autentia.tnt.businessobject.ObjectiveState;
+import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.dao.DataAccException;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.ObjectiveSearch;
 import com.autentia.tnt.test.utils.IntegrationTest;
+import com.autentia.tnt.test.utils.UserForTesting;
 import com.autentia.tnt.util.SpringUtils;
 import org.hibernate.ObjectNotFoundException;
 import org.junit.Test;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -87,5 +92,31 @@ public class ObjectiveDAO_IT extends IntegrationTest {
         assertThrows(DataAccException.class, () -> {
             final Objective result = objectiveDAO.loadById(1);
         });
+    }
+
+    @Test
+    public void insertShouldPersistObjective() {
+        final String expectedName = "testname";
+        final Objective objective = createObjective(expectedName);
+
+        objectiveDAO.insert(objective);
+        final List<Objective> result = objectiveDAO.search(new SortCriteria());
+
+        assertEquals(expectedName, result.get(result.size() - 1).getName());
+    }
+
+    private Objective createObjective(String name) {
+        final UserForTesting user = new UserForTesting();
+        user.setId(1);
+        final Project project = new Project();
+        project.setId(1);
+
+        final Objective objective = new Objective();
+        objective.setName(name);
+        objective.setProject(project);
+        objective.setUser(user);
+        objective.setStartDate(Date.from(Instant.now()));
+        objective.setState(ObjectiveState.PENDING);
+        return objective;
     }
 }

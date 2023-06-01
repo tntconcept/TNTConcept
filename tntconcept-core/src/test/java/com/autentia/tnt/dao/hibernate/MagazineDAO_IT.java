@@ -88,4 +88,22 @@ public class MagazineDAO_IT extends IntegrationTest {
             final Magazine result = magazineDAO.loadById(1);
         });
     }
+
+    @Test
+    public void insertShouldPersistMagazine() {
+        final String expectedName = "name";
+        final Magazine magazine = createMagazine(expectedName);
+
+        magazineDAO.insert(magazine);
+        final List<Magazine> result = magazineDAO.search(new SortCriteria());
+
+        assertEquals(expectedName, result.get(result.size() - 1).getName());
+    }
+
+    private Magazine createMagazine(String magazineName) {
+        final Magazine magazine = new Magazine();
+        magazine.setName(magazineName);
+        magazine.setDescription("asd");
+        return magazine;
+    }
 }

@@ -7,6 +7,7 @@ import com.autentia.tnt.test.utils.IntegrationTest;
 import com.autentia.tnt.util.SpringUtils;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -67,6 +68,25 @@ public class IVATypeDAO_IT extends IntegrationTest {
         assertThrows(DataAccException.class, () -> {
             final IVAType result = ivaTypeDAO.loadById(1);
         });
+    }
+
+    @Test
+    public void insertShouldPersistIVAType() {
+        final String expectedName = "name";
+        final IVAType ivaType = createIVAType(expectedName);
+
+        ivaTypeDAO.insert(ivaType);
+        final List<IVAType> result = ivaTypeDAO.search(new SortCriteria());
+
+        assertEquals(expectedName, result.get(result.size() - 1).getName());
+    }
+
+    private IVAType createIVAType(String name) {
+        final IVAType ivaType = new IVAType();
+        ivaType.setName(name);
+        ivaType.setIva(BigDecimal.TEN);
+        ivaType.setId(5);
+        return ivaType;
     }
 
 }

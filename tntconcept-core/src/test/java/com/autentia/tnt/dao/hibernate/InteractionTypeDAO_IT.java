@@ -82,4 +82,22 @@ public class InteractionTypeDAO_IT extends IntegrationTest {
         });
     }
 
+    @Test
+    public void insertShouldPersistInteractionType() {
+        final String expectedName = "name";
+        final InteractionType interactionType = createInteractionType(expectedName);
+
+        interactionTypeDAO.insert(interactionType);
+        final List<InteractionType> result = interactionTypeDAO.search(new SortCriteria());
+
+        assertEquals(expectedName, result.get(result.size()-1).getName());
+    }
+
+    private InteractionType createInteractionType(String name) {
+        final InteractionType interactionType = new InteractionType();
+        interactionType.setName(name);
+        interactionType.setDescription("desc");
+        return interactionType;
+    }
+
 }

@@ -70,4 +70,24 @@ public class IVAReasonDAO_IT extends IntegrationTest {
             final IVAReason result = ivaReasonDAO.loadById(1);
         });
     }
+
+    @Test
+    public void insertShouldPersistIVAReason() {
+        final String expectedReason = "reason";
+        final IVAReason ivaReason = createIVAReason(expectedReason);
+
+        ivaReasonDAO.insert(ivaReason);
+        final List<IVAReason> result = ivaReasonDAO.search(new SortCriteria());
+
+        assertEquals(expectedReason, result.get(result.size()-1).getReason());
+    }
+
+    private IVAReason createIVAReason(String reason) {
+        final IVAReason ivaReason = new IVAReason();
+        ivaReason.setCode("12");
+        ivaReason.setReason(reason);
+        ivaReason.setExempt(true);
+        ivaReason.setId(100);
+        return ivaReason;
+    }
 }

@@ -90,4 +90,22 @@ public class LinkDAO_IT extends IntegrationTest {
         });
     }
 
+    @Test
+    public void insertShouldPersistLink() {
+        final String expectedLink = "link";
+        final Link link = createLink(expectedLink);
+
+        linkDAO.insert(link);
+        final List<Link> result = linkDAO.search(new SortCriteria());
+
+        assertEquals(expectedLink, result.get(result.size() - 1).getLink());
+    }
+
+    private Link createLink(String linkText) {
+        final Link link = new Link();
+        link.setUser("asd");
+        link.setLink(linkText);
+        return link;
+    }
+
 }
