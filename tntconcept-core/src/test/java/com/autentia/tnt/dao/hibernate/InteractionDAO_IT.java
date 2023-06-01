@@ -28,13 +28,6 @@ public class InteractionDAO_IT extends IntegrationTest {
         interactionDAO = (InteractionDAO) SpringUtils.getSpringBean("daoInteraction");
     }
 
-    @Override
-    public void rollback() throws SQLException {
-        super.rollback();
-        sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().connection().prepareStatement("ALTER TABLE Interaction AUTO_INCREMENT=0").execute();
-    }
-
     @Test
     public void shouldLoadById() {
         Interaction interaction = interactionDAO.loadById(1);
