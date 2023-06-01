@@ -105,6 +105,17 @@ public class OrganizationDAO_IT extends IntegrationTest {
         assertEquals(expectedName, result.get(result.size() - 1).getName());
     }
 
+    @Test
+    public void searchByOrganizationTypeShouldFindOrganizations() {
+        OrganizationTypeForTesting organizationType = new OrganizationTypeForTesting();
+        organizationType.setId(1);
+        organizationType.setName("Cliente");
+
+        final List<Organization> result = organizationDAO.searchByOrganizationTypes(new SortCriteria(), organizationType);
+
+        assert result.size() > 0;
+    }
+
     private Organization createOrganization(String name) {
         OrganizationTypeForTesting organizationType = new OrganizationTypeForTesting();
         organizationType.setId(1);

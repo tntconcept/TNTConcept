@@ -23,7 +23,6 @@
 <hibernate-mapping>
     <class name="com.autentia.tnt.businessobject.OrganizationDocCategory" table="OrganizationDocCategory" >
         <id name="id" type="java.lang.Integer">
-            <generator class="native"/>
         </id>
         <property name="code" type="java.lang.String" column="code"/>
         <property name="name" type="java.lang.String" column="name"/>
