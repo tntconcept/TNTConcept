@@ -22,7 +22,7 @@ public class TestContainer {
 
     @BeforeClass
     public static void initDB() {
-        mysql.setPortBindings(List.of("50400:3306"));
+        mysql.setPortBindings(List.of("50401:3306"));
         mysql.start();
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL(mysql.getJdbcUrl());
