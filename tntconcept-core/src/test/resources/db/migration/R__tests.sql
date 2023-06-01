@@ -36,3 +36,6 @@ values ('name', 'test@test.com', '11111111111111', '11111111111111', 1, 'test2@t
 
 insert into Offer (number, title, description, userId, organizationId, contactId, creationDate, offerPotential, offerState, observations, showIvaIntoReport)
 values ('123456', 'title1', 'description', 1, 1, 1, CURRENT_TIMESTAMP, 'HIGH', 'ACCEPTED', 'observations', 1);
+
+insert into OfferCost (offerId, name, cost, billable, units)
+values (1, 'name', 1.00, 1, 1.00);
