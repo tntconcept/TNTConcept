@@ -29,13 +29,6 @@ public class IdeaDAO_IT extends IntegrationTest {
         user.setId(1);
     }
 
-    @Override
-    public void rollback() throws SQLException {
-        super.rollback();
-        sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().connection().prepareStatement("ALTER TABLE Idea AUTO_INCREMENT=0").execute();
-    }
-
     @Test
     public void shouldLoadById() {
         final Idea result = ideaDAO.loadById(1);

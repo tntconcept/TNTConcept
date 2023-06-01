@@ -9,7 +9,6 @@ import com.autentia.tnt.util.SpringUtils;
 import org.hibernate.ObjectNotFoundException;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,17 +21,8 @@ public class MagazineDAO_IT extends IntegrationTest {
         magazineDAO = (MagazineDAO) SpringUtils.getSpringBean("daoMagazine");
     }
 
-    @Override
-    public void rollback() throws SQLException {
-        super.rollback();
-        sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().connection().prepareStatement("ALTER TABLE Magazine AUTO_INCREMENT=0").execute();
-    }
-
     @Test
     public void shouldLoadById() {
-        insertMagazine(magazineName);
-
         final Magazine result = magazineDAO.loadById(1);
 
         assertEquals(magazineName, result.getName());
@@ -47,8 +37,6 @@ public class MagazineDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldGetById() {
-        insertMagazine(magazineName);
-
         final Magazine result = magazineDAO.getById(1);
 
         assertEquals(magazineName, result.getName());
@@ -63,8 +51,6 @@ public class MagazineDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindMagazines() {
-        insertMagazine(magazineName);
-
         final List<Magazine> result = magazineDAO.search(new SortCriteria());
 
         assert (result.size() > 0);
@@ -72,7 +58,6 @@ public class MagazineDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindByCriteria() {
-        insertMagazine(magazineName);
         final MagazineSearch magazineSearch = new MagazineSearch();
         magazineSearch.setName(magazineName);
 
@@ -84,8 +69,6 @@ public class MagazineDAO_IT extends IntegrationTest {
     @Test
     public void updateShouldChangeObject() {
         final String updatedName = "change";
-        insertMagazine(magazineName);
-
         final Magazine magazine = magazineDAO.getById(1);
         magazine.setName(updatedName);
         magazineDAO.update(magazine);
@@ -97,7 +80,6 @@ public class MagazineDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldNotLoadByIdAfterDelete() {
-        insertMagazine(magazineName);
         final Magazine magazine = magazineDAO.getById(1);
 
         magazineDAO.delete(magazine);
@@ -105,13 +87,5 @@ public class MagazineDAO_IT extends IntegrationTest {
         assertThrows(DataAccException.class, () -> {
             final Magazine result = magazineDAO.loadById(1);
         });
-    }
-
-    private void insertMagazine(String name) {
-        Magazine magazine = new Magazine();
-        magazine.setName(name);
-        magazine.setDescription("description");
-
-        magazineDAO.insert(magazine);
     }
 }

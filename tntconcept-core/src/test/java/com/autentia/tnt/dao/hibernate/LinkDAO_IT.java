@@ -9,7 +9,6 @@ import com.autentia.tnt.util.SpringUtils;
 import org.hibernate.ObjectNotFoundException;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,17 +21,9 @@ public class LinkDAO_IT extends IntegrationTest {
         linkDAO = (LinkDAO) SpringUtils.getSpringBean("daoLink");
     }
 
-    @Override
-    public void rollback() throws SQLException {
-        super.rollback();
-        sessionFactory.getCurrentSession().beginTransaction();
-        sessionFactory.getCurrentSession().connection().prepareStatement("ALTER TABLE Link AUTO_INCREMENT=0").execute();
-    }
 
     @Test
     public void shouldLoadById() {
-        insertLink(linkText);
-
         final Link result = linkDAO.loadById(1);
 
         assertEquals(linkText, result.getLink());
@@ -47,8 +38,6 @@ public class LinkDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldGetById() {
-        insertLink(linkText);
-
         final Link result = linkDAO.getById(1);
 
         assertEquals(linkText, result.getLink());
@@ -63,8 +52,6 @@ public class LinkDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindLinks() {
-        insertLink(linkText);
-
         final List<Link> result = linkDAO.search(new SortCriteria());
 
         assert (result.size() > 0);
@@ -72,7 +59,6 @@ public class LinkDAO_IT extends IntegrationTest {
 
     @Test
     public void searchShouldFindByCriteria() {
-        insertLink(linkText);
         final LinkSearch linkSearch = new LinkSearch();
         linkSearch.setLink(linkText);
 
@@ -84,7 +70,6 @@ public class LinkDAO_IT extends IntegrationTest {
     @Test
     public void updateShouldChangeObject() {
         final String updatedLink = "change";
-        insertLink(linkText);
         final Link link = linkDAO.getById(1);
         link.setLink(updatedLink);
 
@@ -96,23 +81,13 @@ public class LinkDAO_IT extends IntegrationTest {
 
     @Test
     public void shouldNotLoadByIdAfterDelete() {
-        insertLink(linkText);
-        final Link link = linkDAO.loadById(1);
+        final Link link = linkDAO.getById(1);
 
         linkDAO.delete(link);
 
         assertThrows(DataAccException.class, () -> {
             final Link result = linkDAO.loadById(1);
         });
-    }
-
-
-    private void insertLink(String linkText) {
-        Link link = new Link();
-        link.setLink(linkText);
-        link.setUser("user");
-
-        linkDAO.insert(link);
     }
 
 }
