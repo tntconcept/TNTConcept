@@ -51,3 +51,6 @@ values (1, 'name', 10.00, 2, 10.00);
 
 insert into Book (name, author, ISBN, URL, price)
 values ('Test', 'Test', 'Test', 'http://url', 33.33);
+
+insert into BulletinBoard (categoryId, userId, creationDate, message, title, documentPath, documentContentType)
+values (1, 1, '2023-03-13', '', 'Test', '', '');
