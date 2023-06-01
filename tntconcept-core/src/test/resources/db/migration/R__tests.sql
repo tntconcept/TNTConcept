@@ -42,3 +42,6 @@ values (1, 'name', 1.00, 1, 1.00);
 
 insert into Bill (creationDate, paymentMode, state, number, name, observations, projectId, startBillDate, endBillDate, billType, orderNumber, contactId, providerId, accountId, submitted, billCategoryId, provideService, billRegimeId, deductibleIVAPercentage, freelanceIRPFPercentage)
 values ('2023-03-13', 'MONEY', 'EMITTED', 'Test-001', 'Test', '', 5, '2023-03-13', '2023-03-20', 'ISSUED', 'Order-Test-001', 1, 1, 1, 1, 1, 1, 1, 0, 15);
+
+insert into BillBreakDown (billId, concept, units, amount, iva)
+values (1, 'Test', 1.00, 777.77, 21.00);
