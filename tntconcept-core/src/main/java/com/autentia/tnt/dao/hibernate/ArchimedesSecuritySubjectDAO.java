@@ -64,7 +64,7 @@ public class ArchimedesSecuritySubjectDAO extends HibernateManagerBase<Archimede
     public ArchimedesSecuritySubject getByPrincipalName(final String principalName) throws DataNotFoundException {
         String columName = "principal_name";
         String tableName = "ArchimedesSecuritySubject";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         // where principal_name = principalName
         ArchimedesSecuritySubject archimedesSecuritySubject = (ArchimedesSecuritySubject) session.createQuery("from " + tableName + " where " + columName + " = :principalName")
                 .setParameter("principalName", principalName)
