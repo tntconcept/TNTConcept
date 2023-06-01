@@ -48,3 +48,6 @@ values (1, 'Test', 1.00, 777.77, 21.00);
 
 insert into OfferRole (offerId, name, costPerHour, expectedHours, iva)
 values (1, 'name', 10.00, 2, 10.00);
+
+insert into Book (name, author, ISBN, URL, price)
+values ('Test', 'Test', 'Test', 'http://url', 33.33);
