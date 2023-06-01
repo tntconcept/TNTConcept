@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class AccountDAO_IT extends IntegrationTest {
-
     final AccountDAO accountDAO;
 
     public AccountDAO_IT() {
