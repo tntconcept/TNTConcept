@@ -29,7 +29,10 @@ insert into RequestHoliday (beginDate, finalDate, state, userId, observations, u
 values ('2023-04-24', '2023-04-27', 'PENDING', 1, '', 'Test', '2023-04-24');
 
 insert into archimedes_security_subject (principal_name, attributes)
-values ('admin@autentia.com', '{"sub": "1"}')
+values ('admin@autentia.com', '{"sub": "1"}');
 
 insert into Contact (name, email, phone, mobile, notified, email2, phone2, fax, address, postalCode, city, country)
 values ('name', 'test@test.com', '11111111111111', '11111111111111', 1, 'test2@test.com', '22222222222222', '22222222222222', 'address', '28000', 'madrid', 'spain');
+
+insert into Offer (number, title, description, userId, organizationId, contactId, creationDate, offerPotential, offerState, observations, showIvaIntoReport)
+values ('123456', 'title1', 'description', 1, 1, 1, CURRENT_TIMESTAMP, 'HIGH', 'ACCEPTED', 'observations', 1);
