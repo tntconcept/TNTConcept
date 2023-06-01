@@ -7,3 +7,5 @@ insert into Interaction (creationDate, interest, description, file, fileMime, pr
 insert into Inventory (buyDate, cost, serialNumber, type, provider, trademark, model, speed, storage, ram, location, description, asignedToId) values (CURRENT_TIMESTAMP, 10.00, '1234', 'PC', 'provider', 'trademark', 'model', 'spped', 'storage', 'ram', 'location', 'test', 1);
 
 insert into Link (user, link) values ('user', 'link');
+
+insert into Magazine (name, description) values ('name', 'description');
