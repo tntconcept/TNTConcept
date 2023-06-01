@@ -21,3 +21,6 @@ insert into Magazine (name, description) values ('name', 'description');
 
 insert into Objective(userId, projectId, startDate, endDate, state, name) 
 values (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PENDING', 'name');
+
+insert into Occupation (projectid, userid, startdate, enddate, description, duration)
+values (1,1,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'description', 1);
