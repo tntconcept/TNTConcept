@@ -114,7 +114,7 @@ public class Contact extends TrackingBase implements Serializable,
 		return id;
 	}
 
-	private void setId(Integer id) {
+	protected void setId(Integer id) {
 		this.id = id;
 	}
 
