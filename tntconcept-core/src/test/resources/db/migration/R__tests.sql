@@ -18,3 +18,6 @@ values (1, '2023-05-24 09:00:00', 30, 1, 1, 'Test', 0, '2023-05-24 09:30:00', 'N
 insert into Link (user, link) values ('user', 'link');
 
 insert into Magazine (name, description) values ('name', 'description');
+
+insert into Objective(userId, projectId, startDate, endDate, state, name) 
+values (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PENDING', 'name');
