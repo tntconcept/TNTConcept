@@ -24,3 +24,6 @@ values (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PENDING', 'name');
 
 insert into Occupation (projectid, userid, startdate, enddate, description, duration)
 values (1,1,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'description', 1);
+
+insert into RequestHoliday (beginDate, finalDate, state, userId, observations, userComment, chargeYear)
+values ('2023-04-24', '2023-04-27', 'PENDING', 1, '', 'Test', '2023-04-24');
