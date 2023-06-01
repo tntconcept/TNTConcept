@@ -9,3 +9,5 @@ insert into Inventory (buyDate, cost, serialNumber, type, provider, trademark, m
 insert into Link (user, link) values ('user', 'link');
 
 insert into Magazine (name, description) values ('name', 'description');
+
+insert into Objective(userId, projectId, startDate, endDate, state, name) values (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PENDING', 'name');
