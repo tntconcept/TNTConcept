@@ -68,7 +68,13 @@ values (1, 1, 1);
 insert into Commissioning (requestDate, name, scope, content, products, deliveryDate, budget, notes, authorSignature,
                            reviserSignature, adminSignature, justifyInformation, developedActivities,
                            difficultiesAppeared, results, conclusions, evaluation, status, projectId)
-values (CURRENT_TIMESTAMP, 'Test', '', '', '', CURRENT_TIMESTAMP, 10.20, '', 0, 0, 0, 0, '', '', '', '', '', 'CREATED', 5);
+values (CURRENT_TIMESTAMP, 'Test', '', '', '', CURRENT_TIMESTAMP, 10.20, '', 0, 0, 0, 0, '', '', '', '', '', 'CREATED',
+        5);
 
 insert into CompanyState (userId, creationDate, description)
 values (1, CURRENT_TIMESTAMP, 'Test');
+
+insert into PeriodicalAccountEntry (id, accountId, accountEntryTypeId, frequencyId, concept, entryDate, amount, rise,
+                                    observations, ownerId, departmentId, organizationId, insertDate, updateDate)
+values (1, 1, 1, 1, "Concept", CURRENT_TIMESTAMP, 75.0, 5.0, "Observations", 1, 1, 1, CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP);
