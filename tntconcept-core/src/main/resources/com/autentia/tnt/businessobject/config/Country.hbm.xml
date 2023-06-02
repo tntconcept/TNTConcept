@@ -22,9 +22,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.autentia.tnt.businessobject.Country" table="Country" >
-        <id name="id" type="java.lang.Integer">
-            <generator class="native"/>
-        </id>
+        <id name="id" type="java.lang.Integer"></id>
         <property name="code" type="java.lang.Integer" column="code"/>
         <property name="iso3166a1" type="java.lang.String" column="iso3166a1"/>
         <property name="iso3166a2" type="java.lang.String" column="iso3166a2"/>
