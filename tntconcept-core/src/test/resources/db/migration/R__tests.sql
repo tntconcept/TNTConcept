@@ -69,3 +69,6 @@ insert into Commissioning (requestDate, name, scope, content, products, delivery
                            reviserSignature, adminSignature, justifyInformation, developedActivities,
                            difficultiesAppeared, results, conclusions, evaluation, status, projectId)
 values (CURRENT_TIMESTAMP, 'Test', '', '', '', CURRENT_TIMESTAMP, 10.20, '', 0, 0, 0, 0, '', '', '', '', '', 'CREATED', 5);
+
+insert into CompanyState (userId, creationDate, description)
+values (1, CURRENT_TIMESTAMP, 'Test');
