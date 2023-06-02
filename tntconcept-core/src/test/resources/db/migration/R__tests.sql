@@ -78,3 +78,6 @@ insert into PeriodicalAccountEntry (id, accountId, accountEntryTypeId, frequency
                                     observations, ownerId, departmentId, organizationId, insertDate, updateDate)
 values (1, 1, 1, 1, "Concept", CURRENT_TIMESTAMP, 75.0, 5.0, "Observations", 1, 1, 1, CURRENT_TIMESTAMP,
         CURRENT_TIMESTAMP);
+
+insert into CreditTitle (number, concept, amount, state, type, issueDate, organizationId, observations)
+values ('001', 'Test', 33.33, 'EMITTED', 'RECEIVED', CURRENT_TIMESTAMP, 1, '');
