@@ -57,6 +57,13 @@ public class BulletinBoardCategoryDAO_IT extends IntegrationTest {
     }
 
     @Test
+    public void getPublicCategoryShouldReturnExpectedBulletinBoardCategory() {
+        final BulletinBoardCategory bulletinBoardCategory = bulletinBoardCategoryDAO.getPublicCategory();
+
+        assertEquals("Publica", StringUtils.stripAccents(bulletinBoardCategory.getName()));
+    }
+
+    @Test
     public void searchShouldReturnMoreThanTheDefaultBulletinBoardCategory() {
         BulletinBoardCategory bulletinBoardCategory = createBulletinBoardCategory();
         bulletinBoardCategoryDAO.insert(bulletinBoardCategory);
