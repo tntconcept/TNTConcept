@@ -54,3 +54,6 @@ values ('Test', 'Test', 'Test', 'http://url', 33.33);
 
 insert into BulletinBoard (categoryId, userId, creationDate, message, title, documentPath, documentContentType)
 values (1, 1, '2023-03-13', '', 'Test', '', '');
+
+insert into Collaborator (userId, contactId, organizationId)
+values (1, 1, 1);
