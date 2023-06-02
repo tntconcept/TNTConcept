@@ -81,6 +81,28 @@ public class BulletinBoardDAO_IT extends IntegrationTest {
     }
 
     @Test
+    public void searchByUserShouldReturnExpectedBulletinBoard() {
+        UserForTesting user = new UserForTesting();
+        user.setId(1);
+
+        List<BulletinBoard> bulletinBoards = bulletinBoardDAO.searchByUser(user, new SortCriteria());
+
+        assert (bulletinBoards.size() == 1);
+        assertEquals("Test", bulletinBoards.get(0).getTitle());
+    }
+
+    @Test
+    public void searchByCategoryShouldReturnExpectedBulletinBoard() {
+        BulletinBoardCategoryForTesting category = new BulletinBoardCategoryForTesting();
+        category.setId(1);
+
+        List<BulletinBoard> bulletinBoards = bulletinBoardDAO.searchByCategory(category, new SortCriteria());
+
+        assert (bulletinBoards.size() == 1);
+        assertEquals("Test", bulletinBoards.get(0).getTitle());
+    }
+
+    @Test
     public void updateShouldChangeBulletinBoardName() {
         BulletinBoard bulletinBoardToUpdate = bulletinBoardDAO.getById(1);
         bulletinBoardToUpdate.setTitle("Update");
