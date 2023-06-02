@@ -92,10 +92,10 @@ public class PeriodicalAccountEntryDAO_IT extends IntegrationTest {
         final PeriodicalAccountEntrySearch periodicalAccountEntrySearch = new PeriodicalAccountEntrySearch();
         periodicalAccountEntrySearch.setConcept("Concept");
 
-        final List<PeriodicalAccountEntry> organizationISOCategories = periodicalAccountEntryDAO.search(periodicalAccountEntrySearch, new SortCriteria());
+        final List<PeriodicalAccountEntry> periodicalAccountEntries = periodicalAccountEntryDAO.search(periodicalAccountEntrySearch, new SortCriteria());
 
-        assertEquals(1, organizationISOCategories.size());
-        assertEquals("Concept", organizationISOCategories.get(0).getConcept());
+        assertEquals(1, periodicalAccountEntries.size());
+        assertEquals("Concept", periodicalAccountEntries.get(0).getConcept());
     }
 
     @Test
