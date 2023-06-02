@@ -15,15 +15,17 @@ values (CURRENT_TIMESTAMP, 10.00, '1234', 'PC', 'provider', 'trademark', 'model'
 insert into Activity (userId, start, duration, billable, roleId, description, hasEvidences, end, approvalState)
 values (1, '2023-05-24 09:00:00', 30, 1, 1, 'Test', 0, '2023-05-24 09:30:00', 'NA');
 
-insert into Link (user, link) values ('user', 'link');
+insert into Link (user, link)
+values ('user', 'link');
 
-insert into Magazine (name, description) values ('name', 'description');
+insert into Magazine (name, description)
+values ('name', 'description');
 
-insert into Objective(userId, projectId, startDate, endDate, state, name) 
+insert into Objective(userId, projectId, startDate, endDate, state, name)
 values (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PENDING', 'name');
 
 insert into Occupation (projectid, userid, startdate, enddate, description, duration)
-values (1,1,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'description', 1);
+values (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'description', 1);
 
 insert into RequestHoliday (beginDate, finalDate, state, userId, observations, userComment, chargeYear)
 values ('2023-04-24', '2023-04-27', 'PENDING', 1, '', 'Test', '2023-04-24');
@@ -32,16 +34,21 @@ insert into archimedes_security_subject (principal_name, attributes)
 values ('admin@autentia.com', '{"sub": "1"}');
 
 insert into Contact (name, email, phone, mobile, notified, email2, phone2, fax, address, postalCode, city, country)
-values ('name', 'test@test.com', '11111111111111', '11111111111111', 1, 'test2@test.com', '22222222222222', '22222222222222', 'address', '28000', 'madrid', 'spain');
+values ('name', 'test@test.com', '11111111111111', '11111111111111', 1, 'test2@test.com', '22222222222222',
+        '22222222222222', 'address', '28000', 'madrid', 'spain');
 
-insert into Offer (number, title, description, userId, organizationId, contactId, creationDate, offerPotential, offerState, observations, showIvaIntoReport)
+insert into Offer (number, title, description, userId, organizationId, contactId, creationDate, offerPotential,
+                   offerState, observations, showIvaIntoReport)
 values ('123456', 'title1', 'description', 1, 1, 1, CURRENT_TIMESTAMP, 'HIGH', 'ACCEPTED', 'observations', 1);
 
 insert into OfferCost (offerId, name, cost, billable, units)
 values (1, 'name', 1.00, 1, 1.00);
 
-insert into Bill (creationDate, paymentMode, state, number, name, observations, projectId, startBillDate, endBillDate, billType, orderNumber, contactId, providerId, accountId, submitted, billCategoryId, provideService, billRegimeId, deductibleIVAPercentage, freelanceIRPFPercentage)
-values ('2023-03-13', 'MONEY', 'EMITTED', 'Test-001', 'Test', '', 5, '2023-03-13', '2023-03-20', 'ISSUED', 'Order-Test-001', 1, 1, 1, 1, 1, 1, 1, 0, 15);
+insert into Bill (creationDate, paymentMode, state, number, name, observations, projectId, startBillDate, endBillDate,
+                  billType, orderNumber, contactId, providerId, accountId, submitted, billCategoryId, provideService,
+                  billRegimeId, deductibleIVAPercentage, freelanceIRPFPercentage)
+values ('2023-03-13', 'MONEY', 'EMITTED', 'Test-001', 'Test', '', 5, '2023-03-13', '2023-03-20', 'ISSUED',
+        'Order-Test-001', 1, 1, 1, 1, 1, 1, 1, 0, 15);
 
 insert into BillBreakDown (billId, concept, units, amount, iva)
 values (1, 'Test', 1.00, 777.77, 21.00);
@@ -57,3 +64,11 @@ values (1, 1, '2023-03-13', '', 'Test', '', '');
 
 insert into Collaborator (userId, contactId, organizationId)
 values (1, 1, 1);
+
+insert into Commissioning (requestDate, name, scope, content, products, deliveryDate, budget, notes, authorSignature,
+                           reviserSignature, adminSignature, justifyInformation, developedActivities,
+                           difficultiesAppeared, results, conclusions, evaluation, status, projectId)
+values (CURRENT_TIMESTAMP, 'Test', '', '', '', CURRENT_TIMESTAMP, 10.20, '', 0, 0, 0, 0, '', '', '', '', '', 'CREATED', 5);
+
+insert into CompanyState (userId, creationDate, description)
+values (1, CURRENT_TIMESTAMP, 'Test');
