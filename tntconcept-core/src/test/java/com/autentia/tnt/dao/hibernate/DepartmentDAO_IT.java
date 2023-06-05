@@ -29,7 +29,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void loadByIdShouldGetNullBook() {
+    public void loadByIdShouldGetNullDepartment() {
         final int departmentId = Integer.MAX_VALUE;
 
         final Department department = departmentDAO.loadById(departmentId);
@@ -38,7 +38,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
     }
 
     @Test
-    public void searchShouldReturnMoreThanTheDefaultBook() {
+    public void searchShouldReturnMoreThanTheDefaultDepartment() {
         Department department = createDepartment();
         departmentDAO.insert(department);
 
@@ -48,7 +48,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
     }
 
     @Test
-    public void searchByCriteriaShouldReturnExpectedBook() {
+    public void searchByCriteriaShouldReturnExpectedDepartment() {
         Department department = createDepartment();
         departmentDAO.insert(department);
 
@@ -60,7 +60,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
     }
 
     @Test
-    public void updateShouldChangeBookName() {
+    public void updateShouldChangeDepartmentName() {
         Department departmentToUpdate = departmentDAO.getById(1);
         departmentToUpdate.setName("Update");
 
@@ -71,7 +71,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
     }
 
     @Test
-    public void deleteShouldRemoveBook() {
+    public void deleteShouldRemoveDepartment() {
         Department departmentToDelete = departmentDAO.getById(1);
 
         departmentDAO.delete(departmentToDelete);
