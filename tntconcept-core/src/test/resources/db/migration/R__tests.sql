@@ -104,3 +104,6 @@ values ('STRING', 'Test', '');
 
 insert into DocumentVersion (documentPath, creationDate, version, documentid)
 values ('', CURRENT_TIMESTAMP, '1', 1);
+
+insert into Tag (name, description, ownerId, departmentId)
+values ('Test', '', 1, 1);
