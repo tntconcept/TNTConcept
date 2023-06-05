@@ -28,11 +28,11 @@
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.global.de.facturas.recibidas.no.desgravables.description"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha inicio" isForPrompting="true" class="java.util.Date">
+	<parameter name="Fecha inicio" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Date]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha fin" isForPrompting="true" class="java.util.Date">
+	<parameter name="Fecha fin" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Date]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>

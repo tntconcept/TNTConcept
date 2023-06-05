@@ -28,7 +28,7 @@
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.global.de.facturas.recibidas.intracomunitarias.description"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha inicio" isForPrompting="true" class="java.util.Date">
+	<parameter name="Fecha inicio" isForPrompting="true" class="java.sql.Timestamp">
 		<parameterDescription><![CDATA[Date]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
