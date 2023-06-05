@@ -28,13 +28,13 @@
 		<parameterDescription><![CDATA[description]]></parameterDescription>
 		<defaultValueExpression ><![CDATA["informe.global.de.facturas.recibidas.description"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha inicio" isForPrompting="true" class="java.util.Date">
-		<parameterDescription><![CDATA[Date]]></parameterDescription>
-		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
+	<parameter name="Fecha inicio" isForPrompting="true" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
+		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Fecha fin" isForPrompting="true" class="java.util.Date">
-		<parameterDescription><![CDATA[Date]]></parameterDescription>
-		<defaultValueExpression ><![CDATA[new Date()]]></defaultValueExpression>
+	<parameter name="Fecha fin" isForPrompting="true" class="java.sql.Timestamp">
+		<parameterDescription><![CDATA[Timestamp]]></parameterDescription>
+		<defaultValueExpression ><![CDATA[new java.sql.Timestamp(new Date().getTime())]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_H" isForPrompting="true" class="java.lang.String">
 		<parameterDescription><![CDATA[Subreport]]></parameterDescription>
@@ -81,7 +81,7 @@ from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o
 where b.billType='recieved'
 and bb.billId=b.id
 and b.providerId = o.id
-and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
+and b.insertDate between $P{Fecha inicio} and $P{Fecha fin}
 group by number
 order by b.creationDate asc, o.name asc]]></queryString>
 
