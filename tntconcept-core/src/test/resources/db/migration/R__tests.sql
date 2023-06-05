@@ -101,3 +101,6 @@ values ('publicationname', 1, 1);
 
 insert into Setting (type, name, value)
 values ('STRING', 'Test', '');
+
+insert into DocumentVersion (documentPath, creationDate, version, documentid)
+values ('', CURRENT_TIMESTAMP, '1', 1);
