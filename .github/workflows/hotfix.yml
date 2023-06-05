@@ -67,9 +67,9 @@ jobs:
     permissions:
       contents: write
       packages: write
-    needs: [ prepare-release ]
+    needs: [ prepare-hotfix ]
     env:
-      NEXT_RELEASE: ${{ needs.prepare-release.outputs.HOTFIX_VERSION }}
+      NEXT_RELEASE: ${{ needs.prepare-hotfix.outputs.HOTFIX_VERSION }}
 
     steps:
       - uses: actions/checkout@v3
