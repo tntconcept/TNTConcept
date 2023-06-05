@@ -21,10 +21,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.autentia.tnt.businessobject.RectifiedBillCategory" table="RectifiedBillCategory" >
-        <id name="id" type="java.lang.Integer">
-            <generator class="native"/>
-        </id>
+    <class name="com.autentia.tnt.businessobject.RectifiedBillCategory" table="RectifiedBillCategory">
+        <id name="id" type="java.lang.Integer"></id>
         <property name="code" type="java.lang.String" column="code"/>
         <property name="name" type="java.lang.String" column="name"/>
 
