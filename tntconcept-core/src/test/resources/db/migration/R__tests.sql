@@ -98,3 +98,6 @@ values ('Test', CURRENT_TIMESTAMP, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0
 
 insert into Publication (name, magazineId, accepted)
 values ('publicationname', 1, 1);
+
+insert into Setting (type, name, value)
+values ('STRING', 'Test', '');
