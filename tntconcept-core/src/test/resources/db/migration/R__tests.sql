@@ -81,3 +81,6 @@ values (1, 1, 1, 1, "Concept", CURRENT_TIMESTAMP, 75.0, 5.0, "Observations", 1, 
 
 insert into CreditTitle (number, concept, amount, state, type, issueDate, organizationId, observations)
 values ('001', 'Test', 33.33, 'EMITTED', 'RECEIVED', CURRENT_TIMESTAMP, 1, '');
+
+insert into ProjectCost (id, projectId, name, cost, billable, ownerId, departmentId, insertDate, updateDate)
+values (1, 1, 'Cost', 2.0, true, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
