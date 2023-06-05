@@ -107,3 +107,6 @@ values ('', CURRENT_TIMESTAMP, '1', 1);
 
 insert into Tag (name, description, ownerId, departmentId)
 values ('Test', '', 1, 1);
+
+insert into Tutorial (userid, maxDeliveryDate, name, description)
+values (1, CURRENT_TIMESTAMP, 'Test', '');
