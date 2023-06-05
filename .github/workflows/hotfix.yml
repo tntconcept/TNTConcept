@@ -69,7 +69,7 @@ jobs:
       packages: write
     needs: [ prepare-hotfix ]
     env:
-      NEXT_RELEASE: ${{ needs.prepare-hotfix.outputs.HOTFIX_VERSION }}
+      HOTFIX_VERSION: ${{ needs.prepare-hotfix.outputs.HOTFIX_VERSION }}
 
     steps:
       - uses: actions/checkout@v3
