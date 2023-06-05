@@ -81,7 +81,7 @@ from Bill b left join BillBreakDown bb on b.id=bb.billId, Organization o
 where b.billType='recieved'
 and bb.billId=b.id
 and b.providerId = o.id
-and b.insertDate between $P{Fecha inicio} and $P{Fecha fin}
+and b.creationDate between $P{Fecha inicio} and $P{Fecha fin}
 group by number
 order by b.creationDate asc, o.name asc]]></queryString>
 
