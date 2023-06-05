@@ -46,7 +46,7 @@ public class PublicationDAO_IT extends IntegrationTest {
 
     @Test
     public void getByIdShouldReturnNullWhenIdDoesntExists() {
-        final Publication result = publicationDAO.loadById(100);
+        final Publication result = publicationDAO.getById(100);
 
         assertNull(result);
     }
