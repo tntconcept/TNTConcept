@@ -95,3 +95,6 @@ insert into FinancialRatio (title, ratioDate, banksAccounts, customers, stocks, 
                             shortTermLiability, obligationBond, capital, reserves, incomes, expenses,
                             otherExploitationExpenses, financialExpenses, taxes)
 values ('Test', CURRENT_TIMESTAMP, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00);
+
+insert into Publication (name, magazineId, accepted)
+values ('publicationname', 1, 1);
