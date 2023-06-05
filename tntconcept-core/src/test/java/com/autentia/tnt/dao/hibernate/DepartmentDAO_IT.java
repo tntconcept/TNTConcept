@@ -2,6 +2,8 @@ package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.Contact;
 import com.autentia.tnt.businessobject.Department;
+import com.autentia.tnt.businessobject.Position;
+import com.autentia.tnt.businessobject.Tag;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.DepartmentSearch;
 import com.autentia.tnt.test.utils.IntegrationTest;
@@ -10,14 +12,16 @@ import org.hibernate.ObjectNotFoundException;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class DepartmentDAO_IT extends IntegrationTest {
     final DepartmentDAO departmentDAO;
 
-    public DepartmentDAO_IT() { departmentDAO = (DepartmentDAO) SpringUtils.getSpringBean("daoDepartment");}
+    public DepartmentDAO_IT() {
+        departmentDAO = (DepartmentDAO) SpringUtils.getSpringBean("daoDepartment");
+    }
 
     @Test
     public void loadByIdShouldLoadDepartment() {
@@ -44,7 +48,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
 
         List<Department> departments = departmentDAO.search(new SortCriteria());
 
-        assert(departments.size() > 1);
+        assert (departments.size() > 1);
     }
 
     @Test
@@ -56,7 +60,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
         departmentSearch.setName(department.getName());
         List<Department> departments = departmentDAO.search(departmentSearch, new SortCriteria());
 
-        assert(departments.size() == 1);
+        assert (departments.size() == 1);
     }
 
     @Test
@@ -86,7 +90,7 @@ public class DepartmentDAO_IT extends IntegrationTest {
 
         List<Contact> contacts = departmentDAO.getContactsForDepartment(department);
         System.out.println(contacts.size());
-        assert(contacts.size() == 0);
+        assert (contacts.size() == 0);
     }
 
     @Test
@@ -97,7 +101,22 @@ public class DepartmentDAO_IT extends IntegrationTest {
 
         List<Department> childrenDepartments = departmentDAO.getChildrenDepartments(parentDepartment);
 
-        assert(childrenDepartments.size() > 1);
+        assert (childrenDepartments.size() > 1);
+    }
+
+    @Test
+    public void addPositionToDepartment() {
+        final Department department = departmentDAO.getById(1);
+        final Position position = createPosition();
+        final Tag tag = position.getTags().stream().findFirst().get();
+        department.setPositions(Set.of(position));
+
+        departmentDAO.update(department);
+
+        final Department departmentUpdated = departmentDAO.getById(1);
+        assertEquals(1, departmentUpdated.getPositions().size());
+        assertTrue(departmentUpdated.getPositions().contains(position));
+        assertTrue(departmentUpdated.getPositions().stream().findFirst().get().getTags().contains(tag));
     }
 
     private Department createDepartment() {
@@ -108,6 +127,28 @@ public class DepartmentDAO_IT extends IntegrationTest {
         department.setParent(parentDepartment);
 
         return department;
+    }
+
+    private Position createPosition() {
+        final Position position = new Position();
+        position.setName("Position");
+        position.setDescription("PositionDescription");
+        position.setEmail("position@test.com");
+        position.setFax("positionFax");
+        position.setAddress("positionAddress");
+        position.setPostalCode("12345");
+        position.setCity("positionCity");
+        position.setCountry("positionCountry");
+        position.setPhone("positionPhone");
+        position.setTags(Set.of(createTag()));
+        return position;
+    }
+
+    private Tag createTag() {
+        final Tag tag = new Tag();
+        tag.setName("Tag");
+        tag.setDescription("Description");
+        return tag;
     }
 
 }
