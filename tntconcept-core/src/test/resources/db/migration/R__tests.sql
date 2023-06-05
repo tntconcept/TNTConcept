@@ -87,3 +87,8 @@ values (1, 1, 'Cost', 2.0, true, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 insert into Holiday (description, date)
 values ('Test', CURRENT_TIMESTAMP);
+
+insert into FinancialRatio (title, ratioDate, banksAccounts, customers, stocks, amortizations, infrastructures,
+                            shortTermLiability, obligationBond, capital, reserves, incomes, expenses,
+                            otherExploitationExpenses, financialExpenses, taxes)
+values ('Test', CURRENT_TIMESTAMP, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00);
