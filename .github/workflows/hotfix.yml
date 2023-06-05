@@ -1,0 +1,106 @@
+name: Hotfix
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_branch:
+        type: string
+        description: 'Hotfix source branch'
+        required: true
+
+jobs:
+  prepare-hotfix:
+    runs-on: ubuntu-latest
+    outputs:
+      HOTFIX_VERSION: ${{ env.HOTFIX_VERSION }}
+
+    steps:
+      - name: Check branch name
+        run: |
+          if [[ "${{ inputs.from_branch }}" == "main" ]]; then
+              echo "Error: It is not allowed to create a hotfix from main, use Release Action instead"
+              exit 1
+          fi
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
+          server-id: "github"
+
+      - name: Check if hotfix tag already exists
+        run: |
+          POM_VERSION=$(./mvnw -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+          HOTFIX_VERSION=$(echo $POM_VERSION | grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+')
+          echo "HOTFIX_VERSION=$HOTFIX_VERSION" >> $GITHUB_ENV
+
+          exist_in_remote=$(git ls-remote --tags --heads origin --quiet refs/tags/${{ env.HOTFIX_VERSION }})
+
+          if [[ ! -z "${exist_in_remote}" ]]; then
+            echo "Error: The hotfix ${{ env.HOTFIX_VERSION }} tag already exists"
+            exit 1
+          fi
+
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Install dependencies needed
+        run: $GITHUB_WORKSPACE/install_dependencies.sh
+
+      - name: Prepare Maven release
+        run: |
+          version_parts_array=($(echo "${{ env.HOTFIX_VERSION }}" | tr '.' '\n'))
+          version_parts_array[2]=$((version_parts_array[2]+1))
+          next_development_parts=$(IFS='.'; echo "${version_parts_array[*]}")
+          NEXT_DEVELOPMENT=${next_development_parts}-SNAPSHOT
+          ./mvnw --batch-mode release:prepare -DdevelopmentVersion=${NEXT_DEVELOPMENT}
+
+  upload-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    needs: [ prepare-release ]
+    env:
+      NEXT_RELEASE: ${{ needs.prepare-release.outputs.HOTFIX_VERSION }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.HOTFIX_VERSION }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
+          server-id: "github"
+
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Install dependencies needed
+        run: $GITHUB_WORKSPACE/install_dependencies.sh
+
+      - name: Create docker Release
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          ./mvnw --batch-mode clean install jib:build -Ddocker.tag=${{ env.HOTFIX_VERSION }}
+          docker logout ghcr.io
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          artifacts: "tntconcept-web/target/*.war"
+          tag: ${{ env.HOTFIX_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
