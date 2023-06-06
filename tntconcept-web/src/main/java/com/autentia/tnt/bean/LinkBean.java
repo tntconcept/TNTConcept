@@ -122,25 +122,20 @@ public class LinkBean extends BaseBean {
 	public void sendMail(Link link, String mailAddress) {
 		DefaultMailService mailService = getMailService();
 		try {
-			ExternalContext externalContext = getFacesExternalContext();
-			HttpServletRequest req = (HttpServletRequest) externalContext.getRequest();
-			String verificationLink =buildResetPasswordVerificationLink(req, link);
+			String verificationLink = buildResetPasswordVerificationLink(link);
 			
 			mailService.send(mailAddress, "[RESETEO DE CONTRASEÑA] Email de verificación",
-					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: "+verificationLink);
+					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: " + verificationLink);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private String buildResetPasswordVerificationLink(HttpServletRequest req, Link link) {
-		String url = req.getRequestURL().toString();
-		int requestPathIndex = url.length() - req.getRequestURI().length();
-		String appPath = url.substring(0, requestPathIndex) + req.getContextPath();
+	private String buildResetPasswordVerificationLink(Link link) {
+
+		String entryPoint = ConfigurationUtil.getDefault().getTntconceptUrl() + LINK_ENTRYPOINT_PATH;
 		
-		String entryPoint = appPath+LINK_ENTRYPOINT_PATH;
-		
-		return entryPoint+"?link="+link.getLink();
+		return entryPoint + "?link=" + link.getLink();
 	}
 
 	protected ExternalContext getFacesExternalContext() {
