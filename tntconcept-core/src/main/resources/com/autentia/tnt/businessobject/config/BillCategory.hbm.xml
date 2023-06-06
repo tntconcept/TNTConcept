@@ -22,9 +22,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.autentia.tnt.businessobject.BillCategory" table="BillCategory" >
-        <id name="id" type="java.lang.Integer">
-            <generator class="native"/>
-        </id>
+        <id name="id" type="java.lang.Integer"></id>
         <property name="code" type="java.lang.String" column="code"/>
         <property name="name" type="java.lang.String" column="name"/>
         <property name="rectify" type="java.lang.Boolean" column="rectify"/>

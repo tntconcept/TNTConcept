@@ -41,6 +41,7 @@
     <bean id="daoAccountType" class="com.autentia.tnt.dao.hibernate.AccountTypeDAO"/>
     <bean id="daoActivity" class="com.autentia.tnt.dao.hibernate.ActivityDAO"/>
     <bean id="daoAdminHoliday" class="com.autentia.tnt.dao.hibernate.AdminHolidayDAO"/>
+    <bean id="daoArchimedesSecuritySubject" class="com.autentia.tnt.dao.hibernate.ArchimedesSecuritySubjectDAO" />
     <bean id="daoBill" class="com.autentia.tnt.dao.hibernate.BillDAO"/>
     <bean id="daoBook" class="com.autentia.tnt.dao.hibernate.BookDAO"/>
     <bean id="daoBulletinBoardCategory" class="com.autentia.tnt.dao.hibernate.BulletinBoardCategoryDAO"/>
@@ -101,6 +102,7 @@
     <bean id="daoPosition" class="com.autentia.tnt.dao.hibernate.PositionDAO"/>
     <bean id="daoTag" class="com.autentia.tnt.dao.hibernate.TagDAO"/>
     <bean id="daoEntityChange" class="com.autentia.tnt.tracking.hibernate.dao.EntityChangeDAO"/>
+    <bean id="daoLink" class="com.autentia.tnt.dao.hibernate.LinkDAO"/>
 
     <!-- Managers -->
     <bean id="managerAccountEntry" class="com.autentia.tnt.manager.account.AccountEntryManager">

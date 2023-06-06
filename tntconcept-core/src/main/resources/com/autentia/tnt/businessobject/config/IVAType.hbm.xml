@@ -23,7 +23,6 @@
 <hibernate-mapping>
     <class name="com.autentia.tnt.businessobject.IVAType" table="IVAType" >
         <id name="id" type="java.lang.Integer">
-            <generator class="native"/>
         </id>
         <property name="iva" type="java.math.BigDecimal" not-null="true" column="iva"/>
         <property name="name" type="java.lang.String" column="name"/>

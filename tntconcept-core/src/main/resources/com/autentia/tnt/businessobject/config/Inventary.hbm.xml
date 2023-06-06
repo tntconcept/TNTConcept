@@ -43,7 +43,7 @@
         <param name="enumClassName">com.autentia.tnt.businessobject.InventaryType</param>
       </type>
     </property>
-    <many-to-one name="assignedTo" class="com.autentia.tnt.businessobject.User" column="asignedToId" />
+    <many-to-one name="assignedTo" class="com.autentia.tnt.businessobject.User" column="asignedToId" not-null="false" />
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>

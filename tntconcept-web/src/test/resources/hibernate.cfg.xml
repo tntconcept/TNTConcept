@@ -24,7 +24,7 @@
 
     <!-- DataSource to use -->
     <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mysql://localhost:50400/tntconcept?useSSL=false</property>
+    <property name="connection.url">jdbc:mysql://localhost:50401/tntconcept?useSSL=false</property>
     <property name="connection.username">tntconcept</property>
     <property name="connection.password">tntconcept</property>
     <property name="connection.pool_size">20</property>
