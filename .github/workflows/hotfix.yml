@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
+          ref: ${{ inputs.from_branch }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -67,9 +68,9 @@ jobs:
     permissions:
       contents: write
       packages: write
-    needs: [ prepare-release ]
+    needs: [ prepare-hotfix ]
     env:
-      NEXT_RELEASE: ${{ needs.prepare-release.outputs.HOTFIX_VERSION }}
+      HOTFIX_VERSION: ${{ needs.prepare-hotfix.outputs.HOTFIX_VERSION }}
 
     steps:
       - uses: actions/checkout@v3
