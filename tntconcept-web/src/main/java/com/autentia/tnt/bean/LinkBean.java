@@ -38,10 +38,14 @@ import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.SpringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class LinkBean extends BaseBean {
 	
 	private static final String LINK_ENTRYPOINT_PATH = "/linkEmailVerification.jsf";
+
+	private final Log logger = LogFactory.getLog(this.getClass());
 
 	/** Manager */
 	private static LinkManager manager = LinkManager.getDefault();
@@ -126,7 +130,7 @@ public class LinkBean extends BaseBean {
 			mailService.send(mailAddress, "[RESETEO DE CONTRASEÑA] Email de verificación",
 					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: " + verificationLink);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 	
