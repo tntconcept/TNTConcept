@@ -8,15 +8,12 @@ import com.autentia.tnt.manager.admin.UserManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 
-import javax.faces.context.ExternalContext;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;

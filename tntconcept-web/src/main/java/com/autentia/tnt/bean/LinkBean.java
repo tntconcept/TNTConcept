@@ -26,7 +26,6 @@ import java.util.Random;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 
 import com.autentia.tnt.businessobject.Link;
 import com.autentia.tnt.businessobject.User;
