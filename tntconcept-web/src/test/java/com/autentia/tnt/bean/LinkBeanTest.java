@@ -8,15 +8,12 @@ import com.autentia.tnt.manager.admin.UserManager;
 import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 
-import javax.faces.context.ExternalContext;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,7 +34,6 @@ public class LinkBeanTest {
 	final static ConfigurationUtil configurationUtil = mock(ConfigurationUtil.class);
 
 	private static DefaultMailService mailService = Mockito.mock(DefaultMailService.class);
-	private static ExternalContext externalContext = Mockito.mock(ExternalContext.class);
 	
 	private final LinkBean sut = new LinkBean();
 	private final LinkBean sutMock = mock(LinkBean.class, CALLS_REAL_METHODS);
@@ -49,23 +45,13 @@ public class LinkBeanTest {
 		when(ctx.getBean("userDetailsService")).thenReturn(authManager);
 		when(ctx.getBean("mailService")).thenReturn(mailService);
 		when(ctx.getBean("configuration")).thenReturn(configurationUtil);
+
 		
 		SpringUtils.configureTest(ctx);
 
 
 	}
-	
-	@Before
-	public void setExternalContext() {
-		doReturn(externalContext).when(sutMock).getFacesExternalContext();
 
-		HttpServletRequest req = mock(HttpServletRequest.class);
-		doReturn(req).when(externalContext).getRequest();
-		StringBuffer url = new StringBuffer("http://localhost:8080/tntconcept/passwordChangeForm.jsf");
-		doReturn(url).when(req).getRequestURL();
-		doReturn("/tntconcept/passwordChangeForm.jsf").when(req).getRequestURI();
-		doReturn("/tntconcept").when(req).getContextPath();
-	}
 	
 	@Test
 	public void shouldCheckLinkIsOnTime() {
@@ -112,7 +98,9 @@ public class LinkBeanTest {
 		Link link = new Link();
 		link.setLink("dgfjhsadgflkjasghajksdhfk");
 		String mailAddress = "test@mail.com";
-		
+
+		doReturn("http://localhost:8080/tntconcept").when(configurationUtil).getTntconceptUrl();
+
 		sutMock.sendMail(link, mailAddress);
 				
 		verify(mailService).send(mailAddress, "[RESETEO DE CONTRASEÑA] Email de verificación",
@@ -130,7 +118,6 @@ public class LinkBeanTest {
 		Link testLink = new Link();
 		testLink.setLink("randomLink");
 		doReturn(testUser).when(sutMock).getUserByName("testName");
-		doReturn(externalContext).when(sutMock).getFacesExternalContext();
 		doReturn(testLink).when(sutMock).generateLink("testName");
 		
 		String result = sutMock.passwordResetRequest();

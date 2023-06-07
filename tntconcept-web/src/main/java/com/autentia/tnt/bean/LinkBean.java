@@ -26,7 +26,6 @@ import java.util.Random;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 
 import com.autentia.tnt.businessobject.Link;
 import com.autentia.tnt.businessobject.User;
@@ -39,22 +38,19 @@ import com.autentia.tnt.manager.security.AuthenticationManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.FacesUtils;
 import com.autentia.tnt.util.SpringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class LinkBean extends BaseBean {
 	
 	private static final String LINK_ENTRYPOINT_PATH = "/linkEmailVerification.jsf";
 
-	/** Manager */
+	private final Log logger = LogFactory.getLog(this.getClass());
+
 	private static LinkManager manager = LinkManager.getDefault();
 
-	/**
-	 * UserManager
-	 */
 	private static UserManager userManager = UserManager.getDefault();
 
-	/**
-	 * Default authentication manager
-	 */
 	private static final AuthenticationManager authManager = AuthenticationManager.getDefault();
 
 	private String name;
@@ -122,25 +118,20 @@ public class LinkBean extends BaseBean {
 	public void sendMail(Link link, String mailAddress) {
 		DefaultMailService mailService = getMailService();
 		try {
-			ExternalContext externalContext = getFacesExternalContext();
-			HttpServletRequest req = (HttpServletRequest) externalContext.getRequest();
-			String verificationLink =buildResetPasswordVerificationLink(req, link);
+			String verificationLink = buildResetPasswordVerificationLink(link);
 			
 			mailService.send(mailAddress, "[RESETEO DE CONTRASEÑA] Email de verificación",
-					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: "+verificationLink);
+					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: " + verificationLink);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			logger.error("Error sending password recovery email", e);
 		}
 	}
 	
-	private String buildResetPasswordVerificationLink(HttpServletRequest req, Link link) {
-		String url = req.getRequestURL().toString();
-		int requestPathIndex = url.length() - req.getRequestURI().length();
-		String appPath = url.substring(0, requestPathIndex) + req.getContextPath();
+	private String buildResetPasswordVerificationLink(Link link) {
+
+		String entryPoint = ConfigurationUtil.getDefault().getTntconceptUrl() + LINK_ENTRYPOINT_PATH;
 		
-		String entryPoint = appPath+LINK_ENTRYPOINT_PATH;
-		
-		return entryPoint+"?link="+link.getLink();
+		return entryPoint + "?link=" + link.getLink();
 	}
 
 	protected ExternalContext getFacesExternalContext() {
