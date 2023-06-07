@@ -47,17 +47,10 @@ public class LinkBean extends BaseBean {
 
 	private final Log logger = LogFactory.getLog(this.getClass());
 
-	/** Manager */
 	private static LinkManager manager = LinkManager.getDefault();
 
-	/**
-	 * UserManager
-	 */
 	private static UserManager userManager = UserManager.getDefault();
 
-	/**
-	 * Default authentication manager
-	 */
 	private static final AuthenticationManager authManager = AuthenticationManager.getDefault();
 
 	private String name;
@@ -130,7 +123,7 @@ public class LinkBean extends BaseBean {
 			mailService.send(mailAddress, "[RESETEO DE CONTRASEÑA] Email de verificación",
 					"Haz click en el siguiente link para verificar que eres tú si quieres cambiar la contraseña: " + verificationLink);
 		} catch (MessagingException e) {
-			logger.error(e.getMessage(), e);
+			logger.error("Error sending password recovery email", e);
 		}
 	}
 	
