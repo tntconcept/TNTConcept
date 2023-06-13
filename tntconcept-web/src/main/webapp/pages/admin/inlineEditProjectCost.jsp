@@ -49,12 +49,12 @@
     <h:column>
 
         <f:facet name="header">
-            <h:outputText value="*#{msg['projectCost.date']}" styleClass="editListHeader"/>
+            <h:outputText value="*#{msg['projectCost.allocationDate']}" styleClass="editListHeader"/>
         </f:facet>
 
         <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="date"/>
-            <t:inputCalendar id="date" value="#{item.date}"
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="allocationDate"/>
+            <t:inputCalendar id="allocationDate" value="#{item.allocationDate}"
                              required="true" styleClass="requiredFieldClass"
                              renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true"
                              popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"

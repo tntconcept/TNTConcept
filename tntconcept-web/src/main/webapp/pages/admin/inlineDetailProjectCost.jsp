@@ -62,12 +62,12 @@
     <h:column>
 
         <f:facet name="header">
-            <h:outputText value="#{msg['projectCost.date']}" styleClass="detailListHeader"/>
+            <h:outputText value="#{msg['projectCost.allocationDate']}" styleClass="detailListHeader"/>
         </f:facet>
 
         <%-- Field: date --%>
 
-        <h:outputText value="#{item.date}" />
+        <h:outputText value="#{item.allocationDate}" />
 
     </h:column>
   
