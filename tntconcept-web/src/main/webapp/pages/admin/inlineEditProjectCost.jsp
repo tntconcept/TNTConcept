@@ -74,7 +74,7 @@
 
         <h:panelGroup>
             <h:message styleClass="error" showSummary="true" showDetail="false" for="name"/>
-            <h:inputText id="name" value="#{item.name}" maxlength="128" required="true"
+            <h:inputText id="name" value="#{item.name}" size="60" maxlength="128" required="true"
                          styleClass="requiredFieldClass"/>
         </h:panelGroup>
 
