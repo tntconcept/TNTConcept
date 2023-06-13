@@ -49,7 +49,7 @@ public class ProjectCost implements Serializable, ITransferObject
     
   private Integer id;
 
-      
+  private Date date;
       
   private String name;
 
@@ -94,9 +94,14 @@ public class ProjectCost implements Serializable, ITransferObject
   private void setId( Integer id ) {
     this.id = id;
   }
-      
-  
-  
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
   public String getName() {
     return name;
   }

@@ -52,14 +52,24 @@
     cellpadding="0" cellspacing="0" styleClass="detailListTable" 
     headerClass="detailListHeaderCell" footerClass="detailListFooter" 
     rows="#{settingBean.mySettings.listSize}" rowClasses="detailListRowO,detailListRowE"
-    columnClasses="listCmdCell,detailListProjectCostName,detailListProjectCostCost,detailListProjectCostBillable">
+    columnClasses="listCmdCell,detailListProjectCostDate,detailListProjectCostName,detailListProjectCostCost,detailListProjectCostBillable">
 
 
   
       <%-- Ignored field: id --%>
-  
-  
-  
+
+
+    <h:column>
+
+        <f:facet name="header">
+            <h:outputText value="#{msg['projectCost.date']}" styleClass="detailListHeader"/>
+        </f:facet>
+
+        <%-- Field: date --%>
+
+        <h:outputText value="#{item.date}" />
+
+    </h:column>
   
     	
   	<h:column>

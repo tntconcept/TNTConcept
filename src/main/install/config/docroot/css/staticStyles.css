@@ -4368,42 +4368,54 @@ vertical-align: top;
 
   padding: 2px 0 0 2px;
  }
-  
+
 .editListProjectCostName {
-vertical-align: top;
-padding: 2px 0 0 2px;
+    vertical-align: top;
+    padding: 2px 0 0 2px;
 
-  width: 50%;
- }
- 
+    width: 45%;
+}
+
 .detailListProjectCostName {
-vertical-align: top;
-padding: 2px 0 0 2px;
+    vertical-align: top;
+    padding: 2px 0 0 2px;
 
-  width: 50%;
- }
-  
-  
+    width: 45%;
+}
+
+.editListProjectCostDate {
+    vertical-align: top;
+    padding: 2px 0 0 2px;
+    width: 15%;
+}
+
+.detailListProjectCostDate {
+    vertical-align: top;
+    padding: 2px 0 0 2px;
+    width: 15%;
+}
+
+
 .listProjectCostCost {
-vertical-align: top;
+    vertical-align: top;
 
 
-  padding: 2px 0 0 2px;
- }
-  
+    padding: 2px 0 0 2px;
+}
+
 .editListProjectCostCost {
-vertical-align: top;
-padding: 2px 0 0 2px;
+    vertical-align: top;
+    padding: 2px 0 0 2px;
 
-  width: 25%;
- }
- 
+    width: 20%;
+}
+
 .detailListProjectCostCost {
-vertical-align: top;
-padding: 2px 0 0 2px;
+    vertical-align: top;
+    padding: 2px 0 0 2px;
 
-  width: 25%;
- }
+    width: 20%;
+}
   
   
 .listProjectCostBillable {
