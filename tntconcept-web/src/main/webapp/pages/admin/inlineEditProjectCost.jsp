@@ -17,7 +17,7 @@
 
 --%>
 
-<%@page language="java" contentType="text/html; charset=UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" %>
 
 <%@include file="/inc/tlibs.jsp" %>
 
@@ -28,101 +28,105 @@
              cellpadding="0" cellspacing="0" styleClass="editListTable"
              headerClass="editListHeaderCell" footerClass="editListFooter"
              rows="#{settingBean.mySettings.listSize}" rowClasses="editListRowO,editListRowE"
-             columnClasses="listCmdCell,editListProjectCostName,editListProjectCostCost,editListProjectCostBillable">
+             columnClasses="listCmdCell,editListProjectCostDate,editListProjectCostName,editListProjectCostCost,editListProjectCostBillable">
 
-  <%-- Commands --%>
-  <h:column>
-    <f:facet name="header">
-      <t:commandLink action="#{projectBean.createCosts}">
-        <h:graphicImage title="#{msg.entityActions_new}"  value="/img/new.gif" styleClass="cmdImg" />
-      </t:commandLink>
-    </f:facet>
-    <t:commandLink action="#{projectBean.deleteCosts}">
-      <h:graphicImage title="#{msg.entityActions_delete}"  value="/img/delete.gif" styleClass="cmdImg" />
-    </t:commandLink>
-  </h:column>
-
-
-    
-  
-      <%-- Ignored field: id --%>
-  
-  
-    
-    
-      
+    <%-- Commands --%>
     <h:column>
-
-      <f:facet name="header">
-      	      		<h:outputText value="*#{msg['projectCost.name']}" styleClass="editListHeader"/>
-      	      </f:facet>
-
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="name" />
-          <h:inputText id="name" value="#{item.name}" maxlength="128" required="true" styleClass="requiredFieldClass"/>
-        </h:panelGroup>
-
-      
+        <f:facet name="header">
+            <t:commandLink action="#{projectBean.createCosts}">
+                <h:graphicImage title="#{msg.entityActions_new}" value="/img/new.gif" styleClass="cmdImg"/>
+            </t:commandLink>
+        </f:facet>
+        <t:commandLink action="#{projectBean.deleteCosts}">
+            <h:graphicImage title="#{msg.entityActions_delete}" value="/img/delete.gif" styleClass="cmdImg"/>
+        </t:commandLink>
     </h:column>
 
-    
-    
-    
-      
+
+    <%-- Ignored field: id --%>
+
+
     <h:column>
 
-      <f:facet name="header">
-      	      		<h:outputText value="*#{msg['projectCost.cost']}" styleClass="editListHeader"/>
-      	      </f:facet>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectCost.allocationDate']}" styleClass="editListHeader"/>
+        </f:facet>
 
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="cost" />
-          <h:inputText id="cost" value="#{item.cost}" size="10"  required="true" styleClass="requiredFieldClass"/>
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="allocationDate"/>
+            <t:inputCalendar id="allocationDate" value="#{item.allocationDate}"
+                             required="true" styleClass="requiredFieldClass"
+                             renderAsPopup="true" popupDateFormat="d/MM/yyyy" renderPopupButtonAsImage="true"
+                             popupTodayString="#{msg['calendar.today']}" popupWeekString="#{msg['calendar.week']}"
+            >
+                <f:validator validatorId="autentia.dateValidator"/>
+            </t:inputCalendar>
+
         </h:panelGroup>
 
-      
     </h:column>
 
-    
-    
-    
-      
     <h:column>
 
-      <f:facet name="header">
-      	      		<h:outputText value="*#{msg['projectCost.billable']}" styleClass="editListHeader"/>
-      	      </f:facet>
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectCost.name']}" styleClass="editListHeader"/>
+        </f:facet>
 
-              <h:panelGroup>
-          <h:message styleClass="error" showSummary="true" showDetail="false" for="billable" />
-          <h:selectBooleanCheckbox id="billable" value="#{item.billable}"  required="true" styleClass="requiredFieldClass"/>
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="name"/>
+            <h:inputText id="name" value="#{item.name}" size="60" maxlength="128" required="true"
+                         styleClass="requiredFieldClass"/>
         </h:panelGroup>
 
-      
+
     </h:column>
 
-    
-    
-  
-      <%-- Ignored field: ownerId --%>
-    
-    
-  
-      <%-- Ignored field: departmentId --%>
-    
-    
-  
-      <%-- Ignored field: insertDate --%>
-    
-    
-  
-      <%-- Ignored field: updateDate --%>
-  
-  
-    
-    
-      <%-- Ignored field: project --%>
-  
+
+    <h:column>
+
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectCost.cost']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="cost"/>
+            <h:inputText id="cost" value="#{item.cost}" size="10" required="true" styleClass="requiredFieldClass"/>
+        </h:panelGroup>
+
+
+    </h:column>
+
+
+    <h:column>
+
+        <f:facet name="header">
+            <h:outputText value="*#{msg['projectCost.billable']}" styleClass="editListHeader"/>
+        </f:facet>
+
+        <h:panelGroup>
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="billable"/>
+            <h:selectBooleanCheckbox id="billable" value="#{item.billable}" required="true"
+                                     styleClass="requiredFieldClass"/>
+        </h:panelGroup>
+
+
+    </h:column>
+
+
+    <%-- Ignored field: ownerId --%>
+
+
+    <%-- Ignored field: departmentId --%>
+
+
+    <%-- Ignored field: insertDate --%>
+
+
+    <%-- Ignored field: updateDate --%>
+
+
+    <%-- Ignored field: project --%>
+
 
 </t:dataTable>
 
