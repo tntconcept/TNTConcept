@@ -19,19 +19,20 @@
 -->
 
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="com.autentia.tnt.businessobject.ProjectCost" table="ProjectCost" >
-    <id name="id" type="java.lang.Integer">
-      <generator class="native" />
-    </id>
-    <property name="name" type="java.lang.String" not-null="true"/>
-    <property name="cost" type="java.math.BigDecimal" not-null="true"/>
-    <property name="billable" type="boolean" not-null="true"/>
-    <many-to-one name="project" class="com.autentia.tnt.businessobject.Project" column="projectId" not-null="true" />
-    <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
-	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
-	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
-	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
-  </class>
+    <class name="com.autentia.tnt.businessobject.ProjectCost" table="ProjectCost">
+        <id name="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="java.lang.String" not-null="true"/>
+        <property name="cost" type="java.math.BigDecimal" not-null="true"/>
+        <property name="billable" type="boolean" not-null="true"/>
+        <many-to-one name="project" class="com.autentia.tnt.businessobject.Project" column="projectId" not-null="true"/>
+        <property name="allocationDate" type="java.util.Date" not-null="true"/>
+        <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
+        <property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+        <property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+        <property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
+    </class>
 </hibernate-mapping>
