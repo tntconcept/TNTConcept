@@ -5,9 +5,9 @@ name: Build
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, hotfix/**, release/** ]
   push:
-    branches: [ master ]
+    branches: [ master, hotfix/**, release/** ]
 
 jobs:
   build:
