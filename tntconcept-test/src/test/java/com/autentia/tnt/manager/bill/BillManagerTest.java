@@ -154,6 +154,7 @@ public class BillManagerTest {
 		projectCost.setName("Desarrollo");
 		projectCost.setCost(new BigDecimal("100"));
 		projectCost.setBillable(true);
+		projectCost.setAllocationDate(new Date());
 		daoProjectCost.insert(projectCost);
 		return projectCost;
 	}
