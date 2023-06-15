@@ -10,6 +10,7 @@ import org.hibernate.ObjectNotFoundException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -110,6 +111,7 @@ public class ProjectCostDAO_IT extends IntegrationTest {
         projectCost.setCost(BigDecimal.TEN);
         projectCost.setProject(project);
         projectCost.setOwnerId(1);
+        projectCost.setAllocationDate(new Date());
         projectCost.setDepartmentId(1);
 
         return projectCost;
