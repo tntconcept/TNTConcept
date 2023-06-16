@@ -63,6 +63,8 @@
 
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
 
+        <tntconcept-ddbb.version>1.12.0</tntconcept-ddbb.version>
+
     </properties>
 
     <modules>
@@ -467,6 +469,13 @@
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql-connector-j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.autentia.tnt</groupId>
+                <artifactId>tntconcept-ddbb</artifactId>
+                <version>${tntconcept-ddbb.version}</version>
+                <scope>test</scope>
             </dependency>
 
         </dependencies>

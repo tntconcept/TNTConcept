@@ -135,7 +135,6 @@
 		<dependency>
 			<groupId>com.autentia.tnt</groupId>
 			<artifactId>tntconcept-ddbb</artifactId>
-			<version>1.12.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
