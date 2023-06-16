@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.autentia.tnt</groupId>
     <artifactId>tntconcept-parent</artifactId>
-    <version>0.59.0-SNAPSHOT</version>
+    <version>0.59.0</version>
     <packaging>pom</packaging>
 
     <name>tntconcept-parent</name>
@@ -43,7 +42,7 @@
         <sonar.excludePlugins>
             android,branding,buildstability,checkstyle,css,fbcontrib,javascript,ldap,motionchart,pmd,scmstats,tabmetrics,timeline,uselesscodetracker,web,widgetlab,xml
         </sonar.excludePlugins>
-        <sonar.exclusions/>
+        <sonar.exclusions />
 
         <!-- test -->
         <junit.version>4.13.2</junit.version>
@@ -90,7 +89,7 @@
         <connection>scm:git:https://github.com/autentia/TNTConcept</connection>
         <developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
         <url>https://github.com/autentia/TNTConcept</url>
-        <tag>tntconcept-parent-0.27.5</tag>
+        <tag>0.59.0</tag>
     </scm>
 
     <profiles>
@@ -250,7 +249,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <execute/>
+                                        <execute />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -556,7 +555,7 @@
 		-->
 		<repository>
 			<id>github-tntconcept-api</id>
-			<url>https://public:&#103;ithub_pat_11AAGBHIY0nKhbOITvqCaW_nrJFjiSA1JVvmwgvil5cRqzQLTlKFK6iZswJwOOcLBl5N3T4YEQjJeQrCLJ@maven.pkg.github.com/autentia/tntconcept-api</url>
+			<url>https://public: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@maven.pkg.github.com/autentia/tntconcept-api</url>
 		</repository>
 	</repositories>
 
