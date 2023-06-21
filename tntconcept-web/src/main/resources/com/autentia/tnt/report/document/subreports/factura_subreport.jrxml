@@ -58,7 +58,6 @@
 	<field name="city" class="java.lang.String"/>
 	<field name="provinceId" class="java.lang.Integer"/>
 	<field name="state" class="java.lang.String"/>
-	<field name="country" class="java.lang.String"/>
 	<field name="fax" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="website" class="java.lang.String"/>
