@@ -48,7 +48,7 @@ public class ProjectCost implements Serializable, ITransferObject {
     private BigDecimal cost;
 
 
-    private boolean billable;
+    private boolean billable = true;
 
 
     private Integer ownerId;
