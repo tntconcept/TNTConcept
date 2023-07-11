@@ -20,7 +20,6 @@ package com.autentia.tnt.bean.admin;
 import java.math.*;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
@@ -286,8 +285,21 @@ public class ProjectBean extends BaseBean {
     public String deleteRoles() {
         UIData table = (UIData) FacesUtils.getComponent("project:roles");
         ProjectRole pr = (ProjectRole) table.getRowData();
-        project.getRoles().remove(pr);
+
+        if (checkProjectRolesHaveActivities(pr)){
+            FacesUtils.addErrorMessage("project", "projectRole.deleteRestrict", String.format("'%s'",pr.getName()));
+            return NavigationResults.EDIT;
+        } else {
+            project.getRoles().remove(pr);
+        }
         return null;
+    }
+
+    private boolean checkProjectRolesHaveActivities(ProjectRole projectRole) {
+        final Project projectStored = manager.getEntityById(project.getId());
+
+        return projectStored.getRoles().stream()
+                .anyMatch(storedRole -> storedRole.getId().equals(projectRole.getId()) && !storedRole.getActivities().isEmpty());
     }
 
     /**

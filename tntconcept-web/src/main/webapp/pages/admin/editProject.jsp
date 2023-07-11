@@ -52,7 +52,7 @@
             <h:graphicImage value="/img/back.gif" styleClass="titleImg" />
           </h:commandLink>
         </i:titleBar>
-        
+          <h:message styleClass="error" showSummary="true" showDetail="false" for="project" />
         <%-- Edition form --%>
         <table class="editTable" cellpadding="0" cellspacing="0">
 
