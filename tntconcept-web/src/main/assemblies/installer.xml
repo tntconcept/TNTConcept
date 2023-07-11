@@ -56,23 +56,4 @@
       </includes>
     </fileSet>
   </fileSets>
-  
-  <files>
-    <file>
-	  <source>../doc/INSTALL.pdf</source>
-      <outputDirectory>/doc</outputDirectory>
-      <destName>INSTALL-${project.version}.pdf</destName>
-    </file>
-    <file>
-	  <source>../doc/INSTALL_en.pdf</source>
-      <outputDirectory>/doc</outputDirectory>
-      <destName>INSTALL_en-${project.version}.pdf</destName>
-    </file>
-    <file> 
-	  <source>../doc/DEVELOP.pdf</source>
-      <outputDirectory>/doc</outputDirectory>
-      <destName>DEVELOP-${project.version}.pdf</destName>
-    </file>  
-  </files>
-  
 </assembly>
