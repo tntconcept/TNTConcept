@@ -442,11 +442,18 @@ public class ProjectBean extends BaseBean {
      * @return forward to LIST page
      */
     public String delete() {
-        manager.deleteEntity(project);
-        project = null;
-        offerNumberInput.setValue("");
-        offerNumberList.clear();
-        return NavigationResults.LIST;
+        boolean checkProjectHasRoles = !project.getRoles().isEmpty();
+
+        if (checkProjectHasRoles){
+            FacesUtils.addErrorMessage("project", "project.deleteRestrict");
+            return NavigationResults.EDIT;
+        } else {
+            manager.deleteEntity(project);
+            project = null;
+            offerNumberInput.setValue("");
+            offerNumberList.clear();
+            return NavigationResults.LIST;
+        }
     }
 
     /**
