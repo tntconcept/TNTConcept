@@ -442,9 +442,9 @@ public class ProjectBean extends BaseBean {
      * @return forward to LIST page
      */
     public String delete() {
-        boolean checkProjectHaveRoles = !project.getRoles().isEmpty();
+        boolean checkProjectHasRoles = !project.getRoles().isEmpty();
 
-        if (checkProjectHaveRoles){
+        if (checkProjectHasRoles){
             FacesUtils.addErrorMessage("project", "project.deleteRestrict");
             return NavigationResults.EDIT;
         } else {
