@@ -211,10 +211,6 @@ protected void setId( Integer id ) {
         return this.getRequireEvidence() != RequireEvidenceType.NO;
     }
 
-    public void setRequiredEvidence(boolean requiredEvidence){
-        requireEvidence = requiredEvidence ? RequireEvidenceType.WEEKLY : RequireEvidenceType.NO;
-    }
-
   public boolean equals( Object that )
   {
   	try {
