@@ -211,6 +211,12 @@ public class ProjectBean extends BaseBean {
         return ret;
     }
 
+    public List<SelectItem> getRequireEvidenceTypes() {
+
+        return Arrays.stream(RequireEvidenceType.values())
+                .map(type -> new SelectItem(type, type.name())).toList();
+    }
+
     /**
      * Get the list of all roless
      *
@@ -254,7 +260,7 @@ public class ProjectBean extends BaseBean {
     public String createRoles() {
         ProjectRole item = new ProjectRole();
         item.setProject(project);
-        item.setRequiredEvidence(true);
+        item.setRequireEvidence(RequireEvidenceType.NO);
         if (project.getRoles() == null) {
             project.setRoles(new HashSet());
         }
