@@ -2,6 +2,7 @@ package com.autentia.tnt.dao.hibernate;
 
 import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.businessobject.ProjectRole;
+import com.autentia.tnt.businessobject.RequireEvidenceType;
 import com.autentia.tnt.businessobject.TimeUnitType;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.ProjectRoleSearch;
@@ -111,7 +112,7 @@ public class ProjectRoleDAO_IT extends IntegrationTest {
         projectRole.setName(name);
         projectRole.setCostPerHour(BigDecimal.TEN);
         projectRole.setExpectedHours(10);
-        projectRole.setRequiredEvidence(true);
+        projectRole.setRequireEvidence(RequireEvidenceType.NO);
         projectRole.setMaxAllowed(100);
         projectRole.setTimeUnit(TimeUnitType.MINUTES);
         projectRole.setIsWorkingTime(true);

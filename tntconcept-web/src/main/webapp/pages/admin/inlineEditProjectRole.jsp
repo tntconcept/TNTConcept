@@ -61,8 +61,9 @@
             <h:outputText value="*#{msg['projectRole.requireEvidence']}" styleClass="editListHeader"/>
         </f:facet>
         <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="evidence"/>
-            <h:selectBooleanCheckbox id="evidence" value="#{role.requiredEvidence}"/>
+            <h:selectOneMenu id="client" value="#{role.requireEvidence}" required="true" styleClass="requiredFieldClass">
+                <f:selectItems value="#{projectBean.requireEvidenceTypes}" />
+            </h:selectOneMenu>
         </h:panelGroup>
     </h:column>
 
