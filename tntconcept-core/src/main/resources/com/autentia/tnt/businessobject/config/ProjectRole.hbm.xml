@@ -42,7 +42,8 @@
         <param name="enumClassName">com.autentia.tnt.businessobject.RequireEvidenceType</param>
       </type>
     </property>
-    <property name="maxAllowed" type="java.lang.Integer" column="maxAllowed" not-null="true"/>
+    <property name="maxTimeAllowedByYear" type="java.lang.Integer" column="maxTimeAllowedByYear" not-null="true"/>
+    <property name="maxTimeAllowedByActivity" type="java.lang.Integer" column="maxTimeAllowedByActivity" not-null="true"/>
     <property name="isWorkingTime" type="java.lang.Boolean" column="isWorkingTime" not-null="true"/>
     <property name="isApprovalRequired" type="java.lang.Boolean" column="isApprovalRequired" not-null="true"/>
     <property name="timeUnit" not-null="true" column="timeUnit">

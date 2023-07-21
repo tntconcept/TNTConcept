@@ -113,7 +113,8 @@ public class ProjectRoleDAO_IT extends IntegrationTest {
         projectRole.setCostPerHour(BigDecimal.TEN);
         projectRole.setExpectedHours(10);
         projectRole.setRequireEvidence(RequireEvidenceType.NO);
-        projectRole.setMaxAllowed(100);
+        projectRole.setMaxTimeAllowedByYear(100);
+        projectRole.setMaxTimeAllowedByActivity(0);
         projectRole.setTimeUnit(TimeUnitType.MINUTES);
         projectRole.setIsWorkingTime(true);
         projectRole.setIsApprovalRequired(false);

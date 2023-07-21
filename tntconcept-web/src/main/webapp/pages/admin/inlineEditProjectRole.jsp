@@ -95,12 +95,12 @@
 
     <h:column>
         <f:facet name="header">
-            <h:outputText value="*#{msg['projectRole.maxAllowed']}" styleClass="editListHeader"/>
+            <h:outputText value="*#{msg['projectRole.maxTimeAllowedByYear']}" styleClass="editListHeader"/>
         </f:facet>
 
         <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="maxAllowed"/>
-            <h:inputText id="maxAllowed" value="#{role.maxAllowed}" size="4" required="true" styleClass="requiredFieldClass">
+            <h:message styleClass="error" showSummary="true" showDetail="false" for="maxTimeAllowedByYear"/>
+            <h:inputText id="maxTimeAllowedByYear" value="#{role.maxTimeAllowedByYear}" size="4" required="true" styleClass="requiredFieldClass">
                 <f:converter converterId="autentia.MinuteToHourConverter"/>
                 <f:attribute name="allowDecimal" value="false"/>
                 <f:validateLongRange minimum="0"/>

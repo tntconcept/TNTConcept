@@ -1,0 +1,13 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>github-tntconcept-api</id>
+            <username>autentia-ci</username>
+            <!-- Public token with `read:packages` scope -->
+            <password>&#103;&#105;&#116;&#104;&#117;&#98;&#95;&#112;&#97;&#116;&#95;&#49;&#49;&#65;&#65;&#71;&#66;&#72;&#73;&#89;&#48;&#106;&#83;&#70;&#52;&#79;&#85;&#119;&#68;&#121;&#89;&#75;&#101;&#95;&#84;&#107;&#52;&#108;&#102;&#53;&#75;&#88;&#107;&#104;&#71;&#106;&#70;&#110;&#97;&#102;&#113;&#112;&#54;&#112;&#110;&#48;&#111;&#75;&#107;&#65;&#89;&#117;&#100;&#114;&#98;&#112;&#108;&#68;&#76;&#88;&#90;&#79;&#74;&#102;&#50;&#107;&#73;&#76;&#80;&#90;&#83;&#83;&#84;&#79;&#78;&#121;&#55;&#109;&#120;&#118;&#69;&#52;&#56;</password>
+        </server>
+    </servers>
+</settings>

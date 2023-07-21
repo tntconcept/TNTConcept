@@ -78,7 +78,9 @@ public class ProjectRole implements Serializable, ITransferObject
       
   private Date updateDate;
 
-  private Integer maxAllowed = 0;
+  private Integer maxTimeAllowedByYear = 0;
+
+  private Integer maxTimeAllowedByActivity = 0;
 
   private Project project;
 
@@ -269,11 +271,19 @@ protected void setId( Integer id ) {
 		  return total/60;		
 	}
 
-	public Integer getMaxAllowed() {
-		return maxAllowed;
+	public Integer getMaxTimeAllowedByYear() {
+		return maxTimeAllowedByYear;
 	}
 
-	public void setMaxAllowed(Integer maxAllowed) {
-		this.maxAllowed = maxAllowed;
+    public Integer getMaxTimeAllowedByActivity() {
+        return maxTimeAllowedByActivity;
+    }
+
+	public void setMaxTimeAllowedByYear(Integer maxTimeAllowedByYear) {
+		this.maxTimeAllowedByYear = maxTimeAllowedByYear;
 	}
+
+    public void setMaxTimeAllowedByActivity(Integer maxTimeAllowedByActivity) {
+        this.maxTimeAllowedByActivity = maxTimeAllowedByActivity;
+    }
 }
