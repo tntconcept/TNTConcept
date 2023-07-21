@@ -62,8 +62,8 @@
 
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
 
-        <tntconcept-ddbb.version>1.18.0</tntconcept-ddbb.version>
-        <tntconcept.repository.url>https://public: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@maven.pkg.github.com/autentia/tntconcept-api</tntconcept.repository.url>
+        <tntconcept-ddbb.version>1.19.0</tntconcept-ddbb.version>
+        <tntconcept.repository.url>https://maven.pkg.github.com/autentia/tntconcept-api</tntconcept.repository.url>
 
     </properties>
 

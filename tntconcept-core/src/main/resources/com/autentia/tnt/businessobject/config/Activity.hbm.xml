@@ -42,5 +42,7 @@
         <param name="enumClassName">com.autentia.tnt.businessobject.ActivityApprovalState</param>
       </type>
     </property>
+    <property name="approvedByUserId" type="int"/>
+    <property name="approvalDate" type="java.util.Date"/>
   </class>
 </hibernate-mapping>

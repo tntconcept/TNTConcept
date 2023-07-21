@@ -73,6 +73,11 @@ public class Activity implements Serializable, ITransferObject {
     private boolean hasEvidences;
 
     private ActivityApprovalState approvalState = ActivityApprovalState.NA;
+
+    private Integer approvedByUserId;
+
+    private Date approvalDate;
+
     private Date end;
 
     public Date getEnd() {
@@ -243,5 +248,21 @@ public class Activity implements Serializable, ITransferObject {
 
     public void setApprovalState(ActivityApprovalState approvalState) {
         this.approvalState = approvalState;
+    }
+
+    public Integer getApprovedByUserId() {
+        return approvedByUserId;
+    }
+
+    public void setApprovedByUserId(Integer approvedByUserId) {
+        this.approvedByUserId = approvedByUserId;
+    }
+
+    public Date getApprovalDate() {
+        return approvalDate;
+    }
+
+    public void setApprovalDate(Date approvalDate) {
+        this.approvalDate = approvalDate;
     }
 }
