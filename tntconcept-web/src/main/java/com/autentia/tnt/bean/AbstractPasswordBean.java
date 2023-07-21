@@ -5,7 +5,7 @@ import java.util.Date;
 import com.autentia.tnt.businessobject.User;
 import org.acegisecurity.BadCredentialsException;
 import org.acegisecurity.ldap.LdapDataAccessException;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

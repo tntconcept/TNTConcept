@@ -20,7 +20,7 @@ package com.autentia.tnt.manager.holiday;
 import java.util.*;
 
 import com.autentia.tnt.businessobject.*;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.autentia.tnt.dao.hibernate.WorkingAgreementDAO;
 import com.autentia.tnt.dao.search.HolidaySearch;
