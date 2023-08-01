@@ -54,15 +54,15 @@
 	</parameter>
 	<queryString><![CDATA[
 WITH
-	date_range AS
-		(SELECT $P{Fecha inicio} AS start, $P{Fecha fin} AS end),
+	params AS
+		(SELECT $P{Usuario} AS user, $P{Fecha inicio} AS start, $P{Fecha fin} AS end),
 	activities AS
 		(SELECT
 			o.name AS orgName,
 			u.name AS userName,
 			r.name AS roleName,
-			greatest(a.start, date_range.start) AS start,
-			least(a.`end`, date_range.end) AS end,
+			greatest(a.start, params.start) AS start,
+			least(a.`end`, params.end) AS end,
 			a.duration,
 			a.description,
 			a.id,
@@ -72,24 +72,24 @@ WITH
 			sum(CASE WHEN a.billable=0
 				THEN duration end) AS 'noFact'
 		FROM
-			Activity a, Organization o, User u, Project p, ProjectRole r, date_range
+			Activity a, Organization o, User u, Project p, ProjectRole r, params
 		WHERE
-			u.id=$P{Usuario} AND
+			u.id=params.user AND
 			u.id=a.userId AND
 			r.id=a.roleId AND
 			p.organizationId=o.id AND
 			p.id=r.projectId AND
-			(a.start BETWEEN date_range.start AND date_range.end OR
-			a.end BETWEEN date_range.start AND date_range.end)
+			(a.start BETWEEN params.start AND params.end OR
+			a.end BETWEEN params.start AND params.end)
 		GROUP BY
 			a.id),
 	requested_vacations AS
 		(SELECT
-			'Autentia' AS orgName,
+			'Vacaciones' AS orgName,
 			u.name AS userName,
 			'Vacaciones' AS roleName,
-			greatest(rh.beginDate, date_range.start) AS start,
-			least(rh.finalDate, date_range.end) AS end,
+			greatest(rh.beginDate, params.start) AS start,
+			DATE(least(rh.finalDate, params.end)) AS end,
 			0 AS duration,
 			rh.userComment AS description,
 			rh.id,
@@ -97,12 +97,12 @@ WITH
 			0 AS 'fact',
 			0 AS 'noFact'
 		FROM
-			RequestHoliday rh, User u, date_range
+			RequestHoliday rh, User u, params
 		WHERE
-			u.id=$P{Usuario} AND
+			u.id=params.user AND
 			u.id=rh.userId AND
-			(rh.beginDate BETWEEN date_range.start AND date_range.end OR
-			 rh.finalDate BETWEEN date_range.start AND date_range.end)
+			(rh.beginDate BETWEEN params.start AND params.end OR
+			 rh.finalDate BETWEEN params.start AND params.end)
 		GROUP BY
 			rh.id)
 SELECT
@@ -124,9 +124,7 @@ FROM
 		SELECT * FROM requested_vacations
 	) AS registros
 ORDER BY
-	registros.orgName,
-	registros.start,
-	registros.userName]]></queryString>
+	registros.start]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
