@@ -23,8 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -98,10 +97,10 @@ public class ActivityBeanTest {
 
 
         List<SelectItem> projects = activityBean.getProjectsVisiblesBySelectedOrganization();
-        assertThat(projects.size(), is(greaterThan(0)));
+        assertFalse(projects.isEmpty());
 
         for (SelectItem item : projects) {
-            assertThat(((Project) item.getValue()).isFinished(), is(not(true)));
+            assertFalse(((Project) item.getValue()).isFinished());
         }
     }
 
@@ -114,7 +113,7 @@ public class ActivityBeanTest {
         activityBean.setSelectedProject(p1);
 
         List<SelectItem> projects = activityBean.getProjectsVisiblesBySelectedOrganization();
-        assertThat(projects.size(), is(greaterThan(0)));
+        assertFalse(projects.isEmpty());
 
         boolean isOk = false;
         for (SelectItem si : projects) {
@@ -123,7 +122,7 @@ public class ActivityBeanTest {
             }
         }
 
-        assertThat(isOk, is(true));
+        assertTrue(isOk);
 
     }
 
@@ -134,10 +133,10 @@ public class ActivityBeanTest {
         activityBean.setSelectedProject(null);
 
         List<SelectItem> projects = activityBean.getProjectsVisiblesBySelectedOrganization();
-        assertThat(projects.size(), is(greaterThan(0)));
+        assertFalse(projects.isEmpty());
 
         for (SelectItem item : projects) {
-            assertThat(((Project) item.getValue()).isFinished(), is(not(true)));
+            assertFalse(((Project) item.getValue()).isFinished());
         }
     }
 }
