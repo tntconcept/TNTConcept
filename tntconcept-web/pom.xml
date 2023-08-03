@@ -427,19 +427,6 @@
 			<version>2.4.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Database migration scripts for integration tests -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-			<version>8.5.13</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-mysql</artifactId>
-			<version>8.5.13</version>
-		</dependency>
 
 		<!-- For testing database -->
 		<dependency>
