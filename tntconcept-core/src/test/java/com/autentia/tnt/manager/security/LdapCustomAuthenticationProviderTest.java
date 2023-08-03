@@ -16,9 +16,7 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import java.util.Date;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class LdapCustomAuthenticationProviderTest {
@@ -94,7 +92,7 @@ public class LdapCustomAuthenticationProviderTest {
         User userForTest = getUserForTest();
         Boolean passExpired = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
         userForTest.setPasswordExpired(passExpired);
-        assertThat(passExpired ,is(true));
+        assertTrue(passExpired);
 
     }
 
@@ -108,7 +106,7 @@ public class LdapCustomAuthenticationProviderTest {
         User userForTest = getUserForTest();
         Boolean passExpired = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
         userForTest.setPasswordExpired(passExpired);
-        assertThat(passExpired ,is(false));
+        assertFalse(passExpired);
     }
 
     @Test
@@ -127,10 +125,10 @@ public class LdapCustomAuthenticationProviderTest {
         final String ldapPassword = "ldapPassword";
         final Principal ldapPrincipal = sut.mergeUsers(ldapUserDetails, principal, ldapPassword);
 
-        assertThat(ldapPrincipal.getPassword(),is(ldapPassword));
-        assertThat(ldapPrincipal.getUser().getLdapPassword(),is(ldapPassword));
-        assertThat(ldapPrincipal.getUser().getPassword(),is(nullValue()));
-        assertThat(ldapPrincipal.getUser().isActive(),is(true));
+        assertEquals(ldapPassword, ldapPrincipal.getPassword());
+        assertEquals(ldapPassword, ldapPrincipal.getUser().getLdapPassword());
+        assertNull(ldapPrincipal.getUser().getPassword());
+        assertTrue(ldapPrincipal.getUser().isActive());
     }
     
     @Test
@@ -150,8 +148,8 @@ public class LdapCustomAuthenticationProviderTest {
         final String ldapPassword = "ldapPassword";
         final Principal ldapPrincipal = sut.mergeUsers(ldapUserDetails, principal, ldapPassword);
 
-        assertThat(ldapPrincipal.getId(),is(999));
-        assertThat(ldapPrincipal.getPassword(),is(ldapPassword));
+        assertEquals(999, ldapPrincipal.getId());
+        assertEquals(ldapPassword, ldapPrincipal.getPassword());
     }
     
 
@@ -159,17 +157,14 @@ public class LdapCustomAuthenticationProviderTest {
     public void shouldCheckUserPasswordExpiredStatus(){
         when(ldapUserDetails.getAttributes()).thenReturn(new BasicAttributes());
         final Boolean nonExpiredPassword = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
-        assertThat(nonExpiredPassword, is(false));
+        assertFalse(nonExpiredPassword);
 
         Attribute pwdGraceUseTime = new BasicAttribute("pwdGraceUseTime");
         Attributes attributes = new BasicAttributes();
         attributes.put(pwdGraceUseTime);
         when(ldapUserDetails.getAttributes()).thenReturn(attributes);
         final Boolean expiredPassword = sut.checkExpiredPassword(ldapUserDetails.getAttributes());
-        assertThat(expiredPassword, is(true));
-
-
-
+        assertTrue(expiredPassword);
     }
 
 

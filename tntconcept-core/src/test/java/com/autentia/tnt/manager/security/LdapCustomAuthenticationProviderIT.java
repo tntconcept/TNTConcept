@@ -7,12 +7,9 @@ import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 
@@ -48,7 +45,7 @@ public class LdapCustomAuthenticationProviderIT {
             }
         }
 
-        assertThat(hasLDAPProvider, is(true));
+        assertTrue(hasLDAPProvider);
     }
 
     @Test

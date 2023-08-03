@@ -1,6 +1,5 @@
 package com.autentia.tnt.bean.billing;
 
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -21,7 +20,6 @@ import com.autentia.tnt.businessobject.BillBreakDown;
 import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.manager.admin.ProjectManager;
-import com.autentia.tnt.test.utils.SpringUtilsForTesting;
 import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
 
@@ -82,7 +80,7 @@ public class BillBeanTest {
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertThat(billBreakDown.getIva(), is(new BigDecimal(IVA_UNTIL_JUL_2010)));
+			assertEquals(new BigDecimal(IVA_UNTIL_JUL_2010), billBreakDown.getIva());
 		}
 	}
 	
@@ -95,7 +93,7 @@ public class BillBeanTest {
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertThat(billBreakDown.getIva(), is(new BigDecimal(IVA_UNTIL_SEPT_2012)));
+			assertEquals(new BigDecimal(IVA_UNTIL_SEPT_2012), billBreakDown.getIva());
 		}
 	}
 	
@@ -108,7 +106,7 @@ public class BillBeanTest {
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertThat(billBreakDown.getIva(), is(new BigDecimal(IVA_UNTIL_SEPT_2012)));
+			assertEquals(new BigDecimal(IVA_UNTIL_SEPT_2012), billBreakDown.getIva());
 		}
 	}
 	
@@ -121,7 +119,7 @@ public class BillBeanTest {
 		billBean.setCreationDate(calendar.getTime());
 		billBean.createBreakDown();
 		for (BillBreakDown billBreakDown:billBean.getBill().getBreakDown()) {
-			assertThat(billBreakDown.getIva(), is(new BigDecimal(IVA_ACTUAL)));
+			assertEquals(new BigDecimal(IVA_ACTUAL), billBreakDown.getIva());
 		}
 	}
 	
@@ -140,10 +138,6 @@ public class BillBeanTest {
 
 		return list;
 	}
-
-
-	
-	
 
 	@Test
 	public void shouldCallGetProjectsOpenBySelectedOrganizationWhenIsANewBill() {
@@ -177,11 +171,11 @@ public class BillBeanTest {
 
 	private void assertProjectsResult(List<Project> expectedProjects,
 			List<SelectItem> result) {
-		assertThat(result, is(notNullValue()));
-		assertThat(result.size(), is(expectedProjects.size()));
+		assertNotNull(result);
+		assertEquals(expectedProjects.size(), result.size());
 
 		for (SelectItem selectItem : result) {
-			assertThat((Project) selectItem.getValue(), isIn(expectedProjects));
+			assertTrue(expectedProjects.contains((Project) selectItem.getValue()));
 		}
 	}
 	

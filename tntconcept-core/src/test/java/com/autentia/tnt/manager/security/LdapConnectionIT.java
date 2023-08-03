@@ -1,8 +1,5 @@
 package com.autentia.tnt.manager.security;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.*;
@@ -17,6 +14,9 @@ import org.acegisecurity.userdetails.ldap.LdapUserDetails;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 
 public class LdapConnectionIT {
@@ -59,8 +59,8 @@ public class LdapConnectionIT {
 
         LdapUserDetails userDetails = this.authenticator.authenticate(USERNAME, PASSWORD);
         userDetails.getAttributes().getAll();
-        assertThat(userDetails.getUsername(), is(USERNAME));
-        assertThat(userDetails.isCredentialsNonExpired(), is(false));
+        assertEquals(USERNAME, userDetails.getUsername());
+        assertFalse(userDetails.isCredentialsNonExpired());
 
     }
 

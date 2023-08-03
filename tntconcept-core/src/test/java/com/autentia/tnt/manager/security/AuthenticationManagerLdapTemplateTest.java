@@ -1,7 +1,6 @@
 package com.autentia.tnt.manager.security;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
@@ -64,8 +63,8 @@ public class AuthenticationManagerLdapTemplateTest {
     @Test
     public void shouldApplyUpdate() throws NamingException {
 
-        assertThat(user.isPasswordExpired(), is(Boolean.TRUE));
-        assertThat(user.getLdapPassword(), is(PASSWORD));
+        assertTrue(user.isPasswordExpired());
+        assertEquals(PASSWORD, user.getLdapPassword());
         Attribute newPasswordAttribute = new BasicAttribute("userPassword", NEW_PASSWORD);
         ModificationItem[] mods = new ModificationItem[1];
         mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newPasswordAttribute);
@@ -77,8 +76,8 @@ public class AuthenticationManagerLdapTemplateTest {
         }
         user.setPasswordExpired(Boolean.FALSE);
         user.setLdapPassword(NEW_PASSWORD);
-        assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
-        assertThat(user.getLdapPassword(), is(NEW_PASSWORD));
+        assertFalse(user.isPasswordExpired());
+        assertEquals(NEW_PASSWORD, user.getLdapPassword());
 
     }
 
@@ -90,8 +89,8 @@ public class AuthenticationManagerLdapTemplateTest {
         doThrow(new NamingException()).when(dirContext).modifyAttributes(eq(user.getLdapName()),
                 any(ModificationItem[].class));
 
-        assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
-        assertThat(user.getLdapPassword(), is(PASSWORD));
+        assertFalse(user.isPasswordExpired());
+        assertEquals(PASSWORD, user.getLdapPassword());
 
         try {
             Attribute newPasswordAttribute = new BasicAttribute("userPassword", NEW_PASSWORD);
@@ -106,8 +105,8 @@ public class AuthenticationManagerLdapTemplateTest {
             user.setPasswordExpired(Boolean.FALSE);
             user.setLdapPassword(NEW_PASSWORD);
         } catch (NamingException e) {
-            assertThat(user.isPasswordExpired(), is(Boolean.FALSE));
-            assertThat(user.getLdapPassword(), is(PASSWORD));
+            assertFalse(user.isPasswordExpired());
+            assertEquals(PASSWORD, user.getLdapPassword());
             throw e;
         }
     }

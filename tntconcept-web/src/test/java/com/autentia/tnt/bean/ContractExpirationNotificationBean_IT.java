@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class ContractExpirationNotificationBean_IT extends TestContainer {
@@ -60,7 +60,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(1));
+        assertEquals(1, userCount);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(1));
+        assertEquals(1, userCount);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(1));
+        assertEquals(1, userCount);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(1));
+        assertEquals(1, userCount);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(1));
+        assertEquals(1, userCount);
     }
 
     @Test
@@ -130,14 +130,14 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(1));
+        assertEquals(1, userCount);
     }
 
     @Test
     public void should_not_send_any_email_when_there_are_no_users() throws MessagingException {
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(0));
+        assertEquals(0, userCount);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(0));
+        assertEquals(0, userCount);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(0));
+        assertEquals(0, userCount);
     }
 
     @Test
@@ -180,6 +180,6 @@ public class ContractExpirationNotificationBean_IT extends TestContainer {
 
         ContractExpirationNotificationBean sut = new ContractExpirationNotificationBean(mailService);
         int userCount = sut.checkExpirationDate();
-        assertThat(userCount, is(0));
+        assertEquals(0, userCount);
     }
 }

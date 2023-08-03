@@ -19,10 +19,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class LinkBeanTest {
@@ -46,10 +43,7 @@ public class LinkBeanTest {
 		when(ctx.getBean("mailService")).thenReturn(mailService);
 		when(ctx.getBean("configuration")).thenReturn(configurationUtil);
 
-		
 		SpringUtils.configureTest(ctx);
-
-
 	}
 
 	
@@ -62,7 +56,7 @@ public class LinkBeanTest {
 
 		boolean isOnTime = sut.isOnTime(onTimeLink);
 		
-		assertThat(isOnTime, is(true));
+		assertTrue(isOnTime);
 	}
 	
 	@Test
@@ -77,8 +71,8 @@ public class LinkBeanTest {
 		outOfTimeLink.setInsertDate(yesterday);
 		
 		boolean isOnTime = sut.isOnTime(outOfTimeLink);
-		
-		assertThat(isOnTime, is(false));	
+
+		assertFalse(isOnTime);
 	}
 	
 	@Test
@@ -87,9 +81,9 @@ public class LinkBeanTest {
 		String name = "test";
 		
 		Link result = sut.generateLink(name);
-		
-		assertThat(result.getUser(), equalTo(name));
-		assertThat(result.getLink(), is(notNullValue()));	
+
+		assertEquals(name, result.getUser());
+		assertNotNull(result.getLink());
 	}
 	
 	@Test
@@ -123,7 +117,7 @@ public class LinkBeanTest {
 		String result = sutMock.passwordResetRequest();
 
 		verify(sutMock).sendMail(testLink, "test@mail.com");
-		assertThat(result, equalTo("emailSent"));
+		assertEquals("emailSent", result);
 	}
 	
 	@Test
@@ -138,7 +132,7 @@ public class LinkBeanTest {
 		String result = sutMock.passwordResetRequest();
 
 		verify(sutMock, never()).sendMail((Link) any(), any());
-		assertThat(result, equalTo("emailSentFailed"));
+		assertEquals("emailSentFailed", result);
 		
 		
 	}
@@ -151,7 +145,7 @@ public class LinkBeanTest {
 		String result = sutMock.passwordResetRequest();
 
 		verify(sutMock, never()).sendMail((Link) any(), any());
-		assertThat(result, equalTo("emailSentFailed"));
+		assertEquals("emailSentFailed", result);
 	}
 	
 	@Test
@@ -174,7 +168,7 @@ public class LinkBeanTest {
 		String changedPassword = sutMock.resetPassword(testUser);
 		
 		verify(userManager).updateEntity(testUser, true);
-		assertThat(changedPassword, equalTo("changed"));
+		assertEquals("changed", changedPassword);
 	}
 	
 	@Test
@@ -197,7 +191,7 @@ public class LinkBeanTest {
 		String changedPassword = sutMock.resetPassword(testUser);
 		
 		verify(userManager, times(0)).updateEntity(testUser, true);
-		assertThat(changedPassword, equalTo("changed"));
+		assertEquals("changed", changedPassword);
 	}
 	
 	@Test
@@ -215,8 +209,8 @@ public class LinkBeanTest {
 		doReturn("changedPassword").when(sutMock).resetPassword(testUser);	
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
-		
-		assertThat(result, equalTo("Tu nueva contraseña es: <b>changedPassword</b></br> <p>Se te pedirá que la modifiques al entrar por primera vez.</p>"));
+
+		assertEquals("Tu nueva contraseña es: <b>changedPassword</b></br> <p>Se te pedirá que la modifiques al entrar por primera vez.</p>", result);
 	}
 	
 	@Test
@@ -224,8 +218,8 @@ public class LinkBeanTest {
 		doReturn(new ArrayList<Link>()).when(sutMock).getLinksWithLink("linkTest");
 		
 		String result = sutMock.checkLinkAndResetPassword("linkTest");
-		
-		assertThat(result, equalTo("<p>El enlace no existe o ha caducado</p>"));
+
+		assertEquals("<p>El enlace no existe o ha caducado</p>", result);
 	}
 	
 	@Test
@@ -242,8 +236,8 @@ public class LinkBeanTest {
 		doReturn(Arrays.asList(testLink)).when(sutMock).getLinksWithLink("linkTest");
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
-		
-		assertThat(result, equalTo("<p>El enlace no existe o ha caducado</p>"));
+
+		assertEquals("<p>El enlace no existe o ha caducado</p>", result);
 	}
 	
 	@Test
@@ -259,8 +253,8 @@ public class LinkBeanTest {
 		doReturn(testUser).when(sutMock).getUserByName(testLink.getUser());
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
-		
-		assertThat(result, equalTo("<p>El enlace no existe o ha caducado</p>"));
+
+		assertEquals("<p>El enlace no existe o ha caducado</p>", result);
 		
 	}
 	
@@ -274,8 +268,8 @@ public class LinkBeanTest {
 		doReturn(new User()).when(sutMock).getUserByName("testUser");
 		
 		String result = sutMock.checkLinkAndResetPassword(testLink.getLink());
-		
-		assertThat(result, equalTo("<p>El enlace no existe o ha caducado</p>"));	
+
+		assertEquals("<p>El enlace no existe o ha caducado</p>", result);
 	}
 	
 }
