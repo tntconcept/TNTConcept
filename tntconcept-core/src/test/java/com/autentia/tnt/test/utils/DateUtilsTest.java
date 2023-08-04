@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
 
 public class DateUtilsTest {
 
