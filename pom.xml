@@ -46,6 +46,7 @@
         <!-- test -->
         <junit.version>4.13.2</junit.version>
         <mockito.version>1.10.19</mockito.version>
+        <testcontainers.version>1.18.1</testcontainers.version>
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
 
@@ -388,6 +389,20 @@
                 <groupId>com.autentia.tnt</groupId>
                 <artifactId>tntconcept-ddbb</artifactId>
                 <version>${tntconcept-ddbb.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>mysql</artifactId>
+                <version>${testcontainers.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${testcontainers.version}</version>
                 <scope>test</scope>
             </dependency>
 

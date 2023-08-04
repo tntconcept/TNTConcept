@@ -432,7 +432,6 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>mysql</artifactId>
-			<version>1.18.1</version>
 			<scope>test</scope>
 		</dependency>
 
