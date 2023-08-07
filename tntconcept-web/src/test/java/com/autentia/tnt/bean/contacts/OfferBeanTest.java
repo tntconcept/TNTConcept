@@ -14,16 +14,15 @@ import com.autentia.tnt.util.SpringUtils;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -63,6 +62,11 @@ public class OfferBeanTest {
         when(configurationUtil.getIvaUntilSeptember2012()).thenReturn(18.00f);
         when(configurationUtil.getActualIva()).thenReturn(21.00f);
         when(configurationUtil.getIvaUntilJuly2010()).thenReturn(16.00f);
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        SecurityContextHolder.clearContext();
     }
 
     @Test
