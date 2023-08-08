@@ -45,7 +45,7 @@ public class IVATypeDAO_IT extends IntegrationTest {
     public void searchShouldFindIVATypes() {
         final List<IVAType> result = ivaTypeDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -65,9 +65,7 @@ public class IVATypeDAO_IT extends IntegrationTest {
 
         ivaTypeDAO.delete(ivaType);
 
-        assertThrows(DataAccException.class, () -> {
-            final IVAType result = ivaTypeDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> ivaTypeDAO.loadById(1));
     }
 
     @Test

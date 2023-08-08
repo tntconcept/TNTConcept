@@ -4,7 +4,6 @@ import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.businessobject.ProjectRole;
 import com.autentia.tnt.businessobject.User;
-import com.autentia.tnt.dao.search.ActivitySearch;
 import com.autentia.tnt.manager.activity.ActivityManager;
 import com.autentia.tnt.manager.admin.ProjectManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
@@ -35,7 +34,6 @@ public class ActivityBeanTest {
     final static ApplicationContext ctx = mock(ApplicationContext.class);
     final static ActivityManager activityManager = mock(ActivityManager.class);
     final static AuthenticationManager authManager = mock(AuthenticationManager.class);
-    final static ActivitySearch activitySearch = mock(ActivitySearch.class);
     final static OrganizationManager organizationManager = mock(OrganizationManager.class);
     final static ProjectManager projectManager = mock(ProjectManager.class);
 

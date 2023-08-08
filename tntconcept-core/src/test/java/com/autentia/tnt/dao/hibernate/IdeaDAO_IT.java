@@ -13,8 +13,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 
 public class IdeaDAO_IT extends IntegrationTest {
 
@@ -44,7 +43,7 @@ public class IdeaDAO_IT extends IntegrationTest {
     public void searchShouldFindIdeas() {
         final List<Idea> result = ideaDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -73,9 +72,7 @@ public class IdeaDAO_IT extends IntegrationTest {
         final Idea idea = ideaDAO.getById(1);
         ideaDAO.delete(idea);
 
-        assertThrows(DataAccException.class, () -> {
-            final Idea result = ideaDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> ideaDAO.loadById(1));
     }
 
     @Test

@@ -53,7 +53,7 @@ public class OfferRejectReasonDAO_IT extends IntegrationTest {
     public void searchShouldFindOfferRejectReasons() {
         final List<OfferRejectReason> result = offerRejectReasonDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class OfferRejectReasonDAO_IT extends IntegrationTest {
 
         final List<OfferRejectReason> result = offerRejectReasonDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -96,9 +96,7 @@ public class OfferRejectReasonDAO_IT extends IntegrationTest {
 
         offerRejectReasonDAO.delete(offerRejectReason);
 
-        assertThrows(DataAccException.class, () -> {
-            final OfferRejectReason result = offerRejectReasonDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> offerRejectReasonDAO.loadById(1));
     }
 
     private OfferRejectReason createOfferRejectReason(String title) {

@@ -53,7 +53,7 @@ public class MagazineDAO_IT extends IntegrationTest {
     public void searchShouldFindMagazines() {
         final List<Magazine> result = magazineDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class MagazineDAO_IT extends IntegrationTest {
 
         final List<Magazine> result = magazineDAO.search(magazineSearch, new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -84,9 +84,7 @@ public class MagazineDAO_IT extends IntegrationTest {
 
         magazineDAO.delete(magazine);
 
-        assertThrows(DataAccException.class, () -> {
-            final Magazine result = magazineDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> magazineDAO.loadById(1));
     }
 
     @Test

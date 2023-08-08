@@ -58,7 +58,7 @@ public class ObjectiveDAO_IT extends IntegrationTest {
     public void searchShouldFindObjectives() {
         final List<Objective> result = objectiveDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class ObjectiveDAO_IT extends IntegrationTest {
 
         final List<Objective> result = objectiveDAO.search(objectiveSearch, new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -89,9 +89,7 @@ public class ObjectiveDAO_IT extends IntegrationTest {
 
         objectiveDAO.delete(objective);
 
-        assertThrows(DataAccException.class, () -> {
-            final Objective result = objectiveDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> objectiveDAO.loadById(1));
     }
 
     @Test

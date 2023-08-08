@@ -45,17 +45,18 @@ public class InteractionTypeDAO_IT extends IntegrationTest {
     public void searchShouldFindInteractionTypes() {
         final List<InteractionType> result = interactionTypeDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
     public void searchShouldFindByCriteria() {
+        final int expectedResult = 1;
         final InteractionTypeSearch interactionTypeSearch = new InteractionTypeSearch();
         interactionTypeSearch.setName(expectedNameFirstRow);
 
         final List<InteractionType> result = interactionTypeDAO.search(interactionTypeSearch, new SortCriteria());
 
-        assert (result.size() == 1);
+        assertEquals(expectedResult, result.size());
     }
 
     @Test
@@ -77,9 +78,7 @@ public class InteractionTypeDAO_IT extends IntegrationTest {
 
         interactionTypeDAO.delete(interactionType);
 
-        assertThrows(DataAccException.class, () -> {
-            final InteractionType result = interactionTypeDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> interactionTypeDAO.loadById(1));
     }
 
     @Test
@@ -90,7 +89,7 @@ public class InteractionTypeDAO_IT extends IntegrationTest {
         interactionTypeDAO.insert(interactionType);
         final List<InteractionType> result = interactionTypeDAO.search(new SortCriteria());
 
-        assertEquals(expectedName, result.get(result.size()-1).getName());
+        assertEquals(expectedName, result.get(result.size() - 1).getName());
     }
 
     private InteractionType createInteractionType(String name) {

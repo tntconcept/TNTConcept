@@ -10,13 +10,11 @@ import com.autentia.tnt.util.SpringUtils;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 
 public class InventaryDAO_IT extends IntegrationTest {
     private final InventaryDAO inventaryDAO;
@@ -45,7 +43,7 @@ public class InventaryDAO_IT extends IntegrationTest {
     public void searchShouldFindInventories() {
         final List<Inventary> result = inventaryDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -65,7 +63,7 @@ public class InventaryDAO_IT extends IntegrationTest {
 
         final List<Inventary> result = inventaryDAO.search(inventarySearch, new SortCriteria());
 
-        assert (result.size() == 0);
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -86,9 +84,7 @@ public class InventaryDAO_IT extends IntegrationTest {
         final Inventary inventary = inventaryDAO.getById(1);
         inventaryDAO.delete(inventary);
 
-        assertThrows(DataAccException.class, () -> {
-            final Inventary result = inventaryDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> inventaryDAO.loadById(1));
     }
 
     @Test
@@ -99,7 +95,7 @@ public class InventaryDAO_IT extends IntegrationTest {
         inventaryDAO.insert(inventary);
         final List<Inventary> result = inventaryDAO.search(new SortCriteria());
 
-        assertEquals(expectedDescription, result.get(result.size()-1).getDescription());
+        assertEquals(expectedDescription, result.get(result.size() - 1).getDescription());
     }
 
     private Inventary createInventary(String description) {

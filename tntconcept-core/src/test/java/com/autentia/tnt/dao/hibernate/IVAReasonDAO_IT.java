@@ -44,7 +44,7 @@ public class IVAReasonDAO_IT extends IntegrationTest {
     public void searchShouldFinIVAReason() {
         final List<IVAReason> result = ivaReasonDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -66,9 +66,7 @@ public class IVAReasonDAO_IT extends IntegrationTest {
 
         ivaReasonDAO.delete(ivaReason);
 
-        assertThrows(DataAccException.class, () -> {
-            final IVAReason result = ivaReasonDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> ivaReasonDAO.loadById(1));
     }
 
     @Test
@@ -79,7 +77,7 @@ public class IVAReasonDAO_IT extends IntegrationTest {
         ivaReasonDAO.insert(ivaReason);
         final List<IVAReason> result = ivaReasonDAO.search(new SortCriteria());
 
-        assertEquals(expectedReason, result.get(result.size()-1).getReason());
+        assertEquals(expectedReason, result.get(result.size() - 1).getReason());
     }
 
     private IVAReason createIVAReason(String reason) {

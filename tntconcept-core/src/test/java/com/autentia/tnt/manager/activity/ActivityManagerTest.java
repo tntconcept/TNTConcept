@@ -3,7 +3,6 @@ package com.autentia.tnt.manager.activity;
 import com.autentia.tnt.businessobject.Activity;
 import com.autentia.tnt.businessobject.ProjectRole;
 import com.autentia.tnt.dao.hibernate.ActivityDAO;
-import com.autentia.tnt.util.ConfigurationUtil;
 import com.autentia.tnt.util.SpringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +16,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ActivityManagerTest{
-    private final ConfigurationUtil configurationUtil = mock(ConfigurationUtil.class);
     ActivityManager activityManager = new ActivityManager(mock(ActivityDAO.class));
     final ProjectRole workingRoleProject1 = mock(ProjectRole.class);
     final ProjectRole workingRoleProject2 = mock(ProjectRole.class);

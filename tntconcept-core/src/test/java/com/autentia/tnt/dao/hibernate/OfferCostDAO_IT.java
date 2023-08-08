@@ -12,8 +12,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class OfferCostDAO_IT extends IntegrationTest {
     private final OfferCostDAO offerCostDAO;
@@ -55,7 +54,7 @@ public class OfferCostDAO_IT extends IntegrationTest {
     public void searchShouldFindOfferCosts() {
         final List<OfferCost> result = offerCostDAO.search(new SortCriteria());
 
-        assert result.size() > 0;
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -65,7 +64,7 @@ public class OfferCostDAO_IT extends IntegrationTest {
 
         final List<OfferCost> result = offerCostDAO.search(offerCostSearch, new SortCriteria());
 
-        assert result.size() > 0;
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -94,7 +93,10 @@ public class OfferCostDAO_IT extends IntegrationTest {
     public void insertShouldPersistOfferCost() {
         final String expectedName = "offercosttest";
         final OfferCost offerCost = createOfferCost(expectedName);
+        offerCostDAO.insert(offerCost);
+        final List<OfferCost> result = offerCostDAO.search(new SortCriteria());
 
+        assertEquals(expectedName, result.get(result.size() - 1).getName());
     }
 
     private OfferCost createOfferCost(String name) {
@@ -107,6 +109,7 @@ public class OfferCostDAO_IT extends IntegrationTest {
         offerCost.setCost(BigDecimal.TEN);
         offerCost.setBillable(true);
         offerCost.setUnits(BigDecimal.ONE);
+        offerCost.setIva(new BigDecimal(21));
         return offerCost;
     }
 }

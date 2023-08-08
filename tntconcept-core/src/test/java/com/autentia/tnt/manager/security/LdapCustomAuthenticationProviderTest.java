@@ -25,7 +25,9 @@ public class LdapCustomAuthenticationProviderTest {
 
     private static final String PASSWORD = "password";
 
-    private static final int ID = 1;
+    private static final int USER_ID = 1;
+
+    private static final int DEPARTMENT_ID = 1;
 
     private LdapCustomAuthenticationProvider sut;
 
@@ -70,8 +72,8 @@ public class LdapCustomAuthenticationProviderTest {
         when(role.getId()).thenReturn(1);
 
         User user = mock(User.class);
-        when(user.getId()).thenReturn(1);
-        when(user.getDepartmentId()).thenReturn(1);
+        when(user.getId()).thenReturn(USER_ID);
+        when(user.getDepartmentId()).thenReturn(DEPARTMENT_ID);
         when(user.getLogin()).thenReturn("login");
         when(user.getLdapPassword()).thenReturn("ldapPassword");
         when(user.isActive()).thenReturn(true);
