@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 
 import java.math.BigDecimal;
 
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,69 +45,69 @@ public class UserTest {
 
     @Test
     public void getLdapPassword() throws Exception {
-        assertThat(user.getLdapPassword(),is(OLD_PASSWORD));
+        assertEquals(OLD_PASSWORD, user.getLdapPassword());
     }
 
     @Test
     public void setLdapPassword() throws Exception {
-        assertThat(user.getLdapPassword(),is(OLD_PASSWORD));
+        assertEquals(OLD_PASSWORD, user.getLdapPassword());
         user.setLdapPassword(NEW_PASSWORD);
-        assertThat(user.getLdapPassword(),is(NEW_PASSWORD));
+        assertEquals(NEW_PASSWORD, user.getLdapPassword());
     }
 
     @Test
     public void isLdapAuthentication() throws Exception {
         when(configurationUtil.isLdapProviderEnabled()).thenReturn(Boolean.TRUE);
-        assertThat(user.isLdapAuthentication(), is(Boolean.TRUE));
+        assertTrue(user.isLdapAuthentication());
     }
 
     @Test
     public void isNotLdapAuthentication() throws Exception {
         when(configurationUtil.isLdapProviderEnabled()).thenReturn(Boolean.FALSE);
-        assertThat(user.isLdapAuthentication(), is(Boolean.FALSE));
+        assertFalse(user.isLdapAuthentication());
     }
 
     @Test
     public void setDn() throws Exception {
-        assertThat(user.getDn(),is(OLD_DN));
+        assertEquals(OLD_DN, user.getDn());
     }
 
     @Test
     public void getDn() throws Exception {
-        assertThat(user.getDn(),is(OLD_DN));
+        assertEquals(OLD_DN, user.getDn());
         user.setDn(NEW_DN);
-        assertThat(user.getDn(),is(NEW_DN));
+        assertEquals(NEW_DN, user.getDn());
     }
 
     @Test
     public void setLdapName() throws Exception {
-        assertThat(user.getLdapName(),is(OLD_LDAPNAME));
+        assertEquals(OLD_LDAPNAME, user.getLdapName());
         user.setLdapName(NEW_LDAPNAME);
-        assertThat(user.getLdapName(),is(NEW_LDAPNAME));
+        assertEquals(NEW_LDAPNAME, user.getLdapName());
     }
 
     @Test
     public void getLdapName() throws Exception {
-        assertThat(user.getLdapName(),is(OLD_LDAPNAME));
+        assertEquals(OLD_LDAPNAME, user.getLdapName());
     }
 
     @Test
     public void buildLdapName() throws Exception {
 
-        assertThat(user.buildLdapName(), is("uid=user,ou=People"));
+        assertEquals("uid=user,ou=People", user.buildLdapName());
     }
     @Test
     public void shouldGetYearDurationByYearFromUser() {
         user.setAgreementYearDuration(1000);
 
-        assertThat(user.getYearDurationByYear(2020), is(1000));
+        assertEquals(1000, user.getYearDurationByYear(2020));
     }
     @Test
     public void shouldGetYearDurationByYearFromAgreement() {
         final WorkingAgreement workingAgreement = WorkingAgreementMother.sample();
         user.setAgreement(workingAgreement);
 
-        assertThat(user.getYearDurationByYear(2020), is(100000));
+        assertEquals(100000, user.getYearDurationByYear(2020));
     }
 
     @Test

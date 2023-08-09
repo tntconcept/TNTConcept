@@ -1,7 +1,6 @@
 package com.autentia.tnt.manager.security;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import javax.naming.NamingException;
@@ -10,7 +9,6 @@ import javax.naming.directory.ModificationItem;
 
 import org.acegisecurity.ldap.InitialDirContextFactory;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
@@ -71,14 +69,14 @@ public class AuthenticationManagerLdapImplTest {
     @Test
     public void givenCorrectPasswordChecksPassword() throws Exception {
 
-        assertThat(sut.checkPassword(user, PASSWORD), is(Boolean.TRUE));
+        assertTrue(sut.checkPassword(user, PASSWORD));
 
     }
 
     @Test
     public void givenIncorrectPasswordChecksPassword() throws Exception {
 
-        assertThat(sut.checkPassword(user, "incorrect-password"), is(Boolean.FALSE));
+        assertFalse(sut.checkPassword(user, "incorrect-password"));
 
     }
 

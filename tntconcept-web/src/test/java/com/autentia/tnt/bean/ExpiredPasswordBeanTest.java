@@ -11,10 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doNothing;
@@ -71,9 +68,8 @@ public class ExpiredPasswordBeanTest {
         user.setPasswordExpired(true);
 
         final String result = sut.changePassword();
-        assertThat(result, is(NavigationResults.CHANGE_PASSWORD_OK));
-        assertThat(user.isPasswordExpired(), is(false));
-
+        assertEquals(NavigationResults.CHANGE_PASSWORD_OK, result);
+        assertFalse(user.isPasswordExpired());
     }
 
     @Test
@@ -81,9 +77,8 @@ public class ExpiredPasswordBeanTest {
         sut.setPassword(NEW_PASSWORD);
         sut.setPasswordRepe(NEW_PASSWORD + "INVALID");
         final String result = sut.changePassword();
-        assertThat(result, is(nullValue()));
+        assertNull(result);
         verify(sut).addErrorMessage("error.newPasswordsNotEquals");
-
     }
 
     @Test
@@ -91,8 +86,7 @@ public class ExpiredPasswordBeanTest {
         sut.setPassword(OLD_PASSWORD);
         sut.setPasswordRepe(OLD_PASSWORD);
         final String result = sut.changePassword();
-        assertThat(result, is(nullValue()));
+        assertNull(result);
         verify(sut).addErrorMessage("error.newPasswordEqualsOldPassword");
-
     }
 }

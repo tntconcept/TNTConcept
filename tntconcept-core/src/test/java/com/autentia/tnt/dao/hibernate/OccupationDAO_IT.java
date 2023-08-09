@@ -57,7 +57,7 @@ public class OccupationDAO_IT extends IntegrationTest {
     public void searchShouldFindOccupations() {
         final List<Occupation> result = occupationDAO.search(new SortCriteria());
 
-        assert result.size() > 0;
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class OccupationDAO_IT extends IntegrationTest {
 
         final List<Occupation> result = occupationDAO.search(occupationSearch, new SortCriteria());
 
-        assert result.size() > 0;
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -89,9 +89,7 @@ public class OccupationDAO_IT extends IntegrationTest {
 
         occupationDAO.delete(occupation);
 
-        assertThrows(DataAccException.class, () -> {
-            final Occupation result = occupationDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> occupationDAO.loadById(1));
     }
 
     @Test

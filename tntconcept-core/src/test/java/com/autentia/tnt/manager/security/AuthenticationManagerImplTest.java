@@ -1,8 +1,6 @@
 package com.autentia.tnt.manager.security;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -13,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.autentia.tnt.businessobject.User;
+import org.mockito.internal.matchers.InstanceOf;
 
 public class AuthenticationManagerImplTest {
 
@@ -43,14 +42,14 @@ public class AuthenticationManagerImplTest {
     public void shouldReturnAuthenticationManagerLdapTest() throws Exception {
 
         sut = new AuthenticationManagerImpl(true, list).getObject();
-        assertThat(sut, is(instanceOf(AuthenticationManagerLdapImpl.class)));
+        assertEquals(AuthenticationManagerLdapImpl.class, sut.getClass().getGenericSuperclass());
     }
 
     @Test
     public void shouldReturnAuthenticationManagerDaoTest() throws Exception {
 
         sut = new AuthenticationManagerImpl(false, list).getObject();
-        assertThat(sut, is(instanceOf(AuthenticationManagerDaoImpl.class)));
+        assertEquals(AuthenticationManagerDaoImpl.class, sut.getClass().getGenericSuperclass());
     }
 
     @Test

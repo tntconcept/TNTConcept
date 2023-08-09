@@ -17,9 +17,7 @@ import java.time.Duration;
 import java.time.Month;
 import java.util.*;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UserHolidaysStateManagerTest {
@@ -49,14 +47,14 @@ public class UserHolidaysStateManagerTest {
     private final UserHolidaysStateManager sut = new UserHolidaysStateManager();
 
     private static void verifyRequestHolidays(RequestHolidaySearch requestHolidaySearch, RequestHolidaySearch expectedRequestHolidaySearch) {
-        assertThat(requestHolidaySearch.getState(), equalTo(expectedRequestHolidaySearch.getState()));
-        assertThat(requestHolidaySearch.getStartBeginDate(), equalTo(expectedRequestHolidaySearch.getStartBeginDate()));
-        assertThat(requestHolidaySearch.getEndFinalDate(), equalTo(expectedRequestHolidaySearch.getEndFinalDate()));
+        assertEquals(expectedRequestHolidaySearch.getState(), requestHolidaySearch.getState());
+        assertEquals(requestHolidaySearch.getStartBeginDate(), expectedRequestHolidaySearch.getStartBeginDate());
+        assertEquals(requestHolidaySearch.getEndFinalDate(), expectedRequestHolidaySearch.getEndFinalDate());
     }
 
     private static void verifyHolidaysSearch(HolidaySearch holidaySearch, HolidaySearch expectedHolidaySearch) {
-        assertThat(holidaySearch.getStartDate(), equalTo(expectedHolidaySearch.getStartDate()));
-        assertThat(holidaySearch.getEndDate(), equalTo(expectedHolidaySearch.getEndDate()));
+        assertEquals(expectedHolidaySearch.getStartDate(), holidaySearch.getStartDate());
+        assertEquals(expectedHolidaySearch.getEndDate(), holidaySearch.getEndDate());
     }
 
     private static RequestHolidaySearch buildRequestHolidays(Date date) {
@@ -104,9 +102,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), buildHolidaySearch(now));
-        assertThat(result.getTotalAccepted(), is(4));
-        assertThat(result.getTotalYear(), is(22));
-        assertThat(result.getYearAgreementHolidays(), is(22));
+        assertEquals(4, result.getTotalAccepted());
+        assertEquals(22, result.getTotalYear());
+        assertEquals(22, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -124,9 +122,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), buildHolidaySearch(now));
-        assertThat(result.getTotalAccepted(), is(3));
-        assertThat(result.getTotalYear(), is(20));
-        assertThat(result.getYearAgreementHolidays(), is(20));
+        assertEquals(3, result.getTotalAccepted());
+        assertEquals(20, result.getTotalYear());
+        assertEquals(20, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -144,9 +142,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), buildHolidaySearch(now));
-        assertThat(result.getTotalAccepted(), is(2));
-        assertThat(result.getTotalYear(), is(23));
-        assertThat(result.getYearAgreementHolidays(), is(23));
+        assertEquals(2, result.getTotalAccepted());
+        assertEquals(23, result.getTotalYear());
+        assertEquals(23, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -164,9 +162,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), buildHolidaySearch(now));
-        assertThat(result.getTotalAccepted(), is(0));
-        assertThat(result.getTotalYear(), is(0));
-        assertThat(result.getYearAgreementHolidays(), is(0));
+        assertEquals(0, result.getTotalAccepted());
+        assertEquals(0, result.getTotalYear());
+        assertEquals(0, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -182,9 +180,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), expectedHolidaySearch);
-        assertThat(result.getTotalAccepted(), is(4));
-        assertThat(result.getTotalYear(), is(23));
-        assertThat(result.getYearAgreementHolidays(), is(23));
+        assertEquals(4, result.getTotalAccepted());
+        assertEquals(23, result.getTotalYear());
+        assertEquals(23, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -198,9 +196,9 @@ public class UserHolidaysStateManagerTest {
 
         final UserHolidaysState result = sut.calculateUserHolidaysState(user, null);
 
-        assertThat(result.getTotalAccepted(), is(0));
-        assertThat(result.getTotalYear(), is(0));
-        assertThat(result.getYearAgreementHolidays(), is(0));
+        assertEquals(0, result.getTotalAccepted());
+        assertEquals(0, result.getTotalYear());
+        assertEquals(0, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -218,9 +216,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), expectedHolidaySearch);
-        assertThat(result.getTotalAccepted(), is(0));
-        assertThat(result.getTotalYear(), is(19));
-        assertThat(result.getYearAgreementHolidays(), is(23));
+        assertEquals(0, result.getTotalAccepted());
+        assertEquals(19, result.getTotalYear());
+        assertEquals(23, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -238,9 +236,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), expectedHolidaySearch);
-        assertThat(result.getTotalAccepted(), is(8));
-        assertThat(result.getTotalYear(), is(19));
-        assertThat(result.getYearAgreementHolidays(), is(23));
+        assertEquals(8, result.getTotalAccepted());
+        assertEquals(19, result.getTotalYear());
+        assertEquals(23, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -256,9 +254,9 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), expectedHolidaySearch);
-        assertThat(result.getTotalAccepted(), is(6));
-        assertThat(result.getTotalYear(), is(23));
-        assertThat(result.getYearAgreementHolidays(), is(23));
+        assertEquals(6, result.getTotalAccepted());
+        assertEquals(23, result.getTotalYear());
+        assertEquals(23, result.getYearAgreementHolidays());
     }
 
     @Test
@@ -274,8 +272,8 @@ public class UserHolidaysStateManagerTest {
 
         verifyRequestHolidays(requestHolidaySearchArgumentCaptor.getValue(), expectedRequestHolidaySearch);
         verifyHolidaysSearch(holidaySearchArgumentCaptor.getValue(), expectedHolidaySearch);
-        assertThat(result.getTotalAccepted(), is(0));
-        assertThat(result.getTotalYear(), is(23));
-        assertThat(result.getYearAgreementHolidays(), is(23));
+        assertEquals(0, result.getTotalAccepted());
+        assertEquals(23, result.getTotalYear());
+        assertEquals(23, result.getYearAgreementHolidays());
     }
 }

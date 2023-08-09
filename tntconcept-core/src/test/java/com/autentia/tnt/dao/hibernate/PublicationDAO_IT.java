@@ -1,6 +1,5 @@
 package com.autentia.tnt.dao.hibernate;
 
-import com.autentia.tnt.businessobject.Magazine;
 import com.autentia.tnt.businessobject.Publication;
 import com.autentia.tnt.dao.SortCriteria;
 import com.autentia.tnt.dao.search.PublicationSearch;
@@ -12,8 +11,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class PublicationDAO_IT extends IntegrationTest {
     private final PublicationDAO publicationDAO;
@@ -55,7 +53,7 @@ public class PublicationDAO_IT extends IntegrationTest {
     public void searchShouldFindPublications() {
         final List<Publication> result = publicationDAO.search(new SortCriteria());
 
-        assert result.size() > 0;
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -65,7 +63,7 @@ public class PublicationDAO_IT extends IntegrationTest {
 
         final List<Publication> result = publicationDAO.search(publicationSearch, new SortCriteria());
 
-        assert result.size() > 0;
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -94,6 +92,11 @@ public class PublicationDAO_IT extends IntegrationTest {
     public void insertShouldPersistPublication() {
         final String expectedName = "newPublication";
         final Publication publication = createPublication(expectedName);
+        publicationDAO.insert(publication);
+
+        final List<Publication> result = publicationDAO.search(new SortCriteria());
+
+        assertEquals(expectedName, result.get(result.size()-1).getName());
     }
 
     private Publication createPublication(String name) {

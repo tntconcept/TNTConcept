@@ -8,7 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.hamcrest.core.Is.is;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -46,14 +46,14 @@ public class AuthenticationManagerDaoImplTest {
     public void givenCorrectPasswordChecksPassword() throws Exception {
 
 
-        assertThat(sut.checkPassword(user, PASSWORD), is(Boolean.TRUE));
+        assertTrue(sut.checkPassword(user, PASSWORD));
 
     }
 
     @Test
     public void givenIncorrectPasswordChecksPassword() throws Exception {
 
-        assertThat(sut.checkPassword(user, "incorrect-password"), is(Boolean.FALSE));
+        assertFalse(sut.checkPassword(user, "incorrect-password"));
 
     }
 
@@ -61,7 +61,7 @@ public class AuthenticationManagerDaoImplTest {
     public void shouldUpdateUserPasswordWithNewPassword() throws Exception {
 
         sut.changePassword(user, NEW_PASSWORD);
-        assertThat(user.getPassword(), is(CRYPT_NEW_PASSWORD));
+        assertEquals(CRYPT_NEW_PASSWORD, user.getPassword());
 
     }
 
@@ -69,7 +69,7 @@ public class AuthenticationManagerDaoImplTest {
     public void shouldResetUserPassword() throws Exception {
 
         sut.resetPassword(user, RANDOM_STRING, RANDOM_STRING, RANDOM_STRING, RANDOM_STRING, RANDOM_STRING);
-        assertThat(user.getPassword(), is ("b5599d4896bb77df9f597e34004eff6fb55e148e"));
+        assertEquals("b5599d4896bb77df9f597e34004eff6fb55e148e", user.getPassword());
 
     }
 

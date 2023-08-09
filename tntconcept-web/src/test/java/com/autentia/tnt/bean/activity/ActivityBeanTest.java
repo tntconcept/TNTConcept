@@ -4,7 +4,6 @@ import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.businessobject.ProjectRole;
 import com.autentia.tnt.businessobject.User;
-import com.autentia.tnt.dao.search.ActivitySearch;
 import com.autentia.tnt.manager.activity.ActivityManager;
 import com.autentia.tnt.manager.admin.ProjectManager;
 import com.autentia.tnt.manager.contacts.OrganizationManager;
@@ -23,8 +22,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,7 +34,6 @@ public class ActivityBeanTest {
     final static ApplicationContext ctx = mock(ApplicationContext.class);
     final static ActivityManager activityManager = mock(ActivityManager.class);
     final static AuthenticationManager authManager = mock(AuthenticationManager.class);
-    final static ActivitySearch activitySearch = mock(ActivitySearch.class);
     final static OrganizationManager organizationManager = mock(OrganizationManager.class);
     final static ProjectManager projectManager = mock(ProjectManager.class);
 
@@ -98,10 +95,10 @@ public class ActivityBeanTest {
 
 
         List<SelectItem> projects = activityBean.getProjectsVisiblesBySelectedOrganization();
-        assertThat(projects.size(), is(greaterThan(0)));
+        assertTrue(projects.size() > 0);
 
         for (SelectItem item : projects) {
-            assertThat(((Project) item.getValue()).isFinished(), is(not(true)));
+            assertFalse(((Project) item.getValue()).isFinished());
         }
     }
 
@@ -114,7 +111,7 @@ public class ActivityBeanTest {
         activityBean.setSelectedProject(p1);
 
         List<SelectItem> projects = activityBean.getProjectsVisiblesBySelectedOrganization();
-        assertThat(projects.size(), is(greaterThan(0)));
+        assertTrue(projects.size() > 0);
 
         boolean isOk = false;
         for (SelectItem si : projects) {
@@ -123,8 +120,7 @@ public class ActivityBeanTest {
             }
         }
 
-        assertThat(isOk, is(true));
-
+        assertTrue(isOk);
     }
 
     @Test
@@ -134,10 +130,10 @@ public class ActivityBeanTest {
         activityBean.setSelectedProject(null);
 
         List<SelectItem> projects = activityBean.getProjectsVisiblesBySelectedOrganization();
-        assertThat(projects.size(), is(greaterThan(0)));
+        assertTrue(projects.size() > 0);
 
         for (SelectItem item : projects) {
-            assertThat(((Project) item.getValue()).isFinished(), is(not(true)));
+            assertFalse(((Project) item.getValue()).isFinished());
         }
     }
 }

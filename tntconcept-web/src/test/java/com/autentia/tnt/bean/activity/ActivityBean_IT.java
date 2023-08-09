@@ -21,9 +21,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.hamcrest.Matchers.closeTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class ActivityBean_IT extends TestContainer {
 
@@ -76,14 +74,14 @@ public class ActivityBean_IT extends TestContainer {
         Date augustDate = Date.from(august.atStartOfDay(ZoneId.systemDefault()).toInstant());
         sut.setSelectedDate(augustDate);
         double augustHours = sut.getMonthTotalHours();
-        assertThat("First Month Hours", augustHours, closeTo(176.0, 0.1));
+        assertEquals("First Month Hours", 176.0, augustHours, 0.1);
 
         // verify total hours for the second month
         LocalDate september = LocalDate.of(2017, 9, 1);
         Date septemberDate = Date.from(september.atStartOfDay(ZoneId.systemDefault()).toInstant());
         sut.setSelectedDate(septemberDate);
         double septHours = sut.getMonthTotalHours();
-        assertThat("Second Month Hours", septHours, closeTo(160.0, 0.1));
+        assertEquals("Second Month Hours", 160.0, septHours, 0.1);
     }
 
     @Test
@@ -111,7 +109,7 @@ public class ActivityBean_IT extends TestContainer {
         Date augustDate = Date.from(august.atStartOfDay(ZoneId.systemDefault()).toInstant());
         sut.setSelectedDate(augustDate);
         double augustHours = sut.getMonthTotalHours();
-        assertThat(augustHours, closeTo(176, 0.1));
+        assertEquals(176.0, augustHours, 0.1);
     }
 
     @Test
@@ -132,7 +130,7 @@ public class ActivityBean_IT extends TestContainer {
         Date augustDate = Date.from(august.atStartOfDay(ZoneId.systemDefault()).toInstant());
         sut.setSelectedDate(augustDate);
         double augustHours = sut.getMonthTotalHours();
-        assertThat(augustHours, closeTo(176.0, 0.1));
+        assertEquals(176.0, augustHours, 0.1);
     }
 
     @Test
@@ -153,7 +151,7 @@ public class ActivityBean_IT extends TestContainer {
         Date augustDate = Date.from(august.atStartOfDay(ZoneId.systemDefault()).toInstant());
         sut.setSelectedDate(augustDate);
         double augustHours = sut.getMonthTotalHours();
-        assertThat(augustHours, closeTo(184.0, 0.1));
+        assertEquals(184.0, augustHours, 0.1);
     }
 
     @Test

@@ -59,7 +59,7 @@ public class ActivityEvidenceNotificationBean_IT extends TestContainer {
     public void should_send_no_evidence_email() throws MessagingException {
         User user = testUser();
 
-        insertActivityWithRequiredEvidence(user);
+        insertActivityWithRequiredEvidence();
 
         ActivityEvidenceNotificationBean bean = new ActivityEvidenceNotificationBean(mailService);
         bean.checkActivitiesWithNoEvidence();
@@ -70,7 +70,7 @@ public class ActivityEvidenceNotificationBean_IT extends TestContainer {
     public void should_not_send_no_evidence_email() throws MessagingException {
         User user = testUser();
 
-        insertActivityWithNonRequiredEvidence(user);
+        insertActivityWithNonRequiredEvidence();
 
         ActivityEvidenceNotificationBean bean = new ActivityEvidenceNotificationBean(mailService);
         bean.checkActivitiesWithNoEvidence();
@@ -86,7 +86,7 @@ public class ActivityEvidenceNotificationBean_IT extends TestContainer {
         return userManager.getUserByLogin("user");
     }
 
-    private void insertActivityWithRequiredEvidence(User user) {
+    private void insertActivityWithRequiredEvidence() {
         ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(3);
         Activity activity = new Activity();
         activity.setDescription("Test activity");
@@ -102,7 +102,7 @@ public class ActivityEvidenceNotificationBean_IT extends TestContainer {
         activityDAO.insert(activity);
     }
 
-    private void insertActivityWithNonRequiredEvidence(User user) {
+    private void insertActivityWithNonRequiredEvidence() {
         ProjectRole role = ((ProjectRoleDAO) SpringUtils.getSpringBean("daoProjectRole")).getById(1);
 
         Activity activity = new Activity();

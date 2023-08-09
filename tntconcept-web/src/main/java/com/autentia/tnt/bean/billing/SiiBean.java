@@ -32,7 +32,7 @@ import com.autentia.tnt.util.SettingPath;
 import com.autentia.tnt.util.SpringUtils;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

@@ -12,9 +12,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.util.Date;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class ChangePasswordBeanTest {
@@ -71,9 +69,8 @@ public class ChangePasswordBeanTest {
         this.user.setPasswordExpired(true);
 
         final String result = sut.changePassword();
-        assertThat(result, is(NavigationResults.CHANGE_PASSWORD_OK));
-        assertThat(this.user.isPasswordExpired(),is(false));
-
+        assertEquals(NavigationResults.CHANGE_PASSWORD_OK, result);
+        assertFalse(this.user.isPasswordExpired());
     }
 
     @Test
@@ -82,7 +79,7 @@ public class ChangePasswordBeanTest {
         sut.setPasswordRepe(NEW_PASSWORD + "INVALID");
         sut.setPasswordOld(OLD_PASSWORD);
         final String result = sut.changePassword();
-        assertThat(result, is(nullValue()));
+        assertNull(result);
         verify(sut).addErrorMessage("error.newPasswordsNotEquals");
 
     }
@@ -93,7 +90,7 @@ public class ChangePasswordBeanTest {
         sut.setPasswordRepe(OLD_PASSWORD);
         sut.setPasswordOld(OLD_PASSWORD);
         final String result = sut.changePassword();
-        assertThat(result, is(nullValue()));
+        assertNull(result);
         verify(sut).addErrorMessage("error.newPasswordEqualsOldPassword");
     }
 
@@ -104,7 +101,7 @@ public class ChangePasswordBeanTest {
         sut.setPasswordRepe(NEW_PASSWORD);
         sut.setPasswordOld(OLD_PASSWORD + "INVALID");
         final String result = sut.changePassword();
-        assertThat(result, is(nullValue()));
+        assertNull(result);
         verify(sut).addErrorMessage("error.invalidPassword");
 
     }
@@ -113,7 +110,7 @@ public class ChangePasswordBeanTest {
     public void shouldModifyPasswordInDbTest(){
 
         doReturn(false).when(user).isLdapAuthentication();
-        doReturn(new Integer(365)).when(configurationUtil).getDaysToExpirePassword();
+        doReturn(365).when(configurationUtil).getDaysToExpirePassword();
         doReturn(new Date()).when(sut).calcNextExpireDate();
 
         doNothing().when(user).setPasswordExpireDate((Date) any());
@@ -123,7 +120,7 @@ public class ChangePasswordBeanTest {
         sut.setPasswordOld(OLD_PASSWORD);
 
         final String result = sut.changePassword();
-        assertThat(result, is(NavigationResults.CHANGE_PASSWORD_OK));
+        assertEquals(NavigationResults.CHANGE_PASSWORD_OK, result);
         verify(sut).calcNextExpireDate();
 
     }

@@ -54,7 +54,7 @@ public class LinkDAO_IT extends IntegrationTest {
     public void searchShouldFindLinks() {
         final List<Link> result = linkDAO.search(new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class LinkDAO_IT extends IntegrationTest {
 
         final List<Link> result = linkDAO.search(linkSearch, new SortCriteria());
 
-        assert (result.size() > 0);
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -85,9 +85,7 @@ public class LinkDAO_IT extends IntegrationTest {
 
         linkDAO.delete(link);
 
-        assertThrows(DataAccException.class, () -> {
-            final Link result = linkDAO.loadById(1);
-        });
+        assertThrows(DataAccException.class, () -> linkDAO.loadById(1));
     }
 
     @Test

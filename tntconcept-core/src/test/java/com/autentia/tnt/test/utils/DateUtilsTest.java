@@ -7,9 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertEquals;
 
 public class DateUtilsTest {
 
@@ -21,7 +19,7 @@ public class DateUtilsTest {
         final Date result = DateUtils.getFirstDayOfMonth(testDate);
 
         final Date expectedDate = new GregorianCalendar(2019, Calendar.JULY, 1).getTime();
-        assertThat(result, is(expectedDate));
+        assertEquals(expectedDate, result);
     }
 
     @Test
@@ -35,7 +33,7 @@ public class DateUtilsTest {
         calendar.setTime(expectedDate);
         calendar.set(Calendar.MILLISECOND, calendar.getMaximum(Calendar.MILLISECOND));
         expectedDate = calendar.getTime();
-        assertThat(result, is(expectedDate));
+        assertEquals(expectedDate, result);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class DateUtilsTest {
         final Date result = DateUtils.getFirstDayOfYear(testDate);
 
         final Date expectedDate = new GregorianCalendar(2019, Calendar.JANUARY, 1).getTime();
-        assertThat(result, is(expectedDate));
+        assertEquals(expectedDate, result);
     }
 
     @Test
@@ -61,7 +59,7 @@ public class DateUtilsTest {
         calendar.setTime(expectedDate);
         calendar.set(Calendar.MILLISECOND, calendar.getMaximum(Calendar.MILLISECOND));
         expectedDate = calendar.getTime();
-        assertThat(result, is(expectedDate));
+        assertEquals(expectedDate, result);
     }
 
 }
