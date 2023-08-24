@@ -81,11 +81,11 @@ public class Activity implements Serializable, ITransferObject {
     private Date end;
 
     public Date getEnd() {
-        return getEndDate();
+        return this.end;
     }
 
     public void setEnd(Date end) {
-        this.end = getEndDate();
+        this.end = end;
     }
 
 
