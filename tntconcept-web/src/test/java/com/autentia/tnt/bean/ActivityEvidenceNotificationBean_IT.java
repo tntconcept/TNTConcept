@@ -97,6 +97,7 @@ public class ActivityEvidenceNotificationBean_IT extends TestContainer {
         activity.setBillable(true);
         activity.setDescription("");
         activity.setHasEvidences(true);
+        activity.setEnd(activity.getEndDate());
 
         ActivityDAO activityDAO = (ActivityDAO) SpringUtils.getSpringBean("daoActivity");
         activityDAO.insert(activity);
@@ -109,11 +110,14 @@ public class ActivityEvidenceNotificationBean_IT extends TestContainer {
         activity.setDescription("Test activity 2");
         activity.setHasEvidences(true);
         activity.setStart(Date.from(LocalDate.now().plusDays(-4).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        activity.setRole(role);
         activity.setDuration(32);
+        activity.setEnd(activity.getEndDate());
+
+        activity.setRole(role);
         activity.setBillable(true);
         activity.setDescription("");
         activity.setHasEvidences(true);
+
 
 
         ActivityDAO activityDAO = (ActivityDAO) SpringUtils.getSpringBean("daoActivity");
