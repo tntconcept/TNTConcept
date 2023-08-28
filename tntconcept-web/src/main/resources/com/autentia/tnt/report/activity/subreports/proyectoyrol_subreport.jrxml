@@ -45,7 +45,7 @@
 	</parameter>
 	<queryString><![CDATA[SELECT
 			start,
-			start + INTERVAL duration MINUTE as endDate,
+			end as endDate,
 			duration,
 			description,
 			COALESCE(fact,0) as fact,
