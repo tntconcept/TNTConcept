@@ -56,12 +56,12 @@
         <defaultValueExpression><![CDATA[new Integer (1)]]></defaultValueExpression>
     </parameter>
     <queryString><![CDATA[WITH  RECURSIVE  NaturalDays AS (
-    SELECT '2023-01-01' AS calendarDate
+    SELECT $P{Fecha inicio} AS calendarDate
     UNION ALL
     SELECT calendarDate + INTERVAL 1 DAY
     FROM NaturalDays
     WHERE
-            calendarDate < '2023-12-31'
+            calendarDate < $P{Fecha fin}
 ),
                  WorkingDays (calendarDate) AS (
                      SELECT calendarDate FROM NaturalDays WHERE DAYOFWEEK (calendarDate) NOT IN (1, 7)
