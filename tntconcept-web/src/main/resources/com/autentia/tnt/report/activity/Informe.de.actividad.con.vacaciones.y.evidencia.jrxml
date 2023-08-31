@@ -103,13 +103,13 @@
                          'Vacaciones'               AS proName,
                          TIMESTAMP(greatest(rh.beginDate, params.start)) AS start,
                          TIMESTAMP(least(rh.finalDate, params.end))      AS endDate,
-                         0                          AS duration,
+                         8                          AS duration,
                          'WORKING_DAYS'             AS timeUnit,
                          rh.userComment             AS description,
                          rh.id                      AS activityId,
                          0                          AS hasEvidences,
                          0                          AS 'fact',
-                         0                          AS 'noFact',
+                         8                          AS 'noFact',
                          CURDATE()                  AS insertDate
                      FROM
                          RequestHoliday rh,
