@@ -57,40 +57,44 @@
 	orgName,
 	userName,
 	roleName,
-	start,
-	start + INTERVAL duration MINUTE as endDate,
-	hasEvidences,
-	insertDate,
+	startDate,
+	endDate,
 	activityId,
 	duration,
 	description,
 	COALESCE(fact/60,0) as fact,
 	COALESCE(noFact/60,0) as noFact,
 	COALESCE(fact/60,0)+COALESCE(noFact/60,0) as total,
-	proName
+	proName,
+	IF(attachmentId IS NULL, false, true) hasEvidences,
+	attachmentId,
+	attachmentPath,
+	attachmentMimeType
 from (
 	SELECT
 		o.name as orgName,
 		u.name as userName,
 		r.name as roleName,
-		a.start,
-		a.insertDate,
+		a.start as startDate,
+		a.end as endDate,
 		a.duration,
-		a.hasEvidences,
 		a.description,
 		a.id as activityId,
 		p.name as proName,
-		sum(CASE WHEN a.billable=1
-	   		then duration end) as 'fact',
-		sum(CASE WHEN a.billable=0
-			then duration end) as 'noFact'
+		sum(CASE WHEN a.billable=1 then duration end) as fact,
+		sum(CASE WHEN a.billable=0 then duration end) as noFact,
+		att.id as attachmentId,
+		att.path attachmentPath,
+		att.mimeType as attachmentMimeType
 	FROM
-		Activity a, Organization o, User u, Project p, ProjectRole r
+		Activity a
+		INNER JOIN User u ON u.id=a.userId
+		INNER JOIN ProjectRole r ON r.id=a.roleId
+		INNER JOIN Project p ON p.id = r.projectId
+		INNER JOIN Organization o ON o.id = p.organizationId
+		LEFT JOIN ActivityEvidence ae ON ae.activityId = a.id
+		LEFT JOIN Attachment att ON att.id = ae.attachmentId
 	where
-		u.id=a.userId and
-		r.id=a.roleId and
-		p.organizationId=o.id and
-		p.id=r.projectId and
 		a.start between $P{Fecha inicio} and $P{Fecha fin} and
 		u.id=$P{Usuario}
 	group by
@@ -104,18 +108,19 @@ from (
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
-	<field name="start" class="java.sql.Timestamp"/>
-	<field name="insertDate" class="java.sql.Timestamp"/>
+	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="hasEvidences" class="java.lang.Integer"/>
 	<field name="activityId" class="java.lang.Integer"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
 	<field name="total" class="java.math.BigDecimal"/>
 	<field name="proName" class="java.lang.String"/>
-
+	<field name="hasEvidences" class="java.lang.Integer"/>
+	<field name="attachmentId" class="java.lang.String"/>
+	<field name="attachmentPath" class="java.lang.String"/>
+	<field name="attachmentMimeType" class="java.lang.String"/>
 	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
 	</variable>
@@ -426,7 +431,7 @@ from (
 	</columnHeader>
 	<detail>
 		<band height="22"  isSplitAllowed="true" >
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yy HH:mm" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
 						x="262"
 						y="0"
@@ -437,7 +442,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{startDate})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
 				<reportElement
@@ -450,8 +455,8 @@ from (
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]> </textFieldExpression>
-				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]>
+				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentId},$F{attachmentPath},$F{attachmentMimeType})]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentId},$F{attachmentPath},$F{attachmentMimeType})]]>
 				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -543,7 +548,7 @@ from (
 				</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{proName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yy HH:mm" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
 						x="330"
 						y="0"
@@ -554,7 +559,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{endDate}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{endDate})]]></textFieldExpression>
 			</textField>
 
 		</band>

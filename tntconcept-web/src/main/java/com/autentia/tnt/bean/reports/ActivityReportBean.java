@@ -26,32 +26,42 @@ import com.autentia.tnt.util.ConfigurationUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.faces.context.FacesContext;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class ActivityReportBean extends ReportBean {
 
     private static final Log log = LogFactory.getLog(ActivityReportBean.class);
-    private static final String ACTIVITY_IMAGES_PATH = "/doc/activity/images/";
-    private static final String EXTENSION = ".jpg";
+    private static final String ATTACHMENTS_PATH = "/doc/attachments";
+    private final static SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("dd/MM/yy HH:mm");
+    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
+
 
     @Override
     protected void setListReports() {
         listReports = ReportManager.getReportManager().getReportListActivity();
     }
 
-    public static String getActivityImageUrl(Integer id, Date date) {
-        StringBuilder path = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
+    public static String genEvidenceURL(String attachmentId, String path, String mimeType) {
+        String extension = mimeType.substring(mimeType.lastIndexOf("/") + 1);
+        StringBuilder sbPath = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
+        sbPath.append(ATTACHMENTS_PATH);
+        if(!ATTACHMENTS_PATH.endsWith("/") && !path.startsWith("/")) {
+            sbPath.append("/");
+        }
+        sbPath.append(path);
+        if(!path.endsWith("/")) {
+            sbPath.append("/");
+        }
+        return sbPath.append(attachmentId).append(".").append(extension).toString();
+    }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+    public static String getFormattedDate(java.sql.Timestamp date) {
 
-        path.append(ACTIVITY_IMAGES_PATH).append(year).append("/").append(month).append("/").append(id).append(EXTENSION);
-
-        return path.toString();
+        if ( (date.getHours() == 0 && date.getMinutes() == 0) || (date.getHours() == 23 && date.getMinutes() == 59) ) {
+            return DATE_FORMAT.format(date);
+        } else {
+            return TIMESTAMP_FORMAT.format(date);
+        }
     }
 
 }
