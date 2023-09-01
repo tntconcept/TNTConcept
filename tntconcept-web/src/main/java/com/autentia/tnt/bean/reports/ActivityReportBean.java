@@ -21,19 +21,21 @@
 
 package com.autentia.tnt.bean.reports;
 
+import com.autentia.tnt.bean.DateTimeBean;
 import com.autentia.tnt.manager.report.ReportManager;
 import com.autentia.tnt.util.ConfigurationUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ActivityReportBean extends ReportBean {
 
-    private static final Log log = LogFactory.getLog(ActivityReportBean.class);
     private static final String ATTACHMENTS_PATH = "/doc/attachments";
-    private final static SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("dd/MM/yy HH:mm");
-    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
+    private static final DateTimeFormatter  TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+    private static final DateTimeFormatter DATE_FORMAT =  DateTimeFormatter.ofPattern("dd/MM/yy");
+
+    private static final int MINUTES_OF_ONE_WORKING_DAY = 8*60;
+
 
 
     @Override
@@ -45,7 +47,7 @@ public class ActivityReportBean extends ReportBean {
         String extension = mimeType.substring(mimeType.lastIndexOf("/") + 1);
         StringBuilder sbPath = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
         sbPath.append(ATTACHMENTS_PATH);
-        if(!ATTACHMENTS_PATH.endsWith("/") && !path.startsWith("/")) {
+        if(!path.startsWith("/")) {
             sbPath.append("/");
         }
         sbPath.append(path);
@@ -55,12 +57,14 @@ public class ActivityReportBean extends ReportBean {
         return sbPath.append(attachmentId).append(".").append(extension).toString();
     }
 
-    public static String getFormattedDate(java.sql.Timestamp date) {
+    public static String getFormattedDate(java.sql.Timestamp date, int duration) {
 
-        if ( (date.getHours() == 0 && date.getMinutes() == 0) || (date.getHours() == 23 && date.getMinutes() == 59) ) {
-            return DATE_FORMAT.format(date);
+        LocalDateTime localDateTime = date.toLocalDateTime();
+        if ( duration > MINUTES_OF_ONE_WORKING_DAY) {
+            return localDateTime.format(DATE_FORMAT);
+
         } else {
-            return TIMESTAMP_FORMAT.format(date);
+            return localDateTime.format(TIMESTAMP_FORMAT);
         }
     }
 

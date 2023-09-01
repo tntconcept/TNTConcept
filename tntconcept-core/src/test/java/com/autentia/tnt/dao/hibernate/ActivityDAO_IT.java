@@ -115,7 +115,6 @@ public class ActivityDAO_IT extends IntegrationTest {
         activity.setBillable(true);
         activity.setRole(projectRole);
         activity.setDescription("IntegrationTest");
-        activity.setHasEvidences(false);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());

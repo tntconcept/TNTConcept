@@ -741,13 +741,7 @@ public class ActivityBean extends BaseBean {
 
         if (activity.getId() == null) {
             manager.insertEntity(activity);
-            if (uploadedImage != null) {
-                activity.setHasEvidences(ActivityImageUploader.store(uploadedImage, activity));
-            }
         } else {
-            if (uploadedImage != null) {
-                activity.setHasEvidences(ActivityImageUploader.store(uploadedImage, activity));
-            }
             manager.updateEntity(activity);
         }
 
@@ -2071,14 +2065,8 @@ public class ActivityBean extends BaseBean {
     }
 
     public String deleteImageFile() {
-        if (ActivityImageUploader.remove(activity)) {
-            activity.setHasEvidences(false);
-        }
+        ActivityImageUploader.remove(activity);
         return save();
-    }
-
-    public boolean isImageAvailable() {
-        return activity.isHasEvidences();
     }
 
     public Date getInsertDate() {
