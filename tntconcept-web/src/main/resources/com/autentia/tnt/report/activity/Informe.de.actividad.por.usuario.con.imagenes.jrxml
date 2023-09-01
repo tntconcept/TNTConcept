@@ -442,7 +442,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{startDate})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{startDate}, $F{duration})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
 				<reportElement
@@ -559,7 +559,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{endDate})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{endDate}, $F{duration})]]></textFieldExpression>
 			</textField>
 
 		</band>
