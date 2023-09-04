@@ -21,7 +21,6 @@
 
 package com.autentia.tnt.bean.reports;
 
-import com.autentia.tnt.bean.DateTimeBean;
 import com.autentia.tnt.manager.report.ReportManager;
 import com.autentia.tnt.util.ConfigurationUtil;
 
@@ -30,7 +29,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ActivityReportBean extends ReportBean {
 
-    private static final String ATTACHMENTS_PATH = "/doc/attachments";
+    private static final String ATTACHMENTS_BASE_PATH = "/doc/attachments";
     private static final DateTimeFormatter  TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
     private static final DateTimeFormatter DATE_FORMAT =  DateTimeFormatter.ofPattern("dd/MM/yy");
 
@@ -43,18 +42,13 @@ public class ActivityReportBean extends ReportBean {
         listReports = ReportManager.getReportManager().getReportListActivity();
     }
 
-    public static String genEvidenceURL(String attachmentId, String path, String mimeType) {
-        String extension = mimeType.substring(mimeType.lastIndexOf("/") + 1);
+    public static String genEvidenceURL(String attachmentPath) {
         StringBuilder sbPath = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
-        sbPath.append(ATTACHMENTS_PATH);
-        if(!path.startsWith("/")) {
+        sbPath.append(ATTACHMENTS_BASE_PATH);
+        if(!attachmentPath.startsWith("/")) {
             sbPath.append("/");
         }
-        sbPath.append(path);
-        if(!path.endsWith("/")) {
-            sbPath.append("/");
-        }
-        return sbPath.append(attachmentId).append(".").append(extension).toString();
+        return sbPath.append(attachmentPath).toString();
     }
 
     public static String getFormattedDate(java.sql.Timestamp date, int duration) {

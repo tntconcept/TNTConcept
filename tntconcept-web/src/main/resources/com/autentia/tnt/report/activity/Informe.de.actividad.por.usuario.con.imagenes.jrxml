@@ -53,57 +53,36 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select
-	orgName,
-	userName,
-	roleName,
-	startDate,
-	endDate,
-	activityId,
-	duration,
-	description,
-	COALESCE(fact/60,0) as fact,
-	COALESCE(noFact/60,0) as noFact,
-	COALESCE(fact/60,0)+COALESCE(noFact/60,0) as total,
-	proName,
-	IF(attachmentId IS NULL, false, true) hasEvidences,
-	attachmentId,
-	attachmentPath,
-	attachmentMimeType
-from (
-	SELECT
-		o.name as orgName,
-		u.name as userName,
-		r.name as roleName,
-		a.start as startDate,
-		a.end as endDate,
-		a.duration,
-		a.description,
-		a.id as activityId,
-		p.name as proName,
-		sum(CASE WHEN a.billable=1 then duration end) as fact,
-		sum(CASE WHEN a.billable=0 then duration end) as noFact,
-		att.id as attachmentId,
-		att.path attachmentPath,
-		att.mimeType as attachmentMimeType
-	FROM
-		Activity a
-		INNER JOIN User u ON u.id=a.userId
-		INNER JOIN ProjectRole r ON r.id=a.roleId
-		INNER JOIN Project p ON p.id = r.projectId
-		INNER JOIN Organization o ON o.id = p.organizationId
-		LEFT JOIN ActivityEvidence ae ON ae.activityId = a.id
-		LEFT JOIN Attachment att ON att.id = ae.attachmentId
-	where
-		a.start between $P{Fecha inicio} and $P{Fecha fin} and
-		u.id=$P{Usuario}
-	group by
-		a.id
-	order by
-		o.name,
-		a.start,
-		u.name
-) as tabla]]></queryString>
+	<queryString><![CDATA[
+			SELECT
+				o.name AS orgName,
+				u.name AS userName,
+				r.name AS roleName,
+				a.start AS startDate,
+				a.end AS endDate,
+				a.duration AS duration,
+				a.description AS description,
+				a.id as activityId,
+				p.name as proName,
+				COALESCE(sum(CASE WHEN a.billable=1 then duration end)/60, 0) as fact,
+				COALESCE(sum(CASE WHEN a.billable=0 then duration end)/60, 0) as noFact,
+				COALESCE(sum(duration)/60, 0) as total,
+				(attachmentId IS NOT NULL) as hasEvidences,
+				att.path as attachmentPath
+			FROM
+				Activity a
+				INNER JOIN User u ON u.id=a.userId
+				INNER JOIN ProjectRole r ON r.id=a.roleId
+				INNER JOIN Project p ON p.id = r.projectId
+				INNER JOIN Organization o ON o.id = p.organizationId
+				LEFT JOIN ActivityEvidence ae ON ae.activityId = a.id
+				LEFT JOIN Attachment att ON att.id = ae.attachmentId
+			WHERE
+				a.start between $P{Fecha inicio} and $P{Fecha fin} and
+				u.id=$P{Usuario}
+			GROUP BY a.id
+			ORDER BY o.name, a.start, u.name
+		]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
@@ -118,9 +97,7 @@ from (
 	<field name="total" class="java.math.BigDecimal"/>
 	<field name="proName" class="java.lang.String"/>
 	<field name="hasEvidences" class="java.lang.Integer"/>
-	<field name="attachmentId" class="java.lang.String"/>
 	<field name="attachmentPath" class="java.lang.String"/>
-	<field name="attachmentMimeType" class="java.lang.String"/>
 	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
 	</variable>
@@ -455,8 +432,8 @@ from (
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentId},$F{attachmentPath},$F{attachmentMimeType})]]> </textFieldExpression>
-				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentId},$F{attachmentPath},$F{attachmentMimeType})]]>
+				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentPath})]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentPath})]]>
 				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
