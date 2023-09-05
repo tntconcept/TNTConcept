@@ -86,7 +86,7 @@
              IF(a.billable = 0, if(a.duration <= 8 * 60 , duration , 8*60), 0) / 60 	AS 'noFact',
              a.insertDate          AS insertDate,
              (att.id IS NOT NULL)  AS hasEvidences,
-			 att.path attachmentPath
+			 GROUP_CONCAT(att.path separator ',') attachmentPath
          FROM
              Activity a
              INNER JOIN User u ON u.id=a.userId
@@ -98,6 +98,7 @@
              INNER JOIN params
          WHERE
            a.start BETWEEN params.start AND params.end OR a.end BETWEEN params.start AND params.end
+         GROUP BY a.id, u.id, r.id, p.id, o.id
          UNION
          SELECT
              'Vacaciones'               AS orgName,
@@ -698,7 +699,7 @@
                 <textElement textAlignment="Justified">
                     <font fontName="Verdana" size="8"/>
                 </textElement>
-                <textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentPath})]]> </textFieldExpression>
+                <textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
                 <hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentPath})]]>
                 </hyperlinkReferenceExpression>
             </textField>

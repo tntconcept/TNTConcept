@@ -42,13 +42,31 @@ public class ActivityReportBean extends ReportBean {
         listReports = ReportManager.getReportManager().getReportListActivity();
     }
 
-    public static String genEvidenceURL(String attachmentPath) {
-        StringBuilder sbPath = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
-        sbPath.append(ATTACHMENTS_BASE_PATH);
-        if(!attachmentPath.startsWith("/")) {
-            sbPath.append("/");
+    public static String genEvidenceURL (String attachmentPath) {
+        String urls = genEvidencesURL(attachmentPath);
+        if(urls.isEmpty()) {
+           return "";
         }
-        return sbPath.append(attachmentPath).toString();
+
+        return urls.split(",")[0];
+    }
+
+    public static String genEvidencesURL(String attachmentPath) {
+        StringBuilder sbPath = new StringBuilder();
+
+        String urlBase = ConfigurationUtil.getDefault().getTntconceptUrl() + ATTACHMENTS_BASE_PATH;
+        if (!attachmentPath.startsWith("/")) {
+            urlBase += "/";
+        }
+
+        for(String attPath: attachmentPath.split(",") ) {
+            if (sbPath.length() > 0) {
+                sbPath.append(",");
+            }
+            sbPath.append(urlBase).append(attPath);
+        }
+
+        return sbPath.toString();
     }
 
     public static String getFormattedDate(java.sql.Timestamp date, int duration) {
