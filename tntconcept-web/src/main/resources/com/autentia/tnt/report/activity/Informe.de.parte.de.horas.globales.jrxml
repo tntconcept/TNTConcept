@@ -83,7 +83,7 @@
 			u.name as 'userName',
 			p.name as 'projectName',
 			r.name as 'roleName' ,
-			COALESCE(SUM(duration), 0) as hours
+			COALESCE(SUM(duration) / 60, 0)  as hours
 		FROM
 			Activity a
 			INNER JOIN User u ON u.id = a.userid
@@ -98,7 +98,7 @@
 	<field name="userName" class="java.lang.String"/>
 	<field name="projectName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
-	<field name="hours" class="java.lang.Integer"/>
+	<field name="hours" class="java.lang.Double"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -377,7 +377,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{projectName}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="292"
 						y="4"
@@ -388,7 +388,7 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression  class="java.lang.Double"><![CDATA[new java.lang.Double(($F{hours}.doubleValue())/60.0)]]></textFieldExpression>
+				<textFieldExpression  class="java.lang.Double"><![CDATA[$F{hours}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
