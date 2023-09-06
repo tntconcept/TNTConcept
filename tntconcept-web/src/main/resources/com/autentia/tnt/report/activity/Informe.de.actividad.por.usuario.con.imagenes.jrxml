@@ -75,8 +75,8 @@
 			INNER JOIN ProjectRole r ON r.id=a.roleId
 			INNER JOIN Project p ON p.id = r.projectId
 			INNER JOIN Organization o ON o.id = p.organizationId
-			LEFT JOIN ActivityEvidence ae ON ae.activityId = a.id
-			LEFT JOIN Attachment att ON att.id = ae.attachmentId
+			LEFT JOIN ActivityAttachment aa ON aa.activityId = a.id
+			LEFT JOIN Attachment att ON att.id = aa.attachmentId
 		where
 			a.start between $P{Fecha inicio} and $P{Fecha fin} and
 			u.id=$P{Usuario}

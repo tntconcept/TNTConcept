@@ -78,26 +78,26 @@
              p.name                AS proName,
              TIMESTAMP(a.`start`)  AS start,
              TIMESTAMP(a.`end`)    AS endDate,
-             if(a.duration <= 8 * 60 , duration , 8*60) duration,
+             if(a.duration <= 480 , duration , 480) duration,
              r.timeUnit           AS timeUnit,
              a.description,
              a.id                  AS activityId,
-             IF(a.billable = 1, if(a.duration <= 8 * 60 , duration , 8*60), 0) / 60 	AS 'fact',
-             IF(a.billable = 0, if(a.duration <= 8 * 60 , duration , 8*60), 0) / 60 	AS 'noFact',
-             a.insertDate          AS insertDate,
+             IF(a.billable = 1, if(a.duration <= 480 , duration , 480), 0) / 60 	AS 'fact',
+             IF(a.billable = 0, if(a.duration <= 480 , duration , 480), 0) / 60 	AS 'noFact',
              (att.id IS NOT NULL)  AS hasEvidences,
-			 GROUP_CONCAT(att.path separator ',') attachmentPath
+			 GROUP_CONCAT(att.path separator ',') attachmentPath,
+             a.insertDate          AS insertDate
          FROM
              Activity a
              INNER JOIN User u ON u.id=a.userId
              INNER JOIN ProjectRole r ON r.id=a.roleId
              INNER JOIN Project p ON p.id = r.projectId
 	 		 INNER JOIN Organization o ON o.id = p.organizationId
-			 LEFT JOIN ActivityEvidence ae ON ae.activityId = a.id
-	 		 LEFT JOIN Attachment att ON att.id = ae.attachmentId
+			 LEFT JOIN ActivityAttachment aa ON aa.activityId = a.id
+	 		 LEFT JOIN Attachment att ON att.id = aa.attachmentId
              INNER JOIN params
          WHERE
-           a.start BETWEEN params.start AND params.end OR a.end BETWEEN params.start AND params.end
+           date(a.start) BETWEEN date(params.start) AND date(params.end) OR date(a.end) BETWEEN date(params.start) AND date(params.end)
          GROUP BY a.id, u.id, r.id, p.id, o.id
          UNION
          SELECT
@@ -105,32 +105,33 @@
              u.name                     AS userName,
              'Vacaciones'               AS roleName,
              'Vacaciones'               AS proName,
-             TIMESTAMP(greatest(rh.beginDate, params.start)) AS start,
-             TIMESTAMP(least(rh.finalDate, params.end))      AS endDate,
-             8                          AS duration,
+             TIMESTAMP(greatest(rh.beginDate, date(params.start))) AS start,
+             TIMESTAMP(least(rh.finalDate, date(params.end)))      AS endDate,
+             480                        AS duration,
              'WORKING_DAYS'             AS timeUnit,
              rh.userComment             AS description,
              rh.id                      AS activityId,
-             0 							AS hasEvidences,
              0                          AS 'fact',
              8                          AS 'noFact',
-             CURDATE()                  AS insertDate,
-			 null 						AS attachmentPath
+             0 							AS hasEvidences,
+			 null 						AS attachmentPath,
+             CURDATE()                  AS insertDate
          FROM
              RequestHoliday rh
              INNER JOIN User u ON u.id = rh.userId
              INNER JOIN params
          WHERE
-           rh.beginDate BETWEEN params.start AND params.end
-           OR rh.finalDate BETWEEN params.start AND params.end
+           date(rh.beginDate) BETWEEN date(params.start) AND date(params.end)
+           OR date(rh.finalDate) BETWEEN date(params.start) AND date(params.end)
     )
     SELECT
-        IFNULL(nd.calendarDate, wd.calendarDate) as day, ra.*
+        COALESCE(date(nd.calendarDate), date(wd.calendarDate)) as day, ra.*
         FROM RegistroActividad ra
          LEFT JOIN WorkingDays wd
                    ON ( date(wd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit = 'WORKING_DAYS'
          LEFT JOIN NaturalDays nd
                    ON ( date(nd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit <> 'WORKING_DAYS'
+    ORDER BY day
     ]]></queryString>
 
     <field name="orgName" class="java.lang.String"/>
