@@ -43,41 +43,39 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT
-			start,
-			end as endDate,
-			duration,
-			description,
-			COALESCE(fact,0) as fact,
-			COALESCE(noFact,0) as noFact,
-             COALESCE(impFact/60,0) as impFact from (
-
-			select
- 					a.start,
- 					a.duration,
- 					a.description,
- 					sum(CASE WHEN a.billable=1 then duration end) as 'fact',
-				    sum(CASE WHEN a.billable=0 then duration end) as 'noFact',
-                    sum(CASE WHEN a.billable=1 then (duration * r.costPerHour) end) as 'impFact'
-
-			FROM Activity a,Organization o,User u,Project p,ProjectRole r
-
-			where 	u.id=$P{idUser} and
-					u.id=a.userId and
-					r.id=a.roleId and
-					p.organizationId=o.id and
-					p.id=r.projectId and
-					p.id=$P{idProyecto} and
-                    r.id=$P{idRol} and
-					a.start between $P{Fecha inicio} and $P{Fecha fin}
-
-			GROUP BY a.id
-
-			ORDER BY 	a.start,
-						o.name,
-						u.name) as tabla;]]></queryString>
-
-	<field name="start" class="java.sql.Timestamp"/>
+	<queryString><![CDATA[
+	SELECT
+		startDate,
+		endDate,
+		duration,
+		description,
+		COALESCE(fact,0) as fact,
+		COALESCE(noFact,0) as noFact,
+		COALESCE(impFact/60,0) as impFact
+	 FROM
+	 (
+		SELECT
+				a.start 		as startDate,
+				a.end 			as endDate,
+				a.duration 		as duration,
+				a.description 	as description,
+				sum(CASE WHEN a.billable=1 then duration end) 					as 'fact',
+				sum(CASE WHEN a.billable=0 then duration end) 					as 'noFact',
+				sum(CASE WHEN a.billable=1 then (duration * r.costPerHour) end) as 'impFact'
+		FROM Activity a,Organization o,User u,Project p,ProjectRole r
+		WHERE 	    u.id=$P{idUser}
+				AND u.id=a.userId
+				AND r.id=a.roleId
+				AND p.organizationId=o.id
+				AND p.id=r.projectId
+				AND p.id=$P{idProyecto}
+				AND r.id=$P{idRol}
+				AND a.start between $P{Fecha inicio} and $P{Fecha fin}
+		GROUP BY a.id, u.id, r.id, p.id
+		ORDER BY 	a.start, o.name, u.name
+		) as tabla;]]>
+	</queryString>
+	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
 	<field name="description" class="java.lang.String"/>
@@ -199,7 +197,7 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{startDate}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
