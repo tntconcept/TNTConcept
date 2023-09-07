@@ -78,20 +78,27 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select u.name as 'userName', p.name as 'projectName', r.name as 'roleName'  , 
-IFNULL(SUM(CASE WHEN a.billable=$P{Facturable} then duration end),0) as hours
-
-from User u, Project p, ProjectRole r, Activity a where
-
-u.id = a.userid and p.id = r.projectId and r.id = a.roleId 
-and a.start between $P{Fecha inicio} and $P{Fecha fin}
-
-group by u.name, p.name, r.name;]]></queryString>
+	<queryString><![CDATA[
+		SELECT
+			u.name as 'userName',
+			p.name as 'projectName',
+			r.name as 'roleName' ,
+			COALESCE(SUM(duration) / 60, 0)  as hours
+		FROM
+			Activity a
+			INNER JOIN User u ON u.id = a.userid
+			INNER JOIN ProjectRole r ON r.id = a.roleId
+			INNER JOIN Project p ON p.id = r.projectId
+		WHERE
+			a.billable = $P{Facturable}
+			AND a.start between $P{Fecha inicio} and $P{Fecha fin}
+		GROUP BY u.name, p.name, r.name
+	]]></queryString>
 
 	<field name="userName" class="java.lang.String"/>
 	<field name="projectName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
-	<field name="hours" class="java.lang.Integer"/>
+	<field name="hours" class="java.lang.Double"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -370,7 +377,7 @@ group by u.name, p.name, r.name;]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{projectName}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="292"
 						y="4"
@@ -381,7 +388,7 @@ group by u.name, p.name, r.name;]]></queryString>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression  class="java.lang.Double"><![CDATA[new java.lang.Double(($F{hours}.doubleValue())/60.0)]]></textFieldExpression>
+				<textFieldExpression  class="java.lang.Double"><![CDATA[$F{hours}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
