@@ -128,7 +128,7 @@
          LEFT JOIN WorkingDays wd
                    ON ( date(wd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit <> 'NATURAL_DAYS'
          LEFT JOIN NaturalDays nd
-                   ON ( date(nd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit <> 'NATURAL_DAYS'
+                   ON ( date(nd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit = 'NATURAL_DAYS'
     ORDER BY day
     ]]></queryString>
 
