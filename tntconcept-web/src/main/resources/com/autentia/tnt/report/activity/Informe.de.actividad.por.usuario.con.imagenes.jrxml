@@ -61,6 +61,7 @@
 			a.start AS startDate,
 			a.end AS endDate,
 			a.duration AS duration,
+			r.timeUnit as timeUnit,
 			a.description AS description,
 			a.id as activityId,
 			p.name as proName,
@@ -90,6 +91,7 @@
 	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
+	<field name="timeUnit" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="activityId" class="java.lang.Integer"/>
 	<field name="fact" class="java.math.BigDecimal"/>
@@ -98,6 +100,7 @@
 	<field name="proName" class="java.lang.String"/>
 	<field name="hasEvidences" class="java.lang.Integer"/>
 	<field name="attachmentPath" class="java.lang.String"/>
+
 	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
 	</variable>
@@ -419,7 +422,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{startDate}, $F{duration})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{startDate}, $F{timeUnit})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
 				<reportElement
@@ -432,8 +435,8 @@
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
-				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentPath})]]>
+				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidenceURL($F{attachmentPath})]]>
 				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -536,7 +539,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{endDate}, $F{duration})]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{endDate}, $F{timeUnit})]]></textFieldExpression>
 			</textField>
 
 		</band>

@@ -33,7 +33,7 @@ public class ActivityReportBean extends ReportBean {
     private static final DateTimeFormatter  TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
     private static final DateTimeFormatter DATE_FORMAT =  DateTimeFormatter.ofPattern("dd/MM/yy");
 
-    private static final int MINUTES_OF_ONE_WORKING_DAY = 8*60;
+    private static final String TIME_UNIT_MINUTES = "MINUTES";
 
 
 
@@ -42,8 +42,8 @@ public class ActivityReportBean extends ReportBean {
         listReports = ReportManager.getReportManager().getReportListActivity();
     }
 
-    public static String genEvidenceURL (String attachmentPath) {
-        String urls = genEvidencesURL(attachmentPath);
+    public static String generateEvidenceURL (String attachmentPath) {
+        String urls = generateEvidencesURL(attachmentPath);
         if(urls.isEmpty()) {
            return "";
         }
@@ -51,7 +51,7 @@ public class ActivityReportBean extends ReportBean {
         return urls.split(",")[0];
     }
 
-    public static String genEvidencesURL(String attachmentPath) {
+    public static String generateEvidencesURL(String attachmentPath) {
         StringBuilder sbPath = new StringBuilder();
 
         String urlBase = ConfigurationUtil.getDefault().getTntconceptUrl() + ATTACHMENTS_BASE_PATH;
@@ -69,14 +69,13 @@ public class ActivityReportBean extends ReportBean {
         return sbPath.toString();
     }
 
-    public static String getFormattedDate(java.sql.Timestamp date, int duration) {
+    public static String getFormattedDate(java.sql.Timestamp date, String timeUnit) {
 
         LocalDateTime localDateTime = date.toLocalDateTime();
-        if ( duration > MINUTES_OF_ONE_WORKING_DAY) {
-            return localDateTime.format(DATE_FORMAT);
-
-        } else {
+        if ( timeUnit.equalsIgnoreCase(TIME_UNIT_MINUTES)) {
             return localDateTime.format(TIMESTAMP_FORMAT);
+        } else {
+            return localDateTime.format(DATE_FORMAT);
         }
     }
 

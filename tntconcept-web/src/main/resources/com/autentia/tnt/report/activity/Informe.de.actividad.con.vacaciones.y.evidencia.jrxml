@@ -697,8 +697,8 @@
                 <textElement textAlignment="Justified">
                     <font fontName="Verdana" size="8"/>
                 </textElement>
-                <textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
-                <hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.genEvidenceURL($F{attachmentPath})]]>
+                <textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
+                <hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidenceURL($F{attachmentPath})]]>
                 </hyperlinkReferenceExpression>
             </textField>
             <line direction="TopDown">
