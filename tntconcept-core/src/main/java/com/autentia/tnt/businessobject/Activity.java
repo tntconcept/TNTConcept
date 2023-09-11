@@ -66,11 +66,7 @@ public class Activity implements Serializable, ITransferObject {
 
     private User user;
 
-
     private ProjectRole role;
-
-
-    private boolean hasEvidences;
 
     private ActivityApprovalState approvalState = ActivityApprovalState.NA;
 
@@ -90,15 +86,6 @@ public class Activity implements Serializable, ITransferObject {
 
 
     // Setters and getters
-
-    public boolean isHasEvidences() {
-        return hasEvidences;
-    }
-
-    public void setHasEvidences(boolean hasEvidences) {
-        this.hasEvidences = hasEvidences;
-    }
-
 
     public Integer getId() {
         return id;

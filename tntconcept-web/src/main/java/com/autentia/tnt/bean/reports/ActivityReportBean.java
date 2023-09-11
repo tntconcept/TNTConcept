@@ -23,35 +23,60 @@ package com.autentia.tnt.bean.reports;
 
 import com.autentia.tnt.manager.report.ReportManager;
 import com.autentia.tnt.util.ConfigurationUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
-import javax.faces.context.FacesContext;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ActivityReportBean extends ReportBean {
 
-    private static final Log log = LogFactory.getLog(ActivityReportBean.class);
-    private static final String ACTIVITY_IMAGES_PATH = "/doc/activity/images/";
-    private static final String EXTENSION = ".jpg";
+    private static final String ATTACHMENTS_BASE_PATH = "/doc/attachments";
+    private static final DateTimeFormatter  TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+    private static final DateTimeFormatter DATE_FORMAT =  DateTimeFormatter.ofPattern("dd/MM/yy");
+
+    private static final String TIME_UNIT_MINUTES = "MINUTES";
+
+
 
     @Override
     protected void setListReports() {
         listReports = ReportManager.getReportManager().getReportListActivity();
     }
 
-    public static String getActivityImageUrl(Integer id, Date date) {
-        StringBuilder path = new StringBuilder(ConfigurationUtil.getDefault().getTntconceptUrl());
+    public static String generateEvidenceURL (String attachmentPath) {
+        String urls = generateEvidencesURL(attachmentPath);
+        if(urls.isEmpty()) {
+           return "";
+        }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
+        return urls.split(",")[0];
+    }
 
-        path.append(ACTIVITY_IMAGES_PATH).append(year).append("/").append(month).append("/").append(id).append(EXTENSION);
+    public static String generateEvidencesURL(String attachmentPath) {
+        StringBuilder sbPath = new StringBuilder();
 
-        return path.toString();
+        String urlBase = ConfigurationUtil.getDefault().getTntconceptUrl() + ATTACHMENTS_BASE_PATH;
+        if (!attachmentPath.startsWith("/")) {
+            urlBase += "/";
+        }
+
+        for(String attPath: attachmentPath.split(",") ) {
+            if (sbPath.length() > 0) {
+                sbPath.append(",");
+            }
+            sbPath.append(urlBase).append(attPath);
+        }
+
+        return sbPath.toString();
+    }
+
+    public static String getFormattedDate(java.sql.Timestamp date, String timeUnit) {
+
+        LocalDateTime localDateTime = date.toLocalDateTime();
+        if ( timeUnit.equalsIgnoreCase(TIME_UNIT_MINUTES)) {
+            return localDateTime.format(TIMESTAMP_FORMAT);
+        } else {
+            return localDateTime.format(DATE_FORMAT);
+        }
     }
 
 }

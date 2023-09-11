@@ -12,8 +12,8 @@ insert into Inventory (buyDate, cost, serialNumber, type, provider, trademark, m
 values (CURRENT_TIMESTAMP, 10.00, '1234', 'PC', 'provider', 'trademark', 'model', 'spped', 'storage', 'ram', 'location',
         'test', 1);
 
-insert into Activity (userId, start, duration, billable, roleId, description, hasEvidences, end, approvalState)
-values (1, '2023-05-24 09:00:00', 30, 1, 1, 'Test', 0, '2023-05-24 09:30:00', 'NA');
+insert into Activity (userId, start, duration, billable, roleId, description, end, approvalState)
+values (1, '2023-05-24 09:00:00', 30, 1, 1, 'Test', '2023-05-24 09:30:00', 'NA');
 
 insert into Link (user, link)
 values ('user', 'link');

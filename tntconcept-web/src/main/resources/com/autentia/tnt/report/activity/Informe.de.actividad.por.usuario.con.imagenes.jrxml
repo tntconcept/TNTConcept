@@ -53,68 +53,53 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer (1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select
-	orgName,
-	userName,
-	roleName,
-	start,
-	start + INTERVAL duration MINUTE as endDate,
-	hasEvidences,
-	insertDate,
-	activityId,
-	duration,
-	description,
-	COALESCE(fact/60,0) as fact,
-	COALESCE(noFact/60,0) as noFact,
-	COALESCE(fact/60,0)+COALESCE(noFact/60,0) as total,
-	proName
-from (
-	SELECT
-		o.name as orgName,
-		u.name as userName,
-		r.name as roleName,
-		a.start,
-		a.insertDate,
-		a.duration,
-		a.hasEvidences,
-		a.description,
-		a.id as activityId,
-		p.name as proName,
-		sum(CASE WHEN a.billable=1
-	   		then duration end) as 'fact',
-		sum(CASE WHEN a.billable=0
-			then duration end) as 'noFact'
-	FROM
-		Activity a, Organization o, User u, Project p, ProjectRole r
-	where
-		u.id=a.userId and
-		r.id=a.roleId and
-		p.organizationId=o.id and
-		p.id=r.projectId and
-		a.start between $P{Fecha inicio} and $P{Fecha fin} and
-		u.id=$P{Usuario}
-	group by
-		a.id
-	order by
-		o.name,
-		a.start,
-		u.name
-) as tabla]]></queryString>
+	<queryString><![CDATA[
+		SELECT
+			o.name AS orgName,
+			u.name AS userName,
+			r.name AS roleName,
+			a.start AS startDate,
+			a.end AS endDate,
+			a.duration AS duration,
+			r.timeUnit as timeUnit,
+			a.description AS description,
+			a.id as activityId,
+			p.name as proName,
+			IF(a.billable=1, COALESCE(duration/60, 0), 0) as fact,
+			IF(a.billable=0, COALESCE(duration/60, 0), 0) as noFact,
+			COALESCE(duration/60, 0) as total,
+			(attachmentId IS NOT NULL) as hasEvidences,
+			GROUP_CONCAT(att.path separator ',') as attachmentPath
+		FROM
+			Activity a
+			INNER JOIN User u ON u.id=a.userId
+			INNER JOIN ProjectRole r ON r.id=a.roleId
+			INNER JOIN Project p ON p.id = r.projectId
+			INNER JOIN Organization o ON o.id = p.organizationId
+			LEFT JOIN ActivityAttachment aa ON aa.activityId = a.id
+			LEFT JOIN Attachment att ON att.id = aa.attachmentId
+		where
+			a.start between $P{Fecha inicio} and $P{Fecha fin} and
+			u.id=$P{Usuario}
+			group by a.id, u.id, r.id, p.id, o.id
+		order by o.name, a.start, u.name
+		]]></queryString>
 
 	<field name="orgName" class="java.lang.String"/>
 	<field name="userName" class="java.lang.String"/>
 	<field name="roleName" class="java.lang.String"/>
-	<field name="start" class="java.sql.Timestamp"/>
-	<field name="insertDate" class="java.sql.Timestamp"/>
+	<field name="startDate" class="java.sql.Timestamp"/>
 	<field name="endDate" class="java.sql.Timestamp"/>
 	<field name="duration" class="java.lang.Integer"/>
+	<field name="timeUnit" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="hasEvidences" class="java.lang.Integer"/>
 	<field name="activityId" class="java.lang.Integer"/>
 	<field name="fact" class="java.math.BigDecimal"/>
 	<field name="noFact" class="java.math.BigDecimal"/>
 	<field name="total" class="java.math.BigDecimal"/>
 	<field name="proName" class="java.lang.String"/>
+	<field name="hasEvidences" class="java.lang.Integer"/>
+	<field name="attachmentPath" class="java.lang.String"/>
 
 	<variable name="sumHorasFact" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{fact}]]></variableExpression>
@@ -426,7 +411,7 @@ from (
 	</columnHeader>
 	<detail>
 		<band height="22"  isSplitAllowed="true" >
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yy HH:mm" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
 						x="262"
 						y="0"
@@ -437,7 +422,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{start}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{startDate}, $F{timeUnit})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
 				<reportElement
@@ -450,8 +435,8 @@ from (
 				<textElement textAlignment="Justified">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]> </textFieldExpression>
-				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]>
+				<textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
+				<hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidenceURL($F{attachmentPath})]]>
 				</hyperlinkReferenceExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -543,7 +528,7 @@ from (
 				</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{proName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yy HH:mm" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
 						x="330"
 						y="0"
@@ -554,7 +539,7 @@ from (
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="8"/>
 				</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{endDate}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[ActivityReportBean.getFormattedDate($F{endDate}, $F{timeUnit})]]></textFieldExpression>
 			</textField>
 
 		</band>

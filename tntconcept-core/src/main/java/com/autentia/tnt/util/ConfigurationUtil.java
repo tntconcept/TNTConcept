@@ -547,25 +547,8 @@ public class ConfigurationUtil{
         return new BigDecimal(getProperty("defaultIRPF", "15"));
     }
 
-    public String getNoEvidenceInActivityMailSubject(){
-        return getProperty("mail.activity.noEvidenceSubject", "Falta evidencia %s - %s");
-    }
-
-    public String getNoEvidenceInActivityMailBody(){
-        return getProperty("mail.activity.noEvidenceMailBody",
-                "Cada 7 días es necesario adjuntar al menos una evidencia de tu participación en el proyecto.\n" +
-                        "Como por ejemplo una captura de pantalla o foto de tu histórico en el repositorio de código o de tus issues en la herramienta de seguimiento de proyecto.\n"
-                        +
-                        "\n%s\n\n¡Gracias!");
-    }
-
     public String getTntconceptUrl(){
         return getProperty("tntconcept_url", "https://tnt.autentia.com/tntconcept");
     }
-
-    public Boolean getSendMailNotificationEvidences(){
-        return Boolean.valueOf(getProperty("sendMailNotificationEvidences", "true"));
-    }
-
 
 }

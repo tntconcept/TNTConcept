@@ -376,26 +376,6 @@
 		</property>
 	</bean>
 
-	<bean id="activityEvidenceNotificationBean" class="com.autentia.tnt.bean.ActivityEvidenceNotificationBean">
-		<constructor-arg ref="mailService"/>
-	</bean>
-
-	<bean id="jobActivityEvidenceNotification"
-		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="activityEvidenceNotificationBean"/>
-		<property name="targetMethod" value="checkActivitiesWithNoEvidence"/>
-	</bean>
-
-	<bean id="cronActivityEvidenceNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="jobActivityEvidenceNotification"/>
-		<property name="cronExpression" value="0 0 4 ? * MON-FRI *"/>
-	</bean>
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="triggers">
-			<ref bean="cronActivityEvidenceNotificationTrigger"/>
-		</property>
-	</bean>
-	
 	<!--
 	<bean id="billExpirationDateBean" class="com.autentia.tnt.bean.billing.BillExpirationDateBean" />
   		

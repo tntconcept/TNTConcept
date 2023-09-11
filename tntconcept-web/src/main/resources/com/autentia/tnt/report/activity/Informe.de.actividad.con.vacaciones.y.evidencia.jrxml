@@ -52,85 +52,85 @@
     </parameter>
     <queryString><![CDATA[
 	WITH  RECURSIVE  NaturalDays AS (
-    SELECT $P{Fecha inicio} AS calendarDate
-    UNION ALL
-    SELECT calendarDate + INTERVAL 1 DAY
-    FROM NaturalDays
-    WHERE
-            calendarDate < $P{Fecha fin}
-),
-                 WorkingDays (calendarDate) AS (
-                     SELECT calendarDate FROM NaturalDays WHERE DAYOFWEEK (calendarDate) NOT IN (1, 7)
-                     EXCEPT
-                     SELECT date(date) FROM Holiday
-                 ),
-                 params AS
-                    (SELECT $P{Fecha inicio} AS start, $P{Fecha fin} AS end),
-                 RegistroActividad AS (
-                     SELECT
-                         o.name                AS orgName,
-                         u.name                AS userName,
-                         r.name                AS roleName,
-                         p.name                AS proName,
-                         TIMESTAMP(a.`start`)  AS start,
-                         TIMESTAMP(a.`end`)    AS endDate,
-                         if(a.duration <= 8 * 60 , duration , 8*60) duration,
-                         r.timeUnit           AS timeUnit,
-                         a.description,
-                         a.id                  AS activityId,
-                         a.hasEvidences        AS hasEvidences,
-                         IF(a.billable = 1, if(a.duration <= 8 * 60 , duration , 8*60), 0) / 60 	AS 'fact',
-                         IF(a.billable = 0, if(a.duration <= 8 * 60 , duration , 8*60), 0) / 60 	AS 'noFact',
-                         a.insertDate          AS insertDate
-                     FROM
-                         Activity a,
-                         Organization o,
-                         User u,
-                         Project p,
-                         ProjectRole r,
-                         params
-                     WHERE
-                       u.id = a.userId
-                       AND r.id = a.roleId
-                       AND p.organizationId = o.id
-                       AND p.id = r.projectId
-                       AND (a.start BETWEEN params.start AND params.end OR a.end BETWEEN params.start AND params.end)
-                     UNION
-                     SELECT
-                         'Vacaciones'               AS orgName,
-                         u.name                     AS userName,
-                         'Vacaciones'               AS roleName,
-                         'Vacaciones'               AS proName,
-                         TIMESTAMP(greatest(rh.beginDate, params.start)) AS start,
-                         TIMESTAMP(least(rh.finalDate, params.end))      AS endDate,
-                         8                          AS duration,
-                         'WORKING_DAYS'             AS timeUnit,
-                         rh.userComment             AS description,
-                         rh.id                      AS activityId,
-                         0                          AS hasEvidences,
-                         0                          AS 'fact',
-                         8                          AS 'noFact',
-                         CURDATE()                  AS insertDate
-                     FROM
-                         RequestHoliday rh,
-                         User u,
-                         params
-                     WHERE
-                       u.id = rh.userId
-                       AND (
-                             rh.beginDate BETWEEN params.start AND params.end
-                             OR rh.finalDate BETWEEN params.start AND params.end
-                         )
-                 )
-SELECT
-    IFNULL(nd.calendarDate, wd.calendarDate) as day,
-    ra.*
-FROM RegistroActividad ra
+	   SELECT $P{Fecha inicio} AS calendarDate
+        UNION ALL
+       SELECT calendarDate + INTERVAL 1 DAY
+       FROM NaturalDays
+       WHERE
+         calendarDate <= $P{Fecha fin}
+    ),
+    WorkingDays (calendarDate) AS (
+       SELECT calendarDate
+         FROM NaturalDays
+         WHERE DAYOFWEEK (calendarDate) NOT IN (1, 7)
+       EXCEPT
+       SELECT date(date)
+         FROM Holiday
+    ),
+    params AS (
+         SELECT $P{Fecha inicio} AS start, $P{Fecha fin} AS end
+    ),
+    RegistroActividad AS (
+         SELECT
+             o.name                AS orgName,
+             u.name                AS userName,
+             r.name                AS roleName,
+             p.name                AS proName,
+             TIMESTAMP(a.`start`)  AS start,
+             TIMESTAMP(a.`end`)    AS endDate,
+             r.timeUnit           AS timeUnit,
+             a.description,
+             a.id                  AS activityId,
+              IF(a.billable = 1, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 8, duration/60), 0) 	AS 'fact',
+              IF(a.billable = 0, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 8, duration/60), 0) 	AS 'noFact',
+             (att.id IS NOT NULL)  AS hasEvidences,
+			 GROUP_CONCAT(att.path separator ',') attachmentPath,
+             a.insertDate          AS insertDate
+         FROM
+             Activity a
+             INNER JOIN User u ON u.id=a.userId
+             INNER JOIN ProjectRole r ON r.id=a.roleId
+             INNER JOIN Project p ON p.id = r.projectId
+	 		 INNER JOIN Organization o ON o.id = p.organizationId
+			 LEFT JOIN ActivityAttachment aa ON aa.activityId = a.id
+	 		 LEFT JOIN Attachment att ON att.id = aa.attachmentId
+             INNER JOIN params
+         WHERE
+           date(a.start) BETWEEN date(params.start) AND date(params.end)
+         GROUP BY a.id, u.id, r.id, p.id, o.id
+         UNION
+         SELECT
+             'Vacaciones'               AS orgName,
+             u.name                     AS userName,
+             'Vacaciones'               AS roleName,
+             'Vacaciones'               AS proName,
+             TIMESTAMP(greatest(rh.beginDate, date(params.start))) AS start,
+             TIMESTAMP(least(rh.finalDate, date(params.end)))      AS endDate,
+             'WORKING_DAYS'             AS timeUnit,
+             rh.userComment             AS description,
+             rh.id                      AS activityId,
+             0                          AS 'fact',
+             8                          AS 'noFact',
+             0 							AS hasEvidences,
+			 null 						AS attachmentPath,
+             CURDATE()                  AS insertDate
+         FROM
+             RequestHoliday rh
+             INNER JOIN User u ON u.id = rh.userId
+             INNER JOIN params
+         WHERE
+           date(rh.beginDate) BETWEEN date(params.start) AND date(params.end)
+           OR date(rh.finalDate) BETWEEN date(params.start) AND date(params.end)
+    )
+    SELECT
+        COALESCE(date(nd.calendarDate), date(wd.calendarDate)) as day, ra.*
+        FROM RegistroActividad ra
          LEFT JOIN WorkingDays wd
-                   ON ( date(wd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit = 'WORKING_DAYS'
+                   ON ( date(wd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit <> 'NATURAL_DAYS'
          LEFT JOIN NaturalDays nd
-                   ON ( date(nd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit <> 'WORKING_DAYS'
-ORDER BY day]]></queryString>
+                   ON ( date(nd.calendarDate) BETWEEN date(ra.start) AND date(ra.endDate) ) AND ra.timeUnit = 'NATURAL_DAYS'
+    ORDER BY day
+    ]]></queryString>
 
     <field name="orgName" class="java.lang.String"/>
     <field name="userName" class="java.lang.String"/>
@@ -138,12 +138,12 @@ ORDER BY day]]></queryString>
     <field name="day" class="java.sql.Timestamp"/>
     <field name="start" class="java.sql.Timestamp"/>
     <field name="endDate" class="java.sql.Timestamp"/>
-    <field name="duration" class="java.lang.Integer"/>
     <field name="description" class="java.lang.String"/>
     <field name="fact" class="java.math.BigDecimal"/>
     <field name="noFact" class="java.math.BigDecimal"/>
     <field name="proName" class="java.lang.String"/>
     <field name="hasEvidences" class="java.lang.Integer"/>
+    <field name="attachmentPath" class="java.lang.String"/>
     <field name="activityId" class="java.lang.Integer"/>
     <field name="insertDate" class="java.sql.Timestamp"/>
 
@@ -697,8 +697,8 @@ ORDER BY day]]></queryString>
                 <textElement textAlignment="Justified">
                     <font fontName="Verdana" size="8"/>
                 </textElement>
-                <textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]> </textFieldExpression>
-                <hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.getActivityImageUrl($F{activityId},$F{insertDate})]]>
+                <textFieldExpression class="java.lang.String">  <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidencesURL($F{attachmentPath})]]> </textFieldExpression>
+                <hyperlinkReferenceExpression> <![CDATA[$F{hasEvidences}==0 ? "" : ActivityReportBean.generateEvidenceURL($F{attachmentPath})]]>
                 </hyperlinkReferenceExpression>
             </textField>
             <line direction="TopDown">
