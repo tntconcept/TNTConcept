@@ -78,12 +78,12 @@
              p.name                AS proName,
              TIMESTAMP(a.`start`)  AS start,
              TIMESTAMP(a.`end`)    AS endDate,
-             if(a.duration <= 480 , duration , 480) duration,
+             IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 480, duration) AS duration,
              r.timeUnit           AS timeUnit,
              a.description,
              a.id                  AS activityId,
-             IF(a.billable = 1, if(a.duration <= 480 , duration , 480), 0) / 60 	AS 'fact',
-             IF(a.billable = 0, if(a.duration <= 480 , duration , 480), 0) / 60 	AS 'noFact',
+              IF(a.billable = 1, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 480, duration), 0) / 60 	AS 'fact',
+              IF(a.billable = 0, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 480, duration), 0) / 60 	AS 'noFact',
              (att.id IS NOT NULL)  AS hasEvidences,
 			 GROUP_CONCAT(att.path separator ',') attachmentPath,
              a.insertDate          AS insertDate
@@ -97,7 +97,7 @@
 	 		 LEFT JOIN Attachment att ON att.id = aa.attachmentId
              INNER JOIN params
          WHERE
-           date(a.start) BETWEEN date(params.start) AND date(params.end) OR date(a.end) BETWEEN date(params.start) AND date(params.end)
+           date(a.start) BETWEEN date(params.start) AND date(params.end)
          GROUP BY a.id, u.id, r.id, p.id, o.id
          UNION
          SELECT
@@ -112,7 +112,7 @@
              rh.userComment             AS description,
              rh.id                      AS activityId,
              0                          AS 'fact',
-             8                          AS 'noFact',
+             480                        AS 'noFact',
              0 							AS hasEvidences,
 			 null 						AS attachmentPath,
              CURDATE()                  AS insertDate
