@@ -78,12 +78,11 @@
              p.name                AS proName,
              TIMESTAMP(a.`start`)  AS start,
              TIMESTAMP(a.`end`)    AS endDate,
-             IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 480, duration) AS duration,
              r.timeUnit           AS timeUnit,
              a.description,
              a.id                  AS activityId,
-              IF(a.billable = 1, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 480, duration), 0) / 60 	AS 'fact',
-              IF(a.billable = 0, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 480, duration), 0) / 60 	AS 'noFact',
+              IF(a.billable = 1, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 8, duration/60), 0) 	AS 'fact',
+              IF(a.billable = 0, IF(r.timeUnit IN ('DAYS','NATURAL_DAYS'), 8, duration/60), 0) 	AS 'noFact',
              (att.id IS NOT NULL)  AS hasEvidences,
 			 GROUP_CONCAT(att.path separator ',') attachmentPath,
              a.insertDate          AS insertDate
@@ -107,12 +106,11 @@
              'Vacaciones'               AS proName,
              TIMESTAMP(greatest(rh.beginDate, date(params.start))) AS start,
              TIMESTAMP(least(rh.finalDate, date(params.end)))      AS endDate,
-             480                        AS duration,
              'WORKING_DAYS'             AS timeUnit,
              rh.userComment             AS description,
              rh.id                      AS activityId,
              0                          AS 'fact',
-             480                        AS 'noFact',
+             8                          AS 'noFact',
              0 							AS hasEvidences,
 			 null 						AS attachmentPath,
              CURDATE()                  AS insertDate
@@ -140,7 +138,6 @@
     <field name="day" class="java.sql.Timestamp"/>
     <field name="start" class="java.sql.Timestamp"/>
     <field name="endDate" class="java.sql.Timestamp"/>
-    <field name="duration" class="java.lang.Integer"/>
     <field name="description" class="java.lang.String"/>
     <field name="fact" class="java.math.BigDecimal"/>
     <field name="noFact" class="java.math.BigDecimal"/>
