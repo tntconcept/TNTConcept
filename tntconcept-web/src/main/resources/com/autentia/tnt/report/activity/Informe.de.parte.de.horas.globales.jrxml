@@ -83,7 +83,10 @@
 			u.name as 'userName',
 			p.name as 'projectName',
 			r.name as 'roleName' ,
-			COALESCE(SUM(duration) / 60, 0)  as hours
+			COALESCE(SUM(CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END) / 60, 0)  as hours
 		FROM
 			Activity a
 			INNER JOIN User u ON u.id = a.userid

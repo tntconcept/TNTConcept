@@ -48,7 +48,8 @@
 	<parameter name="start" isForPrompting="true" class="java.util.Date"/>
 	<parameter name="endDate" isForPrompting="true" class="java.util.Date"/>
 	<parameter name="billable" isForPrompting="true" class="java.lang.Integer"/>
-	<queryString><![CDATA[select userId, projectId, sum(duration)/60 as horas, (sum(duration)*$P{eurosPerHour}/60) as coste 
+	<queryString><![CDATA[select userId, projectId, sum(CASE WHEN ProjectRole.isWorkingTime = 0 THEN 0 ELSE Activity.duration END)/60 as horas,
+	(sum(CASE WHEN ProjectRole.isWorkingTime = 0 THEN 0 ELSE Activity.duration END)*$P{eurosPerHour}/60) as coste
 from Activity inner join ProjectRole on (Activity.roleId = ProjectRole.id) where userId = $P{idUser} and projectId = $P{idProject} and start > $P{start} and start <= $P{endDate} and Activity.billable != $P{billable} group by userId, projectId
 ]]></queryString>
 

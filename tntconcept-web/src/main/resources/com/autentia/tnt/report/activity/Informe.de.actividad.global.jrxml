@@ -65,11 +65,21 @@
 	<parameter name="idOrg" isForPrompting="false" class="java.lang.Integer">
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 	</parameter>
-	<queryString><![CDATA[select userName,duration,COALESCE(fact,0) as fact, COALESCE(noFact,0) as noFact,totalHours from (SELECT u.name as userName,a.duration,sum(CASE WHEN a.billable=1
-   					       then duration end) as 'fact',
-				      sum(CASE WHEN a.billable=0
-				      then duration end) as 'noFact' ,
-				sum(duration) as 'totalHours' 
+	<queryString><![CDATA[select userName,duration,COALESCE(fact,0) as fact, COALESCE(noFact,0) as noFact,totalHours from
+	(SELECT u.name as userName,CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END
+                            as duration,
+	SUM(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN duration END) as 'fact',
+    SUM(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 0 THEN duration END) as 'noFact',
+   SUM(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 THEN duration END)                    as 'totalHours'
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
 and a.start between $P{Fecha inicio} and $P{Fecha fin} and u.active = true

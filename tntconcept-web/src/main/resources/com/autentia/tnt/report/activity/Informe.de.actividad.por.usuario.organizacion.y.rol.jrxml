@@ -57,8 +57,12 @@
        COALESCE(noFact/60,0) as noFact,
        COALESCE(fact/60,0)+COALESCE(noFact/60,0) as total
 from (SELECT o.name as orgName,u.name as userName,p.name as proName,r.name as roleName,
-      sum(CASE WHEN a.billable=1 then duration end) as 'fact',
-      sum(CASE WHEN a.billable=0 then duration end) as 'noFact' 
+      sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN duration END) as 'fact',
+      sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 0 THEN duration END) as 'noFact'
 FROM Activity a,Organization o,User u,Project p,ProjectRole r 
 where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
 and u.id=$P{Usuario} and a.start between $P{Fecha inicio} and $P{Fecha fin}

@@ -57,7 +57,7 @@
 	userName,
 	roleName,
 	start,
-	start + INTERVAL duration MINUTE as endDate,
+	end as endDate,
 	duration,
 	description, 
 	COALESCE(fact/60,0) as fact, 
@@ -70,14 +70,21 @@ from (
 		u.name as userName,
 		r.name as roleName,
 		a.start,
-		a.duration,
+		a.end,
+		CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END
+                            as duration,
 		a.description,
 		a.id,
 		p.name as proName,
-		sum(CASE WHEN a.billable=1
-	   		then duration end) as 'fact',
-		sum(CASE WHEN a.billable=0
-			then duration end) as 'noFact'
+		sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN duration END) as 'fact',
+		sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 0 THEN duration END) as 'noFact'
 	FROM 
 		Activity a, Organization o, User u, Project p, ProjectRole r 
 	where 
