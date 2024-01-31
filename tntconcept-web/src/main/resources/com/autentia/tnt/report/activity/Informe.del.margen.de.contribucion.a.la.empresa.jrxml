@@ -73,8 +73,14 @@
 from 
 (
         SELECT o.name as orgName,u.name as userName,r.name as roleName,p.name as projectName,
-                a.start,a.duration,a.description,
-        sum(CASE WHEN a.billable=1 then (duration/60 * r.costPerHour) end) as 'impFact'
+                a.start,CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END
+                            as duration,a.description,
+        sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN (duration/60 * r.costPerHour) END) as 'impFact'
         FROM Activity a, Organization o,User u,Project p,ProjectRole r 
         where u.id=a.userId and r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId 
         and a.start between $P{Fecha inicio} and $P{Fecha fin}

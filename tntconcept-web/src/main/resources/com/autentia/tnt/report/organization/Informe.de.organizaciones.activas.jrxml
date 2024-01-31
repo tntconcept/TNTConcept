@@ -68,11 +68,17 @@
 		<defaultValueExpression ><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<queryString><![CDATA[select duration,orgType,orgName,proName,description,fact,noFact from 
-	(SELECT a.duration as duration,t.name as orgType,o.name as orgName,p.name as proName,p.description, 
-				     sum(CASE WHEN a.billable=1
-   					       then duration end) as 'fact',
-				      sum(CASE WHEN a.billable=0
-				      then duration end) as 'noFact'
+	(SELECT CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END
+                            as duration,t.name as orgType,o.name as orgName,p.name as proName,p.description,
+				     sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN duration END) as 'fact',
+				      sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 0 THEN duration END) as 'noFact'
 	FROM Activity a,Organization o,Project p,ProjectRole r,OrganizationType t 
 	where r.id=a.roleId and p.organizationId=o.id and p.id=r.projectId and t.id=o.organizationTypeId 
 		and a.start between $P{Fecha inicio} and $P{Fecha fin}

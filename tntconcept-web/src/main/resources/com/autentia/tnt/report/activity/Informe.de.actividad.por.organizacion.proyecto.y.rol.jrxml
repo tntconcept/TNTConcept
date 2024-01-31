@@ -110,10 +110,18 @@ SELECT 	o.name as orgName,
 		r.name as roleName,
 		p.name as projectName,	
  		a.start,
- 		a.duration,
+ 		CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END
+                            as duration,
  		a.description,
- 		sum(CASE WHEN a.billable=1 then duration end) as 'fact',
-		sum(CASE WHEN a.billable=0 then duration end) as 'noFact'
+ 		sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN duration END) as 'fact',
+		sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 0 THEN duration END) as 'noFact'
 		
 		 
 		FROM Activity a,Organization o,User u,Project p,ProjectRole r

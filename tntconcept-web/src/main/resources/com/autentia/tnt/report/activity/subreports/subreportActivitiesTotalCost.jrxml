@@ -49,7 +49,7 @@
 	<parameter name="endDate" isForPrompting="true" class="java.util.Date"/>
 	<parameter name="billable" isForPrompting="true" class="java.lang.Integer"/>
 	<queryString><![CDATA[select sum(duration)/60 as hours, sum(cost) as cost from (
-select sum(duration) as duration, sum(duration)*c.costPerHour/60 as cost from Activity as a, ProjectRole as b, 
+select sum(CASE WHEN b.isWorkingTime = 0 THEN 0 ELSE a.duration END) as duration, sum(CASE WHEN b.isWorkingTime = 0 THEN 0 ELSE a.duration END)*c.costPerHour/60 as cost from Activity as a, ProjectRole as b,
 (select User.id as userId,  if (agreementYearDuration is null, salary*60/(yearDuration), salary*60/(agreementYearDuration)) 
 as costPerHour from User inner join WorkingAgreement on User.agreementId = WorkingAgreement.id
 ) as c

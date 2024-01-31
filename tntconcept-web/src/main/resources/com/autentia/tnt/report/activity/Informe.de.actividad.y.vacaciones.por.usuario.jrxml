@@ -63,14 +63,20 @@ WITH
 			r.name AS roleName,
 			greatest(a.start, params.start) AS start,
 			least(a.`end`, params.end) AS end,
-			a.duration,
+			CASE
+                   			WHEN r.isWorkingTime = 0 THEN 0
+                            ELSE a.duration
+                            END
+                            as duration,
 			a.description,
 			a.id,
 			p.name AS proName,
-			sum(CASE WHEN a.billable=1
-		   		THEN duration end) AS 'fact',
-			sum(CASE WHEN a.billable=0
-				THEN duration end) AS 'noFact'
+			sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 1 THEN duration END) AS 'fact',
+			sum(CASE
+                     WHEN r.isWorkingTime = 0 THEN 0
+                     WHEN r.isWorkingTime = 1 AND a.billable = 0 THEN duration END) AS 'noFact'
 		FROM
 			Activity a, Organization o, User u, Project p, ProjectRole r, params
 		WHERE
