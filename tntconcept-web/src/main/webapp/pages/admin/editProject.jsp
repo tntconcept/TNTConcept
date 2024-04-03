@@ -115,7 +115,19 @@
 
               </td>
     </tr>
-
+          <%-- Field: client --%>
+          <tr>
+              <td class="editLabelRW">*${msg['project.client']}:</td>
+              <td class="editFieldCell">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="client" />
+                      <h:selectOneMenu id="client" value="#{projectBean.client}" required="true" styleClass="requiredFieldClass">
+                          <f:selectItems value="#{projectBean.clients}" />
+                          <f:converter converterId="autentia.EntityConverter"/>
+                      </h:selectOneMenu>
+                  </h:panelGroup>
+              </td>
+          </tr>
           <%-- Field: name --%>
           <tr>
             <td class="editLabelRW">*${msg['project.name']}:</td>
@@ -149,19 +161,6 @@
                       </h:selectOneMenu>
                   </h:panelGroup>
               </td>
-          </tr>
-          <%-- Field: client --%>
-          <tr>
-            <td class="editLabelRW">*${msg['project.client']}:</td>
-            <td class="editFieldCell">
-              <h:panelGroup>
-                <h:message styleClass="error" showSummary="true" showDetail="false" for="client" />
-                <h:selectOneMenu id="client" value="#{projectBean.client}" required="true" styleClass="requiredFieldClass">
-                  <f:selectItems value="#{projectBean.clients}" />
-                  <f:converter converterId="autentia.EntityConverter"/>
-                </h:selectOneMenu>
-              </h:panelGroup>
-            </td>
           </tr>
 
           <%-- Field: roles --%>
