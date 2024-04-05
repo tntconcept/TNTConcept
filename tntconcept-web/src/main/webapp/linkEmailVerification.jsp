@@ -1,8 +1,6 @@
 <%@page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Objects, com.autentia.tnt.bean.LinkBean" %>
 <%@include file="/inc/tlibs.jsp" %>
-<%@page import="com.autentia.tnt.bean.LinkBean" %>
-
 
 <f:loadBundle basename="com.autentia.tnt.resources.messages" var="msg"/>
 <html>
