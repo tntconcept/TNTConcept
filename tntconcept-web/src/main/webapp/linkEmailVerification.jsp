@@ -20,10 +20,8 @@
             String password = linkBean.checkLinkAndResetPassword(link);
     %>
 
-    <div style="top:50px">
-        <br>
-        <p><%= password %>
-        </p>
+    <div style="top:50px; text-align: center">
+        <p><%= password %></p>
     </div>
     <% } %>
     </body>
