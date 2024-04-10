@@ -122,6 +122,8 @@ public class Project implements Serializable, ITransferObject
       
               
   private Set<ProjectCost> costs = new HashSet<ProjectCost>();
+
+  private BigDecimal estimatedCost;
   
   private User user;
 
@@ -253,6 +255,10 @@ public class Project implements Serializable, ITransferObject
   public void setCosts( Set<ProjectCost> costs ) {
     this.costs = costs;
   }
+
+    public BigDecimal getEstimatedCost() { return estimatedCost; }
+
+    public void setEstimatedCost(BigDecimal estimatedCost) { this.estimatedCost = estimatedCost; }
 
     public Offer getOffer() {
         return offer;

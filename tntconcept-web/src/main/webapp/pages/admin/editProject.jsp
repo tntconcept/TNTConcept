@@ -163,7 +163,18 @@
               </td>
           </tr>
 
-          <%-- Field: roles --%>
+                  <%-- Field: totalEstimatedCost --%>
+              <tr>
+                  <td class="editLabelRW">${msg['project.estimatedCost']}:</td>
+                  <td class="editFieldCell">
+                      <h:panelGroup>
+
+                          </h:panelGroup>
+
+                              </td>
+                          </tr>
+
+                      <%-- Field: roles --%>
           <tr>
             <td class="editLabelRW">${msg['project.roles']}:</td>
             <td class="editFieldCell">

@@ -60,6 +60,7 @@ public class ProjectBean extends BaseBean {
         return project.getTotalCost();
     }
 
+
     /**
      * Go to edit page
      *
@@ -167,6 +168,8 @@ public class ProjectBean extends BaseBean {
     private Character letter;
 
     private HtmlInputText offerNumberInput = new HtmlInputText();
+
+    private HtmlInputText estimatedCostInput = new HtmlInputText();
 
     private List<Offer> offerNumberList = new ArrayList<>();
 
@@ -1122,6 +1125,14 @@ public class ProjectBean extends BaseBean {
         totalCost = format.format(total.doubleValue());
 
         return totalCost;
+    }
+
+    public HtmlInputText getEstimatedCostInput() {
+        return estimatedCostInput;
+    }
+
+    public void setEstimatedCostInput(HtmlInputText estimatedCostInput) {
+        this.estimatedCostInput = estimatedCostInput;
     }
 
     public HtmlInputText getOfferNumberInput() {
