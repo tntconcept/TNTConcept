@@ -169,8 +169,6 @@ public class ProjectBean extends BaseBean {
 
     private HtmlInputText offerNumberInput = new HtmlInputText();
 
-    private HtmlInputText estimatedCostInput = new HtmlInputText();
-
     private List<Offer> offerNumberList = new ArrayList<>();
 
     public ProjectBean() {
@@ -874,6 +872,28 @@ public class ProjectBean extends BaseBean {
         }
     }
 
+    public BigDecimal getSearchEstimatedCost() {
+        return search.getEstimatedCost();
+    }
+
+    public void setSearchEstimatedCost(BigDecimal val) {
+        if (search.isEstimatedCostSet()) {
+            search.setEstimatedCost(val);
+        }
+    }
+
+    public boolean isSearchEstimatedCostValid() {
+        return search.isEstimatedCostSet();
+    }
+
+    public void setSearchEstimatedCostValid(boolean val) {
+        if (val) {
+            search.setEstimatedCost(search.getEstimatedCost());
+        } else {
+            search.unsetEstimatedCost();
+        }
+    }
+
 
     public List<ProjectRole> getSearchRoles() {
         return search.getRoles();
@@ -1044,6 +1064,15 @@ public class ProjectBean extends BaseBean {
         }
     }
 
+    public BigDecimal getEstimatedCost() {
+        return project.getEstimatedCost();
+    }
+
+    public void setEstimatedCost(BigDecimal estimatedCost) {
+        project.setEstimatedCost(estimatedCost);
+    }
+
+
     public Set<ProjectRole> getRoles() {
 
         return project.getRoles();
@@ -1127,13 +1156,6 @@ public class ProjectBean extends BaseBean {
         return totalCost;
     }
 
-    public HtmlInputText getEstimatedCostInput() {
-        return estimatedCostInput;
-    }
-
-    public void setEstimatedCostInput(HtmlInputText estimatedCostInput) {
-        this.estimatedCostInput = estimatedCostInput;
-    }
 
     public HtmlInputText getOfferNumberInput() {
         return offerNumberInput;
