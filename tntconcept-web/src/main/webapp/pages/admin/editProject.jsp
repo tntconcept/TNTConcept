@@ -170,16 +170,12 @@
                   <h:panelGroup>
                       <h:message styleClass="error" showSummary="true" showDetail="false" for="estimatedCost" />
                       <h:inputText id="estimatedCost" value="#{projectBean.estimatedCost}">
-                          <%--required="true" styleClass="requiredFieldClass">--%>
-                 <f:convertNumber type="number" maxFractionDigits="2"/>
-                 <f:validateDoubleRange minimum="0.00" />
-             </h:inputText>
-         </h:panelGroup>
+                         </h:inputText>
+                     </h:panelGroup>
+                     </td>
+                 </tr>
 
-         </td>
-     </tr>
-
-                 <%-- Field: roles --%>
+              <%-- Field: roles --%>
           <tr>
             <td class="editLabelRW">${msg['project.roles']}:</td>
             <td class="editFieldCell">
