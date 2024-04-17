@@ -917,6 +917,29 @@ public class ProjectBean extends BaseBean {
         }
     }
 
+
+    public String getSearchOrder() {
+        return search.getOrder();
+    }
+
+    public void setSearchOrder(String val) {
+        if (search.isOrderSet()) {
+            search.setOrder(val);
+        }
+    }
+
+    public boolean isSearchOrderValid() {
+        return search.isOrderSet();
+    }
+
+    public void setSearchOrderValid(boolean val) {
+        if (val) {
+            search.setOrder(search.getOrder());
+        } else {
+            search.unsetOrder();
+        }
+    }
+
     /**
      * Handle an ABC pager letter click: filter objects by specified starting letter
      */
@@ -1026,6 +1049,14 @@ public class ProjectBean extends BaseBean {
 
     public Date getUpdateDate() {
         return project.getUpdateDate();
+    }
+
+    public String getOrder() {
+        return project.getOrder();
+    }
+
+    public void setOrder(String order) {
+        project.setOrder(order);
     }
 
     public Organization getClient() {

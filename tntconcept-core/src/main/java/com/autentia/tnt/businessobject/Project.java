@@ -115,6 +115,8 @@ public class Project implements Serializable, ITransferObject
 
   private Offer offer;
 
+  private String order;
+
           
               
   private Set<ProjectRole> roles = new HashSet<ProjectRole>();
@@ -261,6 +263,11 @@ public class Project implements Serializable, ITransferObject
     public void setOffer(Offer offer) {
         this.offer = offer;
     }
+
+
+    public String getOrder(){ return order;}
+
+    public void setOrder(String order){ this.order = order; }
 
     @Override
   public boolean equals( Object that )

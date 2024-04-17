@@ -240,6 +240,15 @@ public class ProjectSearch extends SearchCriteria
           }
       }
 
+      if( isOrderSet() ){
+          ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+          if( getOrder()==null ){
+              ret.append( "order is NULL" );
+          } else {
+              ret.append( "order like :arg"+(iArgNum++) );
+          }
+      }
+
       if( isRolesSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
       ret.append( "roles.id IN (:arg"+(iArgNum++)+")" );
@@ -340,6 +349,10 @@ public class ProjectSearch extends SearchCriteria
       if( isOfferSet() && getOffer()!=null ){
           ret.add( offer );
       }
+
+      if( isOrderSet() && getOrder()!=null ){
+          ret.add( order );
+      }
   
             
     if( isRolesSet() ){
@@ -418,6 +431,8 @@ public class ProjectSearch extends SearchCriteria
       unsetClient();
 
       unsetOffer();
+
+      unsetOrder();
                       
   
       unsetRoles();
@@ -565,8 +580,12 @@ public class ProjectSearch extends SearchCriteria
           ret.append( ")" );
       }
 
-    
-                      
+
+      if( isOrderSet() ){
+          ret.append( "(order" );
+          ret.append( "="+order );
+          ret.append( ")" );
+      }
   
   
           if( isRolesSet() ){
@@ -857,6 +876,23 @@ public class ProjectSearch extends SearchCriteria
     public void unsetOffer(){
         this.offerSet = false;
     }
+
+
+
+    public boolean isOrderSet(){
+        return orderSet;
+    }
+    public String getOrder(){
+        return order;
+    }
+    public void setOrder( String order ){
+        this.order = order;
+        this.orderSet = true;
+    }
+    public void unsetOrder(){
+        this.orderSet = false;
+    }
+
     	    	        
     
     public boolean isRolesSet(){
@@ -957,7 +993,10 @@ public class ProjectSearch extends SearchCriteria
 
     private boolean offerSet;
     private Offer offer;
-  
+
+
+    private boolean orderSet;
+    private String order;
               
   
       private boolean rolesSet;
@@ -971,7 +1010,7 @@ public class ProjectSearch extends SearchCriteria
     
   // Returns if there are a search condition active
   public boolean isSearchActive() {
-    return customIsSearchActive()||startStartDateSet||endStartDateSet||startEndDateSet||endEndDateSet||openSet||nameSet||descriptionSet||billableSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||clientSet||rolesSet||costsSet||offerSet;
+    return customIsSearchActive()||startStartDateSet||endStartDateSet||startEndDateSet||endEndDateSet||openSet||nameSet||descriptionSet||billableSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||clientSet||rolesSet||costsSet||offerSet||orderSet;
   }
 
 

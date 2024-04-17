@@ -149,7 +149,8 @@
               </h:panelGroup>
             </td>
           </tr>
-                  <%-- Field: offer --%>
+
+          <%-- Field: offer --%>
           <tr>
               <td class="editLabelRW">${msg['project.offer']}:</td>
               <td class="editFieldCell">
@@ -159,6 +160,17 @@
                           <f:selectItem itemLabel="-- Selecciona una oferta --" itemValue="0"/>
                           <f:selectItems value="#{projectBean.getFilterOffer()}" />
                       </h:selectOneMenu>
+                  </h:panelGroup>
+              </td>
+          </tr>
+
+          <%-- Field: order --%>
+          <tr>
+              <td class="editLabelRW">${msg['project.order']}:</td>
+              <td class="editFieldCell">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="order" />
+                      <h:inputText id="order" value="#{projectBean.order}"/>
                   </h:panelGroup>
               </td>
           </tr>
