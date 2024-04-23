@@ -46,5 +46,7 @@
 	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
     <many-to-one name="offer" class="com.autentia.tnt.businessobject.Offer" column="offerId" unique="true" />
     <property name="order" type="java.lang.String" column="orderNumber"/>
+    <property name="estimatedCost" type="java.math.BigDecimal" column="estimatedCost"/>
+
   </class>
 </hibernate-mapping>
