@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.acegisecurity.acls.objectidentity.ObjectIdentityImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.autentia.tnt.dao.ITransferObject;
@@ -91,6 +92,10 @@ public class Project implements Serializable, ITransferObject
       
       
   private Boolean billable;
+
+
+
+  private BillingType billingType;
 
       
       
@@ -253,6 +258,14 @@ public class Project implements Serializable, ITransferObject
   public void setCosts( Set<ProjectCost> costs ) {
     this.costs = costs;
   }
+
+    public BillingType getBillingType() {
+        return billingType;
+    }
+    public void setBillingType(BillingType billingType) {
+        this.billingType = billingType;
+    }
+
 
     public Offer getOffer() {
         return offer;

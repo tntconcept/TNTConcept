@@ -45,5 +45,10 @@
 	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
 	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
     <many-to-one name="offer" class="com.autentia.tnt.businessobject.Offer" column="offerId" unique="true" />
+    <property name="billingType" not-null="true" column="billingType">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.BillingType</param>
+      </type>
+    </property>
   </class>
 </hibernate-mapping>

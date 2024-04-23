@@ -115,7 +115,21 @@
 
               </td>
     </tr>
-          <%-- Field: client --%>
+
+          <%-- Field: billing type --%>
+          <tr>
+              <td class="editLabelRW">*${msg['project.billingType']}:</td>
+              <td class="editFieldCell">
+              <h:panelGroup>
+                  <h:message styleClass="error" showSummary="true" showDetail="false" for="billingType" />
+                        <h:selectOneMenu id="billingType" value="#{projectBean.billingType}" required="true" styleClass="requiredFieldClass">
+                            <f:selectItems value="#{projectBean.billingTypes}" />
+                        </h:selectOneMenu>
+            </h:panelGroup>
+            </td>
+        </tr>
+
+                <%-- Field: client --%>
           <tr>
               <td class="editLabelRW">*${msg['project.client']}:</td>
               <td class="editFieldCell">

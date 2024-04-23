@@ -154,6 +154,15 @@ public class ProjectSearch extends SearchCriteria
       }
     }
 
+
+      if( isBillingTypeSet() ){
+          ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+          if( getBillingType()==null ){
+              ret.append( "billing type is NULL" );
+          } else {
+              ret.append( "billing type = :arg"+(iArgNum++) );
+          }
+      }
               
     
   
@@ -301,6 +310,10 @@ public class ProjectSearch extends SearchCriteria
         ret.add( billable );
     }
 
+
+      if( isBillingTypeSet() && getBillingType()!=null ){
+          ret.add( billingType );
+      }
               
   
       if( isOwnerIdSet() && getOwnerId()!=null ){
@@ -394,6 +407,9 @@ public class ProjectSearch extends SearchCriteria
               
   
       unsetBillable();
+
+
+      unsetBillingType();
   
               
   
@@ -500,6 +516,12 @@ public class ProjectSearch extends SearchCriteria
           ret.append( ")" );
       }
 
+
+          if( isBillingTypeSet() ){
+              ret.append( "(billing type" );
+              ret.append( "="+billingType );
+              ret.append( ")" );
+          }
     
               
   
@@ -728,11 +750,27 @@ public class ProjectSearch extends SearchCriteria
     public void unsetBillable(){
         this.billableSet = false;
     }
-          
-  
-  
-    
-    
+
+
+
+    public boolean isBillingTypeSet(){
+        return billingTypeSet;
+    }
+    public BillingType getBillingType(){
+        return billingType;
+    }
+    public void setBillingType( BillingType billingType ){
+        this.billingType = billingType;
+        this.billingTypeSet = true;
+    }
+    public void unsetBillingType(){
+        this.billingTypeSet = false;
+    }
+
+
+
+
+
     public boolean isOwnerIdSet(){
         return ownerIdSet;
     }
@@ -925,6 +963,11 @@ public class ProjectSearch extends SearchCriteria
   
       private boolean billableSet;
         private Boolean billable;
+
+
+
+    private boolean billingTypeSet;
+    private BillingType billingType;
 
           
   

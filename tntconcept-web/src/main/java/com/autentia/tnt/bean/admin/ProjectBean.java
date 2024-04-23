@@ -211,6 +211,12 @@ public class ProjectBean extends BaseBean {
         return ret;
     }
 
+    public List<SelectItem> getBillingTypes() {
+
+        return Arrays.stream(BillingType.values())
+                .map(type -> new SelectItem(type, type.name())).toList();
+    }
+
     public List<SelectItem> getRequireEvidenceTypes() {
 
         return Arrays.stream(RequireEvidenceType.values())
@@ -705,6 +711,29 @@ public class ProjectBean extends BaseBean {
     }
 
 
+    public BillingType getSearchBillingType() {
+        return search.getBillingType();
+    }
+
+    public void setSearchBillingType(BillingType val) {
+        if (search.isBillingTypeSet()) {
+            search.setBillingType(val);
+        }
+    }
+
+    public boolean isSearchBillingTypeValid() {
+        return search.isBillingTypeSet();
+    }
+
+    public void setSearchBillingTypeValid(boolean val) {
+        if (val) {
+            search.setBillingType(search.getBillingType());
+        } else {
+            search.unsetBillingType();
+        }
+    }
+
+
     public Integer getSearchOwnerId() {
         return search.getOwnerId();
     }
@@ -999,6 +1028,15 @@ public class ProjectBean extends BaseBean {
 
     public void setBillable(Boolean billable) {
         project.setBillable(billable);
+    }
+
+
+    public BillingType getBillingType() {
+        return project.getBillingType();
+    }
+
+    public void setBillingType(BillingType billingType) {
+        project.setBillingType(billingType);
     }
 
 
