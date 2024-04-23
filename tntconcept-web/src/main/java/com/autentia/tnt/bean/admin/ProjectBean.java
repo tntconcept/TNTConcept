@@ -60,6 +60,7 @@ public class ProjectBean extends BaseBean {
         return project.getTotalCost();
     }
 
+
     /**
      * Go to edit page
      *
@@ -871,6 +872,28 @@ public class ProjectBean extends BaseBean {
         }
     }
 
+    public BigDecimal getSearchEstimatedCost() {
+        return search.getEstimatedCost();
+    }
+
+    public void setSearchEstimatedCost(BigDecimal val) {
+        if (search.isEstimatedCostSet()) {
+            search.setEstimatedCost(val);
+        }
+    }
+
+    public boolean isSearchEstimatedCostValid() {
+        return search.isEstimatedCostSet();
+    }
+
+    public void setSearchEstimatedCostValid(boolean val) {
+        if (val) {
+            search.setEstimatedCost(search.getEstimatedCost());
+        } else {
+            search.unsetEstimatedCost();
+        }
+    }
+
 
     public List<ProjectRole> getSearchRoles() {
         return search.getRoles();
@@ -1041,6 +1064,15 @@ public class ProjectBean extends BaseBean {
         }
     }
 
+    public BigDecimal getEstimatedCost() {
+        return project.getEstimatedCost();
+    }
+
+    public void setEstimatedCost(BigDecimal estimatedCost) {
+        project.setEstimatedCost(estimatedCost);
+    }
+
+
     public Set<ProjectRole> getRoles() {
 
         return project.getRoles();
@@ -1123,6 +1155,7 @@ public class ProjectBean extends BaseBean {
 
         return totalCost;
     }
+
 
     public HtmlInputText getOfferNumberInput() {
         return offerNumberInput;

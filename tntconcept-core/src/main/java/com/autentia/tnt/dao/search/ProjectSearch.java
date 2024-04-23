@@ -240,6 +240,16 @@ public class ProjectSearch extends SearchCriteria
           }
       }
 
+
+      if( isEstimatedCostSet() ){
+          ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+          if( getEstimatedCost()==null ){
+              ret.append( "estimated cost is NULL" );
+          } else {
+              ret.append( "estimated cost = :arg"+(iArgNum++) );
+          }
+      }
+
       if( isRolesSet() ){
       ret.append( (ret.length()==0) ? "WHERE " : " AND " );
       ret.append( "roles.id IN (:arg"+(iArgNum++)+")" );
@@ -340,6 +350,11 @@ public class ProjectSearch extends SearchCriteria
       if( isOfferSet() && getOffer()!=null ){
           ret.add( offer );
       }
+
+
+      if( isEstimatedCostSet() && getEstimatedCost()!=null ){
+          ret.add( estimatedCost );
+      }
   
             
     if( isRolesSet() ){
@@ -418,7 +433,8 @@ public class ProjectSearch extends SearchCriteria
       unsetClient();
 
       unsetOffer();
-                      
+
+      unsetEstimatedCost();
   
       unsetRoles();
   
@@ -565,8 +581,12 @@ public class ProjectSearch extends SearchCriteria
           ret.append( ")" );
       }
 
-    
-                      
+
+      if( isEstimatedCostSet() ){
+          ret.append( "(estimated cost" );
+          ret.append( "="+estimatedCost );
+          ret.append( ")" );
+      }
   
   
           if( isRolesSet() ){
@@ -857,8 +877,25 @@ public class ProjectSearch extends SearchCriteria
     public void unsetOffer(){
         this.offerSet = false;
     }
-    	    	        
-    
+
+
+
+    public boolean isEstimatedCostSet(){
+        return estimatedCostSet;
+    }
+    public BigDecimal getEstimatedCost(){
+        return estimatedCost;
+    }
+    public void setEstimatedCost( BigDecimal estimatedCost ){
+        this.estimatedCost = estimatedCost;
+        this.estimatedCostSet = true;
+    }
+    public void unsetEstimatedCost(){
+        this.estimatedCostSet = false;
+    }
+
+
+
     public boolean isRolesSet(){
         return rolesSet;
     }
@@ -957,7 +994,10 @@ public class ProjectSearch extends SearchCriteria
 
     private boolean offerSet;
     private Offer offer;
-  
+
+
+    private boolean estimatedCostSet;
+    private BigDecimal estimatedCost;
               
   
       private boolean rolesSet;
@@ -971,7 +1011,7 @@ public class ProjectSearch extends SearchCriteria
     
   // Returns if there are a search condition active
   public boolean isSearchActive() {
-    return customIsSearchActive()||startStartDateSet||endStartDateSet||startEndDateSet||endEndDateSet||openSet||nameSet||descriptionSet||billableSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||clientSet||rolesSet||costsSet||offerSet;
+    return customIsSearchActive()||startStartDateSet||endStartDateSet||startEndDateSet||endEndDateSet||openSet||nameSet||descriptionSet||billableSet||ownerIdSet||departmentIdSet||startInsertDateSet||endInsertDateSet||startUpdateDateSet||endUpdateDateSet||clientSet||rolesSet||costsSet||offerSet||estimatedCostSet;
   }
 
 
