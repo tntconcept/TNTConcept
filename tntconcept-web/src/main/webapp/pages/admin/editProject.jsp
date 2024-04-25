@@ -149,7 +149,8 @@
               </h:panelGroup>
             </td>
           </tr>
-                  <%-- Field: offer --%>
+
+          <%-- Field: offer --%>
           <tr>
               <td class="editLabelRW">${msg['project.offer']}:</td>
               <td class="editFieldCell">
@@ -163,6 +164,18 @@
               </td>
           </tr>
 
+          <%-- Field: order --%>
+          <tr>
+              <td class="editLabelRW">${msg['project.order']}:</td>
+              <td class="editFieldCell">
+                  <h:panelGroup>
+                      <h:message styleClass="error" showSummary="true" showDetail="false" for="order" />
+                      <h:inputText id="order" value="#{projectBean.order}"/>
+                  </h:panelGroup>
+              </td>
+          </tr>
+
+
           <%-- Field: estimatedCost --%>
           <tr>
               <td class="editLabelRW">${msg['project.estimatedCost']}:</td>
@@ -171,9 +184,9 @@
                       <h:message styleClass="error" showSummary="true" showDetail="false" for="estimatedCost" />
                       <h:inputText id="estimatedCost" value="#{projectBean.estimatedCost}">
                          </h:inputText>
-                     </h:panelGroup>
-                     </td>
-                 </tr>
+                  </h:panelGroup>
+              </td>
+          </tr>
 
               <%-- Field: roles --%>
           <tr>
