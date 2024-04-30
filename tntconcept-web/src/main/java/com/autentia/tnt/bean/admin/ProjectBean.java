@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.*;
 
@@ -170,7 +171,9 @@ public class ProjectBean extends BaseBean {
 
     private List<Offer> offerNumberList = new ArrayList<>();
 
-    public ProjectBean() {
+    /** Language resources */
+
+    public ProjectBean(){
         search.setOpen(Boolean.TRUE);
     }
 
@@ -212,9 +215,12 @@ public class ProjectBean extends BaseBean {
     }
 
     public List<SelectItem> getBillingTypes() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Locale locale = context.getViewRoot().getLocale();
+        ResourceBundle msg = ResourceBundle.getBundle("com.autentia.tnt.resources.messages", locale);
 
         return Arrays.stream(BillingType.values())
-                .map(type -> new SelectItem(type, type.name())).toList();
+                .map(type -> new SelectItem(type, msg.getString("project.billingType."+type.name().toLowerCase()))).toList();
     }
 
     public List<SelectItem> getRequireEvidenceTypes() {
