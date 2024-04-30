@@ -50,5 +50,8 @@
         <param name="enumClassName">com.autentia.tnt.businessobject.BillingType</param>
       </type>
     </property>
+    <property name="order" type="java.lang.String" column="orderNumber"/>
+    <property name="estimatedCost" type="java.math.BigDecimal" column="estimatedCost"/>
+
   </class>
 </hibernate-mapping>

@@ -61,6 +61,7 @@ public class ProjectBean extends BaseBean {
         return project.getTotalCost();
     }
 
+
     /**
      * Go to edit page
      *
@@ -906,6 +907,28 @@ public class ProjectBean extends BaseBean {
         }
     }
 
+    public BigDecimal getSearchEstimatedCost() {
+        return search.getEstimatedCost();
+    }
+
+    public void setSearchEstimatedCost(BigDecimal val) {
+        if (search.isEstimatedCostSet()) {
+            search.setEstimatedCost(val);
+        }
+    }
+
+    public boolean isSearchEstimatedCostValid() {
+        return search.isEstimatedCostSet();
+    }
+
+    public void setSearchEstimatedCostValid(boolean val) {
+        if (val) {
+            search.setEstimatedCost(search.getEstimatedCost());
+        } else {
+            search.unsetEstimatedCost();
+        }
+    }
+
 
     public List<ProjectRole> getSearchRoles() {
         return search.getRoles();
@@ -949,6 +972,29 @@ public class ProjectBean extends BaseBean {
             search.setCosts(search.getCosts());
         } else {
             search.unsetCosts();
+        }
+    }
+
+
+    public String getSearchOrder() {
+        return search.getOrder();
+    }
+
+    public void setSearchOrder(String val) {
+        if (search.isOrderSet()) {
+            search.setOrder(val);
+        }
+    }
+
+    public boolean isSearchOrderValid() {
+        return search.isOrderSet();
+    }
+
+    public void setSearchOrderValid(boolean val) {
+        if (val) {
+            search.setOrder(search.getOrder());
+        } else {
+            search.unsetOrder();
         }
     }
 
@@ -1072,6 +1118,14 @@ public class ProjectBean extends BaseBean {
         return project.getUpdateDate();
     }
 
+    public String getOrder() {
+        return project.getOrder();
+    }
+
+    public void setOrder(String order) {
+        project.setOrder(order);
+    }
+
     public Organization getClient() {
         return project.getClient();
     }
@@ -1084,6 +1138,15 @@ public class ProjectBean extends BaseBean {
             project.setClient(client);
         }
     }
+
+    public BigDecimal getEstimatedCost() {
+        return project.getEstimatedCost();
+    }
+
+    public void setEstimatedCost(BigDecimal estimatedCost) {
+        project.setEstimatedCost(estimatedCost);
+    }
+
 
     public Set<ProjectRole> getRoles() {
 
@@ -1167,6 +1230,7 @@ public class ProjectBean extends BaseBean {
 
         return totalCost;
     }
+
 
     public HtmlInputText getOfferNumberInput() {
         return offerNumberInput;
