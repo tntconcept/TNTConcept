@@ -409,6 +409,7 @@ public class ProjectBean extends BaseBean {
         project.setStartDate(new Date());
         project.setBillable(true);
         offerNumberInput.setDisabled(false);
+        project.setBillingType(BillingType.NO_BILLABLE);
         return NavigationResults.CREATE;
     }
 
