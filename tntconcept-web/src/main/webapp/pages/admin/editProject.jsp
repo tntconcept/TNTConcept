@@ -102,21 +102,7 @@
              	</td>
     	  </tr>
 
-    	   <%-- Field: billable --%>
-    <tr>
-    	    		<td class="editLabelRW">${msg['project.billable']}:</td>
-
-      <td class="editFieldCell">
-
-                  <h:panelGroup>
-            			<h:message styleClass="error" showSummary="true" showDetail="false" for="billable" />
-                		<h:selectBooleanCheckbox id="billable" value="#{projectBean.billable}" />
-    	              </h:panelGroup>
-
-              </td>
-    </tr>
-
-          <%-- Field: billing type --%>
+    	   <%-- Field: billing type --%>
           <tr>
               <td class="editLabelRW">*${msg['project.billingType']}:</td>
               <td class="editFieldCell">

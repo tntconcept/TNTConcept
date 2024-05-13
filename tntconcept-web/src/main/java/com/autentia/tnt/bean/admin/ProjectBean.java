@@ -103,7 +103,6 @@ public class ProjectBean extends BaseBean {
             for (OfferCost cost : offer.getCosts()) {
                 ProjectCost pc = new ProjectCost();
                 pc.setName(cost.getName());
-                pc.setBillable(cost.isBillable());
                 pc.setCost(cost.getCost());
                 costs.add(pc);
             }
@@ -222,6 +221,10 @@ public class ProjectBean extends BaseBean {
 
         return Arrays.stream(BillingType.values())
                 .map(type -> new SelectItem(type, msg.getString("project.billingType."+type.name().toLowerCase()))).toList();
+
+        /*
+        return Arrays.stream(BillingType.values())
+                .map(type -> new SelectItem(type, type.name())).toList();*/
     }
 
     public List<SelectItem> getRequireEvidenceTypes() {
@@ -407,7 +410,6 @@ public class ProjectBean extends BaseBean {
     public String create() {
         project = new Project();
         project.setStartDate(new Date());
-        project.setBillable(true);
         offerNumberInput.setDisabled(false);
         project.setBillingType(BillingType.NO_BILLABLE);
         return NavigationResults.CREATE;
@@ -692,29 +694,6 @@ public class ProjectBean extends BaseBean {
             search.setDescription(search.getDescription());
         } else {
             search.unsetDescription();
-        }
-    }
-
-
-    public Boolean getSearchBillable() {
-        return search.getBillable();
-    }
-
-    public void setSearchBillable(Boolean val) {
-        if (search.isBillableSet()) {
-            search.setBillable(val);
-        }
-    }
-
-    public boolean isSearchBillableValid() {
-        return search.isBillableSet();
-    }
-
-    public void setSearchBillableValid(boolean val) {
-        if (val) {
-            search.setBillable(search.getBillable());
-        } else {
-            search.unsetBillable();
         }
     }
 
@@ -1072,15 +1051,6 @@ public class ProjectBean extends BaseBean {
 
     public void setDescription(String description) {
         project.setDescription(description);
-    }
-
-
-    public Boolean getBillable() {
-        return project.getBillable();
-    }
-
-    public void setBillable(Boolean billable) {
-        project.setBillable(billable);
     }
 
 

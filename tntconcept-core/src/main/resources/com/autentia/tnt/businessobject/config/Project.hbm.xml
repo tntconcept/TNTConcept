@@ -39,7 +39,6 @@
       <key column="projectId" />
       <one-to-many class="com.autentia.tnt.businessobject.ProjectCost" />
     </set>
-    <property name="billable" type="java.lang.Boolean" />
     <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
 	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
 	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>

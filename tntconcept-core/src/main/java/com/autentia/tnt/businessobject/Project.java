@@ -20,15 +20,14 @@ package com.autentia.tnt.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.acegisecurity.acls.objectidentity.ObjectIdentityImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.autentia.tnt.dao.ITransferObject;
+
+
 
 
 /**
@@ -88,10 +87,6 @@ public class Project implements Serializable, ITransferObject
 
 
   private String description;
-
-
-
-  private Boolean billable;
 
 
 
@@ -194,16 +189,6 @@ public class Project implements Serializable, ITransferObject
   }
 
 
-
-  public Boolean getBillable() {
-    return billable;
-  }
-  public void setBillable( Boolean billable ) {
-    this.billable = billable;
-  }
-
-
-
   public Integer getOwnerId() {
     return ownerId;
   }
@@ -263,7 +248,20 @@ public class Project implements Serializable, ITransferObject
     this.costs = costs;
   }
 
-    public BillingType getBillingType() {
+
+  // TODO: remove this method
+  public Boolean getBillable(){
+      return false;
+  }
+  public BillingType getBillingType() {
+        //FacesContext context = FacesContext.getCurrentInstance();
+        //Locale locale = context.getViewRoot().getLocale();
+        /*Locale locale = Locale.getDefault();
+        ResourceBundle msg = ResourceBundle.getBundle("com.autentia.tnt.resources.messages", locale);
+
+        String billingTypeName = msg.getString("project.billingType." + billingType.name().toLowerCase());
+
+        return BillingType.valueOf(billingTypeName.toUpperCase());*/
         return billingType;
     }
     public void setBillingType(BillingType billingType) {
