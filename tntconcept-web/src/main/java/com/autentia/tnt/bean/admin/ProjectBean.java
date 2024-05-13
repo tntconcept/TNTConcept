@@ -221,10 +221,6 @@ public class ProjectBean extends BaseBean {
 
         return Arrays.stream(BillingType.values())
                 .map(type -> new SelectItem(type, msg.getString("project.billingType."+type.name().toLowerCase()))).toList();
-
-        /*
-        return Arrays.stream(BillingType.values())
-                .map(type -> new SelectItem(type, type.name())).toList();*/
     }
 
     public List<SelectItem> getRequireEvidenceTypes() {

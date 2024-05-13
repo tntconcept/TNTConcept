@@ -254,14 +254,6 @@ public class Project implements Serializable, ITransferObject
       return false;
   }
   public BillingType getBillingType() {
-        //FacesContext context = FacesContext.getCurrentInstance();
-        //Locale locale = context.getViewRoot().getLocale();
-        /*Locale locale = Locale.getDefault();
-        ResourceBundle msg = ResourceBundle.getBundle("com.autentia.tnt.resources.messages", locale);
-
-        String billingTypeName = msg.getString("project.billingType." + billingType.name().toLowerCase());
-
-        return BillingType.valueOf(billingTypeName.toUpperCase());*/
         return billingType;
     }
     public void setBillingType(BillingType billingType) {
