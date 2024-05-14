@@ -284,14 +284,14 @@ public class ActivityBean extends BaseBean {
         if (selectedProject != null) {
             HtmlSelectBooleanCheckbox billHtml = (HtmlSelectBooleanCheckbox) FacesUtils.getComponent("activity")
                     .findComponent("tabActivity").findComponent("billable");
-            billHtml.setValue(selectedProject.getBillable());
-            setBillable(selectedProject.getBillable());
+            billHtml.setValue(false);
+            setBillable(false);
 
             HtmlInputHidden hiddenHtml = (HtmlInputHidden) FacesUtils.getComponent("activity")
                     .findComponent("tabActivity").findComponent("defaultBillable");
-            hiddenHtml.setValue(selectedProject.getBillable());
+            hiddenHtml.setValue(false);
 
-            setDefaultBillable(selectedProject.getBillable());
+            setDefaultBillable(false);
         }
 
         FacesUtils.renderResponse();
@@ -308,13 +308,13 @@ public class ActivityBean extends BaseBean {
         if (selectedProject != null) {
             HtmlSelectBooleanCheckbox billHtml = (HtmlSelectBooleanCheckbox) FacesUtils.getComponent("activity")
                     .findComponent("tabActivity").findComponent("billable");
-            billHtml.setValue(selectedProject.getBillable());
-            setBillable(selectedProject.getBillable());
+            billHtml.setValue(false);
+            setBillable(false);
 
             HtmlInputHidden hiddenHtml = (HtmlInputHidden) FacesUtils.getComponent("activity")
                     .findComponent("tabActivity").findComponent("defaultBillable");
-            hiddenHtml.setValue(selectedProject.getBillable());
-            setDefaultBillable(selectedProject.getBillable());
+            hiddenHtml.setValue(false);
+            setDefaultBillable(false);
         }
 
         FacesUtils.renderResponse();
@@ -589,8 +589,8 @@ public class ActivityBean extends BaseBean {
         }
 
         if (pr != null) {
-            setBillable(pr.getBillable());
-            setDefaultBillable(pr.getBillable());
+            setBillable(false);
+            setDefaultBillable(false);
         } else {
             val = settings.get(SettingPath.BITACORE_LAST_BILLABLE, false);
             setBillable(SettingManager.getBoolean(val, false));
@@ -707,7 +707,7 @@ public class ActivityBean extends BaseBean {
             selectedProject = activity.getRole().getProject();
             selectedOrganization = selectedProject.getClient();
 
-            setDefaultBillable(selectedProject.getBillable());
+            setDefaultBillable(false);
 
             tabsRendered = EDIT_ACTIVITY;
         } else if (entry instanceof ExternalActivityScheduleEntry) {
