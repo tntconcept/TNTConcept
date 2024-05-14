@@ -249,7 +249,7 @@ public class Project implements Serializable, ITransferObject
   }
 
 
-  // TODO: remove this method
+  // TODO: remove this method (used in activityBean - deprecated)
   public Boolean getBillable(){
       return false;
   }

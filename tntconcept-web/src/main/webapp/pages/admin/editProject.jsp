@@ -109,6 +109,7 @@
               <h:panelGroup>
                   <h:message styleClass="error" showSummary="true" showDetail="false" for="billingType" />
                         <h:selectOneMenu id="billingType" value="#{projectBean.billingType}" required="true" styleClass="requiredFieldClass">
+                            <f:converter converterId="autentia.EnumConverter"/>
                             <f:selectItems value="#{projectBean.billingTypes}" />
                         </h:selectOneMenu>
             </h:panelGroup>

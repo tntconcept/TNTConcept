@@ -214,13 +214,17 @@ public class ProjectBean extends BaseBean {
         return ret;
     }
 
+    public String getStateFormatted() {
+        return FacesUtils.formatMessage("BillingType." + this.getBillingType().name());
+    }
     public List<SelectItem> getBillingTypes() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Locale locale = context.getViewRoot().getLocale();
-        ResourceBundle msg = ResourceBundle.getBundle("com.autentia.tnt.resources.messages", locale);
-
-        return Arrays.stream(BillingType.values())
-                .map(type -> new SelectItem(type, msg.getString("project.billingType."+type.name().toLowerCase()))).toList();
+        ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+        BillingType[] vals = BillingType.values();
+        for (BillingType val : vals) {
+            ret.add(new SelectItem(val, FacesUtils.formatMessage("BillingType."
+                    + val.name())));
+        }
+        return ret;
     }
 
     public List<SelectItem> getRequireEvidenceTypes() {

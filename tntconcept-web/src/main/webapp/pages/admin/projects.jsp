@@ -202,12 +202,11 @@
                         <f:verbatim>${msg['project.billingType']}</f:verbatim>
                     </t:commandSortHeader>
                 </f:facet>
+                <%-- String field --%>
+                <h:outputText value="#{project.billingType}">
+                    <f:converter converterId="autentia.EnumTranslator"/>
+                </h:outputText>
 
-                <t:commandLink action="#{projectBean.detail}" immediate="true">
-                    <f:param name="rowid" value="#{project.id}"/>
-                    <%-- String field --%>
-                    <h:outputText value="#{project.billingType}"/>
-                </t:commandLink>
             </h:column>
 
         </t:dataTable>
