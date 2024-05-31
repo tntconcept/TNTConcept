@@ -189,28 +189,26 @@
 
             </h:column>
 
-
-            <%-- Field: billable --%>
+            <%-- Field: billing type --%>
             <h:column>
                 <f:facet name="header">
-                    <t:commandSortHeader styleClass="listHeader" columnName="billable">
+                    <t:commandSortHeader styleClass="listHeader" columnName="billingType">
                         <f:facet name="ascending">
                             <t:graphicImage value="/img/ascending-arrow.gif" border="0"/>
                         </f:facet>
                         <f:facet name="descending">
                             <t:graphicImage value="/img/descending-arrow.gif" border="0"/>
                         </f:facet>
-                        <f:verbatim>${msg['project.billable']}</f:verbatim>
+                        <f:verbatim>${msg['project.billingType']}</f:verbatim>
                     </t:commandSortHeader>
                 </f:facet>
-
-                <t:commandLink action="#{projectBean.detail}" immediate="true">
-                    <f:param name="rowid" value="#{project.id}"/>
-                    <%-- String field --%>
-                    <t:graphicImage value="#{(project.billable)?'/img/true.png':'/img/false.png'}" border="0"/>
-                </t:commandLink>
+                <%-- String field --%>
+                <h:outputText value="#{project.billingType}">
+                    <f:converter converterId="autentia.EnumTranslator"/>
+                </h:outputText>
 
             </h:column>
+
         </t:dataTable>
 
         <%-- Paginator control --%>

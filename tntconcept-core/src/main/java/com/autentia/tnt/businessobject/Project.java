@@ -20,14 +20,14 @@ package com.autentia.tnt.businessobject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import org.acegisecurity.acls.objectidentity.ObjectIdentityImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.autentia.tnt.dao.ITransferObject;
+
+
 
 
 /**
@@ -90,10 +90,10 @@ public class Project implements Serializable, ITransferObject
 
 
 
-  private Boolean billable;
+  private BillingType billingType;
 
-
-
+      
+      
   private Integer ownerId;
 
 
@@ -189,16 +189,6 @@ public class Project implements Serializable, ITransferObject
   }
 
 
-
-  public Boolean getBillable() {
-    return billable;
-  }
-  public void setBillable( Boolean billable ) {
-    this.billable = billable;
-  }
-
-
-
   public Integer getOwnerId() {
     return ownerId;
   }
@@ -257,6 +247,18 @@ public class Project implements Serializable, ITransferObject
   public void setCosts( Set<ProjectCost> costs ) {
     this.costs = costs;
   }
+
+
+  // TODO: remove this method (used in activityBean - deprecated)
+  public Boolean getBillable(){
+      return false;
+  }
+  public BillingType getBillingType() {
+        return billingType;
+    }
+    public void setBillingType(BillingType billingType) {
+        this.billingType = billingType;
+    }
 
 
     public BigDecimal getEstimatedCost() { return estimatedCost; }

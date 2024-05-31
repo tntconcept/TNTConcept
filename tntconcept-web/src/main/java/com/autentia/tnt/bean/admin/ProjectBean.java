@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.*;
 
@@ -102,7 +103,6 @@ public class ProjectBean extends BaseBean {
             for (OfferCost cost : offer.getCosts()) {
                 ProjectCost pc = new ProjectCost();
                 pc.setName(cost.getName());
-                pc.setBillable(cost.isBillable());
                 pc.setCost(cost.getCost());
                 costs.add(pc);
             }
@@ -171,7 +171,9 @@ public class ProjectBean extends BaseBean {
 
     private List<Offer> offerNumberList = new ArrayList<>();
 
-    public ProjectBean() {
+    /** Language resources */
+
+    public ProjectBean(){
         search.setOpen(Boolean.TRUE);
     }
 
@@ -209,6 +211,19 @@ public class ProjectBean extends BaseBean {
             }
         }
 
+        return ret;
+    }
+
+    public String getStateFormatted() {
+        return FacesUtils.formatMessage("BillingType." + this.getBillingType().name());
+    }
+    public List<SelectItem> getBillingTypes() {
+        ArrayList<SelectItem> ret = new ArrayList<SelectItem>();
+        BillingType[] vals = BillingType.values();
+        for (BillingType val : vals) {
+            ret.add(new SelectItem(val, FacesUtils.formatMessage("BillingType."
+                    + val.name())));
+        }
         return ret;
     }
 
@@ -395,8 +410,8 @@ public class ProjectBean extends BaseBean {
     public String create() {
         project = new Project();
         project.setStartDate(new Date());
-        project.setBillable(true);
         offerNumberInput.setDisabled(false);
+        project.setBillingType(BillingType.NO_BILLABLE);
         return NavigationResults.CREATE;
     }
 
@@ -683,25 +698,25 @@ public class ProjectBean extends BaseBean {
     }
 
 
-    public Boolean getSearchBillable() {
-        return search.getBillable();
+    public BillingType getSearchBillingType() {
+        return search.getBillingType();
     }
 
-    public void setSearchBillable(Boolean val) {
-        if (search.isBillableSet()) {
-            search.setBillable(val);
+    public void setSearchBillingType(BillingType val) {
+        if (search.isBillingTypeSet()) {
+            search.setBillingType(val);
         }
     }
 
-    public boolean isSearchBillableValid() {
-        return search.isBillableSet();
+    public boolean isSearchBillingTypeValid() {
+        return search.isBillingTypeSet();
     }
 
-    public void setSearchBillableValid(boolean val) {
+    public void setSearchBillingTypeValid(boolean val) {
         if (val) {
-            search.setBillable(search.getBillable());
+            search.setBillingType(search.getBillingType());
         } else {
-            search.unsetBillable();
+            search.unsetBillingType();
         }
     }
 
@@ -1039,12 +1054,12 @@ public class ProjectBean extends BaseBean {
     }
 
 
-    public Boolean getBillable() {
-        return project.getBillable();
+    public BillingType getBillingType() {
+        return project.getBillingType();
     }
 
-    public void setBillable(Boolean billable) {
-        project.setBillable(billable);
+    public void setBillingType(BillingType billingType) {
+        project.setBillingType(billingType);
     }
 
 

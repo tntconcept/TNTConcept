@@ -222,30 +222,25 @@
         
       </td>
     </tr>
-                        
-      <%-- Field: billable --%>
+
+  <%-- Field: billing type --%>
     <tr>
-      <td class="searchLabel">${msg['project.billable']}:</td>
-      <td class="searchFieldCell">
+        <td class="searchLabel">${msg['project.billingType']}:</td>
+        <td class="searchFieldCell">
 
-        
-          
-          <h:panelGroup>
-            <h:message styleClass="error" showSummary="true" showDetail="false" for="billable" />
-            <h:selectBooleanCheckbox id="billableValid" value="#{projectBean.searchBillableValid}" 
-                                      onclick="setEnabled('search:billable',this.checked)"/>
-            
-            <h:outputLabel for="billable" value="#{msg['msg.yesno']}"></h:outputLabel>
-            <h:selectBooleanCheckbox id="billable" value="#{projectBean.searchBillable}"/>
-            
-            
-          </h:panelGroup>
-          <script>
-            setEnabled( 'search:billable', ${projectBean.searchBillableValid} )
-          </script>
-
-        
-      </td>
+            <h:panelGroup>
+                <h:message styleClass="error" showSummary="true" showDetail="false" for="billingType"/>
+                <h:selectBooleanCheckbox id="billingTypeValid" value="#{projectBean.searchBillingTypeValid}"
+                                        onclick="setEnabled('search:billingType',this.checked)"/>
+                <h:selectOneMenu id="billingType" value="#{projectBean.searchBillingType}"
+                                onclick="setEnabled('search:billingType',true)">
+                    <f:selectItems value="#{projectBean.billingTypes}"/>
+                </h:selectOneMenu>
+            </h:panelGroup>
+            <script>
+                setEnabled( 'search:billingType', ${projectBean.searchBillingTypeValid} )
+            </script>
+        </td>
     </tr>
                         
       <%-- Ignored field: ownerId --%>

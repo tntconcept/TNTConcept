@@ -107,7 +107,6 @@ public class ProjectDAO_IT extends IntegrationTest {
         project.setOwnerId(1);
         project.setDepartmentId(1);
         project.setStartDate(new Date());
-        project.setBillable(false);
         project.setOpen(true);
         project.setClient(organization);
 

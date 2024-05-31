@@ -102,20 +102,21 @@
              	</td>
     	  </tr>
 
-    	   <%-- Field: billable --%>
-    <tr>
-    	    		<td class="editLabelRW">${msg['project.billable']}:</td>
+    	   <%-- Field: billing type --%>
+          <tr>
+              <td class="editLabelRW">*${msg['project.billingType']}:</td>
+              <td class="editFieldCell">
+              <h:panelGroup>
+                  <h:message styleClass="error" showSummary="true" showDetail="false" for="billingType" />
+                        <h:selectOneMenu id="billingType" value="#{projectBean.billingType}" required="true" styleClass="requiredFieldClass">
+                            <f:converter converterId="autentia.EnumConverter"/>
+                            <f:selectItems value="#{projectBean.billingTypes}" />
+                        </h:selectOneMenu>
+            </h:panelGroup>
+            </td>
+        </tr>
 
-      <td class="editFieldCell">
-
-                  <h:panelGroup>
-            			<h:message styleClass="error" showSummary="true" showDetail="false" for="billable" />
-                		<h:selectBooleanCheckbox id="billable" value="#{projectBean.billable}" />
-    	              </h:panelGroup>
-
-              </td>
-    </tr>
-          <%-- Field: client --%>
+                <%-- Field: client --%>
           <tr>
               <td class="editLabelRW">*${msg['project.client']}:</td>
               <td class="editFieldCell">
