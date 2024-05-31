@@ -51,6 +51,7 @@
 	<queryString><![CDATA[SELECT
     orgId,
     orgName,
+    proName,
     CONCAT(FORMAT(totalCost,2,'es_ES'),' €') as totalCost,
     CONCAT(FORMAT(billed,2,'es_ES'),' €') as billed,
     CONCAT(FORMAT(executed,2,'es_ES'),' €') as executed,
@@ -60,37 +61,41 @@
 FROM (SELECT
     o.id as orgId,
     o.name as orgName,
-    COALESCE((SELECT SUM(p.estimatedCost) FROM Project p where p.organizationId = orgId), 0) as totalCost,
-    COALESCE((SELECT SUM(bb.amount) FROM Project p, Bill b, BillBreakDown bb WHERE
-                                                p.id = b.projectId AND
-                                                p.organizationId = orgId AND
+    p.id as proId,
+    p.name as proName,
+    COALESCE(p.estimatedCost,0) as totalCost,
+    COALESCE((SELECT SUM(bb.amount) FROM Bill b, BillBreakDown bb WHERE
+                                                proId = b.projectId AND
                                                 b.id = bb.billId AND
                                                 (
                                                     (b.startBillDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}) OR
                                                     (b.endBillDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin})
                                                 )
             ), 0) as billed,
-    COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, Project p, ProjectRole pr WHERE
+    COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, ProjectRole pr WHERE
                                                 (a.start BETWEEN $P{Fecha inicio} AND SUBDATE($P{Fecha fin},INTERVAL 1 MONTH)) AND
                                                 a.roleId = pr.id AND
-                                                pr.projectId = p.id AND
-                                                p.organizationId = orgId
+                                                pr.projectId = proId
     ), 0) as executed,
-    COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, Project p, ProjectRole pr WHERE
+    COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, ProjectRole pr WHERE
                                                     (a.start BETWEEN SUBDATE($P{Fecha fin},INTERVAL 1 MONTH) AND $P{Fecha fin}) AND
                                                     a.roleId = pr.id AND
-                                                    pr.projectId = p.id AND
-                                                    p.organizationId = orgId
+                                                    pr.projectId = proId
     ), 0) as executed_last_month
 FROM
-    Organization o
+    Organization o LEFT JOIN Project p ON p.organizationId = o.id
+WHERE
+    p.organizationId=o.id
 GROUP BY
-    o.id
+    p.id
+ORDER BY
+    orgId, proName
 ) as tabla
 ]]></queryString>
 
 	<field name="orgId" class="java.lang.Integer"/>
 	<field name="orgName" class="java.lang.String"/>
+	<field name="proName" class="java.lang.String"/>
 	<field name="totalCost" class="java.lang.String"/>
 	<field name="billed" class="java.lang.String"/>
 	<field name="executed" class="java.lang.String"/>
@@ -282,7 +287,7 @@ GROUP BY
 				<reportElement
 						x="10"
 						y="4"
-						width="80"
+						width="60"
 						height="12"
 						key="staticText-1"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -293,7 +298,7 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="90"
+						x="70"
 						y="4"
 						width="80"
 						height="12"
@@ -306,20 +311,20 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="170"
-						y="4"
+						x="150"
+						y="2"
 						width="80"
-						height="12"
+						height="14"
 						key="staticText-3"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
-					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.wip.text3}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="250"
+						x="230"
 						y="4"
 						width="80"
 						height="12"
@@ -332,9 +337,9 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="330"
+						x="310"
 						y="4"
-						width="80"
+						width="60"
 						height="12"
 						key="staticText-5"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -345,33 +350,33 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="410"
+						x="370"
 						y="4"
-						width="90"
+						width="60"
 						height="12"
 						key="staticText-6"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
-					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.wip.text6}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="500"
+						x="430"
 						y="4"
-						width="80"
+						width="90"
 						height="12"
 						key="staticText-7"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 				<textElement textAlignment="Center">
-					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.wip.text7}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="580"
+						x="520"
 						y="4"
 						width="80"
 						height="12"
@@ -381,6 +386,19 @@ GROUP BY
 					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.wip.text8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<reportElement
+						x="600"
+						y="4"
+						width="80"
+						height="12"
+						key="staticText-9"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$R{informe.de.wip.text9}]]></textFieldExpression>
 			</textField>
 			</band>
 	</columnHeader>
@@ -401,7 +419,7 @@ GROUP BY
 				<reportElement
 						x="10"
 						y="0"
-						width="80"
+						width="60"
 						height="20"
 						key="textField"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -412,7 +430,7 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="90"
+						x="70"
 						y="0"
 						width="80"
 						height="20"
@@ -425,7 +443,20 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="170"
+						x="150"
+						y="0"
+						width="80"
+						height="20"
+						key="textField"/>
+				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{proName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<reportElement
+						x="230"
 						y="0"
 						width="80"
 						height="20"
@@ -438,9 +469,9 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="250"
+						x="310"
 						y="0"
-						width="80"
+						width="60"
 						height="20"
 						key="textField"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -451,9 +482,9 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="330"
+						x="370"
 						y="0"
-						width="80"
+						width="60"
 						height="20"
 						key="textField"/>
 				<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
@@ -464,7 +495,7 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="410"
+						x="430"
 						y="0"
 						width="90"
 						height="20"
@@ -477,7 +508,7 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="500"
+						x="520"
 						y="0"
 						width="80"
 						height="20"
@@ -490,7 +521,7 @@ GROUP BY
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 				<reportElement
-						x="580"
+						x="600"
 						y="0"
 						width="80"
 						height="20"
