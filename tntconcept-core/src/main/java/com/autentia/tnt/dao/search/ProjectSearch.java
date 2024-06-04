@@ -99,19 +99,22 @@ public class ProjectSearch extends SearchCriteria {
       }
     }
 
-    if (isBillableSet()) {
-      ret.append((ret.length() == 0) ? "WHERE " : " AND ");
-      if (getBillable() == null) {
-        ret.append("billable is NULL");
-      } else {
-        ret.append("billable = :arg" + (iArgNum++));
-      }
-    }
 
-    if (isOwnerIdSet()) {
-      ret.append((ret.length() == 0) ? "WHERE " : " AND ");
-      if (getOwnerId() == null) {
-        ret.append("ownerId is NULL");
+    if( isBillingTypeSet() ){
+        ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+        if( getBillingType()==null ){
+            ret.append( "billingType is NULL" );
+        } else {
+            ret.append( "billingType = :arg"+(iArgNum++) );
+        }
+    }
+              
+
+        
+    if( isOwnerIdSet() ){
+      ret.append( (ret.length()==0) ? "WHERE " : " AND " );
+      if( getOwnerId()==null ){
+        ret.append( "ownerId is NULL" );
       } else {
         ret.append("ownerId = :arg" + (iArgNum++));
       }
@@ -241,12 +244,12 @@ public class ProjectSearch extends SearchCriteria {
       ret.add(description);
     }
 
-    if (isBillableSet() && getBillable() != null) {
-      ret.add(billable);
+    if( isBillingTypeSet() && getBillingType()!=null ){
+          ret.add( billingType );
     }
-
-    if (isOwnerIdSet() && getOwnerId() != null) {
-      ret.add(ownerId);
+  
+    if( isOwnerIdSet() && getOwnerId()!=null ){
+        ret.add( ownerId );
     }
 
     if (isDepartmentIdSet() && getDepartmentId() != null) {
@@ -312,19 +315,33 @@ public class ProjectSearch extends SearchCriteria {
     unsetStartEndDate();
     unsetEndEndDate();
 
-    unsetOpen();
+              
+  
+      unsetOpen();
+  
+              
+  
+      unsetName();
+  
+              
+  
+      unsetDescription();
+  
 
-    unsetName();
-
-    unsetDescription();
-
-    unsetBillable();
-
-    unsetOwnerId();
-
-    unsetDepartmentId();
-
-    unsetStartInsertDate();
+  
+      unsetBillingType();
+  
+              
+  
+      unsetOwnerId();
+  
+              
+  
+      unsetDepartmentId();
+  
+              
+  
+      unsetStartInsertDate();
     unsetEndInsertDate();
 
     unsetStartUpdateDate();
@@ -372,10 +389,76 @@ public class ProjectSearch extends SearchCriteria {
       ret.append(")");
     }
 
-    if (isOpenSet()) {
-      ret.append("(open");
-      ret.append("=" + open);
-      ret.append(")");
+              
+  
+  
+          if( isOpenSet() ){
+          ret.append( "(open" );
+          ret.append( "="+open );
+          ret.append( ")" );
+      }
+
+    
+              
+  
+  
+          if( isNameSet() ){
+          ret.append( "(name" );
+          ret.append( "="+name );
+          ret.append( ")" );
+      }
+
+    
+              
+  
+  
+          if( isDescriptionSet() ){
+          ret.append( "(description" );
+          ret.append( "="+description );
+          ret.append( ")" );
+      }
+
+    
+              
+  
+          if( isBillingTypeSet() ){
+          ret.append( "(billingType" );
+          ret.append( "="+billingType );
+          ret.append( ")" );
+      }
+    
+              
+  
+  
+          if( isOwnerIdSet() ){
+          ret.append( "(ownerId" );
+          ret.append( "="+ownerId );
+          ret.append( ")" );
+      }
+
+    
+              
+  
+  
+          if( isDepartmentIdSet() ){
+          ret.append( "(departmentId" );
+          ret.append( "="+departmentId );
+          ret.append( ")" );
+      }
+
+    
+              
+  
+  
+    if( isStartInsertDateSet() ){
+        ret.append( "(startInsertDate" );
+        ret.append( "="+startInsertDate );
+        ret.append( ")" );
+    }
+    if( isEndInsertDateSet() ){
+        ret.append( "(endInsertDate" );
+        ret.append( "="+endInsertDate );
+        ret.append( ")" );
     }
 
     if (isNameSet()) {
@@ -387,12 +470,6 @@ public class ProjectSearch extends SearchCriteria {
     if (isDescriptionSet()) {
       ret.append("(description");
       ret.append("=" + description);
-      ret.append(")");
-    }
-
-    if (isBillableSet()) {
-      ret.append("(billable");
-      ret.append("=" + billable);
       ret.append(")");
     }
 
@@ -595,21 +672,18 @@ public class ProjectSearch extends SearchCriteria {
     this.descriptionSet = false;
   }
 
-  public boolean isBillableSet() {
-    return billableSet;
+  public boolean isBillingTypeSet(){
+    return billingTypeSet;
   }
-
-  public Boolean getBillable() {
-    return billable;
+  public BillingType getBillingType(){
+      return billingType;
   }
-
-  public void setBillable(Boolean billable) {
-    this.billable = billable;
-    this.billableSet = true;
+  public void setBillingType( BillingType billingType ){
+      this.billingType = billingType;
+      this.billingTypeSet = true;
   }
-
-  public void unsetBillable() {
-    this.billableSet = false;
+  public void unsetBillingType(){
+      this.billingTypeSet = false;
   }
 
   public boolean isOwnerIdSet() {
@@ -837,8 +911,8 @@ public class ProjectSearch extends SearchCriteria {
   private boolean descriptionSet;
   private String description;
 
-  private boolean billableSet;
-  private Boolean billable;
+  private boolean billingTypeSet;
+  private BillingType billingType;
 
   private boolean ownerIdSet;
   private Integer ownerId;
@@ -873,13 +947,14 @@ public class ProjectSearch extends SearchCriteria {
 
   private boolean costsSet;
   private List<ProjectCost> costs;
-
+      
+  
   // Returns if there are a search condition active
   public boolean isSearchActive() {
     return customIsSearchActive() || startStartDateSet || endStartDateSet || startEndDateSet || endEndDateSet || openSet
-        || nameSet || descriptionSet || billableSet || ownerIdSet || departmentIdSet || startInsertDateSet
+        || nameSet || descriptionSet || ownerIdSet || departmentIdSet || startInsertDateSet
         || endInsertDateSet || startUpdateDateSet || endUpdateDateSet || clientSet || rolesSet || costsSet || offerSet
-        || estimatedCostSet || orderSet;
+        || estimatedCostSet || orderSet || billingTypeSet;
   }
 
   /* generated by stajanov (do not edit/delete) */
