@@ -1,5 +1,6 @@
 package com.autentia.tnt.dao.hibernate;
 
+import com.autentia.tnt.businessobject.BillingType;
 import com.autentia.tnt.businessobject.Organization;
 import com.autentia.tnt.businessobject.Project;
 import com.autentia.tnt.dao.SortCriteria;
@@ -109,6 +110,7 @@ public class ProjectDAO_IT extends IntegrationTest {
         project.setStartDate(new Date());
         project.setOpen(true);
         project.setClient(organization);
+        project.setBillingType(BillingType.TIME_AND_MATERIALS);
 
         projectDAO.insert(project);
         return project;
