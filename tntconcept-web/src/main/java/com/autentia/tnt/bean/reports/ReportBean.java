@@ -166,7 +166,6 @@ public abstract class ReportBean extends BaseBean {
 		for (List reportsData : listReports) {
 			// En el 0 esta el nombre
 			if (reportsData.get(0).toString().equalsIgnoreCase(selectedReport)) {
-
 				// reportsData.get(1) estan la lista de parametros
 				ReportUtil.createReportParameterDefinition(
 						(List<ParameterReport>) reportsData.get(1),
