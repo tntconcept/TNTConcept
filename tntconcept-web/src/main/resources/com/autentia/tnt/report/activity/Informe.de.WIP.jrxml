@@ -48,51 +48,62 @@
 		<parameterDescription><![CDATA[Hidden]]></parameterDescription>
 		<defaultValueExpression ><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[SELECT
+	<queryString><![CDATA[
+	
+SELECT
     orgId,
     orgName,
     proName,
     billingType,
-    CONCAT(FORMAT(totalCost,2,'es_ES'),' €') as totalCost,
-    CONCAT(FORMAT(billed,2,'es_ES'),' €') as billed,
-    CONCAT(FORMAT(executed,2,'es_ES'),' €') as executed,
-    CONCAT(FORMAT(executed_last_month,2,'es_ES'),' €') as executed_last_month,
-    CONCAT(FORMAT(COALESCE(((executed + executed_last_month)/totalCost * 100),0), 2, 'es_ES'),'%') as percentageExecuted,
-    CONCAT(FORMAT(COALESCE(((billed/totalCost) * 100),0), 2, 'es_ES'),'%') as percentageBilled
+    FORMAT(COALESCE(totalCost,0),2,'es_ES') as totalCost,
+    FORMAT(billed,2,'es_ES') as billed,
+    FORMAT(executed,2,'es_ES') as executed,
+    FORMAT(executed_last_month,2,'es_ES') as executed_last_month,
+    CONCAT(FORMAT(COALESCE(((executed + executed_last_month)/COALESCE(totalCost, 1) * 100),0), 2, 'es_ES'),'%') as percentageExecuted,
+    CONCAT(FORMAT(COALESCE(((billed/COALESCE(totalCost,1)) * 100),0), 2, 'es_ES'),'%') as percentageBilled
 FROM (SELECT
-    o.id as orgId,
-    o.name as orgName,
-    p.id as proId,
-    p.name as proName,
-    p.billingType as billingType,
-    COALESCE(p.estimatedCost,0) as totalCost,
-    COALESCE((SELECT SUM(bb.amount) FROM Bill b, BillBreakDown bb WHERE
-                                                proId = b.projectId AND
-                                                b.id = bb.billId AND
-                                                (
-                                                    (b.startBillDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}) OR
-                                                    (b.endBillDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin})
-                                                )
-            ), 0) as billed,
-    COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, ProjectRole pr WHERE
-                                                (a.start BETWEEN $P{Fecha inicio} AND SUBDATE($P{Fecha fin},INTERVAL 1 MONTH)) AND
-                                                a.roleId = pr.id AND
-                                                pr.projectId = proId
-    ), 0) as executed,
-    COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, ProjectRole pr WHERE
-                                                    (a.start BETWEEN SUBDATE($P{Fecha fin},INTERVAL 1 MONTH) AND $P{Fecha fin}) AND
-                                                    a.roleId = pr.id AND
-                                                    pr.projectId = proId
-    ), 0) as executed_last_month
-FROM
-    Organization o LEFT JOIN Project p ON p.organizationId = o.id
-WHERE
-    p.organizationId=o.id
-GROUP BY
-    p.id
-ORDER BY
-    orgId, proName
-) as tabla
+          o.id as orgId,
+          o.name as orgName,
+          p.id as proId,
+          p.name as proName,
+          p.billingType as billingType,
+          p.estimatedCost as totalCost,
+          if(DAY($P{Fecha inicio}) = 1, LAST_DAY(SUBDATE($P{Fecha fin},INTERVAL 1 MONTH)),CAST(SUBDATE($P{Fecha fin},INTERVAL 1 MONTH)AS DATE)) as midDate,
+
+          COALESCE((SELECT SUM(bb.units * bb.amount) FROM Bill b, BillBreakDown bb WHERE
+              proId = b.projectId AND
+              b.id = bb.billId AND
+              (
+                  (b.creationDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin}) AND
+                  (b.endBillDate BETWEEN $P{Fecha inicio} AND $P{Fecha fin})
+              ) AND
+              b.billType = 'issued'
+                   ), 0) as billed,
+          COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, ProjectRole pr WHERE
+              (a.start BETWEEN $P{Fecha inicio} AND CONCAT(midDate, ' 23:59:59')) AND
+              a.roleId = pr.id AND
+              pr.projectId = proId AND
+              a.billable = 1
+                   ), 0) as executed,
+          COALESCE((SELECT COALESCE(SUM(a.duration), 0)/60 * pr.costPerHour FROM Activity a, ProjectRole pr WHERE
+              (a.start BETWEEN CONCAT(midDate, ' 00:00:00') AND $P{Fecha fin}) AND
+              a.roleId = pr.id AND
+              pr.projectId = proId AND
+              a.billable = 1
+                   ), 0) as executed_last_month
+      FROM
+          Organization o LEFT JOIN Project p ON p.organizationId = o.id
+      WHERE
+          p.organizationId=o.id
+      GROUP BY
+          p.id
+      ORDER BY
+          orgId, proName
+     ) as tabla
+
+
+
+
 ]]></queryString>
 
 	<field name="orgId" class="java.lang.Integer"/>
@@ -632,14 +643,4 @@ ORDER BY
 			</subreport>
 		</band>
 	</pageFooter>
-	<summary>
-		<band height="86"  isSplitAllowed="true" >
-
-
-
-
-
-
-		</band>
-	</summary>
 </jasperReport>
