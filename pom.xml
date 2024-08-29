@@ -61,7 +61,7 @@
         </autentia.mvn.distribution>
         <autentia.mvn.snapshots>https://autentia.no-ip.org/nexus/repository/maven-snapshots/</autentia.mvn.snapshots>
 
-        <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
+        <mysql-connector-j.version>8.2.0</mysql-connector-j.version>
 
         <tntconcept-ddbb.version>1.43.0</tntconcept-ddbb.version>
         <tntconcept.repository.url>https://maven.pkg.github.com/autentia/tntconcept-api</tntconcept.repository.url>
