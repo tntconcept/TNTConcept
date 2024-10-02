@@ -481,7 +481,7 @@
 	<repositories>
 		<!--
 		It's not allowed unauthorized access to public maven github repositories.
-		We are using a PAT (XML encoded) that only allow read metadata access to the public autentia/tntconcept-api repository
+		We are using a PAT (XML encoded) that only allow read metadata access to the public tntconcept/tntconcept-api repository
 		Read discussion: https://github.com/orgs/community/discussions/26634
 		-->
 		<repository>
