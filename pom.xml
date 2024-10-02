@@ -64,7 +64,7 @@
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
 
         <tntconcept-ddbb.version>1.43.0</tntconcept-ddbb.version>
-        <tntconcept.repository.url>https://maven.pkg.github.com/autentia/tntconcept-api</tntconcept.repository.url>
+        <tntconcept.repository.url>https://maven.pkg.github.com/tntconcept/tntconcept-api</tntconcept.repository.url>
 
     </properties>
 
@@ -88,9 +88,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/autentia/TNTConcept</connection>
-        <developerConnection>scm:git:https://github.com/autentia/TNTConcept</developerConnection>
-        <url>https://github.com/autentia/TNTConcept</url>
+        <connection>scm:git:https://github.com/tntconcept/TNTConcept</connection>
+        <developerConnection>scm:git:https://github.com/tntconcept/TNTConcept</developerConnection>
+        <url>https://github.com/tntconcept/TNTConcept</url>
         <tag>tntconcept-parent-0.27.5</tag>
     </scm>
 
