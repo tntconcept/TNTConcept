@@ -16,7 +16,7 @@
 
 	<properties>
 		<docker.image.from>tomcat:9-jdk17-corretto</docker.image.from>
-		<docker.image.to>ghcr.io/autentia/tntconcept</docker.image.to>
+		<docker.image.to>ghcr.io/tntconcept/tntconcept</docker.image.to>
 		<docker.tag>${project.version}</docker.tag>
 	</properties>
 
