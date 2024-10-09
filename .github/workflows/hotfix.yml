@@ -11,6 +11,8 @@ on:
 jobs:
   prepare-hotfix:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       HOTFIX_VERSION: ${{ env.HOTFIX_VERSION }}
 
@@ -23,7 +25,6 @@ jobs:
           fi
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_TOKEN }}
           ref: ${{ inputs.from_branch }}
 
       - name: Set up JDK 17
